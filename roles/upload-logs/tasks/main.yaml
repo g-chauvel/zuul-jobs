@@ -40,8 +40,9 @@
       with_items:
         - job-output.txt
         - job-output.json
+      when: zuul_log_compress | bool
 
-    - name: Upload console log and json output
+    - name: Upload compressed console log and json output
       synchronize:
         src: "{{ zuul.executor.log_root }}/{{ item }}.gz"
         dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ item }}.gz"
@@ -49,6 +50,17 @@
       with_items:
         - job-output.txt
         - job-output.json
+      when: zuul_log_compress | bool
+
+    - name: Upload console log and json output
+      synchronize:
+        src: "{{ zuul.executor.log_root }}/{{ item }}"
+        dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ item }}"
+        verify_host: true
+      with_items:
+        - job-output.txt
+        - job-output.json
+      when: not zuul_log_compress | bool
 
 - name: Return log URL to Zuul
   delegate_to: localhost
