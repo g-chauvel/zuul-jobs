@@ -48,34 +48,37 @@ pushd "${DOWNLOAD_DIR}" > /dev/null
 
 
 
-log "Getting ${BASE_URL}/job-output.json                                                                  [ 0001 / 0010 ]"
+log "Getting ${BASE_URL}/job-output.json                                                                  [ 0001 / 0011 ]"
 save_file "job-output.json"
 
-log "Getting ${BASE_URL}/controller/compressed.gz                                                         [ 0002 / 0010 ]"
+log "Getting ${BASE_URL}/Ꮓບບξ-unicode.txt                                                                 [ 0002 / 0011 ]"
+save_file "Ꮓບບξ-unicode.txt"
+
+log "Getting ${BASE_URL}/controller/compressed.gz                                                         [ 0003 / 0011 ]"
 save_file "controller/compressed.gz"
 
-log "Getting ${BASE_URL}/controller/cpu-load.svg                                                          [ 0003 / 0010 ]"
+log "Getting ${BASE_URL}/controller/cpu-load.svg                                                          [ 0004 / 0011 ]"
 save_file "controller/cpu-load.svg"
 
-log "Getting ${BASE_URL}/controller/journal.xz                                                            [ 0004 / 0010 ]"
+log "Getting ${BASE_URL}/controller/journal.xz                                                            [ 0005 / 0011 ]"
 save_file "controller/journal.xz"
 
-log "Getting ${BASE_URL}/controller/service_log.txt                                                       [ 0005 / 0010 ]"
+log "Getting ${BASE_URL}/controller/service_log.txt                                                       [ 0006 / 0011 ]"
 save_file "controller/service_log.txt"
 
-log "Getting ${BASE_URL}/controller/syslog                                                                [ 0006 / 0010 ]"
+log "Getting ${BASE_URL}/controller/syslog                                                                [ 0007 / 0011 ]"
 save_file "controller/syslog"
 
-log "Getting ${BASE_URL}/controller/subdir/foo::3.txt                                                     [ 0007 / 0010 ]"
+log "Getting ${BASE_URL}/controller/subdir/foo::3.txt                                                     [ 0008 / 0011 ]"
 save_file "controller/subdir/foo::3.txt"
 
-log "Getting ${BASE_URL}/controller/subdir/subdir.txt                                                     [ 0008 / 0010 ]"
+log "Getting ${BASE_URL}/controller/subdir/subdir.txt                                                     [ 0009 / 0011 ]"
 save_file "controller/subdir/subdir.txt"
 
-log "Getting ${BASE_URL}/zuul-info/inventory.yaml                                                         [ 0009 / 0010 ]"
+log "Getting ${BASE_URL}/zuul-info/inventory.yaml                                                         [ 0010 / 0011 ]"
 save_file "zuul-info/inventory.yaml"
 
-log "Getting ${BASE_URL}/zuul-info/zuul-info.controller.txt                                               [ 0010 / 0010 ]"
+log "Getting ${BASE_URL}/zuul-info/zuul-info.controller.txt                                               [ 0011 / 0011 ]"
 save_file "zuul-info/zuul-info.controller.txt"
 
 
