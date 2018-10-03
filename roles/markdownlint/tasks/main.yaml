@@ -1,0 +1,16 @@
+- name: find all .md files
+  find:
+    paths: "{{ zuul_work_dir }}"
+    pattern: "*.md"
+  register: markdown_find
+
+- name: Run markdownlint
+  shell: |
+    set -o pipefail
+    set -e
+    ~/.markdownlint/node_modules/.bin/markdownlint {{ item|relpath(zuul_work_dir) }} 2>&1 | tee -a markdownlint.txt
+  args:
+    chdir: "{{ zuul_work_dir }}"
+    executable: /bin/bash
+  with_items: "{{ markdown_find.files|map(attribute='path')|list }}"
+  changed_when: false
