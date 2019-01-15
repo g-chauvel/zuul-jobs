@@ -1,0 +1,18 @@
+- name: Install Nodesource repository
+  package:
+    name: "https://rpm.nodesource.com/pub_{{ node_version }}.x/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: present
+
+- name: Update yum cache
+  yum:
+    update_cache: yes
+  become: yes
+
+- name: Install NodeJS
+  package:
+    name: "nodejs"
+    state: latest
+  become: yes
+  tags:
+    # Ignore ANSIBLE0010: We really want latest version
+    - skip_ansible_lint

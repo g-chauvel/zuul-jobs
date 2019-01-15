@@ -1,0 +1,8 @@
+# Note: there are possible workarounds:
+#
+# - https://github.com/nodejs/help/wiki/Installation#how-to-install-nodejs-via-binary-archive-on-linux
+# - https://github.com/nodejs/node/blob/master/BUILDING.md#building-nodejs-on-supported-platforms
+
+- name: Fail for unsupported OSes
+  fail:
+    msg: "Unsupported OS family {{ ansible_os_family }}"
