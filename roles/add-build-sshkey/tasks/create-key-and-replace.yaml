@@ -1,7 +1,14 @@
 - name: Create Temp SSH key
-  command: ssh-keygen -t rsa -b 1024 -N '' -f {{ zuul_temp_ssh_key }}
+  command: ssh-keygen -t rsa -b 1024 -N '' -C 'zuul-build-sshkey' -f {{ zuul_temp_ssh_key }}
   delegate_to: localhost
   run_once: true
+
+- name: Remove previously added zuul-build-sshkey
+  lineinfile:
+    path: "~/.ssh/authorized_keys"
+    regexp: ".* zuul-build-sshkey$"
+    state: absent
+  when: zuul_build_sshkey_cleanup
 
 - name: Enable access via build key on all nodes
   authorized_key:
