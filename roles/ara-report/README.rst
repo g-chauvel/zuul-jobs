@@ -48,7 +48,7 @@ If ARA is enabled, generates a report or saves a copy of the ARA database.
    Make sure the web server is configured to set the required mimetypes_ in
    order to serve gzipped content properly.
 
-.. _mimetypes: https://git.openstack.org/cgit/openstack-infra/puppet-openstackci/tree/templates/logs.vhost.erb?id=5fe1f3d2d5e40c2458721e7dcf8631d62ea2525f#n24
+.. _mimetypes: https://opendev.org/opendev/puppet-openstackci/src/commit/5fe1f3d2d5e40c2458721e7dcf8631d62ea2525f/templates/logs.vhost.erb#L24
 
 .. zuul:rolevar:: ara_report_path
    :default: ``ara``
