@@ -13,7 +13,7 @@ a:hover {text-decoration: underline}
 <body>
 <pre>
 <a name="l1" class="l1" href="#l1">2018-08-01 00:43:51.328884 | Job console starting...</a>
-<a name="l2" class="l2" href="#l2">2018-08-01 00:44:01.742989 | PRE-RUN START: [trusted : git.openstack.org/openstack-infra/project-config/playbooks/base/pre.yaml@master]</a>
+<a name="l2" class="l2" href="#l2">2018-08-01 00:44:01.742989 | PRE-RUN START: [trusted : opendev.org/openstack/project-config/playbooks/base/pre.yaml@master]</a>
 <a name="l3" class="l3" href="#l3">2018-08-01 00:44:04.693529 | </a>
 <a name="l4" class="l4" href="#l4">2018-08-01 00:44:04.693765 | PLAY [localhost]</a>
 <a name="l5" class="l5" href="#l5">2018-08-01 00:44:04.736664 | </a>
@@ -35,7 +35,7 @@ a:hover {text-decoration: underline}
 <a name="l21" class="l21" href="#l21">2018-08-01 00:44:05.318269 | Job: trigger-readthedocs-webhook</a>
 <a name="l22" class="l22" href="#l22">2018-08-01 00:44:05.318371 | Pipeline: post</a>
 <a name="l23" class="l23" href="#l23">2018-08-01 00:44:05.318469 | Executor: ze09.openstack.org</a>
-<a name="l24" class="l24" href="#l24">2018-08-01 00:44:05.318567 | Triggered by: https://git.openstack.org/cgit/openstack/gerrit-dash-creator/commit/?id=ee5167a518de07c325f326df212c92e5c1e786a9</a>
+<a name="l24" class="l24" href="#l24">2018-08-01 00:44:05.318567 | Triggered by: https://opendev.org/x/gerrit-dash-creator/commit/ee5167a518de07c325f326df212c92e5c1e786a9</a>
 <a name="l25" class="l25" href="#l25">2018-08-01 00:44:05.318663 | Log URL (when completed): http://logs.openstack.org/ee/ee5167a518de07c325f326df212c92e5c1e786a9/post/trigger-readthedocs-webhook/f677f03</a>
 <a name="l26" class="l26" href="#l26">2018-08-01 00:44:05.349043 | </a>
 <a name="l27" class="l27" href="#l27">2018-08-01 00:44:05.349250 | PLAY [all]</a>

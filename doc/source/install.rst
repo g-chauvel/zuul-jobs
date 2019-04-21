@@ -2,14 +2,14 @@ Installation
 ============
 
 To use this repository via continuous delivery, first ensure your Zuul
-is configured to use git repositories from `git.zuul-ci.org`.  Add the
+is configured to use git repositories from `opendev.org`.  Add the
 following to ``zuul.conf``:
 
 .. code-block:: ini
 
-   [connection zuul-git]
+   [connection opendev]
    driver=git
-   baseurl=https://git.zuul-ci.org/
+   baseurl=https://opendev.org/
 
 Then add the following to your tenant config file:
 

@@ -1,5 +1,5 @@
 2018-08-01 00:43:51.328884 | Job console starting...
-2018-08-01 00:44:01.742989 | PRE-RUN START: [trusted : git.openstack.org/openstack-infra/project-config/playbooks/base/pre.yaml@master]
+2018-08-01 00:44:01.742989 | PRE-RUN START: [trusted : opendev.org/openstack/project-config/playbooks/base/pre.yaml@master]
 2018-08-01 00:44:04.693529 | 
 2018-08-01 00:44:04.693765 | PLAY [localhost]
 2018-08-01 00:44:04.736664 | 
@@ -21,7 +21,7 @@
 2018-08-01 00:44:05.318269 | Job: trigger-readthedocs-webhook
 2018-08-01 00:44:05.318371 | Pipeline: post
 2018-08-01 00:44:05.318469 | Executor: ze09.openstack.org
-2018-08-01 00:44:05.318567 | Triggered by: https://git.openstack.org/cgit/openstack/gerrit-dash-creator/commit/?id=ee5167a518de07c325f326df212c92e5c1e786a9
+2018-08-01 00:44:05.318567 | Triggered by: https://opendev.org/x/gerrit-dash-creator/commit/ee5167a518de07c325f326df212c92e5c1e786a9
 2018-08-01 00:44:05.318663 | Log URL (when completed): http://logs.openstack.org/ee/ee5167a518de07c325f326df212c92e5c1e786a9/post/trigger-readthedocs-webhook/f677f03
 2018-08-01 00:44:05.349043 | 
 2018-08-01 00:44:05.349250 | PLAY [all]
