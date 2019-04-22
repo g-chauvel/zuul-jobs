@@ -44,7 +44,7 @@
     path: "{{ buildset_registry_root}}/certs/domain.csr"
     privatekey_path: "{{ buildset_registry_root}}/certs/domain.key"
     common_name: "{{ ansible_host }}"
-    subject_alt_name: "DNS:{{ ansible_host }},IP:{{ ansible_host }}"
+    subject_alt_name: "DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1"
 - name: Generate a TLS cert for the Docker registry
   openssl_certificate:
     path: "{{ buildset_registry_root}}/certs/domain.crt"

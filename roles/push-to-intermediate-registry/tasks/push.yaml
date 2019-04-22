@@ -12,6 +12,15 @@
     content: "{{ buildset_registry.cert }}"
     dest: "/etc/docker/certs.d/{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }}/ca.crt"
 
+# Start a socat tunnel to the buildset registry to work around the
+# fact that docker does not correctly parse ipv6 addresses.  The socat
+# process will terminate when the playbook ends.
+- name: Start socat to work around https://github.com/moby/moby/issues/39033
+  shell: "socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2> {{ zuul.executor.work_root }}/socat_port &"
+- name: Find socat port
+  set_fact:
+    socat_port: "{{ lookup('file', zuul.executor.work_root + '/socat_port') | regex_replace('.*?0\\.0\\.0\\.0:(\\d+)', '\\1') }}"
+
 # Update user config for intermediate and buildset registries
 - name: Ensure docker user directory exists
   file:
@@ -43,7 +52,7 @@
         {
           "{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}":
             {"auth": "{{ (intermediate_registry.username + ":" + intermediate_registry.password) | b64encode }}"},
-          "{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }}":
+          "localhost:{{ socat_port }}":
             {"auth": "{{ (buildset_registry.username + ":" + buildset_registry.password) | b64encode }}"},
         }
   set_fact:

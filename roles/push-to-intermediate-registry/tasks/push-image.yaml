@@ -1,7 +1,7 @@
 - name: Push tag to intermediate registry
   command: >-
     skopeo --insecure-policy copy
-    docker://{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }}/{{ image.repository }}:{{ image_tag }}
+    docker://127.0.0.1:{{ socat_port }}/{{ image.repository }}:{{ image_tag }}
     docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port}}/{{ image.repository }}:{{ zuul.build }}_{{ image_tag }}
   loop: "{{ image.tags | default(['latest']) }}"
   loop_control:

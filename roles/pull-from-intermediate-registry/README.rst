@@ -10,8 +10,8 @@ root of the job dependency graph).
 
 This requires the :zuul:role:`run-buildset-registry` role already
 applied.  It also requires an externally managed "intermediate"
-registry operating for the use of Zuul, and it requires "skopeo" to be
-installed on the Zuul executors.
+registry operating for the use of Zuul, and it requires "skopeo" and
+"socat" to be installed on the Zuul executors.
 
 **Role Variables**
 
