@@ -3,14 +3,6 @@
   when: buildset_registry is not defined
   set_fact:
     buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
-- name: Ensure registry cert directory exists
-  file:
-    path: "/etc/docker/certs.d/{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }}/"
-    state: directory
-- name: Write registry TLS certificate
-  copy:
-    content: "{{ buildset_registry.cert }}"
-    dest: "/etc/docker/certs.d/{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }}/ca.crt"
 
 # Start a socat tunnel to the buildset registry to work around the
 # fact that docker does not correctly parse ipv6 addresses.  The socat
@@ -20,6 +12,16 @@
 - name: Find socat port
   set_fact:
     socat_port: "{{ lookup('file', zuul.executor.work_root + '/socat_port') | regex_replace('.*?0\\.0\\.0\\.0:(\\d+)', '\\1') }}"
+
+# Set up cert files for the buildset registry
+- name: Ensure registry cert directory exists
+  file:
+    path: "/etc/docker/certs.d/127.0.0.1:{{ socat_port }}/"
+    state: directory
+- name: Write registry TLS certificate
+  copy:
+    content: "{{ buildset_registry.cert }}"
+    dest: "/etc/docker/certs.d/127.0.0.1:{{ socat_port }}/ca.crt"
 
 # Update user config for intermediate and buildset registries
 - name: Ensure docker user directory exists
@@ -52,7 +54,7 @@
         {
           "{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}":
             {"auth": "{{ (intermediate_registry.username + ":" + intermediate_registry.password) | b64encode }}"},
-          "localhost:{{ socat_port }}":
+          "127.0.0.1:{{ socat_port }}":
             {"auth": "{{ (buildset_registry.username + ":" + buildset_registry.password) | b64encode }}"},
         }
   set_fact:
