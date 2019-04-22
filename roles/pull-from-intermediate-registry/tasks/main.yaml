@@ -48,6 +48,7 @@
     docker_config:
       auths: {}
 - name: Add registry to docker user configuration
+  no_log: true
   vars:
     new_config:
       auths: |
