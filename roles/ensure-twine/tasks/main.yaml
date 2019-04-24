@@ -13,7 +13,8 @@
   register: debug_environment
 
 - name: Print runtime environment
-  debug: "{{ debug_environment.stdout }}"
+  debug:
+    msg: "{{ debug_environment.stdout }}"
 
 - name: Ensure twine is installed
   block:
