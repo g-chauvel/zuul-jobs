@@ -8,6 +8,13 @@
     pypi_twine_executable: "{{ register_twine.stdout }}"
   when: register_twine.rc == 0
 
+- name: Read runtime environment
+  script: debug_environment.py
+  register: debug_environment
+
+- name: Print runtime environment
+  debug: "{{ debug_environment.stdout }}"
+
 - name: Ensure twine is installed
   block:
     - name: Ensure twine is installed
