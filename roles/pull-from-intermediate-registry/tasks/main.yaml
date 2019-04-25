@@ -74,6 +74,9 @@
         skopeo --insecure-policy copy
         {{ item.url }}
         docker://127.0.0.1:{{ socat_port }}/{{ item.metadata.repository }}:{{ item.metadata.tag }}
+      retries: 3
+      register: result
+      until: result is success
       when: "'metadata' in item and item.metadata.type | default('') == 'container_image'"
       loop: "{{ zuul.artifacts | default([]) }}"
   always:
