@@ -80,8 +80,14 @@ def get_sibling_python_packages(projects, tox_python):
             found_python = True
             c = configparser.ConfigParser()
             c.read(setup_cfg)
-            package_name = c.get('metadata', 'name')
-            packages[package_name] = root
+            try:
+                package_name = c.get('metadata', 'name')
+                packages[package_name] = root
+            except Exception:
+                # Some things have a setup.cfg, but don't keep
+                # metadata in it; fall back to setup.py below
+                log.append(
+                    "[metadata] name not found in %s, skipping" % setup_cfg)
         if not package_name and os.path.exists(os.path.join(root, 'setup.py')):
             found_python = True
             # It's a python package but doesn't use pbr, so we need to run
