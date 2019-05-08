@@ -20,6 +20,8 @@
 - name: Record file location
   set_fact:
     tox_constraints_env:
+      TOX_CONSTRAINTS_FILE: "{{ tox_constraints_file }}"
+      # Backward compatibility, to be removed
       UPPER_CONSTRAINTS_FILE: "{{ tox_constraints_file }}"
   when: tox_constraints_file is defined
 

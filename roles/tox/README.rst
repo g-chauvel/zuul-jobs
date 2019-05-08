@@ -24,7 +24,8 @@ Runs tox for a project
 .. zuul:rolevar:: tox_constraints_file
 
    Path to a pip constraints file. Will be provided to tox via
-   UPPER_CONSTRAINTS_FILE environment variable if it exists.
+   TOX_CONSTRAINTS_FILE (deprecated but currently still supported
+   name is UPPER_CONSTRAINTS_FILE) environment variable if it exists.
 
 .. zuul:rolevar:: tox_install_siblings
    :default: true
