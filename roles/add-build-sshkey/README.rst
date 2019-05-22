@@ -13,3 +13,10 @@ newly generated private key.
 .. zuul:rolevar:: zuul_temp_ssh_key
 
    Where to put the newly-generated SSH private key.
+
+.. zuul:rolevar:: zuul_build_sshkey_cleanup
+   :default: false
+
+   Remove previous build sshkey. Set it to true for single use static node.
+   Do not set it to true for multi-slot static nodes as it removes the
+   build key configured by other jobs.
