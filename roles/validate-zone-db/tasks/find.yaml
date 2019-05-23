@@ -1,0 +1,12 @@
+- name: Find zone files
+  find:
+    paths: '{{ zone_files }}'
+    patterns: 'zone.db'
+    recurse: yes
+    file_type: 'file'
+  register: zone_db_found_files
+
+- name: Build zone.db file list
+  set_fact:
+    zone_db_files: '{{ zone_db_files + [ [item.path.split("/")[-2], item.path] ] }}'
+  loop: "{{ zone_db_found_files['files'] }}"
