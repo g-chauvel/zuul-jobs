@@ -33,5 +33,6 @@ General Purpose Roles
 .. zuul:autorole:: upload-git-mirror
 .. zuul:autorole:: validate-dco-license
 .. zuul:autorole:: validate-host
+.. zuul:autorole:: validate-zone-db
 .. zuul:autorole:: version-from-git
 .. zuul:autorole:: write-inventory
