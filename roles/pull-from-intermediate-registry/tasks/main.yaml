@@ -9,9 +9,16 @@
 # process will terminate when the playbook ends.
 - name: Start socat to work around https://github.com/moby/moby/issues/39033
   shell: "socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2> {{ zuul.executor.work_root }}/socat_port &"
-- name: Find socat port
+
+# Use slurp instead of file lookup to make this testable on a fake
+# executor node.
+- name: Read socat port
+  slurp:
+    src: "{{ zuul.executor.work_root }}/socat_port"
+  register: read_socat_port
+- name: Set socat port
   set_fact:
-    socat_port: "{{ lookup('file', zuul.executor.work_root + '/socat_port') | regex_replace('.*?0\\.0\\.0\\.0:(\\d+)', '\\1') }}"
+    socat_port: "{{ read_socat_port['content'] | b64decode | regex_replace('.*?0\\.0\\.0\\.0:(\\d+)', '\\1') | regex_replace('\n', '') }}"
 
 # Set up cert files for the buildset registry
 - name: Ensure registry cert directory exists
