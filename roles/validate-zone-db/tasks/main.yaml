@@ -4,14 +4,10 @@
     state: present
   become: yes
 
-- name: Find zone files
-  find:
-    paths: '{{ zone_files }}'
-    patterns: 'zone.db'
-    recurse: yes
-    file_type: 'file'
-  register: zone_db_files
+- name: Build zone.db list
+  include_tasks: find.yaml
+  when: not zone_db_files
 
 - name: 'Run checkzone'
-  command: '/usr/sbin/named-checkzone {{ item.path.split("/")[-2] }} {{ item.path }}'
-  loop: "{{ zone_db_files['files'] }}"
+  command: '/usr/sbin/named-checkzone {{ item[0] }} {{ item[1] }}'
+  loop: "{{ zone_db_files }}"

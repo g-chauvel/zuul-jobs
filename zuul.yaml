@@ -574,3 +574,25 @@
     run: playbooks/run-test-command/run.yaml
     vars:
       test_command: "exit 1"
+
+- job:
+    name: validate-zone-db
+    parent: base
+    description: |
+      Validate zone.db files in project.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: zone_files
+         :default: {{ ansible_user_dir }}/{{ zuul.project.src_dir }}
+
+         Search for zone.db files recursively in this directory.
+         Format should be domain.xyz/zone.db, where the parent
+         directory is named for the zone described.
+
+      .. zuul:jobvar:: zone_db_list
+         :default: []
+
+         Override the default searching above with explicit
+         domain/path references (see validate-zone-db role)
+    run: playbooks/validate-zone-db/run.yaml
