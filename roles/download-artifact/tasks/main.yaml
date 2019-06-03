@@ -5,7 +5,8 @@
 - name: Extract artifact URL
   set_fact:
     archive_url: "{{ (build.json[0].artifacts | selectattr('name', 'equalto', download_artifact_name) | list)[0].url }}"
-- name: Download archive
-  uri:
-    url: "{{ archive_url }}"
-    dest: "{{ zuul.executor.work_root }}"
+- name: Process build
+  loop: "{{ build.json }}"
+  loop_control:
+    loop_var: build
+  include_tasks: inner.yaml
