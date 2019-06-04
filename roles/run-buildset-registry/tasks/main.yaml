@@ -25,10 +25,9 @@
   loop:
     - certs
     - auth
-# TODO: use password lookup after allowing access to it in Zuul
 - name: Generate registry password
   set_fact:
-    registry_password: "{{ (ansible_date_time.iso8601_micro | password_hash('sha256'))[-20:] }}"
+    registry_password: "{{ lookup('password', '/dev/null') }}"
 - name: Write htpassword file
   htpasswd:
     create: true
