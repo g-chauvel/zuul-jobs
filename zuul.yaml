@@ -489,6 +489,40 @@
     success-url: npm/html/
 
 - job:
+    name: build-javascript-content-tarball
+    parent: nodejs-npm
+    description: |
+      Build an archive of javascript web content as it should be deployed.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: npm_command
+         :default: build
+
+         Command to pass to npm.
+
+      .. zuul:jobvar:: node_version
+         :default: 6
+
+         The version of Node to use.
+
+      .. zuul:jobvar: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+
+      .. zuul:jobvar: create_tarball_directory
+
+         Create a tarball with the contents of
+         create_tarball_directory (relative to zuul_work_dir).
+    post-run: playbooks/javascript/tarball.yaml
+
+- job:
     name: nodejs-npm-run-test
     parent: nodejs-npm
     description: |
