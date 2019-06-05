@@ -24,6 +24,7 @@
         container: "{{ zuul_log_container }}"
         public: "{{ zuul_log_container_public }}"
         prefix: "{{ zuul_log_path }}"
+        indexes: "{{ zuul_log_create_indexes }}"
         files:
           - "{{ zuul.executor.log_root }}/"
         delete_after: "{{zuul_log_delete_after | default(omit) }}"
