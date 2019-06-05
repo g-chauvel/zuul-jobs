@@ -605,8 +605,6 @@
       This job tests changes to the intermediate registry roles.  It
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
-    allowed-projects:
-      - zuul/zuul-jobs
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
