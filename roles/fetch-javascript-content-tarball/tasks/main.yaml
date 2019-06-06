@@ -36,3 +36,21 @@
     mode: pull
     src: "{{ zuul_work_dir }}/dist/"
     verify_host: true
+
+- name: Find content tarball
+  find:
+    file_type: file
+    paths: "{{ zuul_work_dir }}/dist/"
+    patterns: "*.tar.gz"
+  register: result
+
+- name: Return artifacts to Zuul
+  loop: "{{ result.files }}"
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: javascript_content
+            url: "{{ item.path | basename }}"
+            metadata:
+              type: javascript_content
