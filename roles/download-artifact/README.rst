@@ -1,7 +1,8 @@
-Download an artifact from a completed build of a Zuul job
+Download artifacts from a completed build of a Zuul job
 
-Given a change downloads an artifact from a previous build (by default
-of the current change) into the work directory.
+Given a change, downloads artifacts from a previous build (by default
+of the current change) into the work directory.  This will download as
+many artifacts as match the selection criteria.
 
 **Role Variables**
 
@@ -19,10 +20,14 @@ of the current change) into the work directory.
 
 .. zuul:rolevar:: download_artifact_name
 
-   The artifact name.
+   The artifact name.  This can be a string or a list of strings.
 
 .. zuul:rolevar:: download_artifact_query
    :default: change={{ zuul.change }}&patchset={{ zuul.patchset }}&pipeline={{ download_artifact_pipeline }}&job_name={{ download_artifact_job }}
 
-   The query to use to find the build.  This should return exactly one
-   result.  Normally the default is used.
+   The query to use to find the build.  Normally the default is used.
+
+.. zuul:rolevar:: download_artifact_directory
+   :default: {{ zuul.executor.work_root }}
+
+   The directory in which to place the downloaded artifacts.
