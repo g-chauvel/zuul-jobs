@@ -1,9 +1,3 @@
 - hosts: localhost
-  # The gather_facts need to stay on smart (default on zuul executor)
-  # to keep the fact gathered to a minimum.
-  pre_tasks:
-    - name: Gather minimal set of facts
-      setup:
-        filter: ansible_date_time
   roles:
     - promote-docker-image
