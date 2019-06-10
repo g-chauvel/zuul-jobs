@@ -46,6 +46,6 @@
           zuul:
             artifacts:
               - name: "python_wheel"
-                url: "{{ item.path | basename }}"
+                url: "artifacts/{{ item.path | basename }}"
                 metadata:
                   type: python_wheel
