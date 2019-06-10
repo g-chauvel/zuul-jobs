@@ -213,6 +213,17 @@
       tox_envlist: linters
 
 - job:
+    name: tox-molecule
+    parent: tox
+    pre-run: playbooks/tox/pre-molecule.yaml
+    description: |
+      Runs Ansible molecule testing on a system where docker is available.
+
+      Uses tox with the ``molecule`` environment.
+    vars:
+      tox_envlist: molecule
+
+- job:
     name: tox-pep8
     parent: tox
     description: |
