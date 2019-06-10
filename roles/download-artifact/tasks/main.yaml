@@ -2,9 +2,6 @@
   uri:
     url: "{{ download_artifact_api }}/builds?{{ download_artifact_query }}"
   register: build
-- name: Extract artifact URL
-  set_fact:
-    archive_url: "{{ (build.json[0].artifacts | selectattr('name', 'equalto', download_artifact_name) | list)[0].url }}"
 - name: Process build
   loop: "{{ build.json }}"
   loop_control:
