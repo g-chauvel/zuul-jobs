@@ -1,23 +1,82 @@
-- name: Set up docker mirrors
-  include_role:
-    name: use-docker-mirror
+---
 
-- name: Install docker-ce from upstream
-  include: upstream.yaml
-  when: use_upstream_docker
-
-- name: Install docker from distro
-  include_tasks: "{{ lookup('first_found', params) }}"
-  vars:
-    params:
+- name: Gather variables for each operating system
+  include_vars: "{{ item }}"
+  with_first_found:
+    - skip: true
       files:
-        - "{{ ansible_distribution }}.{{ ansible_architecture }}.yaml"
-        - "{{ ansible_distribution }}.yaml"
-        - "{{ ansible_os_family }}.yaml"
-        - "default.yaml"
-      paths:
-        - distros
-  when: not use_upstream_docker
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yaml"
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+        - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+        - "{{ ansible_distribution | lower }}.yaml"
+        - "{{ ansible_os_family | lower }}-{{ ansible_distribution_version.split('.')[0] }}.yaml"
+        - "{{ ansible_os_family | lower }}.yaml"
+  tags:
+    - always
+
+- name: Sanity check for distro selection
+  fail:
+    msg: >-
+      This role is not known to be compatible with this distro. Check the inventory and deployment
+      target settings. Make sure facts are being gathered prior to executing this role.
+  when:
+    - not (docker_distro_vars_loaded | bool)
+
+- name: Sanity check for distro install
+  fail:
+    msg: >-
+      The docker distro package list contains no packages and the variable `use_upstream_docker`
+      has been set to "{{ use_upstream_docker }}". To install docker at least one package will be
+      required. Please check your settings.
+      docker_distro_packages = {{ docker_distro_packages }}
+  when:
+    - (docker_distro_packages | length) < 1
+    - not (use_upstream_docker | bool)
+
+- name: Sanity check for upstream install
+  fail:
+    msg: >-
+      The docker upstream package list contains no packages and the variable `use_upstream_docker`
+      has been set to "{{ use_upstream_docker }}". To install docker at least one package will be
+      required. Please check your settings.
+      docker_upstream_distro_packages = {{ docker_upstream_distro_packages }}
+  when:
+    - (docker_upstream_distro_packages | length) < 1
+    - use_upstream_docker | bool
+
+- name: Upstream block
+  when:
+    - use_upstream_docker | bool
+  block:
+    - name: Set up docker mirrors
+      include_role:
+        name: use-docker-mirror
+
+    - name: Install docker-ce from upstream
+      include_tasks: "upstream-{{ ansible_pkg_mgr }}.yaml"
+  rescue:
+    - name: Notice
+      debug:
+        msg: >-
+          The upstream installation of docker has failed, falling back to the distro packages.
+
+    - name: Re-Set the use upstream flag
+      set_fact:
+        use_upstream_docker: false
+
+- name: Install docker
+  become: yes
+  package:
+    name: "{{ docker_distro_packages }}"
+    state: present
+  when:
+    - not (use_upstream_docker | bool)
+  notify: Assure docker service is running
+
+- name: Ensure "docker" group exists
+  group:
+    name: "{{ docker_group }}"
+    state: present
 
 - name: Add user to docker group
   become: yes
@@ -27,23 +86,14 @@
       - "{{ docker_group }}"
     append: yes
 
-- name: Assure docker service is running
-  become: yes
-  service:
-    name: docker
-    enabled: yes
-    state: started
-
-- name: Correct group ownership on docker sock
-  become: yes
-  file:
-    path: /var/run/docker.sock
-    group: "{{ docker_group }}"
+- name: Flush handlers before role exit
+  meta: flush_handlers
 
 - name: Reset ssh connection to pick up docker group
   meta: reset_connection
 
 - name: Validate ability to talk with docker
   command: docker ps
+  changed_when: false
   args:
     warn: no

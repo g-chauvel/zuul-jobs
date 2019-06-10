@@ -1,7 +1,13 @@
 use_upstream_docker: True
 docker_group: docker
+# NOTE(cloudnull): Packages are loaded through distro specific variables.
+#                  The default option will return an empty list which
+#                  allows folks to override these lists as they see fit.
+docker_distro_packages: "{{ _docker_distro_packages | default([]) }}"
+docker_upstream_distro_packages: "{{ _docker_upstream_distro_packages | default([]) }}"
+docker_upstream_distro_required_packages: "{{ _docker_upstream_distro_required_packages | default([]) }}"
 docker_update_channel: stable
-ubuntu_gpg_key: |
+docker_gpg_key: |
   -----BEGIN PGP PUBLIC KEY BLOCK-----
 
   mQINBFit2ioBEADhWpZ8/wvZ6hUTiXOwQHXMAlaFHcPH9hAtr4F1y2+OYdbtMuth

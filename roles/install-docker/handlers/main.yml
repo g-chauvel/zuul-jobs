@@ -1,0 +1,16 @@
+---
+
+- name: Assure docker service is running
+  become: yes
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  listen: Restart docker
+
+- name: Correct group ownership on docker sock
+  become: yes
+  file:
+    path: /var/run/docker.sock
+    group: "{{ docker_group }}"
+  listen: Restart docker

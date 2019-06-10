@@ -25,17 +25,40 @@ An ansible role to install docker and configure it to use mirrors if available.
    ``stable``, which is the default and updates quarterly, and ``edge``
    which updates monthly.
 
-.. zuul:rolevar:: docker_version
-   :default: undefined
-
-   Declare this with the version of the docker package to install.
-   Undefined will install the latest.  This will look something like
-   ``18.06.1~ce~3-0~ubuntu``.  Only supported when using upstream
-   docker repos.
-
 .. zuul:rolevar:: docker_insecure_registries
    :default: undefined
 
    Declare this with a list of insecure registries to define the
    registries which are allowed to communicate with HTTP only or
    HTTPS with no valid certificate.
+
+.. zuul:rolevar:: docker_gpg_key
+   :default: string
+
+   The raw content of the upstream docker gpg key, as found here
+   https://download.docker.com/linux/fedora/gpg
+
+.. zuul:rolevar:: docker_distro_packages
+   :default: list
+
+   List of packages to be installed when `use_upstream_docker` is set to
+   **false**. The package set is defined by default using distro specific
+   variables. If the package set needs to be changed this option can be
+   overridden as needed.
+
+.. zuul:rolevar:: docker_upstream_distro_required_packages
+   :default: list
+
+   List of packages to be installed when `use_upstream_docker` is set to
+   **true**. The package set is defined by default using distro specific
+   variables and contains a list of supporting packages required to be
+   installed prior to installing docker-ce. If the package set needs to
+   be changed this option can be overridden as needed.
+
+.. zuul:rolevar:: docker_upstream_distro_packages
+   :default: list
+
+   List of packages to be installed when `use_upstream_docker` is set to
+   **true**. The package set is defined by default using distro specific
+   variables. If the package set needs to be changed this option can be
+   overridden as needed.
