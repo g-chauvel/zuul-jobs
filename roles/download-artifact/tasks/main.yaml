@@ -4,7 +4,7 @@
   register: build
 - name: Parse build response
   set_fact:
-    build: "{{ build.json[-1] }}"
+    build: "{{ build.json[0] }}"
 - name: Download archive
   uri:
     url: "{{ artifact.url }}"
