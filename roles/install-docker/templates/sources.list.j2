@@ -1,1 +1,1 @@
-deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} {{ docker_update_channel }}
+deb [arch=amd64] {{ docker_mirror_base_url }} {{ ansible_lsb.codename }} {{ docker_update_channel }}

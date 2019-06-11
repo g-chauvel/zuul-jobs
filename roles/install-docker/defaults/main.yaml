@@ -7,6 +7,8 @@ docker_distro_packages: "{{ _docker_distro_packages | default([]) }}"
 docker_upstream_distro_packages: "{{ _docker_upstream_distro_packages | default([]) }}"
 docker_upstream_distro_required_packages: "{{ _docker_upstream_distro_required_packages | default([]) }}"
 docker_update_channel: stable
+docker_download_fqdn: download.docker.com
+docker_mirror_base_url: "{{ _docker_mirror_base_url | default('') }}"
 docker_gpg_key: |
   -----BEGIN PGP PUBLIC KEY BLOCK-----
 

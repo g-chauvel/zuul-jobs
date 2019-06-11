@@ -16,3 +16,5 @@ _docker_upstream_distro_packages:
 docker_repo_template: docker-ce-centos.repo
 
 docker_distro_vars_loaded: true
+
+_docker_mirror_base_url: "https://{{ docker_download_fqdn }}/linux/centos"
