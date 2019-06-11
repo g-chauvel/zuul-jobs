@@ -17,10 +17,12 @@
 - name: Sanity check for distro selection
   fail:
     msg: >-
-      This role is not known to be compatible with this distro. Check the inventory and deployment
-      target settings. Make sure facts are being gathered prior to executing this role.
+      This role is not known to be compatible with this distro and no packages have been provided
+      for installation. Check the inventory and deployment target settings. Make sure facts are
+      being gathered prior to executing this role.
   when:
     - not (docker_distro_vars_loaded | bool)
+    - (docker_distro_packages | length) < 1
 
 - name: Sanity check for distro install
   fail:
@@ -53,53 +55,10 @@
     - (docker_mirror_base_url | length) < 1
     - use_upstream_docker | bool
 
-- name: Upstream block
-  when:
-    - use_upstream_docker | bool
-  block:
-    - name: Set up docker mirrors
-      include_role:
-        name: use-docker-mirror
-
-    - name: Install docker-ce from upstream
-      include_tasks: "upstream-{{ ansible_pkg_mgr }}.yaml"
-  rescue:
-    - name: Notice
-      debug:
-        msg: >-
-          The upstream installation of docker has failed, falling back to the distro packages.
-
-    - name: Re-Set the use upstream flag
-      set_fact:
-        use_upstream_docker: false
-
-- name: Install docker
-  become: yes
-  package:
-    name: "{{ docker_distro_packages }}"
-    state: present
-  when:
-    - not (use_upstream_docker | bool)
-  notify: Assure docker service is running
-
-- name: Ensure "docker" group exists
-  group:
-    name: "{{ docker_group }}"
-    state: present
-
-- name: Add user to docker group
-  become: yes
-  user:
-    name: "{{ ansible_user }}"
-    groups:
-      - "{{ docker_group }}"
-    append: yes
+- include_tasks: "docker-{{ (use_upstream_docker | bool) | ternary('upstream', 'distro') }}.yaml"
 
 - name: Flush handlers before role exit
   meta: flush_handlers
-
-- name: Reset ssh connection to pick up docker group
-  meta: reset_connection
 
 - name: Validate ability to talk with docker
   command: docker ps

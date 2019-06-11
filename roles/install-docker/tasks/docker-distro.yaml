@@ -1,0 +1,14 @@
+---
+
+- name: Distro block
+  become: true
+  block:
+    - name: Install docker
+      package:
+        name: "{{ docker_distro_packages }}"
+        state: present
+      when:
+        - not (use_upstream_docker | bool)
+      notify: Assure docker service is running
+
+    - include_tasks: docker-setup.yaml

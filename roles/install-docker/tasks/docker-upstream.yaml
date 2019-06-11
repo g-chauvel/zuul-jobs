@@ -1,0 +1,13 @@
+---
+
+- name: Upstream block
+  become: true
+  block:
+    - name: Set up docker mirrors
+      include_role:
+        name: use-docker-mirror
+
+    - name: Install docker-ce from upstream
+      include_tasks: "upstream-{{ ansible_pkg_mgr }}.yaml"
+
+    - include_tasks: docker-setup.yaml

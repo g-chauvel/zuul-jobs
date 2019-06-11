@@ -11,7 +11,7 @@ _docker_upstream_distro_packages:
   - docker-ce-cli
   - containerd.io
 
-docker_repo_template: docker-ce-centos.repo
+docker_repo_template: docker-ce-centos.repo.j2
 
 docker_distro_vars_loaded: true
 
