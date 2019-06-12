@@ -1,0 +1,10 @@
+---
+
+_docker_distro_packages:
+  - docker
+
+_docker_upstream_distro_required_packages: []
+
+_docker_upstream_distro_packages: []
+
+docker_distro_vars_loaded: true

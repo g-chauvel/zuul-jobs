@@ -1,0 +1,18 @@
+---
+
+_docker_distro_packages:
+  - docker
+
+_docker_upstream_distro_required_packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+
+_docker_upstream_distro_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+docker_repo_template: docker-ce-centos.repo
+
+docker_distro_vars_loaded: true

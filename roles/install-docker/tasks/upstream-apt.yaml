@@ -1,18 +1,13 @@
 - name: Install pre-reqs
   package:
-    name: "{{ item }}"
+    name: "{{ _docker_upstream_distro_required_packages }}"
     state: present
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - software-properties-common
   become: yes
 
 - name: Add docker GPG key
   become: yes
   apt_key:
-    data: "{{ ubuntu_gpg_key }}"
+    data: "{{ docker_gpg_key }}"
 
 # TODO(mordred) We should add a proxy cache mirror for this
 - name: Add docker apt repo
@@ -27,6 +22,7 @@
 - name: Install docker
   become: yes
   apt:
-    name: "docker-ce{% if docker_version is defined %}={{ docker_version }}{% endif %}"
+    name: "{{ docker_upstream_distro_packages }}"
     state: present
     update_cache: yes
+  notify: Restart docker

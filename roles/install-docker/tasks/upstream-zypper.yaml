@@ -1,0 +1,6 @@
+---
+
+- name: Not Implemented
+  fail:
+    msg: >-
+      This set of tasks has not been implemented.
