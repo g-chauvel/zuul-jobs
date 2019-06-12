@@ -44,6 +44,15 @@
     - (docker_upstream_distro_packages | length) < 1
     - use_upstream_docker | bool
 
+- name: Sanity check for upstream install mirrors
+  fail:
+    msg: >-
+      The variable `docker_mirror_base_url` is null, and upstream installation has been enabled.
+      Check your settings.
+  when:
+    - (docker_mirror_base_url | length) < 1
+    - use_upstream_docker | bool
+
 - name: Upstream block
   when:
     - use_upstream_docker | bool

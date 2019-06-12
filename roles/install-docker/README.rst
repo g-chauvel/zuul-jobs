@@ -62,3 +62,16 @@ An ansible role to install docker and configure it to use mirrors if available.
    **true**. The package set is defined by default using distro specific
    variables. If the package set needs to be changed this option can be
    overridden as needed.
+
+.. zuul:rolevar:: docker_download_fqdn
+   :default: download.docker.com
+
+   Add default option to set the docker download fqdn.
+
+.. zuul:rolevar:: docker_mirror_base_url
+   :default: https://{{ docker_download_fqdn }}/linux/{ubuntu,centos,fedora}
+
+   By default this option sets the repository base url. This variable is
+   based on :zuul:rolevar:`install-docker.docker_download_fqdn`. When this
+   option is unset, the role will use distro specific variables which are
+   loaded at the time of execution.
