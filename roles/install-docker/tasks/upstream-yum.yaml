@@ -4,7 +4,6 @@
   package:
     name: "{{ _docker_upstream_distro_required_packages }}"
     state: present
-  become: yes
 
 - name: Create tmp gpg key file
   copy:
@@ -18,17 +17,11 @@
 
 # TODO(mordred) We should add a proxy cache mirror for this
 - name: Add docker repo
-  become: yes
-  copy:
+  template:
     dest: /etc/yum.repos.d/docker-ce.repo
     group: root
     mode: 0644
     owner: root
     src: "{{ docker_repo_template }}"
 
-- name: Install docker
-  become: yes
-  package:
-    name: "{{ docker_upstream_distro_packages }}"
-    state: present
-  notify: Restart docker
+- include_tasks: upstream-package-installation.yaml

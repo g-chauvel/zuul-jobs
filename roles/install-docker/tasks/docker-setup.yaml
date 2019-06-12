@@ -1,0 +1,16 @@
+---
+
+- name: Ensure "docker" group exists
+  group:
+    name: "{{ docker_group }}"
+    state: present
+
+- name: Add user to docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups:
+      - "{{ docker_group }}"
+    append: yes
+
+- name: Reset ssh connection to pick up docker group
+  meta: reset_connection
