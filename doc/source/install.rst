@@ -18,9 +18,9 @@ Then add the following to your tenant config file:
    - tenant:
        name: ...
        source:
-         zuul-git:
+         opendev:
            untrusted-projects:
-             - zuul-jobs
+             - zuul/zuul-jobs
 
 Then restart Zuul.
 
