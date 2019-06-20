@@ -15,6 +15,6 @@
   uri:
     url: "https://hub.docker.com/v2/repositories/{{ image.repository }}/tags/{{ docker_tag.name }}/"
     method: DELETE
-    status_code: 204
+    status_code: [200,204]
     headers:
       Authorization: "JWT {{ jwt_token.json.token }}"
