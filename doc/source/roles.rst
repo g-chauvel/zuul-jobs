@@ -8,6 +8,7 @@ Roles
    log-roles
    afs-roles
    container-roles
+   cloud-roles
    deprecated-roles
    galaxy-roles
    js-roles
