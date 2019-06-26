@@ -1,5 +1,11 @@
-An ansible role to build a Puppet module.  This role assumes that Puppet is
-already installed on the target system (either manually or using bindep).
+An Ansible role to build a Puppet module using the Puppet
+Development Kit (PDK).
+
+.. note::
+
+   This role requires installed Ruby, Ruby development and build tools
+   (gcc/g++ and make) packages, they can be installed using the
+   :zuul:role:`install-pdk-dependencies` role.
 
 **Role Variables**
 
