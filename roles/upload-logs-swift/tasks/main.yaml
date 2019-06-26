@@ -27,7 +27,7 @@
         indexes: "{{ zuul_log_create_indexes }}"
         files:
           - "{{ zuul.executor.log_root }}/"
-        delete_after: "{{zuul_log_delete_after | default(omit) }}"
+        delete_after: "{{ zuul_log_delete_after | default(omit) }}"
       register: upload_results
 
 - name: Return log URL to Zuul

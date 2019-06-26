@@ -6,7 +6,7 @@
 
 - name: Parse sphinx build directory
   set_fact:
-    sphinx_dir: "{{sphinx_dir.files | map(attribute='path') | map('regex_replace', '^.*/(.*)$', '\\1') | list}}"
+    sphinx_dir: "{{ sphinx_dir.files | map(attribute='path') | map('regex_replace', '^.*/(.*)$', '\\1') | list }}"
 
 - name: Process sphinx HTML
   when: "'html' in sphinx_dir"

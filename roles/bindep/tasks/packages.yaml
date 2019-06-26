@@ -18,5 +18,5 @@
 
 - name: Fail if we cannot install all packages
   fail:
-    msg: "bindep failed to install from {{ bindep_file}} - {{ bindep_final_check.stdout }}"
+    msg: "bindep failed to install from {{ bindep_file }} - {{ bindep_final_check.stdout }}"
   when: bindep_final_check is failed

@@ -21,7 +21,7 @@
 - name: Ensure Docker registry volume directories exists
   file:
     state: directory
-    path: "{{ buildset_registry_root}}/{{ item }}"
+    path: "{{ buildset_registry_root }}/{{ item }}"
   loop:
     - certs
     - auth
@@ -32,23 +32,23 @@
   htpasswd:
     create: true
     crypt_scheme: bcrypt
-    path: "{{ buildset_registry_root}}/auth/htpasswd"
+    path: "{{ buildset_registry_root }}/auth/htpasswd"
     name: "zuul"
     password: "{{ registry_password }}"
 - name: Generate a TLS key for the Docker registry
   openssl_privatekey:
-    path: "{{ buildset_registry_root}}/certs/domain.key"
+    path: "{{ buildset_registry_root }}/certs/domain.key"
 - name: Generate a TLS CSR for the Docker registry
   openssl_csr:
-    path: "{{ buildset_registry_root}}/certs/domain.csr"
-    privatekey_path: "{{ buildset_registry_root}}/certs/domain.key"
+    path: "{{ buildset_registry_root }}/certs/domain.csr"
+    privatekey_path: "{{ buildset_registry_root }}/certs/domain.key"
     common_name: "{{ ansible_host }}"
     subject_alt_name: "DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1"
 - name: Generate a TLS cert for the Docker registry
   openssl_certificate:
-    path: "{{ buildset_registry_root}}/certs/domain.crt"
-    csr_path: "{{ buildset_registry_root}}/certs/domain.csr"
-    privatekey_path: "{{ buildset_registry_root}}/certs/domain.key"
+    path: "{{ buildset_registry_root }}/certs/domain.crt"
+    csr_path: "{{ buildset_registry_root }}/certs/domain.csr"
+    privatekey_path: "{{ buildset_registry_root }}/certs/domain.key"
     provider: selfsigned
   register: generated_cert
 - name: Read TLS certificate
@@ -73,8 +73,8 @@
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     volumes:
-      - "{{ buildset_registry_root}}/certs:/certs"
-      - "{{ buildset_registry_root}}/auth:/auth"
+      - "{{ buildset_registry_root }}/certs:/certs"
+      - "{{ buildset_registry_root }}/auth:/auth"
 - name: Start a docker proxy
   docker_container:
     name: buildset_proxy
@@ -93,8 +93,8 @@
       REGISTRY_PROXY_USERNAME: ''
       REGISTRY_PROXY_PASSWORD: ''
     volumes:
-      - "{{ buildset_registry_root}}/certs:/certs"
-      - "{{ buildset_registry_root}}/auth:/auth"
+      - "{{ buildset_registry_root }}/certs:/certs"
+      - "{{ buildset_registry_root }}/auth:/auth"
 - name: Set registry information fact
   set_fact:
     buildset_registry:

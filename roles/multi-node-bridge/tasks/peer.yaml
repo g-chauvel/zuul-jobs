@@ -29,7 +29,7 @@
   command: >-
     ovs-vsctl --may-exist add-port {{ bridge_name }}
     {{ bridge_name }}_{{ nodepool_ip }}
-    -- set interface {{ bridge_name }}_{{ nodepool_ip}}
+    -- set interface {{ bridge_name }}_{{ nodepool_ip }}
     type=vxlan options:remote_ip={{ nodepool_ip }} options:key={{ vni }}
     options:local_ip={{ switch_ip }}
   delegate_to: "{{ switch }}"

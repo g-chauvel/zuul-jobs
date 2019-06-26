@@ -66,7 +66,7 @@
 - name: Add registry to docker daemon configuration
   vars:
     new_config:
-      registry-mirrors: "['https://{{ buildset_registry_alias }}:{{ buildset_registry.port}}/', 'https://{{ buildset_registry_alias }}:{{ buildset_registry.proxy_port}}/']"
+      registry-mirrors: "['https://{{ buildset_registry_alias }}:{{ buildset_registry.port }}/', 'https://{{ buildset_registry_alias }}:{{ buildset_registry.proxy_port }}/']"
   set_fact:
     docker_config: "{{ docker_config | combine(new_config) }}"
 - name: Save docker daemon configuration

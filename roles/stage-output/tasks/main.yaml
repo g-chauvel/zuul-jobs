@@ -59,7 +59,7 @@
 - name: Copy files and folders to staging folder
   # remote_src copy does not work recursively, synchronise is restricted by
   # zuul, using command
-  command: cp -pRL {{ item.source}} {{ stage_dir }}/{{ item.dest }}
+  command: cp -pRL {{ item.source }} {{ stage_dir }}/{{ item.dest }}
   become: true
   with_items: "{{ all_sources }}"
 

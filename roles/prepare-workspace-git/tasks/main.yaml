@@ -9,11 +9,11 @@
 - name: Clone cached repo to workspace
   shell: |
     set -e
-    git clone --bare {{ cached_repos_root }}/{{ item.0.canonical_name }} {{ ansible_user_dir }}/{{ item.0.src_dir}}/.git
+    git clone --bare {{ cached_repos_root }}/{{ item.0.canonical_name }} {{ ansible_user_dir }}/{{ item.0.src_dir }}/.git
     cd {{ ansible_user_dir }}/{{ item.0.src_dir }}
     git config --local --bool core.bare false
   args:
-    creates: "{{ ansible_user_dir }}/{{ item.0.src_dir}}"
+    creates: "{{ ansible_user_dir }}/{{ item.0.src_dir }}"
   when: item.1.stat.exists
   with_together:
     - "{{ zuul.projects.values() | list }}"
@@ -24,9 +24,9 @@
     - skip_ansible_lint
 
 - name: Initialize non-cached repos
-  command: "git init {{ ansible_user_dir }}/{{ item.0.src_dir}}"
+  command: "git init {{ ansible_user_dir }}/{{ item.0.src_dir }}"
   args:
-    creates: "{{ ansible_user_dir }}/{{ item.0.src_dir}}"
+    creates: "{{ ansible_user_dir }}/{{ item.0.src_dir }}"
   when: not item.1.stat.exists
   with_together:
     - "{{ zuul.projects.values() | list }}"
@@ -43,7 +43,7 @@
     git remote -v | grep origin && git remote rm origin || true
     git remote add origin file:///dev/null
   args:
-    chdir: "{{ ansible_user_dir }}/{{ item.src_dir}}"
+    chdir: "{{ ansible_user_dir }}/{{ item.src_dir }}"
   with_items: "{{ zuul.projects.values() | list }}"
   # ANSIBLE0006: git remote is not supported by ansible module
   tags:
