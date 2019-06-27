@@ -1,0 +1,10 @@
+# Jobs which test roles listed in general-roles.rst
+
+- job:
+    name: zuul-jobs-test-upload-git-mirror
+    description: |
+      Tests for the upload-git-mirror role from zuul-jobs
+    run: test-playbooks/upload-git-mirror.yaml
+    files:
+      - ^roles/upload-git-mirror/.*
+      - ^test-playbooks/upload-git-mirror.yaml
