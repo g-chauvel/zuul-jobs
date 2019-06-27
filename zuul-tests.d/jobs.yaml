@@ -1,0 +1,13 @@
+# Test jobs which apply to all parts of this repo.
+
+- job:
+    name: zuul-jobs-tox-linters
+    parent: tox-linters
+    description: Lint Ansible playbooks and roles
+    required-projects:
+      - opendev/base-jobs
+      - zuul/zuul-jobs
+      - zuul/zuul
+    vars:
+      tox_environment:
+        ANSIBLE_ROLES_PATH: ~/src/opendev.org/opendev/base-jobs/roles:~/src/opendev.org/zuul/zuul-jobs/roles

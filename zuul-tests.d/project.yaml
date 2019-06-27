@@ -17,7 +17,7 @@
         - openstack-infra-multinode-integration-ubuntu-trusty
         - openstack-infra-multinode-integration-ubuntu-xenial
         - openstack-infra-multinode-integration-opensuse423
-        - openstack-zuul-jobs-linters
+        - zuul-jobs-tox-linters
         - zuul-jobs-test-install-nodejs
         - zuul-jobs-test-install-pdk-dependencies
         - zuul-jobs-test-upload-git-mirror
@@ -40,7 +40,7 @@
         - openstack-infra-multinode-integration-ubuntu-trusty
         - openstack-infra-multinode-integration-ubuntu-xenial
         - openstack-infra-multinode-integration-opensuse423
-        - openstack-zuul-jobs-linters
+        - zuul-jobs-tox-linters
         - zuul-jobs-test-install-nodejs
         - zuul-jobs-test-install-pdk-dependencies
         - zuul-jobs-test-upload-git-mirror
