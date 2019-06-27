@@ -1,17 +1,107 @@
 - job:
-    name: zuul-jobs-test-upload-git-mirror
+    name: zuul-jobs-test-base-roles
     description: |
-      Tests for the upload-git-mirror role from zuul-jobs
+      Tests roles in the 'base' job
+
+      These roles are tested together in this job because testing them
+      relies on using base-minimal, which avoids running these roles.
+      However, for the job to fully function, they all need to have
+      been run (once) by the end.
+    parent: base-minimal
+    tags: all-platforms
+    abstract: true
+    run: test-playbooks/base-roles/base.yaml
+    # Testing of fetch-zuul-cloner and use-cached-repos need this repo
+    # in required-projects
+    required-projects:
+      - openstack/project-config
+    files:
+      - ^roles/configure-mirrors/.*
+      - ^roles/configure-mirrors/.*
+      - ^roles/emit-job-header/.*
+      - ^roles/ensure-output-dirs/.*
+      - ^roles/fetch-output/.*
+      - ^roles/fetch-zuul-cloner/.*
+      - ^roles/set-zuul-log-path-fact/.*
+      - ^roles/use-cached-repo/.*
+      - ^roles/validate-host/.*
+      - ^test-playbooks/base-roles/.*
+
+- job:
+    name: zuul-jobs-test-base-roles-centos-7
+    description: Tests roles in the 'base' job on centos-7
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: centos-7
+
+- job:
+    name: zuul-jobs-test-base-roles-debian-stable
+    description: Tests roles in the 'base' job on debian-stable
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: debian-stable
+
+- job:
+    name: zuul-jobs-test-base-roles-fedora-latest
+    description: Tests roles in the 'base' job on fedora-latest
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: fedora-latest
+
+- job:
+    name: zuul-jobs-test-base-roles-opensuse-15
+    description: Tests roles in the 'base' job on opensuse-15
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: opensuse-15
+
+- job:
+    name: zuul-jobs-test-base-roles-opensuse-tumbleweed
+    description: Tests roles in the 'base' job on opensuse-tumbleweed
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-base-roles-ubuntu-bionic
+    description: Tests roles in the 'base' job on ubuntu-bionic
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-base-roles-ubuntu-trusty
+    description: Tests roles in the 'base' job on ubuntu-trusty
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: ubuntu-trusty
+
+- job:
+    name: zuul-jobs-test-base-roles-ubuntu-xenial
+    description: Tests roles in the 'base' job on ubuntu-xenial
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset: ubuntu-xenial
+
+- job:
+    name: zuul-jobs-test-upload-git-mirror
+    description: Test the upload-git-mirror role
     run: test-playbooks/upload-git-mirror.yaml
     files:
       - ^roles/upload-git-mirror/.*
       - ^test-playbooks/upload-git-mirror.yaml
 
-# List all the jobs in this file.
-
 - project:
     check:
       jobs: &id001
+        - zuul-jobs-test-base-roles-centos-7
+        - zuul-jobs-test-base-roles-debian-stable
+        - zuul-jobs-test-base-roles-fedora-latest
+        - zuul-jobs-test-base-roles-opensuse-15
+        - zuul-jobs-test-base-roles-opensuse-tumbleweed
+        - zuul-jobs-test-base-roles-ubuntu-bionic
+        - zuul-jobs-test-base-roles-ubuntu-trusty
+        - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-upload-git-mirror
     gate:
       jobs: *id001
