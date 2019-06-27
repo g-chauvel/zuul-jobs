@@ -1,0 +1,28 @@
+# Jobs which test roles listed in container-roles.rst.
+
+- job:
+    name: zuul-jobs-test-registry
+    description: |
+      Test the intermediate registry roles.
+
+      This job tests changes to the intermediate registry roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/install-docker/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run:
+      test-playbooks/registry/test-registry.yaml
+    nodeset:
+      nodes:
+        - name: intermediate-registry
+          label: ubuntu-bionic
+        - name: executor
+          label: ubuntu-bionic
+        - name: builder
+          label: ubuntu-bionic

@@ -1,0 +1,96 @@
+# Jobs listed in general-jobs.rst.
+
+- job:
+    name: dco-license
+    description: |
+      A job to validate all new commits have been signed using --signoff.
+    run: playbooks/dco-license/run.yaml
+    nodeset:
+      nodes: []
+
+- job:
+    name: unittests
+    abstract: true
+    description: |
+      Perform setup common to all unit test jobs.
+
+      This performs basic host and general project setup tasks common
+      to all types of unit test jobs.
+    pre-run: playbooks/unittests/pre.yaml
+    post-run: playbooks/unittests/post.yaml
+
+- job:
+    name: multinode
+    abstract: true
+    description: |
+      Do additional setup needed for multi-node jobs such as setting up
+      overlay networks and setting up known-hosts and ssh keys
+    pre-run: playbooks/multinode/pre.yaml
+
+- job:
+    name: run-test-command
+    parent: unittests
+    description: |
+      Run simple command as test.
+
+      To use this, set the ``test_command`` variable to a single command or
+      a list of commands. For complex list of commands, it is recommended to
+      use a single command that run a proper script.
+    run: playbooks/run-test-command/run.yaml
+    vars:
+      test_command: "exit 1"
+
+- job:
+    name: upload-git-mirror
+    description: |
+      Mirrors a tested project repository to a remote git server.
+
+      .. zuul:jobvar:: git_mirror_credentials
+        :type: dict
+
+        This is expected to be a Zuul Secret with these keys:
+
+        .. zuul:jobvar:: user
+
+          SSH user for the remote git repository
+
+        .. zuul:jobvar:: host
+
+          SSH host for the remote git repository
+
+        .. zuul:jobvar:: ssh_key
+
+          Literal private key contents.
+          Should start with something like ``-----BEGIN RSA PRIVATE KEY-----``.
+
+        .. zuul:jobvar:: host_key
+
+          SSH host key of the remote git server.
+          Can be obtained with ``ssh-keyscan -H <host>``.
+
+      .. zuul:jobvar:: git_mirror_repository
+
+        Path of the remote git repository
+    run: playbooks/upload-git-mirror/run.yaml
+
+- job:
+    name: validate-zone-db
+    parent: base
+    description: |
+      Validate zone.db files in project.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: zone_files
+         :default: {{ ansible_user_dir }}/{{ zuul.project.src_dir }}
+
+         Search for zone.db files recursively in this directory.
+         Format should be domain.xyz/zone.db, where the parent
+         directory is named for the zone described.
+
+      .. zuul:jobvar:: zone_db_list
+         :default: []
+
+         Override the default searching above with explicit
+         domain/path references (see validate-zone-db role)
+    run: playbooks/validate-zone-db/run.yaml
