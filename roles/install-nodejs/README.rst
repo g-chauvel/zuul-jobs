@@ -1,4 +1,13 @@
-Install NodeJS from nodesource
+Install NodeJS from nodesource.
+
+**OS supported**
+
+This role supports the following OS families:
+
+- Debian
+- Fedora
+- Red Hat
+- SUSE
 
 **Role Variables**
 
