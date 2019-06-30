@@ -31,6 +31,7 @@
     create: yes
   with_items:
     - { line: 'dev-python/twisted conch  # for openvswitch' }
+    - { line: 'sys-apps/util-linux caps  # for openvswitch' }
     - { line: 'net-misc/openvswitch -modules  # ovs/gre are staticly built' }
   when:
     - ansible_distribution == 'Gentoo'
