@@ -7,5 +7,6 @@ expected to be run by the OpenDev Zuul.  Generally you can ignore
 these unless you are making changes to the roles in this repository.
 
 .. zuul:autojob:: zuul-jobs-test-install-nodejs
+.. zuul:autojob:: zuul-jobs-test-install-pdk-dependencies
 .. zuul:autojob:: zuul-jobs-test-registry
 .. zuul:autojob:: zuul-jobs-test-upload-git-mirror
