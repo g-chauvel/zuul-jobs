@@ -8,7 +8,6 @@
    jobs
    roles
    docker-image
-   test-jobs
 
 Indices and tables
 ==================
