@@ -9,3 +9,13 @@
       test-playbooks/simple-role-test.yaml
     vars:
       role_name: install-pdk-dependencies
+
+# List all the jobs in this file.
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-install-pdk-dependencies
+    gate:
+      jobs:
+        - zuul-jobs-test-install-pdk-dependencies

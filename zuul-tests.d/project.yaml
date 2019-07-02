@@ -1,3 +1,7 @@
+# Note, this file is only part of the project definition; there is a project
+# definition in each file in this directory as well which is combined with
+# this.
+
 - project:
     templates:
       - build-tox-docs
@@ -17,11 +21,6 @@
         - openstack-infra-multinode-integration-ubuntu-trusty
         - openstack-infra-multinode-integration-ubuntu-xenial
         - openstack-infra-multinode-integration-opensuse423
-        - zuul-jobs-tox-linters
-        - zuul-jobs-test-install-nodejs
-        - zuul-jobs-test-install-pdk-dependencies
-        - zuul-jobs-test-upload-git-mirror
-        - zuul-jobs-test-registry
         - tox-py27
         - tox-py35
     gate:
@@ -40,11 +39,6 @@
         - openstack-infra-multinode-integration-ubuntu-trusty
         - openstack-infra-multinode-integration-ubuntu-xenial
         - openstack-infra-multinode-integration-opensuse423
-        - zuul-jobs-tox-linters
-        - zuul-jobs-test-install-nodejs
-        - zuul-jobs-test-install-pdk-dependencies
-        - zuul-jobs-test-upload-git-mirror
-        - zuul-jobs-test-registry
         - tox-py27
         - tox-py35
     post:

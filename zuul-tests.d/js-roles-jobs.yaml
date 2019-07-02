@@ -9,3 +9,13 @@
       test-playbooks/simple-role-test.yaml
     vars:
       role_name: install-nodejs
+
+# List all the jobs in this file.
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-install-nodejs
+    gate:
+      jobs:
+        - zuul-jobs-test-install-nodejs

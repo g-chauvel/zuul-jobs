@@ -8,3 +8,13 @@
     files:
       - ^roles/upload-git-mirror/.*
       - ^test-playbooks/upload-git-mirror.yaml
+
+# List all the jobs in this file.
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-upload-git-mirror
+    gate:
+      jobs:
+        - zuul-jobs-test-upload-git-mirror

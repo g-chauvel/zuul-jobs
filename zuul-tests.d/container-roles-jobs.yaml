@@ -26,3 +26,13 @@
           label: ubuntu-bionic
         - name: builder
           label: ubuntu-bionic
+
+# List all the jobs in this file.
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-registry
+    gate:
+      jobs:
+        - zuul-jobs-test-registry
