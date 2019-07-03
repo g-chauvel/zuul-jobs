@@ -84,6 +84,176 @@
     nodeset: ubuntu-xenial
 
 - job:
+    name: zuul-jobs-test-multinode-roles
+    description: |
+      Tests multinode setup roles
+
+      These roles are tested together in this job because they
+      interact with each other.
+    tags: all-platforms-multinode
+    abstract: true
+    run: test-playbooks/multinode/multinode.yaml
+    files:
+      - ^roles/multi-node-bridge/.*
+      - ^roles/multi-node-firewall/.*
+      - ^roles/persistent-firewall/.*
+      - ^roles/multi-node-hosts-file/.*
+      - ^roles/multi-node-known-hosts/.*
+      - ^test-playbooks/multinode/.*
+
+- job:
+    name: zuul-jobs-test-multinode-roles-centos-7
+    description: Tests multinode setup roles on centos-7
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: centos-7
+        - name: secondary
+          label: centos-7
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-debian-stable
+    description: Tests multinode setup roles on debian-stable
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: debian-stretch
+        - name: secondary
+          label: debian-stretch
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-fedora-latest
+    description: Tests multinode setup roles on fedora-latest
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: fedora-29
+        - name: secondary
+          label: fedora-29
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-opensuse-15
+    description: Tests multinode setup roles on opensuse-15
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: opensuse-15
+        - name: secondary
+          label: opensuse-15
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-opensuse-tumbleweed
+    description: Tests multinode setup roles on opensuse-tumbleweed
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: opensuse-tumbleweed
+        - name: secondary
+          label: opensuse-tumbleweed
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-ubuntu-bionic
+    description: Tests multinode setup roles on ubuntu-bionic
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-bionic
+        - name: secondary
+          label: ubuntu-bionic
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-ubuntu-trusty
+    description: Tests multinode setup roles on ubuntu-trusty
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-trusty
+        - name: secondary
+          label: ubuntu-trusty
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-ubuntu-xenial
+    description: Tests multinode setup roles on ubuntu-xenial
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-xenial
+        - name: secondary
+          label: ubuntu-xenial
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
     name: zuul-jobs-test-upload-git-mirror
     description: Test the upload-git-mirror role
     run: test-playbooks/upload-git-mirror.yaml
@@ -102,6 +272,14 @@
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-trusty
         - zuul-jobs-test-base-roles-ubuntu-xenial
+        - zuul-jobs-test-multinode-roles-centos-7
+        - zuul-jobs-test-multinode-roles-debian-stable
+        - zuul-jobs-test-multinode-roles-fedora-latest
+        - zuul-jobs-test-multinode-roles-opensuse-15
+        - zuul-jobs-test-multinode-roles-opensuse-tumbleweed
+        - zuul-jobs-test-multinode-roles-ubuntu-bionic
+        - zuul-jobs-test-multinode-roles-ubuntu-trusty
+        - zuul-jobs-test-multinode-roles-ubuntu-xenial
         - zuul-jobs-test-upload-git-mirror
     gate:
       jobs: *id001

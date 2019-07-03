@@ -7,24 +7,10 @@
       - build-tox-docs
     check:
       jobs:
-        - openstack-infra-multinode-integration-centos-7
-        - openstack-infra-multinode-integration-debian-stable
-        - openstack-infra-multinode-integration-fedora-latest
-        - openstack-infra-multinode-integration-ubuntu-bionic
-        - openstack-infra-multinode-integration-ubuntu-trusty
-        - openstack-infra-multinode-integration-ubuntu-xenial
-        - openstack-infra-multinode-integration-opensuse423
         - tox-py27
         - tox-py35
     gate:
       jobs:
-        - openstack-infra-multinode-integration-centos-7
-        - openstack-infra-multinode-integration-debian-stable
-        - openstack-infra-multinode-integration-fedora-latest
-        - openstack-infra-multinode-integration-ubuntu-bionic
-        - openstack-infra-multinode-integration-ubuntu-trusty
-        - openstack-infra-multinode-integration-ubuntu-xenial
-        - openstack-infra-multinode-integration-opensuse423
         - tox-py27
         - tox-py35
     post:
