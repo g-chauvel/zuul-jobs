@@ -1,12 +1,9 @@
-# Jobs which test roles listed in js-roles.rst
-
 - job:
     name: zuul-jobs-test-install-nodejs
     description: Test the install-nodejs role
     files:
       - roles/install-nodejs/.*
-    run:
-      test-playbooks/simple-role-test.yaml
+    run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: install-nodejs
 
@@ -14,8 +11,7 @@
 
 - project:
     check:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-install-nodejs
     gate:
-      jobs:
-        - zuul-jobs-test-install-nodejs
+      jobs: *id001

@@ -1,5 +1,3 @@
-# Test jobs which apply to all parts of this repo.
-
 - job:
     name: zuul-jobs-tox-linters
     parent: tox-linters
@@ -16,8 +14,7 @@
 
 - project:
     check:
-      jobs:
-        - zuul-jobs-test-install-nodejs
+      jobs: &id001
+        - zuul-jobs-tox-linters
     gate:
-      jobs:
-        - zuul-jobs-test-install-nodejs
+      jobs: *id001

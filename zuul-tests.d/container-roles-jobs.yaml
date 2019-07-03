@@ -1,5 +1,3 @@
-# Jobs which test roles listed in container-roles.rst.
-
 - job:
     name: zuul-jobs-test-registry
     description: |
@@ -16,8 +14,7 @@
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
       - test-playbooks/registry/.*
-    run:
-      test-playbooks/registry/test-registry.yaml
+    run: test-playbooks/registry/test-registry.yaml
     nodeset:
       nodes:
         - name: intermediate-registry
@@ -31,8 +28,7 @@
 
 - project:
     check:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-registry
     gate:
-      jobs:
-        - zuul-jobs-test-registry
+      jobs: *id001
