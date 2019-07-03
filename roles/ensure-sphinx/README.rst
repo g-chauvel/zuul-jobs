@@ -12,9 +12,16 @@ All pip installs are done with a provided constraints file, if given.
    Optional path to a pip constraints file for installing python libraries.
 
 .. zuul:rolevar:: doc_building_packages
-   :default: ['sphinx']
+   :default: ``list``
 
-   List of python packages to install for building docs.
+   List of python packages to install for building docs. The default
+   package list is based on the python version in use.
+
+.. zuul:rolevar:: doc_building_extra_packages
+   :default: ``list``
+
+   List of python additional packages to install for building docs.
+   By default this list is empty.
 
 .. zuul:rolevar:: sphinx_python
    :default: python2
