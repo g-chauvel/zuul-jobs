@@ -10,8 +10,6 @@
       tox_environment:
         ANSIBLE_ROLES_PATH: ~/src/opendev.org/opendev/base-jobs/roles:~/src/opendev.org/zuul/zuul-jobs/roles
 
-# List all the jobs in this file.
-
 - project:
     check:
       jobs: &id001

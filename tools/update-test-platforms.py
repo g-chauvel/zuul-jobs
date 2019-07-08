@@ -25,10 +25,13 @@ from ruamel.yaml.comments import CommentedMap
 
 import ruamellib
 
+# There are fedora- and debian-latest nodesets, but they can't be used
+# in the multinode jobs, so just use the real labels everywhere.
+
 PLATFORMS = [
     'centos-7',
-    'debian-stable',
-    'fedora-latest',
+    'debian-stretch',
+    'fedora-29',
     'opensuse-15',
     'opensuse-tumbleweed',
     'ubuntu-bionic',
@@ -38,24 +41,20 @@ PLATFORMS = [
 
 
 def get_nodeset(platform, multinode):
-    if not multinode:
-        return platform
     d = CommentedMap()
-    # There are nodesets for fedora-latest and debian-stable
-    # but no labels, and there are no nodesets for fedora-29
-    # and debian-stretch. So, map between these.
-    if platform == 'fedora-latest':
-        platform = 'fedora-29'
-    elif platform == 'debian-stable':
-        platform = 'debian-stretch'
-    d['nodes'] = [
-        CommentedMap([('name', 'primary'), ('label', platform)]),
-        CommentedMap([('name', 'secondary'), ('label', platform)]),
-    ]
-    d['groups'] = [
-        CommentedMap([('name', 'switch'), ('nodes', ['primary'])]),
-        CommentedMap([('name', 'peers'), ('nodes', ['secondary'])]),
-    ]
+    if not multinode:
+        d['nodes'] = [
+            CommentedMap([('name', platform), ('label', platform)]),
+        ]
+    else:
+        d['nodes'] = [
+            CommentedMap([('name', 'primary'), ('label', platform)]),
+            CommentedMap([('name', 'secondary'), ('label', platform)]),
+        ]
+        d['groups'] = [
+            CommentedMap([('name', 'switch'), ('nodes', ['primary'])]),
+            CommentedMap([('name', 'peers'), ('nodes', ['secondary'])]),
+        ]
     return d
 
 

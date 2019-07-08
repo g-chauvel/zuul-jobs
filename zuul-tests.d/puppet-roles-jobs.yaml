@@ -7,8 +7,6 @@
     vars:
       role_name: install-pdk-dependencies
 
-# List all the jobs in this file.
-
 - project:
     check:
       jobs: &id001
