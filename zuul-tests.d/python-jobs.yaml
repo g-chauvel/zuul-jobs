@@ -1,0 +1,17 @@
+- job:
+    name: zuul-jobs-test-ensure-sphinx
+    description: Test the ensure-sphinx role
+    files:
+      - roles/ensure-sphinx/.*
+    run:
+      test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: ensure-sphinx
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-ensure-sphinx
+    gate:
+      jobs:
+        - zuul-jobs-test-ensure-sphinx
