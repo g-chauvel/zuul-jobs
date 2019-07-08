@@ -1,0 +1,2 @@
+_doc_building_packages:
+  - sphinx<2.0
