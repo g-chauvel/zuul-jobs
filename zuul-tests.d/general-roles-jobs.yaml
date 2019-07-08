@@ -14,7 +14,7 @@
     # Testing of fetch-zuul-cloner and use-cached-repos need this repo
     # in required-projects
     required-projects:
-      - openstack/project-config
+      - opendev/base-jobs
     files:
       - ^roles/configure-mirrors/.*
       - ^roles/configure-mirrors/.*
