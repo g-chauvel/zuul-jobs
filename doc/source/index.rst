@@ -5,6 +5,7 @@
 
    install
    policy
+   mirror
    jobs
    roles
    docker-image
