@@ -147,6 +147,7 @@
       Uses tox with the ``pep8`` environment.
     vars:
       tox_envlist: pep8
+      test_setup_skip: true
 
 - job:
     name: tox-cover
