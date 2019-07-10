@@ -11,6 +11,50 @@
             ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChDsP7zEq1JxPLb0Zqj43LIlVoXONCQ1Ko5i9ih/4xm6p0Jn00kpCoVQMb4X2Zys1vWTgpd+r9C/ZoYPFeWuQ8rPCbw4VsocMdwkz7mCPkMDVyPwERjRgt1sTl9WGgtlm2zq/76bmEpuY6PM+nFtJS7UE4XlfoHFK3pR/hgMFi8CX/ILAdtpU96dW2vmXkUt5yj05GHMXKeSU+B5pUEsERgQknH3JBdc/jvKv9dg5zt0jPM6hu5iwgIbMNHydxg4huFO6gKuP+mCNQctK23VMxVXSOYivx8qxu4uzGnBZna01Gi8mY5An4mIQTdcO3KpppOceoDjfEFIOiOnBVoggH testkey
 
 - job:
+    name: zuul-jobs-test-add-gpgkey
+    description: Test the add-gpgkey role
+    files:
+      - roles/add-gpgkey/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: add-gpgkey
+      gpg_key:
+        private: |
+          -----BEGIN PGP PRIVATE KEY BLOCK-----
+
+          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
+          skaW7bI=
+          =vRs2
+          -----END PGP PRIVATE KEY BLOCK-----
+
+- job:
     name: zuul-jobs-test-base-roles
     description: |
       Tests roles in the 'base' job
@@ -330,6 +374,7 @@
     check:
       jobs: &id001
         - zuul-jobs-test-add-authorized-keys
+        - zuul-jobs-test-add-gpgkey
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-debian-stretch
         - zuul-jobs-test-base-roles-fedora-29
