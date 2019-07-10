@@ -3,15 +3,13 @@
     description: Test the ensure-sphinx role
     files:
       - roles/ensure-sphinx/.*
-    run:
-      test-playbooks/simple-role-test.yaml
+    run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: ensure-sphinx
 
 - project:
     check:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-ensure-sphinx
     gate:
-      jobs:
-        - zuul-jobs-test-ensure-sphinx
+      jobs: *id001
