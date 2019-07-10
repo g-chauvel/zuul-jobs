@@ -20,6 +20,12 @@ automated testing system and developers.
    String of optional command line options passed to
    the test-setup script.
 
+.. zuul:rolevar:: test_setup_skip
+   :default: false
+
+   Set this to true to skip running the test-setup script even if it
+   exists.
+
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 

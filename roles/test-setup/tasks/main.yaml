@@ -1,4 +1,4 @@
-- name: Check if project's tools/test-setup.sh exists
+- name: "Check if project's tools/test-setup.sh exists"
   stat:
     path: "{{ zuul_work_dir }}/tools/test-setup.sh"
   register: p
@@ -11,3 +11,4 @@
   when:
     - p.stat.exists
     - p.stat.executable
+    - not test_setup_skip
