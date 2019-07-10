@@ -1,0 +1,15 @@
+- job:
+    name: zuul-jobs-test-install-devstack
+    description: Test the install-devstack role
+    files:
+      - roles/install-devstack/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: install-devstack
+
+- project:
+    check:
+      jobs: &id001
+        - zuul-jobs-test-install-devstack
+    gate:
+      jobs: *id001
