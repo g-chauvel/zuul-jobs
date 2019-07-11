@@ -10,7 +10,9 @@ General Purpose Roles
 .. zuul:autorole:: configure-mirrors
 .. zuul:autorole:: copy-build-sshkey
 .. zuul:autorole:: download-artifact
+.. zuul:autorole:: dstat-graph
 .. zuul:autorole:: emit-job-header
+.. zuul:autorole:: ensure-dstat-graph
 .. zuul:autorole:: git-prepare-nodecache
 .. zuul:autorole:: log-inventory
 .. zuul:autorole:: mirror-workspace-git-repos
@@ -25,6 +27,7 @@ General Purpose Roles
 .. zuul:autorole:: remove-gpgkey
 .. zuul:autorole:: remove-sshkey
 .. zuul:autorole:: revoke-sudo
+.. zuul:autorole:: run-dstat
 .. zuul:autorole:: sign-artifacts
 .. zuul:autorole:: stage-output
 .. zuul:autorole:: start-zuul-console

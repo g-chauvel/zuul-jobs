@@ -1,0 +1,14 @@
+- hosts: all
+  roles:
+    - ensure-dstat-graph
+    - run-dstat
+
+# Simulate workload
+- hosts: all
+  tasks:
+    - name: Simulate workload
+      shell: "sleep 10"
+
+- hosts: all
+  roles:
+    - dstat-graph

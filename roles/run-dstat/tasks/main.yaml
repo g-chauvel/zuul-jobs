@@ -1,0 +1,9 @@
+- name: Install dstat
+  package:
+    name: dstat
+    state: present
+  become: true
+- name: Run dstat
+  shell: "dstat -tcmndrylpg --tcp --output {{ dstat_data_path }} >& /dev/null &"
+  args:
+    executable: /bin/bash

@@ -118,6 +118,16 @@
           label: ubuntu-xenial
 
 - job:
+    name: zuul-jobs-test-dstat-graph
+    description: Test the dstat-graph roles
+    run: test-playbooks/dstat-graph.yaml
+    files:
+      - ^roles/ensure-dstat-graph/.*
+      - ^roles/run-dstat/.*
+      - ^roles/dstat-graph/.*
+      - ^test-playbooks/dstat-graph.yaml
+
+- job:
     name: zuul-jobs-test-multinode-roles
     description: |
       Tests multinode setup roles
@@ -326,6 +336,7 @@
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-trusty
         - zuul-jobs-test-base-roles-ubuntu-xenial
+        - zuul-jobs-test-dstat-graph
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-debian-stretch
         - zuul-jobs-test-multinode-roles-fedora-29
