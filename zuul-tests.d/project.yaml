@@ -3,16 +3,16 @@
 # this.
 
 - project:
-    templates:
-      - build-tox-docs
     check:
       jobs:
+        - zuul-tox-docs
         - tox-py27
         - tox-py35
     gate:
       jobs:
+        - zuul-tox-docs
         - tox-py27
         - tox-py35
-    post:
+    promote:
       jobs:
-        - publish-zuul-docs
+        - zuul-promote-docs
