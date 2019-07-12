@@ -1,4 +1,16 @@
 - job:
+    name: zuul-jobs-test-add-authorized-keys
+    description: Test the add-authorized-keys role
+    files:
+      - roles/add-authorized-keys/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: add-authorized-keys
+      public_keys:
+        - public_key: |
+            ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChDsP7zEq1JxPLb0Zqj43LIlVoXONCQ1Ko5i9ih/4xm6p0Jn00kpCoVQMb4X2Zys1vWTgpd+r9C/ZoYPFeWuQ8rPCbw4VsocMdwkz7mCPkMDVyPwERjRgt1sTl9WGgtlm2zq/76bmEpuY6PM+nFtJS7UE4XlfoHFK3pR/hgMFi8CX/ILAdtpU96dW2vmXkUt5yj05GHMXKeSU+B5pUEsERgQknH3JBdc/jvKv9dg5zt0jPM6hu5iwgIbMNHydxg4huFO6gKuP+mCNQctK23VMxVXSOYivx8qxu4uzGnBZna01Gi8mY5An4mIQTdcO3KpppOceoDjfEFIOiOnBVoggH testkey
+
+- job:
     name: zuul-jobs-test-base-roles
     description: |
       Tests roles in the 'base' job
@@ -317,6 +329,7 @@
 - project:
     check:
       jobs: &id001
+        - zuul-jobs-test-add-authorized-keys
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-debian-stretch
         - zuul-jobs-test-base-roles-fedora-29
