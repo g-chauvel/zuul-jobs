@@ -1,0 +1,20 @@
+- name: Check for cached dstat_graph
+  stat:
+    path: "{{ dstat_graph_cache_path }}"
+  register: dstat_cache
+
+- name: Set dstat_graph path
+  when: dstat_cache.stat.exists
+  set_fact:
+    dstat_path: "{{ dstat_graph_cache_path }}"
+
+- name: Set dstat_graph path
+  when: not dstat_cache.stat.exists
+  set_fact:
+    dstat_path: "{{ dstat_graph_download_path }}"
+
+- name: Run dstat_graph
+  when: dstat_path is defined
+  shell: "./generate_page.sh {{ dstat_data_path }} > {{ ansible_user_dir }}/zuul-output/logs/dstat.html"
+  args:
+    chdir: "{{ dstat_path }}"

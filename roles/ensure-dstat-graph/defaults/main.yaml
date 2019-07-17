@@ -1,0 +1,2 @@
+dstat_graph_cache_path: /opt/cache/dstat_graph
+dstat_graph_download_path: /tmp/dstat_graph

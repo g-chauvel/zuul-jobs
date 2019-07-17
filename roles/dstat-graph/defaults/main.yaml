@@ -1,0 +1,3 @@
+dstat_graph_cache_path: /opt/cache/dstat_graph
+dstat_graph_download_path: /tmp/dstat_graph
+dstat_data_path: "{{ ansible_user_dir }}/zuul-output/logs/dstat.csv"
