@@ -1,0 +1,19 @@
+- job:
+    name: zuul-jobs-test-add-launchpad-credentials
+    description: Test the add-launchpad-credentials role
+    files:
+      - roles/add-launchpad-credentials/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: add-launchpad-credentials
+      lp_creds:
+        access_token: fake
+        access_secret: fake
+        consumer_key: fake
+
+- project:
+    check:
+      jobs: &id001
+        - zuul-jobs-test-add-launchpad-credentials
+    gate:
+      jobs: *id001
