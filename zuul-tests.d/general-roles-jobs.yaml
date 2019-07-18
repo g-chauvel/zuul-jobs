@@ -55,6 +55,47 @@
           -----END PGP PRIVATE KEY BLOCK-----
 
 - job:
+    name: zuul-jobs-test-add-sshkey
+    description: Test the add-sshkey role
+    files:
+      - roles/add-sshkey/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: add-sshkey
+      ssh_key:
+        fqdn: logs.example.org
+        ssh_known_hosts: |
+          logs.example.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDcvLuGLagUAZfc0BThLus8ufSPCrIhDtG0BdXvhblJjvIbkuELD3dRWRZVSYZAdzGZRY3t6vTAcguTrkbQg5ngXfdfF+OKPkaH8DiZwAX/1g/iRXhInkZTGBVqHo9pLAMeNNwviSy2JjpTqdD6fLEkHwW+uw4E2YZhYivctTSbOepMkzAtFV0w5cpyBzjAT/Hax2x5un6es8R0Iw3AAnUmtapn5e5NCrg2rPNpd0nve84wUavvbC2DeGDOZQdnIahwo60Sder5ZE/x6cG39bkSDdgFQArAzrNrH6BHmNGjfFPpnGmfc7P8gQwDPtMf02HvKapqATXpIxdbSGimWLL
+        ssh_private_key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEpQIBAAKCAQEAoQ7D+8xKtScTy29Gao+NyyJVaFzjQkNSqOYvYof+MZuqdCZ9
+          NJKQqFUDG+F9mcrNb1k4KXfq/Qv2aGDxXlrkPKzwm8OFbKHDHcJM+5gj5DA1cj8B
+          EY0YLdbE5fVhoLZZts6v++m5hKbmOjzPpxbSUu1BOF5X6BxSt6Uf4YDBYvAl/yCw
+          HbaVPenVtr5l5FLeco9ORhzFynklPgeaVBLBEYEJJx9yQXXP47yr/XYOc7dIzzOo
+          buYsICGzDR8ncYOIbhTuoCrj/pgjUHLStt1TMVV0jmIr8fKsbuLsxpwWZ2tNRovJ
+          mOQJ+JiEE3XDtyqaaTnHqA43xBSDojpwVaIIBwIDAQABAoIBAQCJSUTWBjZIZJ8C
+          8j9b5jI/zWxwIX22phx3zH7nxnRvZPnPOF/RyH12f8C+q1+dELo9CBhPgODWArRw
+          FPKqM2AKOICAxhGdn+XqIA3vCKjPgiiM0hffFh5eNIxyWNB3ZfjjUxu/6GMzJ/Fo
+          Ax4el92Awqytl/3m5P29fQvH9TDjW+cVYkNxno8Zcz2f7+f9hNEvvVVwtvGf0Gps
+          zdtVlQ002zU98d9AKkQocYme1x3n52wpreEt6g/ylmHn+H0jEVt5Rxa7chknUDyk
+          VZ+CCQSPQSKWBxDXmkl6JJ4niQdYLSMOnaAvYGpk5dcbgsmfGMMpRWapzFnpAn/E
+          dpl5xVVBAoGBANNKb/daI6RZiVUX/7LmKU9JFSkopOmlTq3kIwuDfjvzPNSl3hfQ
+          MYeh6JfIs3DshfB4SfuUep5M67fqfn97xW1I7/PeSUaTnTVHKD4SeR6U+3tBqbRW
+          Yk+GzuN0QHOKoUvudOFn+VYWN7qqf/D462Yg0Wbd98LLkMfCXiKTIPhNAoGBAMMj
+          Nybfyxn9CeomqBR8GwwwofieReGKOruy8JT1PSU0qgBntP5Eymcvp8icSTX3fvkp
+          9SxqCnyliiIAvgjM8kfSdp9Qhfq2WQTkN5wMk/sEExBmTVBZtRd87bAuXHKl/3D+
+          ooP5oUzhdeKEJ1P2b7t6MKeMOks6AbIXQxKNKyujAoGAajleGQjkKlgpRvKNxq8X
+          zZh8XvjkD+Lfr2Smib9N023yAyZwhaBRhlLL0KNCM1915vNSnnyDONqLFyd4+TaM
+          hujIWd5DEIxd2M8xWCOJaOqVk93rJ5LWUg0ALjHfxTbI6Je1gyz2mWUKF3poYAmE
+          rw+ItyKY0QHug78f/FnjlXECgYEAkmCzOWT8zKTksBGJWbxy6aT9iyrmzrXLMwua
+          rpJ76JHlyGIDAg2GKvsziCe8P1BFnhCcSlHNRg1DXhhidOWQBNJai01zA0uP4Tx0
+          fols5An9ZvrmmhSA5HqhLdzJGnNs90z7ibZTCgHCVUW+3pvo2qBhKP3mqJF9viL2
+          /E6LCLMCgYEAxIngug5qRSUMGXy8Y2Xjbs/Vsao1Z6xbp16c2AXR+jXQRoHdoTYx
+          +HUQ5aBGZc5yxOQpplRVmSxAWTFjsgzvbi0V4XF5EUZydMce2ufkrfSKGUcF8kiW
+          A+tEIZhDiZh2NZoXXAKqV3pH6nOF9kPgRymy7de7BCoQx3rB7YgXpOk=
+          -----END RSA PRIVATE KEY-----
+
+- job:
     name: zuul-jobs-test-base-roles
     description: |
       Tests roles in the 'base' job
@@ -385,6 +426,7 @@
       jobs: &id001
         - zuul-jobs-test-add-authorized-keys
         - zuul-jobs-test-add-gpgkey
+        - zuul-jobs-test-add-sshkey
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-debian-stretch
         - zuul-jobs-test-base-roles-fedora-29
