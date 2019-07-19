@@ -1,3 +1,29 @@
 - hosts: all
-  roles:
-    - install-docker
+  tasks:
+
+  # psutil->python-devel
+  # psutil->gcc
+  # ansible->selinux
+  - name: install packages needed by molecule
+    when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int >= 8
+    become: true
+    package:
+      name:
+        - python2-devel
+        - python2-libselinux
+        - python3-devel
+        - python3-libselinux
+        - gcc
+
+  - name: install packages needed by molecule
+    when: ansible_os_family == "RedHat" and ansible_lsb.major_release|int < 8
+    become: true
+    package:
+      name:
+        - python-devel
+        - libselinux-python
+        - gcc
+
+  - name: install docker
+    include_role:
+      name: install-docker
