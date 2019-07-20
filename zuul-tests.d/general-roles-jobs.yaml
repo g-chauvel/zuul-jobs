@@ -414,6 +414,14 @@
             - secondary
 
 - job:
+    name: zuul-jobs-test-generate-zuul-manifest
+    description: Test the generate-zuul-manifest role
+    run: test-playbooks/generate-zuul-manifest.yaml
+    files:
+      - ^roles/generate-zuul-manifest/.*
+      - ^test-playbooks/generate-zuul-manifest.yaml
+
+- job:
     name: zuul-jobs-test-upload-git-mirror
     description: Test the upload-git-mirror role
     run: test-playbooks/upload-git-mirror.yaml
@@ -446,6 +454,7 @@
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
         - zuul-jobs-test-multinode-roles-ubuntu-trusty
         - zuul-jobs-test-multinode-roles-ubuntu-xenial
+        - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-git-mirror
     gate:
       jobs: *id001
