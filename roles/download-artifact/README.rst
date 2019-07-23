@@ -20,7 +20,15 @@ many artifacts as match the selection criteria.
 
 .. zuul:rolevar:: download_artifact_name
 
+   .. warning:: This field is deprecated and will be removed.  Use
+                ``download_artifact_type`` instead.
+
    The artifact name.  This can be a string or a list of strings.
+
+.. zuul:rolevar:: download_artifact_type
+
+   The artifact type.  This is the value of the ``type`` field in the
+   artifact metadata. This can be a string or a list of strings.
 
 .. zuul:rolevar:: download_artifact_query
    :default: change={{ zuul.change }}&patchset={{ zuul.patchset }}&pipeline={{ download_artifact_pipeline }}&job_name={{ download_artifact_job }}
