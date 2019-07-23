@@ -8,7 +8,7 @@ display logs from a build.
 **Role Variables**
 
 .. zuul:rolevar:: generate_zuul_manifest_root
-   :default: {{ zuul.executor.log_dir }}
+   :default: {{ zuul.executor.log_root }}
 
    The root directory to index.
 
@@ -18,7 +18,7 @@ display logs from a build.
    The name of the manifest file.
 
 .. zuul:rolevar:: generate_zuul_manifest_output
-   :default: {{ zuul.executor.log_dir }}/{{ generate_zuul_manifest_filename }}
+   :default: {{ zuul.executor.log_root }}/{{ generate_zuul_manifest_filename }}
 
    The path to the output manifest file.
 
