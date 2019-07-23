@@ -146,5 +146,5 @@
     data:
       zuul:
         artifacts:
-          - name: "site"
+          - name: "Site preview"
             url: "npm/html/"

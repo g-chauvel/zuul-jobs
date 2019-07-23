@@ -15,7 +15,7 @@
     data:
       zuul:
         artifacts:
-          - name: "image_{{ image.repository }}:{{ image_tag }}"
+          - name: "{{ image.repository }}:{{ image_tag }}"
             url: "docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ image_tag }}"
             metadata:
               type: container_image

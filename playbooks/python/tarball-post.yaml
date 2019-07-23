@@ -33,7 +33,7 @@
         data:
           zuul:
             artifacts:
-              - name: "python_sdist"
+              - name: "Python sdist"
                 url: "artifacts/{{ item.path | basename }}"
                 metadata:
                   type: python_sdist
@@ -45,7 +45,7 @@
         data:
           zuul:
             artifacts:
-              - name: "python_wheel"
+              - name: "Python wheel"
                 url: "artifacts/{{ item.path | basename }}"
                 metadata:
                   type: python_wheel

@@ -50,7 +50,7 @@
     data:
       zuul:
         artifacts:
-          - name: javascript_content
+          - name: Javascript content archive
             url: "artifacts/{{ item.path | basename }}"
             metadata:
               type: javascript_content

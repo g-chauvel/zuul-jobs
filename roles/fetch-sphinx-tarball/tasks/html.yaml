@@ -33,11 +33,11 @@
     data:
       zuul:
         artifacts:
-          - name: "docs_archive"
+          - name: "Docs archive"
             url: "docs-html.tar.bz2"
             metadata:
               type: docs_archive
-          - name: "docs_site"
+          - name: "Docs preview site"
             url: "docs/"
             metadata:
               type: docs_site
