@@ -1,4 +1,12 @@
 ---
+- name: Authorize docker networks
+  shell: |
+    iptables -I INPUT   -s 172.16.0.0/12 -j ACCEPT
+    iptables -I OUTPUT  -d 172.16.0.0/12 -j ACCEPT
+    iptables -I FORWARD -s 172.16.0.0/12 -j ACCEPT
+    iptables -I FORWARD -d 172.16.0.0/12 -j ACCEPT
+  become: yes
+
 - name: Deploy local openshift cluster
   command: "oc cluster up --insecure-skip-tls-verify=true --public-hostname={{ ansible_hostname }}"
   become: yes
