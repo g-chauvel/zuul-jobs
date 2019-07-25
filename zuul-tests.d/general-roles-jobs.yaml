@@ -215,6 +215,15 @@
           label: ubuntu-xenial
 
 - job:
+    name: zuul-jobs-test-clear-firewall
+    description: Test the clear-firewall role
+    files:
+      - roles/clear-firewall/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: clear-firewall
+
+- job:
     name: zuul-jobs-test-dstat-graph
     description: Test the dstat-graph roles
     run: test-playbooks/dstat-graph.yaml
@@ -444,6 +453,7 @@
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-trusty
         - zuul-jobs-test-base-roles-ubuntu-xenial
+        - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-dstat-graph
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-debian-stretch
