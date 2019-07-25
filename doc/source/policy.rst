@@ -176,38 +176,53 @@ needed, allowing users to prepare their hosts accordingly.
 Testing
 -------
 
-`zuul-jobs` is often consumed from the master branch and many parts of
-`zuul-jobs` are involved in base setup.  Thus bad changes have a
-larger than usual potential to quickly produce global problems.
-Demonstrated testing of changes is very important and is requested of
-all proposed changes.
+If you add a new role, please add a new job to test it.
 
-Since many roles in `zuul-jobs` are run from trusted jobs that run
-directly on the executor, often changes are not self-testing.  In such
-cases, it may be possible to demonstrate sufficient testing via
-external methods.  This should be noted carefully in the review.
+Because `zuul-jobs` is meant to be included in every Zuul tenant with
+no special include/exclude settings, everything in the ``zuul.d/``
+directory must be suitable for any environment.  It can not reference
+any secrets, nodesets, project templates, or jobs that are not in
+`zuul-jobs`.  It is the public user interface for the project.
 
-To use the OpenStack gate, you should develop your change as usual
-with as much testing as possible.  Once you have pushed the main
-review, you should clone the changes to the role being tested to a
-``test-<rolename>`` role in a new change (there may already be a
-``test-<rolename>`` if someone has done this before you; in this case,
-update it with your change).  Then rebase this testing change *before*
-your main change (the commit message should say something along the
-lines of "This change is for pre-testing of change I...").
+Jobs which test the roles in `zuul-jobs` itself can be placed in the
+``zuul-tests.d/`` directory of the project.  This directory is read by
+OpenDev's Zuul, but is not intended to be used by any other Zuul.  It
+may contain references to specific nodesets and other aspects of the
+OpenDev environment so that we can perform first-party testing of
+changes to `zuul-jobs`.
 
-Reviewers can commit this change without affecting production jobs.
-You then need to look at the ``playbooks/base-test/`` files in
-``project-config`` and make sure they are using the
-``test-<rolename>`` role, which should now be committed (in some
-cases, if it has been done before, it may already be; otherwise
-propose a change to swap the role in ``base-test`` that Depends-On
-your ``test-<rolename>`` addition).  You can then reparent a
-do-not-merge job to ``base-test`` and your changes will be executed.
+The ``zuul-tests.d/`` directory is organized in the same way as the
+documentation, so when you add a role and add it to a documentation
+file, add a test job for it to a similarly named file in
+``zuul-tests.d/``.  Name the job the same as the role, but prefix it
+with ``zuul-jobs-test-``.
 
-After this, the actual change can be merged.  Note that after this,
-the ``test-<rolename>`` and ``<rolename>`` roles will be identical,
-which is how it should remain until the next proposed change.
+There is a playbook which may provide sufficient test coverage for
+many simple roles by simply executing them.  To use it, create a job
+like this:
+
+.. code-block:: yaml
+
+   - job:
+       name: zuul-jobs-test-your-new-role
+       run: test-playbooks/simple-role-test.yaml
+       vars:
+         role_name: your-new-role
+
+If you need to do anything other than simply including a role (for
+example, testing how multiple roles interact, or performing validation
+after the role runs), you should probably make a dedicated playbook for
+the job.
+
+Some roles have special handling for different platforms and therefore
+need to be tested on each.  Some notable examples include many of the
+roles which typically appear in base jobs.  There is a script in
+``tools/update-test-platforms.py`` which will look for jobs with the
+tags ``all-platforms`` or ``all-platforms-multinode`` and it will
+automatically create (or delete) identical jobs for each of the
+platforms that are available in OpenDev.  If you don't need the whole
+set (perhaps you only need to test on one or two specific platforms),
+you can still do the same thing manually.
 
 .. _zuul-announce: http://lists.zuul-ci.org/cgi-bin/mailman/listinfo/zuul-announce
 .. _zuul-discuss: http://lists.zuul-ci.org/cgi-bin/mailman/listinfo/zuul-discuss
