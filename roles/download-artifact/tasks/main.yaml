@@ -14,7 +14,7 @@
     loop_var: artifact
   when:
     - "download_artifact_name is defined"
-    - "artifact.name == download_artifact_name or ((download_artifact_name | type_debug) == 'list' and artifact.name in download_artifact_name))"
+    - "artifact.name == download_artifact_name or ((download_artifact_name | type_debug) == 'list' and artifact.name in download_artifact_name)"
 - name: Download archive by type
   uri:
     url: "{{ artifact.url }}"
