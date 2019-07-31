@@ -41,3 +41,14 @@
     content: "{{ docker_config | to_nice_json }}"
     dest: "~/.docker/config.json"
     mode: 0600
+- name: Check if /var/lib/kubelet exists
+  stat:
+    path: /var/lib/kubelet
+  register: kubelet_config
+- name: Create symbolic link between user and var/lib/kubelet configs
+  when: kubelet_config.stat.exists
+  become: yes
+  file:
+    src: "~{{ buildset_registry_docker_user | default(ansible_user) }}/.docker/config.json"
+    dest: /var/lib/kubelet/config.json
+    state: link
