@@ -45,6 +45,7 @@ import openstack
 import requests
 import requests.exceptions
 import requestsexceptions
+import keystoneauth1
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -474,6 +475,17 @@ class Uploader():
         adapter = requests.adapters.HTTPAdapter(pool_maxsize=100)
         sess.mount('https://', adapter)
 
+        # If we're in Rackspace, there's some non-standard stuff we
+        # need to do to get the public endpoint.
+        try:
+            cdn_endpoint = self.cloud.session.auth.get_endpoint(
+                self.cloud.session, service_type='rax:object-cdn',
+                region_name=self.cloud.config.region_name,
+                interface=self.cloud.config.interface)
+            cdn_url = os.path.join(cdn_endpoint, self.container)
+        except keystoneauth1.exceptions.catalog.EndpointNotFound:
+            cdn_url = None
+
         if not self.cloud.get_container(self.container):
             self.cloud.create_container(name=self.container, public=public)
             self.cloud.update_container(
@@ -488,8 +500,19 @@ class Uploader():
                                      name='index.html',
                                      data='',
                                      content_type='text/html')
-        self.url = os.path.join(self.cloud.object_store.get_endpoint(),
-                                self.container, self.prefix)
+            # Enable the CDN in rax
+            if cdn_url:
+                self.cloud.session.put(cdn_url)
+
+        if cdn_url:
+            endpoint = (self.cloud.session.head(cdn_url)
+                        .headers['X-Cdn-Ssl-Uri'])
+            container = endpoint
+        else:
+            endpoint = self.cloud.object_store.get_endpoint()
+            container = os.path.join(endpoint, self.container)
+
+        self.url = os.path.join(container, self.prefix)
 
     def upload(self, file_list):
         """Spin up thread pool to upload to swift"""
@@ -701,6 +724,8 @@ def cli_main():
         logging.basicConfig(level=logging.DEBUG)
         # Set requests log level accordingly
         logging.getLogger("requests").setLevel(logging.DEBUG)
+        # logging.getLogger("keystoneauth").setLevel(logging.INFO)
+        # logging.getLogger("stevedore").setLevel(logging.INFO)
         logging.captureWarnings(True)
 
     append_footer = args.append_footer
