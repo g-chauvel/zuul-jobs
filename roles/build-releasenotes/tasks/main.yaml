@@ -117,7 +117,7 @@
 
       # Remove newly created pot files
       rm -f ${DIRECTORY}/source/locale/*.pot
-  when: translations.stat.exists == True
+  when: translations.stat.exists
 
 - name: Run releasenotes sphinx build
   shell:
