@@ -490,7 +490,8 @@ class Uploader():
             self.cloud.create_container(name=self.container, public=public)
             self.cloud.update_container(
                 name=self.container,
-                headers={'X-Container-Meta-Web-Index': 'index.html'})
+                headers={'X-Container-Meta-Web-Index': 'index.html',
+                         'X-Container-Meta-Access-Control-Allow-Origin': '*'})
             # 'X-Container-Meta-Web-Listings': 'true'
 
             # The ceph radosgw swift implementation requires an
