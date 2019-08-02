@@ -497,10 +497,13 @@ class Uploader():
             # The ceph radosgw swift implementation requires an
             # index.html at the root in order for any other indexes to
             # work.
+            index_headers = {'access-control-allow-origin': '*'}
             self.cloud.create_object(self.container,
                                      name='index.html',
                                      data='',
-                                     content_type='text/html')
+                                     content_type='text/html',
+                                     **index_headers)
+
             # Enable the CDN in rax
             if cdn_url:
                 self.cloud.session.put(cdn_url)
@@ -574,6 +577,8 @@ class Uploader():
         if self.delete_after:
             headers['x-delete-after'] = str(self.delete_after)
         headers['content-type'] = file_detail.mimetype
+        # This is required for Rackspace CDN
+        headers['access-control-allow-origin'] = '*'
 
         for attempt in range(1, POST_ATTEMPTS + 1):
             try:
