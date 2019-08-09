@@ -1,4 +1,5 @@
 # Vendored from rdo-release: https://github.com/rdo-infra/rdo-release
+{% if ansible_distribution == 'CentOS' %}
 [centos-openstack-queens]
 name=CentOS OpenStack Queens Repository
 {% if zuul_site_mirror_fqdn is defined %}
@@ -9,3 +10,10 @@ baseurl=http://mirror.centos.org/centos/7/cloud/$basearch/openstack-queens/
 gpgcheck=1
 enabled=1
 gpgkey=file:///tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
+{% elif ansible_distribution == 'RedHat' %}
+[RDO-RHEL8-deps]
+name=RedHat Openstack deps repo
+baseurl=https://trunk.rdoproject.org/rhel8-master/deps/latest/
+gpgcheck=0
+enabled=1
+{% endif %}
