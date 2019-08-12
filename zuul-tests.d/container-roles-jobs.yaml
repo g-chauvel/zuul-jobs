@@ -15,6 +15,7 @@
       - roles/use-buildset-registry/.*
       - test-playbooks/registry/.*
     run: test-playbooks/registry/test-registry.yaml
+    post-run: test-playbooks/registry/test-registry-post.yaml
     nodeset:
       nodes:
         - name: intermediate-registry
