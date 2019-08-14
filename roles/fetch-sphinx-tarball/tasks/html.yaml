@@ -5,7 +5,7 @@
   register: html_archive
 
 - name: Archive HTML
-  command: "tar -f {{ html_archive.path }} -C {{ zuul_work_dir }}/{{ sphinx_build_dir }}/{{ sphinx_output_dir }} -cj ."
+  command: "tar -f {{ html_archive.path }} -C {{ zuul_work_dir }}/{{ sphinx_build_dir }}/html -cj ."
   args:
     warn: false
 
