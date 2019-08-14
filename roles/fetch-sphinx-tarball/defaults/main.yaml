@@ -1,3 +1,4 @@
 ---
 zuul_work_dir: "{{ zuul.project.src_dir }}"
 sphinx_build_dir: doc/build
+sphinx_output_dir: "html"

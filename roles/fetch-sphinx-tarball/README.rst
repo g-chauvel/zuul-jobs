@@ -12,6 +12,12 @@ archive into the log root for viewing.
    Directory relative to zuul_work_dir where build output should be
    found.
 
+.. zuul:rolevar:: sphinx_output_dir
+   :default: html
+
+   Directory relative to sphinx_build_dir where sphinx output will be
+   put.
+
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 
