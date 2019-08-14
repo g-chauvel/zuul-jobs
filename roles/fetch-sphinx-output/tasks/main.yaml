@@ -4,3 +4,13 @@
     mode: pull
     src: "{{ sphinx_output_src }}"
     verify_host: true
+
+- name: Return artifact to Zuul
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: "Docs preview site"
+            url: "{{ sphinx_output_dir }}/"
+            metadata:
+              type: docs_site
