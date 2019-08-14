@@ -141,6 +141,18 @@ def get_cloud(cloud):
         return openstack.connect(cloud=cloud)
 
 
+def retry_function(func):
+    for attempt in range(1, POST_ATTEMPTS + 1):
+        try:
+            return func()
+        except Exception:
+            if attempt >= POST_ATTEMPTS:
+                raise
+            else:
+                logging.exception("Error on attempt %d" % attempt)
+                time.sleep(attempt * 10)
+
+
 def sizeof_fmt(num, suffix='B'):
     # From http://stackoverflow.com/questions/1094841/
     # reusable-library-to-get-human-readable-version-of-file-size
@@ -491,30 +503,36 @@ class Uploader():
             cdn_url = None
 
         if not self.cloud.get_container(self.container):
-            self.cloud.create_container(name=self.container, public=public)
-            self.cloud.update_container(
-                name=self.container,
-                headers={'X-Container-Meta-Web-Index': 'index.html',
-                         'X-Container-Meta-Access-Control-Allow-Origin': '*'})
+            retry_function(
+                lambda: self.cloud.create_container(
+                    name=self.container, public=public))
+            headers = {'X-Container-Meta-Web-Index': 'index.html',
+                       'X-Container-Meta-Access-Control-Allow-Origin': '*'}
+            retry_function(
+                lambda: self.cloud.update_container(
+                    name=self.container,
+                    headers=headers))
             # 'X-Container-Meta-Web-Listings': 'true'
 
             # The ceph radosgw swift implementation requires an
             # index.html at the root in order for any other indexes to
             # work.
             index_headers = {'access-control-allow-origin': '*'}
-            self.cloud.create_object(self.container,
-                                     name='index.html',
-                                     data='',
-                                     content_type='text/html',
-                                     **index_headers)
+            retry_function(
+                lambda: self.cloud.create_object(self.container,
+                                                 name='index.html',
+                                                 data='',
+                                                 content_type='text/html',
+                                                 **index_headers))
 
             # Enable the CDN in rax
             if cdn_url:
-                self.cloud.session.put(cdn_url)
+                retry_function(lambda: self.cloud.session.put(cdn_url))
 
         if cdn_url:
-            endpoint = (self.cloud.session.head(cdn_url)
-                        .headers['X-Cdn-Ssl-Uri'])
+            endpoint = retry_function(
+                lambda: self.cloud.session.head(
+                    cdn_url).headers['X-Cdn-Ssl-Uri'])
             container = endpoint
         else:
             endpoint = self.cloud.object_store.get_endpoint()
@@ -546,7 +564,7 @@ class Uploader():
                 logging.debug("%s: processing job %s",
                               threading.current_thread(),
                               file_detail)
-                self._post_file(file_detail)
+                retry_function(lambda: self._post_file(file_detail))
             except requests.exceptions.RequestException:
                 # Do our best to attempt to upload all the files
                 logging.exception("Error posting file after multiple attempts")
@@ -584,32 +602,24 @@ class Uploader():
         # This is required for Rackspace CDN
         headers['access-control-allow-origin'] = '*'
 
-        for attempt in range(1, POST_ATTEMPTS + 1):
-            try:
-                if not file_detail.folder:
-                    if (file_detail.encoding is None and
-                        self._is_text_type(file_detail.mimetype)):
-                        headers['content-encoding'] = 'deflate'
-                        data = DeflateFilter(open(file_detail.full_path, 'rb'))
-                    else:
-                        if file_detail.encoding:
-                            headers['content-encoding'] = file_detail.encoding
-                        data = open(file_detail.full_path, 'rb')
-                else:
-                    data = ''
-                    relative_path = relative_path.rstrip('/')
-                    if relative_path == '':
-                        relative_path = '/'
-                self.cloud.create_object(self.container,
-                                         name=relative_path,
-                                         data=data,
-                                         **headers)
-                break
-            except requests.exceptions.RequestException:
-                logging.exception(
-                    "File posting error on attempt %d" % attempt)
-                if attempt >= POST_ATTEMPTS:
-                    raise
+        if not file_detail.folder:
+            if (file_detail.encoding is None and
+                self._is_text_type(file_detail.mimetype)):
+                headers['content-encoding'] = 'deflate'
+                data = DeflateFilter(open(file_detail.full_path, 'rb'))
+            else:
+                if file_detail.encoding:
+                    headers['content-encoding'] = file_detail.encoding
+                data = open(file_detail.full_path, 'rb')
+        else:
+            data = ''
+            relative_path = relative_path.rstrip('/')
+            if relative_path == '':
+                relative_path = '/'
+        self.cloud.create_object(self.container,
+                                 name=relative_path,
+                                 data=data,
+                                 **headers)
 
 
 def run(cloud, container, files,
