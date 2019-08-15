@@ -133,6 +133,14 @@ def get_mime_icon(mime, filename=''):
     return "data:image/png;base64,%s" % ICON_IMAGES[icon]
 
 
+def get_cloud(cloud):
+    if isinstance(cloud, dict):
+        config = openstack.config.loader.OpenStackConfig().get_one(**cloud)
+        return openstack.connection.Connection(config=config)
+    else:
+        return openstack.connect(cloud=cloud)
+
+
 def sizeof_fmt(num, suffix='B'):
     # From http://stackoverflow.com/questions/1094841/
     # reusable-library-to-get-human-readable-version-of-file-size
@@ -462,11 +470,7 @@ class DeflateFilter():
 class Uploader():
     def __init__(self, cloud, container, prefix=None, delete_after=None,
                  public=True):
-        if isinstance(cloud, dict):
-            config = openstack.config.loader.OpenStackConfig().get_one(**cloud)
-            self.cloud = openstack.connection.Connection(config=config)
-        else:
-            self.cloud = openstack.connect(cloud=cloud)
+        self.cloud = cloud
         self.container = container
         self.prefix = prefix or ''
         self.delete_after = delete_after
@@ -669,16 +673,26 @@ def ansible_main():
     )
 
     p = module.params
-    url = run(p.get('cloud'), p.get('container'), p.get('files'),
-              indexes=p.get('indexes'),
-              parent_links=p.get('parent_links'),
-              topdir_parent_link=p.get('topdir_parent_link'),
-              partition=p.get('partition'),
-              footer=p.get('footer'),
-              delete_after=p.get('delete_after', 15552000),
-              prefix=p.get('prefix'),
-              public=p.get('public'))
-
+    cloud = get_cloud(p.get('cloud'))
+    try:
+        url = run(cloud, p.get('container'), p.get('files'),
+                  indexes=p.get('indexes'),
+                  parent_links=p.get('parent_links'),
+                  topdir_parent_link=p.get('topdir_parent_link'),
+                  partition=p.get('partition'),
+                  footer=p.get('footer'),
+                  delete_after=p.get('delete_after', 15552000),
+                  prefix=p.get('prefix'),
+                  public=p.get('public'))
+    except (keystoneauth1.exceptions.HTTPError,
+            requests.exceptions.RequestException) as e:
+        module.fail_json(
+            changed=False,
+            msg=str(e),
+            cloud=cloud.name,
+            region_name=cloud.config.region_name)
+        logging.exception("Error uploading to %s.%s",
+                          cloud.name, cloud.config.region_name)
     module.exit_json(changed=True,
                      url=url)
 
@@ -738,7 +752,7 @@ def cli_main():
     if append_footer.lower() == 'none':
         append_footer = None
 
-    url = run(args.cloud, args.container, args.files,
+    url = run(get_cloud(args.cloud), args.container, args.files,
               indexes=not args.no_indexes,
               parent_links=not args.no_parent_links,
               topdir_parent_link=args.create_topdir_parent_link,
