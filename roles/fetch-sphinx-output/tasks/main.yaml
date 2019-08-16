@@ -11,6 +11,6 @@
       zuul:
         artifacts:
           - name: "Docs preview site"
-            url: "{{ sphinx_output_dir }}/"
+            url: "html/"
             metadata:
               type: docs_site

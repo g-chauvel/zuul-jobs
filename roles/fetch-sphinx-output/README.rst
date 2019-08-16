@@ -16,13 +16,6 @@ to the log root of the executor.
 
    Directory relative to zuul_work_dir where build output will be put.
 
-.. zuul:rolevar:: sphinx_output_dir
-   :default: html
-
-   Directory relative to sphinx_build_dir where sphinx output will be
-   put.  Unlike sphinx_build_dir, this will appear in the destination
-   directory and returned artifact URLs.
-
 .. zuul:rolevar:: sphinx_output_suffix
    :default: ''
 
@@ -31,7 +24,7 @@ to the log root of the executor.
    from the original path.
 
 .. zuul:rolevar:: sphinx_output_src
-   :default: {{ zuul_work_dir }}/{{ sphinx_build_dir }}/{{ sphinx_output_dir }}{{ sphinx_output_suffix }}
+   :default: {{ zuul_work_dir }}/{{ sphinx_build_dir }}/html{{ sphinx_output_suffix }}
 
    The location on the worker from which to fetch the generated sphinx
    content.  By default, the HTML doc build dir of the current
