@@ -45,7 +45,7 @@ import openstack
 import requests
 import requests.exceptions
 import requestsexceptions
-import keystoneauth1
+import keystoneauth1.exceptions
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -694,7 +694,7 @@ def ansible_main():
                   delete_after=p.get('delete_after', 15552000),
                   prefix=p.get('prefix'),
                   public=p.get('public'))
-    except (keystoneauth1.exceptions.HTTPError,
+    except (keystoneauth1.exceptions.http.HTTPError,
             requests.exceptions.RequestException) as e:
         module.fail_json(
             changed=False,
