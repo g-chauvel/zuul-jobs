@@ -29,17 +29,31 @@ For example:
      opensuse:
        url: https://{{ zuul_site_local_mirror_host }}/opensuse
      debian:
-       - url: https://{{ zuul_site_local_mirror_host }}/debian
+       - type: deb
+         options:
+           trusted: true
+         url: https://{{ zuul_site_local_mirror_host }}/debian
+         suites: ['stretch', 'buster']
          components: ['main']
-       - url: https://{{ zuul_site_local_mirror_host }}/debian-security
+       - type: deb
+         options:
+           trusted: true
+         url: https://{{ zuul_site_local_mirror_host }}/debian-security
+         suites: ['stretch/updates', 'buster/updates']
          components: ['main']
      ubuntu:
-       - url: https://{{ zuul_site_local_mirror_host }}/ubuntu
+       - type: deb
+         options:
+           trusted: true
+         url: https://{{ zuul_site_local_mirror_host }}/ubuntu
+         suites: ['xenial', 'bionic']
          components: ['main', 'universe']
-         trusted: true
-       - url: https://{{ zuul_site_local_mirror_host }}/ubuntu-security
+       - type: deb
+         options:
+           trusted: true
+         url: https://{{ zuul_site_local_mirror_host }}/ubuntu
+         suites: ['xenial-security', 'bionic-security']
          components: ['main', 'universe']
-         trusted: true
      dockerhub:
        url: https://{{ zuul_site_local_mirror_host }}:8082/
 
@@ -87,20 +101,31 @@ For example:
       accomodates mirror systems which may have a security mirror at a
       different URL.
 
+      .. zuul:rolevar:: type
+
+         The type for a Debian mirror (usually either ``deb`` or
+         ``deb-src``).
+
+      .. zuul:rolevar:: options
+         :type: dict
+
+         Mirror options, for example add ``trusted: yes`` in order
+         to trust unsigned APT mirrors.
+
       .. zuul:rolevar:: url
 
          The URL for a Debian mirror.
+
+      .. zuul:rolevar:: suites
+         :type: list
+
+         The list of suites for a Debian mirror.
 
       .. zuul:rolevar:: components
          :type: list
 
          A list of components available in this mirror (e.g.,
          ``main``, ``contrib``).
-
-      .. zuul:rolevar:: trusted
-         :default: False
-
-         Set to True in order to tag APT mirrors as trusted.
 
    .. zuul:rolevar:: ubuntu
       :type: list
@@ -109,20 +134,31 @@ For example:
       accomodates mirror systems which may have a security mirror at a
       different URL.
 
+      .. zuul:rolevar:: type
+
+         The type for an Ubuntu mirror (usually either ``deb`` or
+         ``deb-src``).
+
+      .. zuul:rolevar:: options
+         :type: dict
+
+         Mirror options, for example add ``trusted: yes`` in order
+         to trust unsigned APT mirrors.
+
       .. zuul:rolevar:: url
 
          The URL for an Ubuntu mirror.
+
+      .. zuul:rolevar:: suites
+         :type: list
+
+         The list of suites for an Ubuntu mirror.
 
       .. zuul:rolevar:: components
          :type: list
 
          A list of components available in this mirror (e.g.,
          ``main``, ``contrib``).
-
-      .. zuul:rolevar:: trusted
-         :default: False
-
-         Set to True in order to tag APT mirrors as trusted.
 
    .. zuul:rolevar:: dockerhub
 
