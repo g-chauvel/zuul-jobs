@@ -1,6 +1,8 @@
 Mirror Configuration
 ====================
 
+.. note:: This is a work in progress, the zuul-jobs required changes are not implemented yet.
+
 Many roles in `zuul-jobs` can be made aware of local mirrors of
 Internet services.  If site mirrors are present, they expect to find a
 variable named ``mirror_info``, or ``zuul_site_mirror_info`` if that
