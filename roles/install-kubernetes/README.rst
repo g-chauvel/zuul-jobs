@@ -11,3 +11,9 @@ An ansible role to install kubernetes.
    :default: latest
 
    The version of Minikube to install.
+
+.. zuul:rolevar:: minikube_dns_resolvers
+   :default: []
+
+   List of dns resolvers to configure in k8s. Use this to override the
+   resolvers that are found by default.

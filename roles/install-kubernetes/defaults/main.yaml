@@ -1,2 +1,3 @@
 install_kubernetes_with_cluster: True
 minikube_version: latest
+minikube_dns_resolvers: []
