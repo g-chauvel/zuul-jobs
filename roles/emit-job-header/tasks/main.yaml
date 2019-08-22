@@ -28,6 +28,7 @@
         msg: |
           # Node Information
           Hostname: {{ hostvars[item]['ansible_hostname']|default('unknown') }}
+          Distro: {{ hostvars[item]['ansible_distribution'] | default('unknown') }} {{ hostvars[item]['ansible_distribution_version'] | default('unknown') }}
           Provider: {{ hostvars[item]['nodepool']['provider'] }}
           Label: {{ hostvars[item]['nodepool']['label'] }}
           {% if hostvars[item]['nodepool']['interface_ip'] is defined %}
