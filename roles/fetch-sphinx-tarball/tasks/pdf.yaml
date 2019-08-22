@@ -1,0 +1,44 @@
+# Sphinx builds a single PDF, the name of the PDF is not known.
+# Let's be safe and accept multiple PDFs but only return the first
+# one.
+
+- name: Search PDF files under sphinx build directory
+  find:
+    paths: "{{ zuul_work_dir }}/{{ sphinx_build_dir }}/pdf/"
+    file_type: file
+    patterns: "*.pdf"
+  register: pdf_files
+
+- name: Report no PDF to be uploaded
+  debug:
+    msg: "Found no PDF to upload"
+  when: pdf_files.matched == 0
+
+- name: Check for single PDF
+  debug:
+    msg: "Multiple PDF found, only grabbing first one"
+  when: pdf_files.matched > 1
+
+- name: Create PDF directory
+  delegate_to: localhost
+  file:
+    path: "{{ zuul.executor.log_root }}/pdf"
+    state: directory
+
+- name: Fetch PDF files
+  synchronize:
+    dest: "{{ zuul.executor.log_root }}/pdf/{{ pdf_files.files[0].path | basename }}"
+    mode: pull
+    src: "{{ pdf_files.files[0].path }}"
+    verify_host: true
+  when: pdf_files.matched > 0
+
+- name: Return PDF artifact to Zuul
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: "Docs PDF"
+            url: "pdf/{{ pdf_files.files[0].path | basename }}"
+            metadata:
+              type: docs_pdf

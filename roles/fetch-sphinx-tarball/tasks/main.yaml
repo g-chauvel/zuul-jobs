@@ -12,4 +12,8 @@
   when: "'html' in sphinx_dir"
   include_tasks: html.yaml
 
+- name: Process sphinx PDF
+  when: "'pdf' in sphinx_dir"
+  include_tasks: pdf.yaml
+
 # Other sphinx output processing can be added here.
