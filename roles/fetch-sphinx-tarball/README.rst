@@ -16,3 +16,10 @@ archive into the log root for viewing.
    :default: {{ zuul.project.src_dir }}
 
    The location of the main working directory of the job.
+
+.. zuul:rolevar:: sphinx_pdf_files
+   :default: list
+
+   A list of file names of PDF files to collect.
+   By default, the list contains as entry only
+   ``{{ zuul.project.short_name }}.pdf``.

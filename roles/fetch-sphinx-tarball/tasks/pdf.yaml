@@ -1,44 +1,56 @@
-# Sphinx builds a single PDF, the name of the PDF is not known.
-# Let's be safe and accept multiple PDFs but only return the first
-# one.
+# Sphinx might build multiple PDF files, for example for graphic files
+# to include. We only want to grab the end result and not any such
+# input files.
 
-- name: Search PDF files under sphinx build directory
-  find:
-    paths: "{{ zuul_work_dir }}/{{ sphinx_build_dir }}/pdf/"
-    file_type: file
-    patterns: "*.pdf"
-  register: pdf_files
+- name: Check for PDF file names
+  stat:
+    path: "{{ zuul_work_dir }}/{{ sphinx_build_dir }}/pdf/{{ item }}"
+    get_checksum: false
+    get_mime: false
+    get_md5: false
+  with_items: "{{ sphinx_pdf_files }}"
+  register: pdf_file_stat
 
-- name: Report no PDF to be uploaded
-  debug:
-    msg: "Found no PDF to upload"
-  when: pdf_files.matched == 0
+- name: Set pdf_files_found to default
+  set_fact:
+    pdf_files_found: false
 
-- name: Check for single PDF
-  debug:
-    msg: "Multiple PDF found, only grabbing first one"
-  when: pdf_files.matched > 1
+- name: Check if any file found
+  set_fact:
+    pdf_files_found: true
+  when: item.stat.exists
+  with_items: "{{ pdf_file_stat.results }}"
 
-- name: Create PDF directory
-  delegate_to: localhost
-  file:
-    path: "{{ zuul.executor.log_root }}/pdf"
-    state: directory
+# Now loop...
 
-- name: Fetch PDF files
-  synchronize:
-    dest: "{{ zuul.executor.log_root }}/pdf/{{ pdf_files.files[0].path | basename }}"
-    mode: pull
-    src: "{{ pdf_files.files[0].path }}"
-    verify_host: true
-  when: pdf_files.matched > 0
+- name: Grab PDF files
+  when: pdf_files_found
+  block:
 
-- name: Return PDF artifact to Zuul
-  zuul_return:
-    data:
-      zuul:
-        artifacts:
-          - name: "Docs PDF"
-            url: "pdf/{{ pdf_files.files[0].path | basename }}"
-            metadata:
-              type: docs_pdf
+    - name: Create PDF directory
+      delegate_to: localhost
+      file:
+        path: "{{ zuul.executor.log_root }}/pdf"
+        state: directory
+
+    - name: Fetch PDF files
+      synchronize:
+        dest: "{{ zuul.executor.log_root }}/pdf/{{ item.item }}"
+        mode: pull
+        src: "{{ item.stat.path }}"
+        verify_host: true
+      with_items: "{{ pdf_file_stat.results }}"
+      when: item.stat.exists
+
+
+    - name: Return PDF artifact to Zuul
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: "Docs PDF: {{ item.item }}"
+                url: "pdf/{{ item.item }}"
+                metadata:
+                  type: docs_pdf
+      with_items: "{{ pdf_file_stat.results }}"
+      when: item.stat.exists
