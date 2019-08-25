@@ -307,7 +307,7 @@
          :default: {{ zuul.project.src_dir }}
 
          Directory to operate in.
-    success-url: html/
+    success-url: docs/
     # Release notes always build on master.
     override-checkout: master
     pre-run: playbooks/releasenotes/pre.yaml

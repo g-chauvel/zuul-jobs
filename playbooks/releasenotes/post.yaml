@@ -1,4 +1,4 @@
 - hosts: all
   roles:
-    - role: fetch-sphinx-output
-      sphinx_output_src: "{{ zuul_work_dir|default(zuul.project.src_dir) }}/releasenotes/build/html"
+    - role: fetch-sphinx-tarball
+      sphinx_build_dir: "releasenotes/build"
