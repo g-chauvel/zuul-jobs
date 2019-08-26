@@ -694,7 +694,7 @@ def ansible_main():
                   delete_after=p.get('delete_after', 15552000),
                   prefix=p.get('prefix'),
                   public=p.get('public'))
-    except (keystoneauth1.exceptions.http.HTTPError,
+    except (keystoneauth1.exceptions.http.HttpError,
             requests.exceptions.RequestException) as e:
         module.fail_json(
             changed=False,
