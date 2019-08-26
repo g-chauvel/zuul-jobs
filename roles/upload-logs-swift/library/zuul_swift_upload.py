@@ -177,6 +177,12 @@ class FileDetail():
                                  used for links.
             filename (str): An optional alternate filename in links.
         """
+        # Make FileNotFoundError exception to be compatible with python2
+        try:
+            FileNotFoundError  # noqa: F823
+        except NameError:
+            FileNotFoundError = OSError
+
         self.full_path = full_path
         if filename is None:
             self.filename = os.path.basename(full_path)
@@ -193,11 +199,11 @@ class FileDetail():
             self.mimetype = 'application/directory'
             self.encoding = None
             self.folder = True
-        if self.full_path:
+        try:
             st = os.stat(self.full_path)
             self.last_modified = time.gmtime(st[stat.ST_MTIME])
             self.size = st[stat.ST_SIZE]
-        else:
+        except (FileNotFoundError, TypeError):
             self.last_modified = time.gmtime(0)
             self.size = 0
 

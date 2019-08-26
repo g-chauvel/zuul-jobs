@@ -20,10 +20,12 @@ __metaclass__ = type
 
 import os
 import testtools
+import time
+import stat
 import fixtures
 
 from bs4 import BeautifulSoup
-from .zuul_swift_upload import FileList, Indexer
+from .zuul_swift_upload import FileList, Indexer, FileDetail
 
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__),
@@ -357,3 +359,24 @@ class TestFileList(testtools.TestCase):
 
             self.assertEqual(rows[0].find('a').get('href'), 'subdir.txt')
             self.assertEqual(rows[0].find('a').text, 'subdir.txt')
+
+
+class TestFileDetail(testtools.TestCase):
+
+    def test_get_file_detail(self):
+        '''Test files info'''
+        path = os.path.join(FIXTURE_DIR, 'logs/job-output.json')
+        file_detail = FileDetail(path, '')
+        path_stat = os.stat(path)
+        self.assertEqual(
+            time.gmtime(path_stat[stat.ST_MTIME]),
+            file_detail.last_modified)
+        self.assertEqual(16, file_detail.size)
+
+    def test_get_file_detail_missing_file(self):
+        '''Test files that go missing during a walk'''
+
+        file_detail = FileDetail('missing/file/that/we/cant/find', '')
+
+        self.assertEqual(time.gmtime(0), file_detail.last_modified)
+        self.assertEqual(0, file_detail.size)
