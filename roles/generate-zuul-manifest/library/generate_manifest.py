@@ -67,14 +67,19 @@ def walk(root, original_root=None):
         mime_guess, encoding = mimetypes.guess_type(path)
         if not mime_guess:
             mime_guess = 'text/plain'
-        st = os.stat(path)
-        last_modified = st[stat.ST_MTIME]
-        size = st[stat.ST_SIZE]
-        data.append(dict(name=f,
-                         mimetype=mime_guess,
-                         encoding=encoding,
-                         last_modified=last_modified,
-                         size=size))
+        # This may fail e.g. for dangling symlinks, just ignore those
+        try:
+            st = os.stat(path)
+            last_modified = st[stat.ST_MTIME]
+            size = st[stat.ST_SIZE]
+            data.append(dict(name=f,
+                             mimetype=mime_guess,
+                             encoding=encoding,
+                             last_modified=last_modified,
+                             size=size))
+        except FileNotFoundError:
+            continue
+
     return data
 
 
