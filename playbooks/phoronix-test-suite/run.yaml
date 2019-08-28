@@ -1,0 +1,4 @@
+- hosts: all
+  roles:
+    - ensure-phoronix-test-suite
+    - phoronix-test-suite

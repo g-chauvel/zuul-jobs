@@ -10,3 +10,4 @@ Jobs
    docker-jobs
    go-jobs
    helm-jobs
+   system-jobs

@@ -1,0 +1,25 @@
+---
+- name: Install phoronix-test-suite
+  become: yes
+  package:
+    name: phoronix-test-suite
+
+- name: Create config directory
+  file:
+    path: "{{ ansible_env.HOME }}/.phoronix-test-suite"
+    state: directory
+
+- name: Install config
+  copy:
+    src: user-config.xml
+    dest: "{{ ansible_env.HOME }}/.phoronix-test-suite/user-config.xml"
+
+- name: Ensure test results are cleaned
+  file:
+    path: "{{ ansible_env.HOME }}/test-results"
+    state: absent
+
+- name: Create result directory
+  file:
+    path: "{{ ansible_env.HOME }}/test-results/"
+    state: directory

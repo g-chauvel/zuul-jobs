@@ -1,0 +1,19 @@
+---
+- name: Fetch previous result
+  include_tasks: fetch-result.yaml
+  when:
+    - item.metadata is defined
+    - item.metadata.type is defined
+    - item.metadata.type == "phoronix_result"
+  loop: "{{ zuul.artifacts }}"
+
+- name: List previous result name
+  command: "ls {{ ansible_env.HOME }}/test-results/"
+  register: previous_results
+
+- name: Merge result
+  shell: |
+    set -o pipefail
+    yes | phoronix-test-suite merge-results {{ ' '.join(previous_results.stdout_lines) }}
+  args:
+    executable: /bin/bash
