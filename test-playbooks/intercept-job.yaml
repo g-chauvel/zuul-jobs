@@ -1,0 +1,33 @@
+- name: Set up async task that will add intercept key
+  hosts: all
+  tasks:
+    - name: Start keygen
+      command: ssh-keygen -N '' -t ed25519 -f {{ zuul.project.src_dir }}/intercept_job
+      async: 300
+      poll: 0
+      register: keygen
+    - name: Start background script to stop the waiting
+      shell: |
+        sleep 60
+        touch "{{ zuul.project.src_dir }}/intercept_job.stop"
+      async: 120
+      poll: 0
+      register: touched_file
+    - async_status:
+        jid: "{{ keygen.ansible_job_id }}"
+      register: keygen_check
+      until: keygen_check.finished == 1
+      retries: 2
+    - include_role:
+        name: intercept-job
+    - async_status:
+        jid: "{{ touched_file.ansible_job_id }}"
+      register: touched_file_check
+      until: touched_file_check.finished == 1
+      retries: 3
+    - stat:
+        path: "{{ zuul.project.src_dir }}/intercept_job.stop"
+      register: stop_waiting
+    - assert:
+        that:
+          - stop_waiting.stat.exists

@@ -21,6 +21,7 @@ General Purpose Roles
 .. zuul:autorole:: ensure-shake
 .. zuul:autorole:: fetch-markdownlint
 .. zuul:autorole:: git-prepare-nodecache
+.. zuul:autorole:: intercept-job
 .. zuul:autorole:: log-inventory
 .. zuul:autorole:: markdownlint
 .. zuul:autorole:: mirror-workspace-git-repos
