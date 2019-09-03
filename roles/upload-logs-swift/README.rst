@@ -37,6 +37,11 @@ This uploads logs to an OpenStack Object Store (Swift) container.
    from the partition name by an underscore.  For example, "logs_42"
    would be the container name for partition 42.
 
+   Note that you will want to set this to a value that uniquely
+   identifies your Zuul installation if using shared object stores that
+   require globally unique container names. For example if using a
+   public cloud whose Swift API is provided by Ceph.
+
 .. zuul:rolevar:: zuul_log_container_public
    :default: true
 
