@@ -2,4 +2,4 @@
 zuul_work_dir: "{{ zuul.project.src_dir }}"
 sphinx_build_dir: doc/build
 sphinx_pdf_files:
-  - "{{ zuul.project.short_name }}.pdf"
+  - "doc-{{ zuul.project.short_name }}.pdf"

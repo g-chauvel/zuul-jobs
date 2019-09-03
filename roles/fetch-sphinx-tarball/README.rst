@@ -22,4 +22,4 @@ archive into the log root for viewing.
 
    A list of file names of PDF files to collect.
    By default, the list contains as entry only
-   ``{{ zuul.project.short_name }}.pdf``.
+   ``doc-{{ zuul.project.short_name }}.pdf``.
