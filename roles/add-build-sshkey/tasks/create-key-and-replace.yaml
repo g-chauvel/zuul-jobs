@@ -11,13 +11,8 @@
   include: remote-windows.yaml
   when: ansible_os_family == "Windows"
 
-- name: Remove master key from local agent
-  # The master key has a filename, all others (e.g., per-project keys)
-  # have "(stdin)" as a comment.
-  sshagent_remove_keys:
-    remove: '^(?!\(stdin\)).*'
-  delegate_to: localhost
-  run_once: true
+- import_role:
+    name: remove-zuul-sshkey
 
 - name: Add back temp key
   command: ssh-add {{ zuul_temp_ssh_key }}

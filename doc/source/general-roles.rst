@@ -35,6 +35,7 @@ General Purpose Roles
 .. zuul:autorole:: remove-gpgkey
 .. zuul:autorole:: remove-sshkey
 .. zuul:autorole:: render-diff
+.. zuul:autorole:: remove-zuul-sshkey
 .. zuul:autorole:: revoke-sudo
 .. zuul:autorole:: run-dstat
 .. zuul:autorole:: sign-artifacts
