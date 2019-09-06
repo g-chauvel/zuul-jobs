@@ -24,6 +24,7 @@ General Purpose Roles
 .. zuul:autorole:: persistent-firewall
 .. zuul:autorole:: prepare-workspace
 .. zuul:autorole:: prepare-workspace-git
+.. zuul:autorole:: prepare-workspace-openshift
 .. zuul:autorole:: remove-build-sshkey
 .. zuul:autorole:: remove-gpgkey
 .. zuul:autorole:: remove-sshkey
