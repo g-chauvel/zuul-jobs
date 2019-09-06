@@ -114,13 +114,12 @@
       - opendev/base-jobs
     files:
       - ^roles/configure-mirrors/.*
-      - ^roles/configure-mirrors/.*
       - ^roles/emit-job-header/.*
       - ^roles/ensure-output-dirs/.*
       - ^roles/fetch-output/.*
       - ^roles/fetch-zuul-cloner/.*
       - ^roles/set-zuul-log-path-fact/.*
-      - ^roles/use-cached-repo/.*
+      - ^roles/prepare-workspace-git/.*
       - ^roles/validate-host/.*
       - ^test-playbooks/base-roles/.*
 
