@@ -115,7 +115,7 @@
     post-run:
         - playbooks/tox/docs-post.yaml
         - playbooks/tox/post.yaml
-    success-url: html/
+    success-url: docs/
 
 - job:
     name: tox-linters

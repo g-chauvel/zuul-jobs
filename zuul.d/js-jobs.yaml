@@ -191,6 +191,6 @@
 
          Path to operate in.
     post-run: playbooks/tox/docs-post.yaml
-    success-url: html/
+    success-url: docs/
     vars:
       npm_command: docs
