@@ -13,6 +13,7 @@ General Purpose Roles
 .. zuul:autorole:: download-artifact
 .. zuul:autorole:: dstat-graph
 .. zuul:autorole:: emit-job-header
+.. zuul:autorole:: enable-netconsole
 .. zuul:autorole:: ensure-dstat-graph
 .. zuul:autorole:: git-prepare-nodecache
 .. zuul:autorole:: log-inventory

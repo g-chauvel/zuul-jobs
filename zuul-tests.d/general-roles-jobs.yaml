@@ -233,6 +233,17 @@
       role_name: clear-firewall
 
 - job:
+    name: zuul-jobs-test-netconsole
+    description: Test the netconsole setup role
+    files:
+      - ^roles/enable-netconsole/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: enable-netconsole
+      netconsole_remote_ip: 192.0.2.1
+      netconsole_remote_port: 6666
+
+- job:
     name: zuul-jobs-test-dstat-graph
     description: Test the dstat-graph roles
     run: test-playbooks/dstat-graph.yaml
@@ -464,6 +475,7 @@
         - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-bindep
         - zuul-jobs-test-clear-firewall
+        - zuul-jobs-test-netconsole
         - zuul-jobs-test-dstat-graph
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-debian-stretch
