@@ -9,20 +9,31 @@
     vni: "{{ offset | int + bridge_vni_offset | int }}"
 
 # To make things more readable in the following tasks
-- name: Set ip address when the node private IP is not set
+- name: Set ip address when the node private IP looks empty
+  set_fact:
+    nodepool_ip: "{{ nodepool.public_ipv4 }}"
+  when: not (nodepool.private_ipv4 | ipv4)
+
+- name: Set ip address when the node private IP was not defined
   set_fact:
     nodepool_ip: |
       {{ nodepool.private_ipv4 | default(nodepool.public_ipv4) }}
+  when: nodepool_ip is not defined
 
-- name: Select the switch from group
+- name: Select the switch from group and the private ip
   set_fact:
     switch: "{{ groups['switch'][0] }}"
+    switch_private_ip: "{{ hostvars[groups['switch'][0]].nodepool.private_ipv4 }}"
 
-- name: Alias the primary node private IP
+- name: Alias the primary node private IP, if it looks empty
   set_fact:
-    switch_ip: |
-      {{ hostvars[switch].nodepool.private_ipv4 |
-          default(hostvars[switch].nodepool.public_ipv4) }}
+    switch_ip: "{{ hostvars[switch].nodepool.public_ipv4 }}"
+  when: not (switch_private_ip | ipv4)
+
+- name: Alias the primary node private IP, if it was not defined
+  set_fact:
+    switch_ip: "{{ switch_private_ip | default(hostvars[switch].nodepool.public_ipv4) }}"
+  when: switch_ip is not defined
 
 - name: Add port to bridge on switch node
   become: yes
