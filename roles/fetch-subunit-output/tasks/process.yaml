@@ -23,6 +23,15 @@
     src: "{{ item.path }}"
     verify_host: true
   with_items: "{{ subunit_files.files }}"
+  when: not zuul_use_fetch_output
+
+- name: Copy test-results
+  copy:
+    dest: "{{ zuul_output_dir }}/logs/"
+    src: "{{ item.path }}"
+    remote_src: true
+  with_items: "{{ subunit_files.files }}"
+  when: zuul_use_fetch_output
 
 - name: Return artifact to Zuul
   zuul_return:

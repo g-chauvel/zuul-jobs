@@ -42,6 +42,26 @@
     vars:
       zuul_use_fetch_output: false
 
+- job:
+    name: zuul-jobs-test-fetch-subunit-output
+    description: Test the fetch-subunit-output
+    files:
+      - roles/ensure-output-dirs/.*
+      - roles/fetch-subunit-output/.*
+      - roles/fetch-output/.*
+    run: test-playbooks/python/fetch-subunit-output.yaml
+    vars:
+      zuul_use_fetch_output: true
+
+- job:
+    name: zuul-jobs-test-fetch-subunit-output-synchronize
+    description: Test the fetch-subunit-output
+    files:
+      - roles/fetch-subunit-output/.*
+    run: test-playbooks/python/fetch-subunit-output.yaml
+    vars:
+      zuul_use_fetch_output: false
+
 - project:
     check:
       jobs: &id001
@@ -49,5 +69,7 @@
         - zuul-jobs-test-tox-siblings
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
+        - zuul-jobs-test-fetch-subunit-output
+        - zuul-jobs-test-fetch-subunit-output-synchronize
     gate:
       jobs: *id001
