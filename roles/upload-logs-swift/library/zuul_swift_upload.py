@@ -38,6 +38,7 @@ import sys
 import tempfile
 import threading
 import time
+import traceback
 import zlib
 import collections
 
@@ -701,14 +702,15 @@ def ansible_main():
                   prefix=p.get('prefix'),
                   public=p.get('public'))
     except (keystoneauth1.exceptions.http.HttpError,
-            requests.exceptions.RequestException) as e:
+            requests.exceptions.RequestException):
+        s = "Error uploading to %s.%s" % (cloud.name, cloud.config.region_name)
+        logging.exception(s)
+        s += "\n" + traceback.format_exc()
         module.fail_json(
             changed=False,
-            msg=str(e),
+            msg=s,
             cloud=cloud.name,
             region_name=cloud.config.region_name)
-        logging.exception("Error uploading to %s.%s",
-                          cloud.name, cloud.config.region_name)
     module.exit_json(changed=True,
                      url=url)
 
