@@ -4,6 +4,14 @@
     mode: pull
     src: "{{ sphinx_output_src }}"
     verify_host: true
+  when: not zuul_use_fetch_output
+
+- name: Copy sphinx build html
+  copy:
+    dest: "{{ zuul_output_dir }}/logs/"
+    src: "{{ sphinx_output_src }}"
+    remote_src: true
+  when: zuul_use_fetch_output
 
 - name: Return artifact to Zuul
   zuul_return:

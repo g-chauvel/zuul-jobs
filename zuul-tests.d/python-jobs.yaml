@@ -458,6 +458,26 @@
     vars:
       zuul_use_fetch_output: false
 
+- job:
+    name: zuul-jobs-test-fetch-sphinx-output
+    description: Test the fetch-sphinx-output
+    files:
+      - roles/ensure-output-dirs/.*
+      - roles/fetch-sphinx-output/.*
+      - roles/fetch-output/.*
+    run: test-playbooks/python/fetch-sphinx-output.yaml
+    vars:
+      zuul_use_fetch_output: true
+
+- job:
+    name: zuul-jobs-test-fetch-sphinx-output-synchronize
+    description: Test the fetch-sphinx-output
+    files:
+      - roles/fetch-sphinx-output/.*
+    run: test-playbooks/python/fetch-sphinx-output.yaml
+    vars:
+      zuul_use_fetch_output: false
+
 - project:
     check:
       jobs:
@@ -503,6 +523,8 @@
         - zuul-jobs-test-fetch-tox-output-synchronize
         - zuul-jobs-test-fetch-subunit-output
         - zuul-jobs-test-fetch-subunit-output-synchronize
+        - zuul-jobs-test-fetch-sphinx-output
+        - zuul-jobs-test-fetch-sphinx-output-synchronize
     gate:
       jobs:
         - zuul-jobs-test-ensure-pip-centos-7
@@ -544,3 +566,5 @@
         - zuul-jobs-test-fetch-tox-output-synchronize
         - zuul-jobs-test-fetch-subunit-output
         - zuul-jobs-test-fetch-subunit-output-synchronize
+        - zuul-jobs-test-fetch-sphinx-output
+        - zuul-jobs-test-fetch-sphinx-output-synchronize
