@@ -1,0 +1,45 @@
+- hosts: all
+  pre_tasks:
+    # Run ensure-output-dirs now as it is not performed speculatively
+    - import_role:
+        name: ensure-output-dirs
+
+    - name: Create fake sphinx output
+      shell: |
+        mkdir -p {{ zuul.project.src_dir }}/doc/build/pdf
+        mkdir -p {{ zuul.project.src_dir }}/doc/build/html
+        echo "%PDF-1.2" > {{ zuul.project.src_dir }}/doc/build/pdf/doc-{{ zuul.project.short_name }}.pdf
+        echo "<body>Hello</body>" > {{ zuul.project.src_dir }}/doc/build/html/index.html
+
+  tasks:
+    - import_role:
+        name: fetch-sphinx-tarball
+
+    - import_role:
+        name: fetch-output
+      when: zuul_use_fetch_output
+
+    - import_role:
+        name: merge-output-to-logs
+      when: zuul_use_fetch_output
+
+  post_tasks:
+    - name: Check for artifact on the test instance
+      stat:
+        path: "{{ ansible_user_dir }}/zuul-output/logs/{{ item }}"
+      register: _test_artifact
+      failed_when: not _test_artifact.stat.exists
+      with_items:
+        - "pdf/doc-{{ zuul.project.short_name }}.pdf"
+        - docs/index.html
+      when: zuul_use_fetch_output
+
+    - name: Check for artifact on the executor
+      stat:
+        path: "{{ zuul.executor.log_root }}/{{ item }}"
+      delegate_to: localhost
+      register: _executor_artifact
+      failed_when: not _executor_artifact.stat.exists
+      with_items:
+        - "pdf/doc-{{ zuul.project.short_name }}.pdf"
+        - docs/index.html

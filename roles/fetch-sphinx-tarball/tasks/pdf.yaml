@@ -28,9 +28,10 @@
 # Now loop...
 
 - name: Grab PDF files
-  when: pdf_files_found
+  when:
+    - pdf_files_found
+    - not zuul_use_fetch_output
   block:
-
     - name: Create PDF directory
       delegate_to: localhost
       file:
@@ -48,16 +49,38 @@
         loop_var: zj_pdf
       when: zj_pdf.stat.exists
 
-    - name: Return PDF artifact to Zuul
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-              - name: "Docs PDF: {{ zj_pdf.zj_sphinx_pdf }}"
-                url: "pdf/{{ zj_pdf.zj_sphinx_pdf }}"
-                metadata:
-                  type: docs_pdf
+- name: Copy PDF files
+  when:
+    - pdf_files_found
+    - zuul_use_fetch_output
+  block:
+    - name: Create local PDF directory
+      file:
+        path: "{{ zuul_output_dir }}/logs/pdf"
+        state: directory
+
+    - name: Copy PDF files
+      copy:
+        dest: "{{ zuul_output_dir }}/logs/pdf/{{ zj_pdf.zj_sphinx_pdf }}"
+        src: "{{ zj_pdf.stat.path }}"
+        remote_src: true
       with_items: "{{ pdf_file_stat.results }}"
       loop_control:
         loop_var: zj_pdf
       when: zj_pdf.stat.exists
+
+- name: Return PDF artifact to Zuul
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: "Docs PDF: {{ zj_pdf.zj_sphinx_pdf }}"
+            url: "pdf/{{ zj_pdf.zj_sphinx_pdf }}"
+            metadata:
+              type: docs_pdf
+  with_items: "{{ pdf_file_stat.results }}"
+  loop_control:
+    loop_var: zj_pdf
+  when:
+    - pdf_files_found
+    - zj_pdf.stat.exists

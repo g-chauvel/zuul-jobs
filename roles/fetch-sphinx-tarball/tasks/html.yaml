@@ -9,27 +9,50 @@
   args:
     warn: false
 
-- name: Fetch archive HTML
-  synchronize:
-    dest: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
-    mode: pull
-    src: "{{ html_archive.path }}"
-    verify_host: true
+- block:
+    - name: Fetch archive HTML
+      synchronize:
+        dest: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
+        mode: pull
+        src: "{{ html_archive.path }}"
+        verify_host: true
 
-- name: Create browseable HTML directory
-  delegate_to: localhost
-  file:
-    path: "{{ zuul.executor.log_root }}/docs"
-    state: directory
+    - name: Create browseable HTML directory
+      delegate_to: localhost
+      file:
+        path: "{{ zuul.executor.log_root }}/docs"
+        state: directory
 
-- name: Extract archive HTML
-  delegate_to: localhost
-  unarchive:
-    src: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
-    dest: "{{ zuul.executor.log_root }}/docs"
-    remote_src: true
-    extra_opts:
-      - "--no-same-owner"
+    - name: Extract archive HTML
+      delegate_to: localhost
+      unarchive:
+        src: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
+        dest: "{{ zuul.executor.log_root }}/docs"
+        remote_src: true
+        extra_opts:
+          - "--no-same-owner"
+  when: not zuul_use_fetch_output
+
+- block:
+    - name: Copy archive HTML
+      copy:
+        dest: "{{ zuul_output_dir }}/logs/docs-html.tar.gz"
+        src: "{{ html_archive.path }}"
+        remote_src: true
+
+    - name: Create browseable HTML directory
+      file:
+        path: "{{ zuul_output_dir }}/logs/docs"
+        state: directory
+
+    - name: Extract archive HTML
+      unarchive:
+        src: "{{ zuul_output_dir }}/logs/docs-html.tar.gz"
+        dest: "{{ zuul_output_dir }}/logs/docs"
+        remote_src: true
+        extra_opts:
+          - "--no-same-owner"
+  when: zuul_use_fetch_output
 
 - name: Return artifact to Zuul
   zuul_return:
