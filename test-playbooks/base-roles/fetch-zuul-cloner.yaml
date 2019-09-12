@@ -60,18 +60,18 @@
           trap cleanup EXIT
           cat > $CLONEMAP << EOF
           clonemap:
-            - name: openstack-infra/jenkins-job-builder
+            - name: jjb/jenkins-job-builder
               dest: {{ ansible_user_dir }}
           EOF
           /usr/zuul-env/bin/zuul-cloner -m $CLONEMAP \
               --cache-dir /opt/git https://git.openstack.org \
-              openstack-infra/jenkins-job-builder
+              jjb/jenkins-job-builder
       ignore_errors: yes
       register: clone_without_required
 
     - name: Check if repository was cloned
       stat:
-        path: "{{ ansible_user_dir }}/src/git.openstack.org/openstack-infra/jenkins-job-builder"
+        path: "{{ ansible_user_dir }}/src/git.openstack.org/jjb/jenkins-job-builder"
       register: without_required_stat
 
     - name: Validate zuul-cloner shim results
