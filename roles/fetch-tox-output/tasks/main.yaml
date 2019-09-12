@@ -14,6 +14,12 @@
     state: directory
   delegate_to: localhost
 
+- name: Ensure zuul-output tox dir
+  file:
+    path: "{{ zuul_output_dir }}/logs/tox"
+    state: directory
+  when: zuul_use_fetch_output
+
 - name: Set envlist fact
   set_fact:
     envlist: "{{ tox_envlist.split(',') }}"
@@ -31,6 +37,17 @@
     envlist: "{{ tox_environments.stdout_lines }}"
   when: tox_envlist is not defined or tox_envlist|lower == 'all'
 
+- name: Copy tox logs
+  copy:
+    dest: "{{ zuul_output_dir }}/logs/tox/"
+    src: "{{ zuul_work_dir }}/.tox/{{ item }}/log/"
+    remote_src: true
+  with_items: "{{ envlist }}"
+  # some tox runs may not create a virtualenv and thus have
+  # no ./tox/env directory
+  failed_when: false
+  when: zuul_use_fetch_output
+
 - name: Collect tox logs
   synchronize:
     dest: "{{ log_path }}"
@@ -41,3 +58,4 @@
   # some tox runs may not create a virtualenv and thus have
   # no ./tox/env directory
   failed_when: false
+  when: not zuul_use_fetch_output
