@@ -5,6 +5,7 @@ Log Roles
 .. zuul:autorole:: ara-report
 .. zuul:autorole:: ensure-output-dirs
 .. zuul:autorole:: fetch-output
+.. zuul:autorole:: fetch-output-openshift
 .. zuul:autorole:: generate-zuul-manifest
 .. zuul:autorole:: htmlify-logs
 .. zuul:autorole:: merge-output-to-logs
