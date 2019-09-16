@@ -509,7 +509,12 @@ class Uploader():
         except keystoneauth1.exceptions.catalog.EndpointNotFound:
             cdn_url = None
 
-        if not self.cloud.get_container(self.container):
+        # We retry here because sometimes we get HTTP 401 errors in rax.
+        # They seem to happen infrequently (on the order of once a day across
+        # all jobs) so a retry is likely to work.
+        container = retry_function(
+            lambda: self.cloud.get_container(self.container))
+        if not container:
             retry_function(
                 lambda: self.cloud.create_container(
                     name=self.container, public=public))
