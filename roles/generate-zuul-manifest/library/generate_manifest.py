@@ -37,6 +37,15 @@ def path_in_tree(root, path):
     return True
 
 
+def _get_file_info(path):
+    try:
+        st = os.stat(path)
+    except OSError:
+        return 0, 0
+
+    return st[stat.ST_MTIME], st[stat.ST_SIZE]
+
+
 def walk(root, original_root=None):
     if original_root is None:
         original_root = root
@@ -67,19 +76,14 @@ def walk(root, original_root=None):
         mime_guess, encoding = mimetypes.guess_type(path)
         if not mime_guess:
             mime_guess = 'text/plain'
-        # This may fail e.g. for dangling symlinks, just ignore those
-        try:
-            st = os.stat(path)
-            last_modified = st[stat.ST_MTIME]
-            size = st[stat.ST_SIZE]
-            data.append(dict(name=f,
-                             mimetype=mime_guess,
-                             encoding=encoding,
-                             last_modified=last_modified,
-                             size=size))
-        except FileNotFoundError:
+        last_modified, size = _get_file_info(path)
+        if not last_modified and not size:
             continue
-
+        data.append(dict(name=f,
+                         mimetype=mime_guess,
+                         encoding=encoding,
+                         last_modified=last_modified,
+                         size=size))
     return data
 
 

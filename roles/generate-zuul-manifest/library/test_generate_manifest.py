@@ -19,9 +19,11 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 import os
+import stat
 import testtools
 import fixtures
 
+from .generate_manifest import _get_file_info
 from .generate_manifest import walk
 
 
@@ -126,3 +128,18 @@ class TestFileList(testtools.TestCase):
             ('controller/service_log.txt', 'text/plain', None),
             ('symlink_loop/placeholder', 'text/plain', None),
         ])
+
+    def test_get_file_info(self):
+        '''Test files info'''
+        path = os.path.join(FIXTURE_DIR, 'logs', 'job-output.json')
+        last_modified, size = _get_file_info(path)
+
+        self.assertEqual(os.stat(path)[stat.ST_MTIME], last_modified)
+        self.assertEqual(16, size)
+
+    def test_get_file_info_missing_file(self):
+        '''Test files that go missing during a walk'''
+        last_modified, size = _get_file_info('missing/file/that/we/cant/find')
+
+        self.assertEqual(0, last_modified)
+        self.assertEqual(0, size)
