@@ -1,7 +1,7 @@
-- name: Test the use-cached-repos role
+- name: Test the prepare-workspace-git role
   hosts: all
   roles:
-    - role: use-cached-repos
+    - role: prepare-workspace-git
   post_tasks:
     # opendev/base-jobs is in 'required-projects'.
     # Also check that the project being tested is being prepared.
