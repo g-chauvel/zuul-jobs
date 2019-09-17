@@ -29,6 +29,8 @@
   shell: |
     # Reset is needed because we pushed to a non-bare repo
     git reset --hard
+    # Clean is needed because we pushed to a non-bare repo
+    git clean -xdf
     # Undo the config setting we did above
     git config --local --unset receive.denyCurrentBranch
     # checkout the branch matching the branch set up by the executor
