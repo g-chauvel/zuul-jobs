@@ -75,7 +75,6 @@
 
 - job:
     name: validate-zone-db
-    parent: base
     description: |
       Validate zone.db files in project.
 
