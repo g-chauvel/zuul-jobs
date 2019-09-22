@@ -95,7 +95,7 @@ def get_sibling_python_packages(projects, tox_python):
             # package name is.
             package_name = subprocess.check_output(
                 [os.path.abspath(tox_python), 'setup.py', '--name'],
-                cwd=os.path.abspath(root))
+                cwd=os.path.abspath(root)).decode('utf-8')
             if package_name:
                 package_name = package_name.strip()
                 packages[package_name] = root
@@ -111,7 +111,7 @@ def get_installed_packages(tox_python):
     # interface.
     frozen_pkgs = subprocess.check_output(
         [tox_python, '-m', 'pip', '-qqq', 'freeze']
-    )
+    ).decode('utf-8')
     # Matches strings of the form:
     # 1. '<package_name>==<version>'
     # 2. '# Editable Git install with no remote (<package_name>==<version>)'
