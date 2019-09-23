@@ -22,6 +22,7 @@
 
       # Mapping of language codes to language names
       declare -A LANG_NAME=(
+          ["cs"]="Czech"
           ["de"]="German"
           ["en_AU"]="English (Australian)"
           ["en_GB"]="English (United Kingdom)"
@@ -31,6 +32,7 @@
           ["it"]="Italian"
           ["ja"]="Japanese"
           ["ko_KR"]="Korean (South Korea)"
+          ["ne"]="Nepali"
           ["pt_BR"]="Portuguese (Brazil)"
           ["ru"]="Russian"
           ["tr_TR"]="Turkish (Turkey)"
