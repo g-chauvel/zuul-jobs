@@ -70,7 +70,7 @@ def main():
                 'traceroute6 -n {host}'.format(host=traceroute_host))
             passed = True
         except (subprocess.CalledProcessError, OSError) as e:
-            ret['traceroute_v6_exception'] = traceback.format_exc(e)
+            ret['traceroute_v6_exception'] = traceback.format_exc()
             ret['traceroute_v6_output'] = e.output
             ret['traceroute_v6_return'] = e.returncode
             pass
@@ -79,7 +79,7 @@ def main():
                 'traceroute -n {host}'.format(host=traceroute_host))
             passed = True
         except (subprocess.CalledProcessError, OSError) as e:
-            ret['traceroute_v4_exception'] = traceback.format_exc(e)
+            ret['traceroute_v4_exception'] = traceback.format_exc()
             ret['traceroute_v4_output'] = e.output
             ret['traceroute_v4_return'] = e.returncode
             pass
