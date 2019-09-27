@@ -34,6 +34,18 @@
       when: iptables_service is defined
       with_items: "{{ iptables_service }}"
 
+    # If there is no iptables service (ie on opensuse), run the rc file to apply the rules
+    - name: Check for boot.local
+      stat:
+        path: /etc/init.d/boot.local
+      register: boot_local_file
+      when: ansible_os_family == "Suse"
+
+    - name: Restore iptables
+      become: yes
+      command: "/etc/init.d/boot.local"
+      when: ansible_os_family == "Suse" and iptables_service is not defined and boot_local_file.stat.exists == True
+
     - name: switch and peer nodes should be in the ipv4 firewall
       become: yes
       command: iptables-save
