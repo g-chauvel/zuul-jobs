@@ -39,6 +39,10 @@ import tempfile
 import threading
 import time
 import traceback
+try:
+    import urllib.parse as urlparse
+except ImportError:
+    import urllib as urlparse
 import zlib
 import collections
 
@@ -360,8 +364,9 @@ class Indexer():
             filename = file_details.filename
             if file_details.folder:
                 filename += '/'
-            output += '<td><a href="%s">%s</a></td>' % (filename,
-                                                        filename)
+            output += '<td><a href="%s">%s</a></td>' % (
+                urlparse.quote(filename),
+                filename)
             output += '<td>%s</td>' % time.asctime(
                 file_details.last_modified)
             size = sizeof_fmt(file_details.size, suffix='')

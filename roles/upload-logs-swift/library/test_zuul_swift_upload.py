@@ -98,6 +98,7 @@ class TestFileList(testtools.TestCase):
                 ('controller/journal.xz', 'text/plain', 'xz'),
                 ('controller/service_log.txt', 'text/plain', None),
                 ('controller/syslog', 'text/plain', None),
+                ('controller/subdir/foo::3.txt', 'text/plain', None),
                 ('controller/subdir/subdir.txt', 'text/plain', None),
                 ('zuul-info/inventory.yaml', 'text/plain', None),
                 ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
@@ -119,6 +120,7 @@ class TestFileList(testtools.TestCase):
                 ('logs/controller/journal.xz', 'text/plain', 'xz'),
                 ('logs/controller/service_log.txt', 'text/plain', None),
                 ('logs/controller/syslog', 'text/plain', None),
+                ('logs/controller/subdir/foo::3.txt', 'text/plain', None),
                 ('logs/controller/subdir/subdir.txt', 'text/plain', None),
                 ('logs/zuul-info/inventory.yaml', 'text/plain', None),
                 ('logs/zuul-info/zuul-info.controller.txt',
@@ -176,6 +178,7 @@ class TestFileList(testtools.TestCase):
                 ('logs/controller/service_log.txt', 'text/plain', None),
                 ('logs/controller/syslog', 'text/plain', None),
                 ('logs/controller/index.html', 'text/html', None),
+                ('logs/controller/subdir/foo::3.txt', 'text/plain', None),
                 ('logs/controller/subdir/subdir.txt', 'text/plain', None),
                 ('logs/controller/subdir/index.html', 'text/html', None),
                 ('logs/zuul-info/inventory.yaml', 'text/plain', None),
@@ -202,8 +205,12 @@ class TestFileList(testtools.TestCase):
             self.assertEqual(rows[0].find('a').get('href'), '../')
             self.assertEqual(rows[0].find('a').text, '../')
 
-            self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[1].find('a').text, 'subdir.txt')
+            # Test proper escaping of files with funny names
+            self.assertEqual(rows[1].find('a').get('href'), 'foo%3A%3A3.txt')
+            self.assertEqual(rows[1].find('a').text, 'foo::3.txt')
+            # Test files without escaping
+            self.assertEqual(rows[2].find('a').get('href'), 'subdir.txt')
+            self.assertEqual(rows[2].find('a').text, 'subdir.txt')
 
     def test_index_files_trailing_slash(self):
         '''Test index generation with a trailing slash'''
@@ -225,6 +232,7 @@ class TestFileList(testtools.TestCase):
                 ('controller/service_log.txt', 'text/plain', None),
                 ('controller/syslog', 'text/plain', None),
                 ('controller/index.html', 'text/html', None),
+                ('controller/subdir/foo::3.txt', 'text/plain', None),
                 ('controller/subdir/subdir.txt', 'text/plain', None),
                 ('controller/subdir/index.html', 'text/html', None),
                 ('zuul-info/inventory.yaml', 'text/plain', None),
@@ -252,8 +260,12 @@ class TestFileList(testtools.TestCase):
             self.assertEqual(rows[0].find('a').get('href'), '../')
             self.assertEqual(rows[0].find('a').text, '../')
 
-            self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[1].find('a').text, 'subdir.txt')
+            # Test proper escaping of files with funny names
+            self.assertEqual(rows[1].find('a').get('href'), 'foo%3A%3A3.txt')
+            self.assertEqual(rows[1].find('a').text, 'foo::3.txt')
+            # Test files without escaping
+            self.assertEqual(rows[2].find('a').get('href'), 'subdir.txt')
+            self.assertEqual(rows[2].find('a').text, 'subdir.txt')
 
     def test_topdir_parent_link(self):
         '''Test index generation creates topdir parent link'''
@@ -277,6 +289,7 @@ class TestFileList(testtools.TestCase):
                 ('controller/service_log.txt', 'text/plain', None),
                 ('controller/syslog', 'text/plain', None),
                 ('controller/index.html', 'text/html', None),
+                ('controller/subdir/foo::3.txt', 'text/plain', None),
                 ('controller/subdir/subdir.txt', 'text/plain', None),
                 ('controller/subdir/index.html', 'text/html', None),
                 ('zuul-info/inventory.yaml', 'text/plain', None),
@@ -307,8 +320,12 @@ class TestFileList(testtools.TestCase):
             self.assertEqual(rows[0].find('a').get('href'), '../')
             self.assertEqual(rows[0].find('a').text, '../')
 
-            self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[1].find('a').text, 'subdir.txt')
+            # Test proper escaping of files with funny names
+            self.assertEqual(rows[1].find('a').get('href'), 'foo%3A%3A3.txt')
+            self.assertEqual(rows[1].find('a').text, 'foo::3.txt')
+            # Test files without escaping
+            self.assertEqual(rows[2].find('a').get('href'), 'subdir.txt')
+            self.assertEqual(rows[2].find('a').text, 'subdir.txt')
 
     def test_no_parent_links(self):
         '''Test index generation creates topdir parent link'''
@@ -332,6 +349,7 @@ class TestFileList(testtools.TestCase):
                 ('controller/service_log.txt', 'text/plain', None),
                 ('controller/syslog', 'text/plain', None),
                 ('controller/index.html', 'text/html', None),
+                ('controller/subdir/foo::3.txt', 'text/plain', None),
                 ('controller/subdir/subdir.txt', 'text/plain', None),
                 ('controller/subdir/index.html', 'text/html', None),
                 ('zuul-info/inventory.yaml', 'text/plain', None),
@@ -357,8 +375,12 @@ class TestFileList(testtools.TestCase):
             page = BeautifulSoup(page, 'html.parser')
             rows = page.find_all('tr')[1:]
 
-            self.assertEqual(rows[0].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[0].find('a').text, 'subdir.txt')
+            # Test proper escaping of files with funny names
+            self.assertEqual(rows[0].find('a').get('href'), 'foo%3A%3A3.txt')
+            self.assertEqual(rows[0].find('a').text, 'foo::3.txt')
+            # Test files without escaping
+            self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
+            self.assertEqual(rows[1].find('a').text, 'subdir.txt')
 
 
 class TestFileDetail(testtools.TestCase):
