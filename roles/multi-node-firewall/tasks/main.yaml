@@ -48,5 +48,5 @@
   with_items: "{{ ipv6_addresses }}"
 
 - name: Persist iptables rules
-  include_role:
+  import_role:
     name: persistent-firewall
