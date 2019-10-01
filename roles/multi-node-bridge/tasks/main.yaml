@@ -18,5 +18,5 @@
   static: no
 
 - name: Persist iptables rules
-  import_role:
+  include_role:
     name: persistent-firewall
