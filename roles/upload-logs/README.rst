@@ -29,6 +29,13 @@ description of the site_logs secret in this example post-run playbook:
 
    The root path to the logs on the logserver.
 
+.. zuul:rolevar:: zuul_log_compress
+   :default: false
+
+   When enabled, the console logs Zuul produces will be compressed
+   before uploading. You may need additional configuration for your web
+   server to view these files.
+
 .. zuul:rolevar:: zuul_log_verbose
    :default: false
 
