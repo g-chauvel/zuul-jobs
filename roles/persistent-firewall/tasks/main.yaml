@@ -1,16 +1,22 @@
 - name: List current ipv4 rules
   become: yes
-  command: iptables-save
+  # Using shell to try and debug why this task when run sometimes returns -13
+  shell: iptables-save
   changed_when: false
   failed_when: false
   register: iptables_rules
+  tags:
+   - skip_ansible_lint
 
 - name: List current ipv6 rules
   become: yes
-  command: ip6tables-save
+  # Using shell to try and debug why this task when run sometimes returns -13
+  shell: ip6tables-save
   changed_when: false
   failed_when: false
   register: ip6tables_rules
+  tags:
+   - skip_ansible_lint
 
 - name: Configure persistent iptables rules
   include: "{{ item }}"
