@@ -25,6 +25,8 @@ Utility to upload files to swift
 """
 
 import argparse
+import gzip
+import io
 import logging
 import mimetypes
 import os
@@ -129,6 +131,95 @@ ICON_IMAGES = {
                    'ncvRDoAgDEPRruX/v1kmNHPBxMTLyzgD6FmsILg56g2hQnJkOco4yZhq'
                    'tN5nYd5Zq0LsHblwxwP9GTCWsaGtoelANKzOlz/RfaLYUmLE6E28ALlN'
                    'AupSdoFsAAAAAElFTkSuQmCC'}
+
+
+# Begin vendored code
+# This code is licensed under the Public Domain/CC0 and comes from
+# https://github.com/leenr/gzip-stream/blob/master/gzip_stream.py
+# Code was modified:
+#   removed type annotations to support python2.
+#   removed use of *, somearg for positional anonymous args.
+#   Default compression level to 9.
+
+class GZIPCompressedStream(io.RawIOBase):
+    def __init__(self, stream, compression_level=9):
+        assert 1 <= compression_level <= 9
+
+        self._compression_level = compression_level
+        self._stream = stream
+
+        self._compressed_stream = io.BytesIO()
+        self._compressor = gzip.GzipFile(
+            mode='wb',
+            fileobj=self._compressed_stream,
+            compresslevel=compression_level
+        )
+
+        # because of the GZIP header written by `GzipFile.__init__`:
+        self._compressed_stream.seek(0)
+
+    @property
+    def compression_level(self):
+        return self._compression_level
+
+    @property
+    def stream(self):
+        return self._stream
+
+    def readable(self):
+        return True
+
+    def _read_compressed_into(self, b):
+        buf = self._compressed_stream.read(len(b))
+        b[:len(buf)] = buf
+        return len(buf)
+
+    def readinto(self, b):
+        b = memoryview(b)
+
+        offset = 0
+        size = len(b)
+        while offset < size:
+            offset += self._read_compressed_into(b[offset:])
+            if offset < size:
+                # self._compressed_buffer now empty
+                if self._compressor.closed:
+                    # nothing to compress anymore
+                    break
+                # compress next bytes
+                self._read_n_compress(size)
+
+        return offset
+
+    def _read_n_compress(self, size):
+        assert size > 0
+
+        data = self._stream.read(size)
+
+        # rewind buffer to the start to free up memory
+        # (because anything currently in the buffer should be already
+        #  streamed off the object)
+        self._compressed_stream.seek(0)
+        self._compressed_stream.truncate(0)
+
+        if data:
+            self._compressor.write(data)
+        else:
+            # this will write final data (will flush zlib with Z_FINISH)
+            self._compressor.close()
+
+        # rewind to the buffer start
+        self._compressed_stream.seek(0)
+
+    def __repr__(self):
+        return (
+            '{self.__class__.__name__}('
+            '{self.stream!r}, '
+            'compression_level={self.compression_level!r}'
+            ')'
+        ).format(self=self)
+
+# End vendored code
 
 
 def get_mime_icon(mime, filename=''):
@@ -463,6 +554,26 @@ class Indexer():
         self.file_list.file_list = new_list
 
 
+class GzipFilter():
+    chunk_size = 16384
+
+    def __init__(self, infile):
+        self.gzipfile = GZIPCompressedStream(infile)
+        self.done = False
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.done:
+            self.gzipfile.close()
+            raise StopIteration()
+        data = self.gzipfile.read(self.chunk_size)
+        if not data:
+            self.done = True
+        return data
+
+
 class DeflateFilter():
     chunk_size = 16384
 
@@ -622,8 +733,8 @@ class Uploader():
         if not file_detail.folder:
             if (file_detail.encoding is None and
                 self._is_text_type(file_detail.mimetype)):
-                headers['content-encoding'] = 'deflate'
-                data = DeflateFilter(open(file_detail.full_path, 'rb'))
+                headers['content-encoding'] = 'gzip'
+                data = GzipFilter(open(file_detail.full_path, 'rb'))
             else:
                 if file_detail.encoding:
                     headers['content-encoding'] = file_detail.encoding
