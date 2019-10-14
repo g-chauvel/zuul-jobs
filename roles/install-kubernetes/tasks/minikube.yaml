@@ -14,6 +14,10 @@
   include_role:
     name: install-docker
 
+- name: Install crio
+  when: kubernetes_runtime == 'cri-o'
+  include_tasks: crio.yaml
+
 - name: Create .kube directory
   file:
     path: "{{ ansible_user_dir }}/.kube"
@@ -50,7 +54,7 @@
 
 - name: Start Minikube
   become: yes
-  command: "/tmp/minikube --vm-driver=none start {{ minikube_args }}"
+  command: "/tmp/minikube --vm-driver=none --container-runtime={{ kubernetes_runtime }} {{ minikube_args }} start"
   environment:
     MINIKUBE_WANTUPDATENOTIFICATION: false
     MINIKUBE_WANTREPORTERRORPROMPT: false

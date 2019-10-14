@@ -1,4 +1,4 @@
-- hosts: primary
+- hosts: all
   name: Install kubernetes with minikube
   roles:
     - role: install-kubernetes

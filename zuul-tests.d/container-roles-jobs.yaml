@@ -26,9 +26,9 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-install-kubernetes
+    name: zuul-jobs-test-install-kubernetes-docker
     description: |
-      Test the install-kubernetes role
+      Test the install-kubernetes role with docker
 
       This job tests changes to the install-kubernetes roles.  It
       is not meant to be used directly but rather run on changes to
@@ -37,11 +37,23 @@
       - roles/install-docker/.*
       - roles/install-kubernetes/.*
       - test-playbooks/install-kubernetes.yaml
-    run: test-playbooks/install-kubernetes.yaml
-    nodeset:
-      nodes:
-        - name: primary
-          label: ubuntu-bionic
+    run: test-playbooks/install-kubernetes/docker.yaml
+    post-run: test-playbooks/install-kubernetes/post.yaml
+
+- job:
+    name: zuul-jobs-test-install-kubernetes-crio
+    description: |
+      Test the install-kubernetes role with crio-o
+
+      This job tests changes to the install-kubernetes roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    files:
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - test-playbooks/install-kubernetes.yaml
+    run: test-playbooks/install-kubernetes/crio.yaml
+    post-run: test-playbooks/install-kubernetes/post.yaml
 
 # List all the jobs in this file.
 
@@ -49,6 +61,7 @@
     check:
       jobs: &id001
         - zuul-jobs-test-registry
-        - zuul-jobs-test-install-kubernetes
+        - zuul-jobs-test-install-kubernetes-docker
+        - zuul-jobs-test-install-kubernetes-crio
     gate:
       jobs: *id001

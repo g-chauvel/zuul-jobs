@@ -17,3 +17,9 @@ An ansible role to install kubernetes.
 
    List of dns resolvers to configure in k8s. Use this to override the
    resolvers that are found by default.
+
+.. zuul:rolevar:: kubernetes_runtime
+   :default: docker
+
+   Which kubernetes runtime to use; values are ``docker`` or
+   ``cri-o``.

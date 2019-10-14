@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+    - name: Get minikube logs
+      become: true
+      shell: "/tmp/minikube logs > {{ ansible_user_dir }}/zuul-output/logs/minikube.txt"
+      environment:
+        MINIKUBE_HOME: "{{ ansible_user_dir }}"

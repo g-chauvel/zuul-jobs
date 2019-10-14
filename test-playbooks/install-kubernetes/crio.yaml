@@ -1,0 +1,9 @@
+- hosts: all
+  name: Install kubernetes with minikube
+  roles:
+    - role: install-kubernetes
+      vars:
+        minikube_dns_resolvers:
+          - '1.1.1.1'
+          - '8.8.8.8'
+        kubernetes_runtime: cri-o
