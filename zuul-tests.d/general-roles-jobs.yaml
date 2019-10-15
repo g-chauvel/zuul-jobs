@@ -134,6 +134,16 @@
           label: centos-7
 
 - job:
+    name: zuul-jobs-test-base-roles-centos-8
+    description: Tests roles in the 'base' job on centos-8
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
     name: zuul-jobs-test-base-roles-debian-stretch
     description: Tests roles in the 'base' job on debian-stretch
     parent: zuul-jobs-test-base-roles
@@ -464,6 +474,7 @@
         - zuul-jobs-test-add-gpgkey
         - zuul-jobs-test-add-sshkey
         - zuul-jobs-test-base-roles-centos-7
+        - zuul-jobs-test-base-roles-centos-8
         - zuul-jobs-test-base-roles-debian-stretch
         - zuul-jobs-test-base-roles-fedora-29
         - zuul-jobs-test-base-roles-gentoo-17-0-systemd
