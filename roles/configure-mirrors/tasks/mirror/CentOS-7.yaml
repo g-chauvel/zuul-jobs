@@ -5,7 +5,7 @@
     group: root
     mode: 0644
     owner: root
-    src: "{{ item }}.j2"
+    src: "centos7/{{ item }}.j2"
   with_items:
     - etc/yum.repos.d/CentOS-Base.repo
     - etc/yum.repos.d/epel.repo

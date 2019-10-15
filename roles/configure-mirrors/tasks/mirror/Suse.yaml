@@ -15,7 +15,7 @@
     group: root
     mode: 0644
     owner: root
-    src: "{{ item }}.j2"
+    src: "suse/{{ item }}.j2"
   with_items:
     - etc/zypp/repos.d/repo-oss.repo
   notify:
@@ -28,7 +28,7 @@
     group: root
     mode: 0644
     owner: root
-    src: etc/zypp/repos.d/repo-update.repo.j2
+    src: suse/etc/zypp/repos.d/repo-update.repo.j2
   notify:
     - Update zypper cache
   when: not ansible_distribution | search("Tumbleweed")
