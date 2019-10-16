@@ -32,9 +32,25 @@
     state: directory
     mode: 0755
 
+- name: Default args
+  set_fact:
+    minikube_args: ""
+
+- name: Configure dns options if set
+  block:
+    - name: Write resolv.conf
+      template:
+        src: resolv.conf.j2
+        dest: "{{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
+        mode: "0444"
+    - name: Set extra kube setttings
+      set_fact:
+        minikube_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
+  when: minikube_dns_resolvers
+
 - name: Start Minikube
   become: yes
-  command: /tmp/minikube --vm-driver=none start
+  command: "/tmp/minikube --vm-driver=none start {{ minikube_args }}"
   environment:
     MINIKUBE_WANTUPDATENOTIFICATION: false
     MINIKUBE_WANTREPORTERRORPROMPT: false

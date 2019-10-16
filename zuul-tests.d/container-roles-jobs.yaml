@@ -25,11 +25,30 @@
         - name: builder
           label: ubuntu-bionic
 
+- job:
+    name: zuul-jobs-test-install-kubernetes
+    description: |
+      Test the install-kubernetes role
+
+      This job tests changes to the install-kubernetes roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    files:
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - test-playbooks/install-kubernetes.yaml
+    run: test-playbooks/install-kubernetes.yaml
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-bionic
+
 # List all the jobs in this file.
 
 - project:
     check:
       jobs: &id001
         - zuul-jobs-test-registry
+        - zuul-jobs-test-install-kubernetes
     gate:
       jobs: *id001
