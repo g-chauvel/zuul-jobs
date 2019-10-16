@@ -54,7 +54,7 @@
 
 - name: Start Minikube
   become: yes
-  command: "/tmp/minikube --vm-driver=none --container-runtime={{ kubernetes_runtime }} {{ minikube_args }} start"
+  command: "/tmp/minikube start --v=7 --vm-driver=none --container-runtime={{ kubernetes_runtime }} {{ minikube_args }}"
   environment:
     MINIKUBE_WANTUPDATENOTIFICATION: false
     MINIKUBE_WANTREPORTERRORPROMPT: false
