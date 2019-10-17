@@ -11,6 +11,11 @@ single change can share the registry.
 
    Path for the registry volumes.
 
+.. zuul:rolevar:: buildset_registry_port
+   :default: 5000
+
+   The port on which the registry should listen.
+
 **Return Values**
 
 .. zuul:rolevar:: buildset_registry
