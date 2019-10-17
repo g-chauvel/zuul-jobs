@@ -3,9 +3,8 @@
   package:
     name:
       - python-docker
-      - python-openssl
+      - openssl
       - python-passlib
-      - python-bcrypt
     state: present
   when: "'python3' not in ansible_python_interpreter"
 - name: Install packages
@@ -13,94 +12,50 @@
   package:
     name:
       - python3-docker
-      - python3-openssl
+      - openssl
       - python3-passlib
-      - python3-bcrypt
     state: present
   when: "'python3' in ansible_python_interpreter"
-- name: Ensure Docker registry volume directories exists
+- name: Ensure registry volume directories exists
   file:
     state: directory
     path: "{{ buildset_registry_root }}/{{ item }}"
   loop:
-    - certs
-    - auth
-- name: Generate registry password
+    - tls
+    - conf
+- name: Generate registry secrets
   set_fact:
     registry_password: "{{ lookup('password', '/dev/null') }}"
-- name: Write htpassword file
-  htpasswd:
-    create: true
-    crypt_scheme: bcrypt
-    path: "{{ buildset_registry_root }}/auth/htpasswd"
-    name: "zuul"
-    password: "{{ registry_password }}"
-- name: Generate a TLS key for the Docker registry
-  openssl_privatekey:
-    path: "{{ buildset_registry_root }}/certs/domain.key"
-- name: Generate a TLS CSR for the Docker registry
-  openssl_csr:
-    path: "{{ buildset_registry_root }}/certs/domain.csr"
-    privatekey_path: "{{ buildset_registry_root }}/certs/domain.key"
-    common_name: "{{ ansible_host }}"
-    subject_alt_name: "DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1"
-- name: Generate a TLS cert for the Docker registry
-  openssl_certificate:
-    path: "{{ buildset_registry_root }}/certs/domain.crt"
-    csr_path: "{{ buildset_registry_root }}/certs/domain.csr"
-    privatekey_path: "{{ buildset_registry_root }}/certs/domain.key"
-    provider: selfsigned
-  register: generated_cert
+    registry_secret: "{{ lookup('password', '/dev/null') }}"
+- name: Write registry config
+  template:
+    src: registry.yaml.j2
+    dest: "{{ buildset_registry_root }}/conf/registry.yaml"
+- name: Generate a TLS key for the registry
+  command: "openssl req -x509 -newkey rsa:2048 -keyout {{ buildset_registry_root }}/tls/cert.key -out {{ buildset_registry_root }}/tls/cert.pem -days 365 -nodes -subj '/C=US/ST=California/L=Oakland/O=Company Name/OU=Org/CN={{ ansible_host }}' -addext 'subjectAltName = DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1'"
 - name: Read TLS certificate
   slurp:
-    src: "{{ generated_cert.filename }}"
+    src: "{{ buildset_registry_root }}/tls/cert.pem"
   register: certificate
 - name: Decode TLS certificate
   set_fact:
     certificate: "{{ certificate.content | b64decode }}"
-- name: Start a docker registry
+- name: Start the buildset registry
   docker_container:
     name: buildset_registry
-    image: registry:2
+    image: zuul/zuul-registry:latest
     state: started
     restart_policy: always
     ports:
      - "5000:5000"
-    env:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     volumes:
-      - "{{ buildset_registry_root }}/certs:/certs"
-      - "{{ buildset_registry_root }}/auth:/auth"
-- name: Start a docker proxy
-  docker_container:
-    name: buildset_proxy
-    image: registry:2
-    state: started
-    restart_policy: always
-    ports:
-     - "5001:5000"
-    env:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-      REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
-      REGISTRY_PROXY_USERNAME: ''
-      REGISTRY_PROXY_PASSWORD: ''
-    volumes:
-      - "{{ buildset_registry_root }}/certs:/certs"
-      - "{{ buildset_registry_root }}/auth:/auth"
+      - "{{ buildset_registry_root }}/tls:/tls"
+      - "{{ buildset_registry_root }}/conf:/conf"
 - name: Set registry information fact
   set_fact:
     buildset_registry:
       host: "{{ ansible_host }}"
       port: 5000
-      proxy_port: 5001
       username: zuul
       password: "{{ registry_password }}"
       cert: "{{ certificate }}"
