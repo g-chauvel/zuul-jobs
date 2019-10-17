@@ -27,6 +27,87 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-registry-buildset-registry
+    parent: opendev-buildset-registry
+    description: |
+      Run a buildset registry for the test-registry jobs
+
+      This runs two registries: a real buildset registry so that we
+      can receive speculative zuul-registry images, and a fake
+      buildset registry (running the speculative or latest
+      zuul-registry) that is used to test using the buildset registry
+      role.
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    pre-run: test-playbooks/registry/buildset-registry-pre.yaml
+    run: test-playbooks/registry/buildset-registry.yaml
+    post-run: test-playbooks/registry/test-registry-post.yaml
+
+- job:
+    name: zuul-jobs-test-registry-buildset-registry-k8s-docker
+    dependencies: zuul-jobs-test-registry-buildset-registry
+    description: |
+      Test a buildset registry with kubernetes and docker
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run: test-playbooks/registry/buildset-registry-k8s-docker.yaml
+    post-run:
+      - test-playbooks/registry/buildset-registry-k8s-docker-post.yaml
+      - test-playbooks/registry/test-registry-post.yaml
+
+- job:
+    name: zuul-jobs-test-install-kubernetes-docker
+    description: |
+      Test the install-kubernetes role with docker
+
+      This job tests changes to the install-kubernetes roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    files:
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - test-playbooks/install-kubernetes.yaml
+    run: test-playbooks/install-kubernetes/docker.yaml
+    post-run: test-playbooks/install-kubernetes/post.yaml
+
+- job:
+    name: zuul-jobs-test-install-kubernetes-crio
+    description: |
+      Test the install-kubernetes role with crio-o
+
+      This job tests changes to the install-kubernetes roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    nodeset:
+      nodes:
+        - name: intermediate-registry
+          label: ubuntu-bionic
+        - name: executor
+          label: ubuntu-bionic
+        - name: builder
+          label: ubuntu-bionic
+
+- job:
     name: zuul-jobs-test-install-kubernetes-docker
     description: |
       Test the install-kubernetes role with docker
@@ -62,6 +143,8 @@
     check:
       jobs: &id001
         - zuul-jobs-test-registry
+        - zuul-jobs-test-registry-buildset-registry
+        - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-install-kubernetes-docker
         - zuul-jobs-test-install-kubernetes-crio
     gate:

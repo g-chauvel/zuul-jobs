@@ -1,2 +1,2 @@
 FROM debian:testing
-RUN touch /tmp/foo
+CMD echo "Zuul container test"; sleep infinity
