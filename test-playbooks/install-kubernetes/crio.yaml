@@ -7,3 +7,28 @@
           - '1.1.1.1'
           - '8.8.8.8'
         kubernetes_runtime: cri-o
+  post_tasks:
+    - name: Check crio version
+      command: crictl version
+      become: yes
+      failed_when: false
+
+    - name: Create a test pod definition
+      copy:
+        dest: test-pod.yaml
+        content: |
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: test
+          spec:
+            restartPolicy: Never
+            containers:
+              - name: test
+                image: k8s.gcr.io/pause:3.1
+
+    - name: Start pod
+      command: kubectl apply -f test-pod.yaml
+
+    - name: Check status
+      shell: sleep 5; kubectl get pods

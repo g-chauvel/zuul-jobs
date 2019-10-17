@@ -36,7 +36,7 @@
     files:
       - roles/install-docker/.*
       - roles/install-kubernetes/.*
-      - test-playbooks/install-kubernetes.yaml
+      - test-playbooks/install-kubernetes/.*
     run: test-playbooks/install-kubernetes/docker.yaml
     post-run: test-playbooks/install-kubernetes/post.yaml
 
@@ -51,7 +51,7 @@
     files:
       - roles/install-docker/.*
       - roles/install-kubernetes/.*
-      - test-playbooks/install-kubernetes.yaml
+      - test-playbooks/install-kubernetes/.*
     run: test-playbooks/install-kubernetes/crio.yaml
     post-run: test-playbooks/install-kubernetes/post.yaml
 
