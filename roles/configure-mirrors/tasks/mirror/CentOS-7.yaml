@@ -10,7 +10,7 @@
     - etc/yum.repos.d/CentOS-Base.repo
     - etc/yum.repos.d/epel.repo
   notify:
-    - Update yum cache
+    - Update yum/dnf cache
 
 # http://dnf.readthedocs.io/en/latest/conf_ref.html#options-for-both-main-and-repo
 # deltarpm is useful when the bottleneck is the network throughput.

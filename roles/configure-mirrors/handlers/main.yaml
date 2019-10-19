@@ -7,19 +7,15 @@
   tags:
     - skip_ansible_lint
 
-- name: Update dnf cache
+- name: Update yum/dnf cache
   become: yes
   command: "{{ item }}"
+  args:
+    warn: false
   with_items:
-    - dnf clean all
-    - dnf makecache
-
-- name: Update yum cache
-  become: yes
-  command: "{{ item }}"
-  with_items:
-    - yum clean all
-    - yum makecache
+    - "{{ ansible_pkg_mgr }} clean all"
+    - "{{ ansible_pkg_mgr }} makecache -v"
+  # verbose is needed in order to make it possible to debug potential failures
 
 - name: Update zypper cache
   become: yes
