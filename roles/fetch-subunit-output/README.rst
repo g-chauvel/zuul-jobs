@@ -7,7 +7,7 @@ Collect subunit outputs
 
    Directory to work in. It has to be a fully qualified path.
 
-.. zuul:rolevar:: zuul_additional_subunit_dirs
+.. zuul:rolevar:: fetch_subunit_output_additional_dirs
    :default: []
 
    List of additional directories which contains subunit files
