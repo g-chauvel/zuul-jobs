@@ -7,6 +7,13 @@ Collect subunit outputs
 
    Directory to work in. It has to be a fully qualified path.
 
+.. zuul:rolevar:: zuul_additional_subunit_dirs
+   :default: []
+
+   List of additional directories which contains subunit files
+   to collect. The content of zuul_work_dir is always checked,
+   so it should not be added here.
+
 .. zuul:rolevar:: tox_envlist
 
    tox environment that was used to run the tests originally.

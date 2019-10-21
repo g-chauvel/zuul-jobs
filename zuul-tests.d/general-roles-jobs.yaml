@@ -117,6 +117,7 @@
       - ^roles/emit-job-header/.*
       - ^roles/ensure-output-dirs/.*
       - ^roles/fetch-output/.*
+      - ^roles/fetch-subunit-output/.*
       - ^roles/fetch-zuul-cloner/.*
       - ^roles/set-zuul-log-path-fact/.*
       - ^roles/prepare-workspace-git/.*
