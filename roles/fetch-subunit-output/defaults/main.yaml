@@ -1,4 +1,4 @@
 ---
 tox_envlist: ""
-zuul_additional_subunit_dirs: []
+fetch_subunit_output_additional_dirs: []
 zuul_work_dir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"

@@ -11,7 +11,7 @@
   block:
     - name: Get the list of directories with subunit files
       set_fact:
-        all_subunit_dirs: "{{ [ zuul_work_dir ] + zuul_additional_subunit_dirs }}"
+        all_subunit_dirs: "{{ [ zuul_work_dir ] + fetch_subunit_output_additional_dirs }}"
 
     # The usage an independent target file instead of sending the output
     # to zuul_work_dir prevents issues related to zuul_work_dir being

@@ -86,7 +86,7 @@
   hosts: all
   roles:
     - role: fetch-subunit-output
-      zuul_additional_subunit_dirs:
+      fetch_subunit_output_additional_dirs:
         - "/var/tmp/extratests"
   post_tasks:
     - name: Check that the testrepository file has been pulled
