@@ -16,6 +16,12 @@
       tags:
         - skip_ansible_lint
 
+    - name: Set download template
+      set_fact:
+        download_template: "{{ zuul_log_download_template }}"
+      when:
+        - zuul_log_include_download_script
+
     - name: Upload logs to swift
       delegate_to: localhost
       zuul_swift_upload:
@@ -28,6 +34,7 @@
         files:
           - "{{ zuul.executor.log_root }}/"
         delete_after: "{{ zuul_log_delete_after | default(omit) }}"
+        download_template: "{{ download_template | default(omit) }}"
       register: upload_results
 
 - name: Return log URL to Zuul
