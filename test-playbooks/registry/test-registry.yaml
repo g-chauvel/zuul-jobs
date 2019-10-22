@@ -1,8 +1,3 @@
-- hosts: intermediate-registry:builder
-  name: Install docker on registry and builder hosts
-  roles:
-    - install-docker
-
 # Run the intermediate registry on this host, and also build an image
 # and place it in the registry to simulate an artifact from a previous
 # build which has been passed to this one (so that we can test pulling
@@ -58,17 +53,6 @@
         path: "{{ zuul.executor.work_root }}"
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-    - name: Add project atomic PPA
-      become: true
-      apt_repository:
-        repo: ppa:projectatomic/ppa
-    - name: Install packages
-      become: true
-      package:
-        name:
-          - socat
-          - skopeo
-        state: present
     - name: Install the intermediate registry cert
       include_role:
         name: install-registry-cert
