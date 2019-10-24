@@ -42,7 +42,7 @@
     certificate: "{{ certificate.content | b64decode }}"
 - name: Start the buildset registry
   docker_container:
-    name: buildset_registry
+    name: "{{ (buildset_registry_port == 5000) | ternary('buildset_registry', 'buildset_registry_' + buildset_registry_port|string) }}"
     image: zuul/zuul-registry:latest
     state: started
     restart_policy: always
