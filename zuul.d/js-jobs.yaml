@@ -18,12 +18,12 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
@@ -46,12 +46,12 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
@@ -76,12 +76,12 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
@@ -105,17 +105,17 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
 
-      .. zuul:jobvar: create_tarball_directory
+      .. zuul:jobvar:: create_tarball_directory
 
          Create a tarball with the contents of
          create_tarball_directory (relative to zuul_work_dir).
@@ -135,12 +135,12 @@
 
         The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
@@ -161,12 +161,12 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
 
-      .. zuul:jobvar: javascript_content_dir
+      .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
@@ -186,7 +186,7 @@
 
          The version of Node to use.
 
-      .. zuul:jobvar: zuul_work_dir
+      .. zuul:jobvar:: zuul_work_dir
          :default: {{ zuul.project.src_dir }}
 
          Path to operate in.
