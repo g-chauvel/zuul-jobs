@@ -15,6 +15,7 @@
       shell: "docker logs {{ item }} &> {{ ansible_user_dir }}/zuul-output/logs/docker/{{ item }}.txt"
       args:
         executable: /bin/bash
+      ignore_errors: true
 
     - name: Open container logs permissions
       file:
