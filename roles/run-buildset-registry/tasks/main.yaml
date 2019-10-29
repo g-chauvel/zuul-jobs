@@ -47,7 +47,7 @@
     state: started
     restart_policy: always
     ports:
-     - "5000:5000"
+     - "{{ buildset_registry_port }}:5000"
     volumes:
       - "{{ buildset_registry_root }}/tls:/tls"
       - "{{ buildset_registry_root }}/conf:/conf"
@@ -55,7 +55,7 @@
   set_fact:
     buildset_registry:
       host: "{{ ansible_host }}"
-      port: 5000
+      port: "{{ buildset_registry_port }}"
       username: zuul
       password: "{{ registry_password }}"
       cert: "{{ certificate }}"
