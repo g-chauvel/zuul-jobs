@@ -17,10 +17,6 @@ Use this role on any host which should use the buildset registry.
 
       The port on which the registry is listening.
 
-   .. zuul:rolevar:: proxy_port
-
-      The port on which the registry proxy is listening.
-
    .. zuul:rolevar:: username
 
       The username used to access the registry via HTTP basic auth.

@@ -2,8 +2,7 @@ Runs a docker registry for the use of this buildset.
 
 This may be used for a single job running on a single node, or it may
 be used at the root of a job graph so that multiple jobs running for a
-single change can share the registry.  Two registry endpoints are
-provided -- one is a local registry, the second is an upstream proxy.
+single change can share the registry.
 
 **Role Variables**
 
@@ -25,10 +24,6 @@ provided -- one is a local registry, the second is an upstream proxy.
    .. zuul:rolevar:: port
 
       The port on which the registry is listening.
-
-   .. zuul:rolevar:: proxy_port
-
-      The port on which the proxy is listening.
 
    .. zuul:rolevar:: username
 
