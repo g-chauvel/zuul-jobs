@@ -604,7 +604,13 @@ class DeflateFilter():
 
 class Uploader():
     def __init__(self, cloud, container, prefix=None, delete_after=None,
-                 public=True):
+                 public=True, dry_run=False):
+
+        self.dry_run = dry_run
+        if dry_run:
+            self.url = 'http://dry-run-url.com/a/path/'
+            return
+
         self.cloud = cloud
         self.container = container
         self.prefix = prefix or ''
@@ -670,6 +676,10 @@ class Uploader():
 
     def upload(self, file_list):
         """Spin up thread pool to upload to swift"""
+
+        if self.dry_run:
+            return
+
         num_threads = min(len(file_list), MAX_UPLOAD_THREADS)
         threads = []
         queue = queuelib.Queue()
@@ -781,14 +791,9 @@ def run(cloud, container, files,
         for x in file_list:
             logging.debug(x)
 
-        # Do no connect to swift or do any uploading in a dry run
-        if dry_run:
-            # No URL is known, so return nothing
-            return
-
         # Upload.
         uploader = Uploader(cloud, container, prefix, delete_after,
-                            public)
+                            public, dry_run)
         uploader.upload(file_list)
         return uploader.url
 
