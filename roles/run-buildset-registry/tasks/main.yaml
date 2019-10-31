@@ -6,7 +6,7 @@
       - openssl
       - python-passlib
     state: present
-  when: "'python3' not in ansible_python_interpreter"
+  when: ansible_python_version is version('3', '<')
 - name: Install packages
   become: yes
   package:
@@ -15,7 +15,7 @@
       - openssl
       - python3-passlib
     state: present
-  when: "'python3' in ansible_python_interpreter"
+  when: ansible_python_version is version('3', '>=')
 - name: Ensure registry volume directories exists
   file:
     state: directory
