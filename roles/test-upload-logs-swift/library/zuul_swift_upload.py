@@ -649,8 +649,8 @@ class Uploader():
     def __init__(self, cloud, container, prefix=None, delete_after=None,
                  public=True, dry_run=False):
 
+        self.dry_run = dry_run
         if dry_run:
-            self.dry_run = True
             self.url = 'http://dry-run-url.com/a/path/'
             return
 
