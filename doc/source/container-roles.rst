@@ -6,6 +6,7 @@ Container Roles
 .. zuul:autorole:: install-docker
 .. zuul:autorole:: install-kubernetes
 .. zuul:autorole:: install-openshift
+.. zuul:autorole:: install-podman
 .. zuul:autorole:: promote-docker-image
 .. zuul:autorole:: pull-from-intermediate-registry
 .. zuul:autorole:: push-to-intermediate-registry
