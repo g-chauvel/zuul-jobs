@@ -65,3 +65,11 @@
   changed_when: false
   args:
     warn: no
+
+- name: Get version details
+  command: docker version
+  register: docker_installed_version
+
+- name: Dump installed docker details
+  debug:
+    msg: '{{ docker_installed_version }}'
