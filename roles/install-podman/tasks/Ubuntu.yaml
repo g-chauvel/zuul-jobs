@@ -1,0 +1,12 @@
+- name: Install projectatomic PPA
+  apt_repository:
+    repo: 'ppa:projectatomic/ppa'
+    state: present
+  become: yes
+
+- name: Install podman
+  package:
+    name:
+      - podman
+    state: present
+  become: yes

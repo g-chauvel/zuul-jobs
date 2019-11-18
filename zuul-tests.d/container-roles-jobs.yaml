@@ -137,6 +137,19 @@
     run: test-playbooks/install-kubernetes/crio.yaml
     post-run: test-playbooks/install-kubernetes/post.yaml
 
+- job:
+    name: zuul-jobs-test-install-podman
+    description: |
+      Test the install-podman role
+
+      This job tests the install-podman role.  It is not meant to be
+      used directly but rather run on changes to roles in the
+      zuul-jobs repo.
+    files:
+      - roles/install-podman/.*
+      - test-playbooks/install-podman/.*
+    run: test-playbooks/install-podman/main.yaml
+
 # List all the jobs in this file.
 
 - project:
@@ -147,5 +160,6 @@
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-install-kubernetes-docker
         - zuul-jobs-test-install-kubernetes-crio
+        - zuul-jobs-test-install-podman
     gate:
       jobs: *id001
