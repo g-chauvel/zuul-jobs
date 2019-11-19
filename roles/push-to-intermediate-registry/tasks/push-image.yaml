@@ -1,7 +1,11 @@
+# To support usage with both docker and podman, the buildset registry
+# keeps "docker.io" entries un-namespaced, and any other namespaces
+# are namespaced.  Therefore, if we see docker.io in the repository
+# name, we strip it here.
 - name: Push tag to intermediate registry
   command: >-
     skopeo --insecure-policy copy
-    docker://127.0.0.1:{{ socat_port }}/{{ image.repository }}:{{ image_tag }}
+    docker://127.0.0.1:{{ socat_port }}/{{ image.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ image_tag }}
     docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ image_tag }}
   retries: 3
   register: result

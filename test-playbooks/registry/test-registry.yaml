@@ -13,8 +13,6 @@
     - name: Run the intermediate registry
       include_role:
         name: run-test-intermediate-registry
-        apply:
-          become: true
     - name: Install the intermediate registry cert
       include_role:
         name: install-registry-cert
@@ -25,17 +23,18 @@
     - name: Set up user credentials for the intermediate registry
       include_role:
         name: intermediate-registry-user-config
-    - name: Build a docker image for the previous build
+    - name: "Build a container image for the previous build"
       include_role:
-        name: build-docker-image
+        name: "build-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
         docker_images:
           - context: test-playbooks/registry/docker
             repository: "{{ previous_build_repository }}"
+        container_images: "{{ docker_images }}"
     - name: Tag the previous build
-      command: "docker tag {{ previous_build_repository }}:latest localhost:5000/{{ previous_build_repository }}:{{ previous_build_uuid }}_latest"
+      command: "{{ container_command }} tag {{ previous_build_repository }}:latest localhost:5000/{{ previous_build_repository }}:{{ previous_build_uuid }}_latest"
     - name: Push the previous build to the intermediate registry
-      command: "docker push localhost:5000/{{ previous_build_repository }}:{{ previous_build_uuid }}_latest"
+      command: "{{ container_command }} push localhost:5000/{{ previous_build_repository }}:{{ previous_build_uuid }}_latest"
 
 # This is also essentially pre-configuration for the real test of the
 # roles.  This sets up a fake executor (since we can't run the
@@ -112,16 +111,16 @@
     - name: Include previous build vars
       include_vars: vars/previous-build.yaml
     - name: Pull the previous build from buildset registry to the builder host
-      command: "docker pull {{ previous_build_repository }}:latest"
-    - name: Show local docker images for debugging
-      command: "docker image ls"
+      command: "{{ container_command }} pull {{ previous_build_repository }}:latest"
+    - name: "Show local container images for debugging"
+      command: "{{ container_command }} image ls"
     - name: Verify previously built image is in buildset registry
-      command: "docker image inspect {{ previous_build_repository }}:latest"
+      command: "{{ container_command }} image inspect {{ previous_build_repository }}:latest"
 
 # Back to straightforward use of the roles under test.
 
 - hosts: builder
-  name: Test building a docker image
+  name: Test building a container image
   tasks:
 
     - name: Create fake sibling projects
@@ -133,7 +132,7 @@
 
     - name: Build docker image
       include_role:
-        name: build-docker-image
+        name: "build-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
         docker_images:
           - context: test-playbooks/registry/docker
@@ -141,6 +140,7 @@
             siblings:
               - opendev.org/fake-sibling-1
               - opendev.org/fake-sibling-2
+        container_images: "{{ docker_images }}"
 
 - hosts: executor
   name: Test pushing to the intermediate registry
@@ -154,6 +154,7 @@
         docker_images:
           - context: playbooks/registry/docker
             repository: downstream/image
+        container_images: "{{ docker_images }}"
 
 # And finally an external verification step.
 

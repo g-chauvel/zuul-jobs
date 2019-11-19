@@ -74,13 +74,18 @@
     mode: 0600
 
 # Pull the images
+
+# To support usage with both docker and podman, the buildset registry
+# keeps "docker.io" entries un-namespaced, and any other namespaces
+# are namespaced.  Therefore, if we see docker.io in the repository
+# name, we strip it here.
 - name: Pull artifacts from intermediate registry
   block:
     - name: Pull artifacts from intermediate registry
       command: >-
         skopeo --insecure-policy copy
         {{ item.url }}
-        docker://127.0.0.1:{{ socat_port }}/{{ item.metadata.repository }}:{{ item.metadata.tag }}
+        docker://127.0.0.1:{{ socat_port }}/{{ item.metadata.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ item.metadata.tag }}
       retries: 3
       register: result
       until: result is success

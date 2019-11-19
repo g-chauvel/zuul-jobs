@@ -37,6 +37,10 @@
     content: "{{ docker_config | to_nice_json }}"
     dest: "~/.docker/config.json"
     mode: 0600
+- name: Write containers auth configuration
+  copy:
+    content: "{{ docker_config | to_nice_json }}"
+    dest: "/run/user/{{ ansible_user_uid }}/auth.json"
 - name: Check if /var/lib/kubelet exists
   stat:
     path: /var/lib/kubelet

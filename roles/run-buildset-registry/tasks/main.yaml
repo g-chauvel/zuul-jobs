@@ -2,18 +2,18 @@
   become: yes
   package:
     name:
-      - python-docker
       - openssl
       - python-passlib
+      - socat
     state: present
   when: ansible_python_version is version('3', '<')
 - name: Install packages
   become: yes
   package:
     name:
-      - python3-docker
       - openssl
       - python3-passlib
+      - socat
     state: present
   when: ansible_python_version is version('3', '>=')
 - name: Ensure registry volume directories exists
@@ -41,16 +41,21 @@
   set_fact:
     certificate: "{{ certificate.content | b64decode }}"
 - name: Start the buildset registry
-  docker_container:
-    name: "{{ (buildset_registry_port == 5000) | ternary('buildset_registry', 'buildset_registry_' + buildset_registry_port|string) }}"
-    image: zuul/zuul-registry:latest
-    state: started
-    restart_policy: always
-    ports:
-     - "{{ buildset_registry_port }}:5000"
-    volumes:
-      - "{{ buildset_registry_root }}/tls:/tls"
-      - "{{ buildset_registry_root }}/conf:/conf"
+  command: >-
+    {{ container_command }} run -d
+    --name="{{ (buildset_registry_port == 5000) | ternary('buildset_registry', 'buildset_registry_' + buildset_registry_port|string) }}"
+    --restart=always
+    --publish="1{{ buildset_registry_port }}:5000"
+    --volume="{{ buildset_registry_root }}/tls:/tls"
+    --volume="{{ buildset_registry_root }}/conf:/conf"
+    docker.io/zuul/zuul-registry:latest
+
+# Start a socat tunnel to the buildset registry to work around
+# https://github.com/containers/libpod/issues/4311
+# in case we're using podman.
+- name: Start socat to work around https://github.com/containers/libpod/issues/4311
+  shell: "socat -d -d TCP6-LISTEN:{{ buildset_registry_port }},fork TCP:127.0.0.1:1{{ buildset_registry_port }} 2> {{ buildset_registry_root }}/socat_port &"
+
 - name: Set registry information fact
   set_fact:
     buildset_registry:

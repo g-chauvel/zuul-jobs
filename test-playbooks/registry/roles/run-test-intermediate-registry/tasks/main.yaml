@@ -1,4 +1,5 @@
 - name: Ensure registry volume directories exists
+  become: true
   file:
     state: directory
     path: "/var/registry/{{ item }}"
@@ -6,6 +7,7 @@
     - certs
     - auth
 - name: Install python packages
+  become: true
   package:
     name:
       - python3-docker
@@ -13,6 +15,7 @@
       - python3-bcrypt
     state: present
 - name: Write htpassword file
+  become: true
   htpasswd:
     create: true
     crypt_scheme: bcrypt
@@ -20,27 +23,26 @@
     name: "{{ intermediate_registry.username }}"
     password: "{{ intermediate_registry.password }}"
 - name: Write TLS private key
+  become: true
   copy:
     content: "{{ intermediate_registry_tls_key }}"
     dest: /var/registry/certs/domain.key
 - name: Write TLS certificate
+  become: true
   copy:
     content: "{{ intermediate_registry_tls_cert }}{{ intermediate_registry_tls_chain | default('') }}"
     dest: /var/registry/certs/domain.crt
 - name: Start intermediate docker registry
-  docker_container:
-    name: intermediate_registry
-    image: registry:2
-    state: started
-    restart_policy: always
-    ports:
-     - "5000:5000"
-    env:
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/domain.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-    volumes:
-      - "/var/registry/certs:/certs"
-      - "/var/registry/auth:/auth"
+  command: >-
+    {{ container_command }} run -d
+    --name="intermediate_registry"
+    --restart=always
+    --network=host
+    --env REGISTRY_HTTP_TLS_CERTIFICATE="/certs/domain.crt"
+    --env REGISTRY_HTTP_TLS_KEY="/certs/domain.key"
+    --env REGISTRY_AUTH="htpasswd"
+    --env REGISTRY_AUTH_HTPASSWD_PATH="/auth/htpasswd"
+    --env REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm"
+    --volume="/var/registry/certs:/certs"
+    --volume="/var/registry/auth:/auth"
+    docker.io/library/registry:2

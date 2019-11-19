@@ -4,10 +4,11 @@
 # though that obviously happens in configuration management rather
 # than a job).
 - hosts: builder:intermediate-registry
-  name: Set up docker and iptables configuration for registry hosts
-  roles:
-    - install-docker
+  name: "Set up container system and iptables configuration for registry hosts"
   tasks:
+    - name: Install container system
+      include_role:
+        name: "install-{{ container_command }}"
     - name: Open the IPv4 port for the buildset registry
       become: true
       iptables:

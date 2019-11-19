@@ -1,5 +1,5 @@
 - job:
-    name: zuul-jobs-test-registry
+    name: zuul-jobs-test-registry-docker
     description: |
       Test the intermediate registry roles.
 
@@ -17,6 +17,38 @@
     pre-run: test-playbooks/registry/test-registry-pre.yaml
     run: test-playbooks/registry/test-registry.yaml
     post-run: test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
+    nodeset:
+      nodes:
+        - name: intermediate-registry
+          label: ubuntu-bionic
+        - name: executor
+          label: ubuntu-bionic
+        - name: builder
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-registry-podman
+    description: |
+      Test the intermediate registry roles.
+
+      This job tests changes to the intermediate registry roles using
+      podman rather than docker.  It is not meant to be used directly
+      but rather run on changes to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/install-podman/.*
+      - roles/build-container-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    pre-run: test-playbooks/registry/test-registry-pre.yaml
+    run: test-playbooks/registry/test-registry.yaml
+    post-run: test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: podman
     nodeset:
       nodes:
         - name: intermediate-registry
@@ -52,6 +84,8 @@
     pre-run: test-playbooks/registry/buildset-registry-pre.yaml
     run: test-playbooks/registry/buildset-registry.yaml
     post-run: test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
 
 - job:
     name: zuul-jobs-test-registry-buildset-registry-k8s-docker
@@ -74,6 +108,8 @@
     post-run:
       - test-playbooks/registry/buildset-registry-k8s-docker-post.yaml
       - test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
 
 - job:
     name: zuul-jobs-test-install-kubernetes-docker
@@ -126,7 +162,8 @@
 - project:
     check:
       jobs: &id001
-        - zuul-jobs-test-registry
+        - zuul-jobs-test-registry-docker
+        - zuul-jobs-test-registry-podman
         - zuul-jobs-test-registry-buildset-registry
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-install-kubernetes-docker

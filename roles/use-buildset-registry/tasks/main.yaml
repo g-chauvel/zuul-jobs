@@ -23,16 +23,14 @@
   file:
     state: directory
     path: /etc/docker
-- name: Ensure buildset registry cert directory exists
-  become: true
-  file:
-    path: "/etc/docker/certs.d/{{ buildset_registry_alias }}:{{ buildset_registry.port }}/"
-    state: directory
 - name: Write buildset registry TLS certificate
   become: true
   copy:
     content: "{{ buildset_registry.cert }}"
-    dest: "/etc/docker/certs.d/{{ buildset_registry_alias }}:{{ buildset_registry.port }}/ca.crt"
+    dest: "/usr/local/share/ca-certificates/buildset-registry.crt"
+- name: Update CA certs
+  command: update-ca-certificates
+  become: true
 
 # Update daemon config
 - name: Check if docker daemon configuration exists
@@ -72,6 +70,19 @@
   become: true
   register: docker_restart
   failed_when: docker_restart is failed and not 'Could not find the requested service' in docker_restart.msg
+
+- name: Ensure containers directory exists
+  become: yes
+  file:
+    state: directory
+    path: /etc/containers
+- name: Modify registries.conf
+  become: yes
+  modify_registries_conf:
+    path: /etc/containers/registries.conf
+    buildset_registry: "{{ buildset_registry }}"
+    buildset_registry_alias: "{{ buildset_registry_alias }}"
+    namespaces: "{{ buildset_registry_namespaces }}"
 
 # We use 'block' here to cause the become to apply to all the tasks
 # (which does not automatically happen with include_tasks).

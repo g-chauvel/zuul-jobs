@@ -1,0 +1,4 @@
+buildset_registry_namespaces:
+  - docker.io
+  - quay.io
+  - gcr.io

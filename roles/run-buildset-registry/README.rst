@@ -1,4 +1,4 @@
-Runs a docker registry for the use of this buildset.
+Runs a container registry for the use of this buildset.
 
 This may be used for a single job running on a single node, or it may
 be used at the root of a job graph so that multiple jobs running for a
@@ -15,6 +15,12 @@ single change can share the registry.
    :default: 5000
 
    The port on which the registry should listen.
+
+.. zuul:rolevar:: container_command
+   :default: docker
+
+   The command to use to run the registry container (E.g., ``podman``).
+
 
 **Return Values**
 

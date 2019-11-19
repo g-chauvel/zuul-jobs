@@ -35,3 +35,15 @@ Use this role on any host which should use the buildset registry.
    The system user to configure to use the docker registry.  The
    docker configuration file for this user will be updated.  By
    default, the user Ansible is running as.
+
+.. zuul:rolevar:: buildset_registry_namespaces
+   :default: ['docker.io', 'quay.io', 'gcr.io']
+
+   The namespaces that the buildset registry supports.  The buildset
+   registry will be consulted first for images in these namespaces.
+   Any others will be fetched only from their upstream sources.
+
+   Add any local or third-party registries necessary here.
+
+   The default may change in the future as more general-purpose public
+   registries become known.
