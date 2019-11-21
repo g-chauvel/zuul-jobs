@@ -2,7 +2,7 @@
   hosts: all
   vars:
     destination: "/usr/zuul-env/bin/zuul-cloner"
-    repo_src_dir: "/home/zuul/src/opendev.org"
+    repo_src_dir: "{{ ansible_user_dir }}/src/opendev.org"
   roles:
     - role: fetch-zuul-cloner
   post_tasks:
