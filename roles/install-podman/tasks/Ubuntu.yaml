@@ -9,5 +9,6 @@
     name:
       - podman
       - uidmap
+      - slirp4netns
     state: present
   become: yes
