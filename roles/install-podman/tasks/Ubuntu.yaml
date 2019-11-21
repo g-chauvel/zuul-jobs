@@ -8,5 +8,6 @@
   package:
     name:
       - podman
+      - uidmap
     state: present
   become: yes
