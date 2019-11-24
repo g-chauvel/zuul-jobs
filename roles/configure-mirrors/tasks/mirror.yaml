@@ -1,8 +1,7 @@
-- name: Install .pydistutils.cfg configuration in homedir
-  template:
-    dest: ~/.pydistutils.cfg
-    mode: 0644
-    src: .pydistutils.cfg.j2
+- name: Remove .pydistutils.cfg configuration in homedir
+  file:
+    path: ~/.pydistutils.cfg
+    state: absent
 
 - name: Include OS-specific variables
   include_vars: "{{ item }}"
