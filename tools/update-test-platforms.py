@@ -41,10 +41,8 @@ PLATFORMS = [
     'ubuntu-xenial',
 ]
 
-NON_VOTING = [
-    # Sun Nov 24 22:41:16 UTC 2019 : unresolved issues with the mirror
-    'opensuse-15'
-]
+# insert a platform from above to make it non-voting
+NON_VOTING = []
 
 
 def get_nodeset(platform, multinode):
