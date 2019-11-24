@@ -86,38 +86,6 @@
     files:
       - roles/install-docker/.*
       - roles/install-kubernetes/.*
-      - test-playbooks/install-kubernetes.yaml
-    run: test-playbooks/install-kubernetes/docker.yaml
-    post-run: test-playbooks/install-kubernetes/post.yaml
-
-- job:
-    name: zuul-jobs-test-install-kubernetes-crio
-    description: |
-      Test the install-kubernetes role with crio-o
-
-      This job tests changes to the install-kubernetes roles.  It
-      is not meant to be used directly but rather run on changes to
-      roles in the zuul-jobs repo.
-    nodeset:
-      nodes:
-        - name: intermediate-registry
-          label: ubuntu-bionic
-        - name: executor
-          label: ubuntu-bionic
-        - name: builder
-          label: ubuntu-bionic
-
-- job:
-    name: zuul-jobs-test-install-kubernetes-docker
-    description: |
-      Test the install-kubernetes role with docker
-
-      This job tests changes to the install-kubernetes roles.  It
-      is not meant to be used directly but rather run on changes to
-      roles in the zuul-jobs repo.
-    files:
-      - roles/install-docker/.*
-      - roles/install-kubernetes/.*
       - test-playbooks/install-kubernetes/.*
     run: test-playbooks/install-kubernetes/docker.yaml
     post-run: test-playbooks/install-kubernetes/post.yaml
