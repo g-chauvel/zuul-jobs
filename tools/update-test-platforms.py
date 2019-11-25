@@ -41,6 +41,11 @@ PLATFORMS = [
     'ubuntu-xenial',
 ]
 
+NON_VOTING = [
+    # Sun Nov 24 22:41:16 UTC 2019 : unresolved issues with the mirror
+    'opensuse-15'
+]
+
 
 def get_nodeset(platform, multinode):
     d = CommentedMap()
@@ -65,7 +70,9 @@ def handle_file(fn):
     data = yaml.load(open(fn))
     outdata = []
     outprojects = []
-    joblist = []
+    joblist_check = []
+    joblist_gate = []
+    has_non_voting = False
     for obj in data:
         if 'job' in obj:
             job = obj['job']
@@ -82,8 +89,13 @@ def handle_file(fn):
                 multinode = False
             if all_platforms:
                 for platform in PLATFORMS:
+                    voting = False if platform in NON_VOTING else True
                     ojob = CommentedMap()
                     ojob['name'] = job['name'] + '-' + platform
+                    if not voting:
+                        ojob['name'] += '-nv'
+                        ojob['voting'] = False
+                        has_non_voting = True
                     desc = job['description'].split('\n')[0]
                     ojob['description'] = desc + ' on ' \
                         + platform
@@ -91,9 +103,16 @@ def handle_file(fn):
                     ojob['tags'] = 'auto-generated'
                     ojob['nodeset'] = get_nodeset(platform, multinode)
                     outdata.append({'job': ojob})
-                    joblist.append(ojob['name'])
+                    joblist_check.append(ojob['name'])
+                    if voting:
+                        joblist_gate.append(ojob['name'])
             else:
-                joblist.append(job['name'])
+                joblist_check.append(job['name'])
+                # don't append non-voting jobs to gate
+                if job.get('voting', True):
+                    joblist_gate.append(job['name'])
+                else:
+                    has_non_voting = True
         elif 'project' in obj:
             outprojects.append(obj)
         else:
@@ -101,8 +120,11 @@ def handle_file(fn):
     # We control the last project stanza
     outdata.extend(outprojects)
     project = outprojects[-1]['project']
-    project['check']['jobs'] = joblist
-    project['gate']['jobs'] = joblist
+    project['check']['jobs'] = joblist_check
+    # Use the same dictionary if there are no non-voting jobs
+    # (i.e. check is the same as gate); this gives nicer YAML output
+    # using dictionary anchors
+    project['gate']['jobs'] = joblist_gate if has_non_voting else joblist_check
     with open(fn, 'w') as f:
         yaml.dump(outdata, stream=f)
 
