@@ -12,7 +12,16 @@ enabled=1
 gpgkey=file:///tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
 {% elif ansible_distribution == 'RedHat' and ansible_distribution_major_version|int >= 8 %}
 [RDO-RHEL8-deps]
-name=RedHat Openstack deps repo
+name=RedHat OpenStack deps repo
+baseurl=https://trunk.rdoproject.org/rhel8-master/deps/latest/
+gpgcheck=0
+enabled=1
+{% elif ansible_distribution == 'CentOS' and ansible_distribution_major_version|int >= 8 %}
+[RDO-RHEL8-deps]
+# NOTE(ianw): 2019-11-25 RDO on centos8 is still in the process of
+# being built.  However, for our openvswitch dependency we can use
+# this, for now.
+name=RedHat OpenStack deps repo
 baseurl=https://trunk.rdoproject.org/rhel8-master/deps/latest/
 gpgcheck=0
 enabled=1
