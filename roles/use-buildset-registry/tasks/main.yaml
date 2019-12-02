@@ -1,3 +1,12 @@
+- name: Include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
+    - "{{ ansible_distribution }}.{{ ansible_architecture }}.yaml"
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family }}.yaml"
+    - "default.yaml"
+
 # Docker doesn't understand docker push [1234:5678::]:5000/image/path:tag
 # so we set up /etc/hosts with a registry alias name to support ipv6 and 4.
 - name: Configure /etc/hosts for buildset_registry to workaround docker not understanding ipv6 addresses
@@ -27,9 +36,9 @@
   become: true
   copy:
     content: "{{ buildset_registry.cert }}"
-    dest: "/usr/local/share/ca-certificates/buildset-registry.crt"
+    dest: "{{ ca_dir }}/buildset-registry.crt"
 - name: Update CA certs
-  command: update-ca-certificates
+  command: "{{ ca_command }}"
   become: true
 
 # Update daemon config

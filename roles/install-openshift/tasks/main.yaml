@@ -25,6 +25,20 @@
     state: absent
   become: yes
 
+- name: Ensure "docker" group exists
+  become: true
+  group:
+    name: docker
+    state: present
+
+- name: Add user to docker group
+  become: true
+  user:
+    name: "{{ ansible_user }}"
+    groups:
+      - docker
+    append: yes
+
 - name: Start docker service
   service:
     name: docker
@@ -41,3 +55,12 @@
     - origin-pod
     - origin
   become: yes
+
+- name: Set group ownership of docker socket
+  become: true
+  file:
+    path: /var/run/docker.sock
+    group: docker
+
+- name: Reset ssh connection to pick up docker group
+  meta: reset_connection
