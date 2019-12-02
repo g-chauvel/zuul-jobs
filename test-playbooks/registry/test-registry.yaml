@@ -122,12 +122,25 @@
 
 - hosts: builder
   name: Test building a docker image
-  roles:
-    - role: build-docker-image
+  tasks:
+
+    - name: Create fake sibling projects
+      command: >-
+        mkdir -p src/opendev.org/fake-sibling-1 &&
+        mkdir -p src/opendev.org/fake-sibling-2 &&
+        touch  src/opendev.org/fake-sibling-1/file &&
+        touch  src/opendev.org/fake-sibling-2/file
+
+    - name: Build docker image
+      include_role:
+        name: build-docker-image
       vars:
         docker_images:
           - context: test-playbooks/registry/docker
             repository: downstream/image
+            siblings:
+              - opendev.org/fake-sibling-1
+              - opendev.org/fake-sibling-2
 
 - hosts: executor
   name: Test pushing to the intermediate registry
