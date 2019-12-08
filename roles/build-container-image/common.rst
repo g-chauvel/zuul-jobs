@@ -133,10 +133,15 @@ role to install Docker or Podman before using these roles.
 
       A list of tags to be added to the image when promoted.
 
-   .. zuul:rolevar:: tags
+   .. zuul:rolevar:: siblings
       :type: list
-      :default: ['latest']
+      :default: []
 
-      A list of tags to be added to the image when promoted.
+      A list of sibling projects to be copied into
+      ``{{zuul_work_dir}}/.zuul-siblings``.  This can be useful to
+      collect multiple projects to be installed within the same Docker
+      context.  A ``-build-arg`` called ``ZUUL_SIBLINGS`` will be
+      added with each sibling project.  Note that projects here must
+      be listed in ``required-projects``.
 
 .. _anchors: https://yaml.org/spec/1.2/spec.html#&%20anchor//
