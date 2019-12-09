@@ -125,23 +125,22 @@
 
     - name: Create fake sibling projects
       command: >-
-        mkdir -p src/opendev.org/fake-sibling-1 &&
-        mkdir -p src/opendev.org/fake-sibling-2 &&
-        touch  src/opendev.org/fake-sibling-1/file &&
-        touch  src/opendev.org/fake-sibling-2/file
+        mkdir -p src/opendev.org/project/fake-sibling &&
+        mkdir -p src/openstack.org/project/fake-sibling &&
+        touch  src/opendev.org/project/fake-sibling/file &&
+        touch  src/openstack.org/project/fake-sibling/file
 
     - name: Build docker image
       include_role:
         name: "build-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
         docker_images:
-          - context: test-playbooks/registry/docker
+          - context: test-playbooks/registry/docker-siblings
             repository: downstream/image
             siblings:
-              - opendev.org/fake-sibling-1
-              - opendev.org/fake-sibling-2
+              - opendev.org/project/fake-sibling
+              - openstack.org/project/fake-sibling
         container_images: "{{ docker_images }}"
-
 - hosts: executor
   name: Test pushing to the intermediate registry
   tasks:
