@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - name: Run bindep
+      include_role:
+        name: bindep
+    - name: Run tox with constraints
+      include_role:
+        name: tox
+      vars:
+        tox_envlist: docs
+        tox_constraints_file: '{{ zuul.project.src_dir }}/zuul-tests.d/test-constraints.txt'

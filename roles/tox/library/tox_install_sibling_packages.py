@@ -121,7 +121,8 @@ def get_installed_packages(tox_python):
 
 
 def write_new_constraints_file(constraints, packages):
-    with tempfile.NamedTemporaryFile(delete=False) as constraints_file:
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) \
+            as constraints_file:
         constraints_lines = open(constraints, 'r').read().split('\n')
         for line in constraints_lines:
             package_name = line.split('===')[0]

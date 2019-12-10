@@ -18,10 +18,12 @@
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
+import os
 import sys
 import testtools
 
 from .tox_install_sibling_packages import get_installed_packages
+from .tox_install_sibling_packages import write_new_constraints_file
 
 
 class TestToxInstallSiblingPackages(testtools.TestCase):
@@ -35,3 +37,27 @@ class TestToxInstallSiblingPackages(testtools.TestCase):
         #               but this might fail later if we stop adding Zuul
         #               in the unit tests.
         self.assertIn("zuul", pkgs)
+
+    def test_write_new_constraints_file(self):
+        # NOTE(mnaser): Given that we run our tests inside Tox, we can
+        #               leverage the tox virtual environment we use in
+        #               unit tests instead of mocking up everything.
+        pkgs = get_installed_packages(sys.executable)
+
+        # NOTE(mnaser): Zuul should be installed in this virtualenv
+        #               but this might fail later if we stop adding Zuul
+        #               in the unit tests.
+        test_constraints = os.path.join(os.path.dirname(__file__),
+                                        'test-constraints.txt')
+        constraints = write_new_constraints_file(test_constraints, pkgs)
+
+        def cleanup_constraints_file():
+            if os.path.exists(constraints):
+                os.unlink(constraints)
+        self.addCleanup(cleanup_constraints_file)
+
+        self.assertTrue(os.path.exists(constraints))
+        with open(constraints) as f:
+            s = f.read()
+            self.assertNotIn("zuul", s)
+            self.assertIn("doesnotexistonpypi", s)
