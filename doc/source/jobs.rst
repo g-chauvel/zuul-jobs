@@ -8,3 +8,4 @@ Jobs
    python-jobs
    js-jobs
    docker-jobs
+   go-jobs
