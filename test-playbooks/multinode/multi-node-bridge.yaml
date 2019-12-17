@@ -10,7 +10,7 @@
         - name: openvswitch should be installed
           package:
             name: "{{ ovs_package }}"
-            state: installed
+            state: present
           register: ovs_installed
 
         - name: openvswitch should be running

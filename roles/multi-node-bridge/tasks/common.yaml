@@ -40,7 +40,7 @@
   become: yes
   package:
     name: "{{ ovs_package }}"
-    state: installed
+    state: present
 
 - name: Ensure openvswitch is started
   become: yes
