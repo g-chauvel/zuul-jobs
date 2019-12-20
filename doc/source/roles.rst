@@ -17,3 +17,4 @@ Roles
    puppet-roles
    python-roles
    translation-roles
+   helm-roles

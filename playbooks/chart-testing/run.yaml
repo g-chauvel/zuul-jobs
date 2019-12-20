@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - name: Run linters
+    # NOTE(mnaser): We use --validate-maintainers=false because chart-testing
+    #               relies on the existance of a remote URL which is /dev/null
+    #               in Zuul and fails.
+    command: ct lint --validate-maintainers=false
+    args:
+      chdir: "{{ zuul.project.src_dir }}"

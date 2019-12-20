@@ -9,3 +9,4 @@ Jobs
    js-jobs
    docker-jobs
    go-jobs
+   helm-jobs

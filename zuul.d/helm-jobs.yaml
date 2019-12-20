@@ -1,0 +1,6 @@
+- job:
+    name: chart-testing-lint
+    description: |
+      Run chart-testing on Helm charts
+    pre-run: playbooks/chart-testing/pre.yaml
+    run: playbooks/chart-testing/run.yaml

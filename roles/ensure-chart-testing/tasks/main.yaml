@@ -1,0 +1,29 @@
+---
+- name: Install Python dependencies
+  become: true
+  pip:
+    name:
+    - yamale==1.8.0
+    - yamllint==1.13.0
+
+- name: Install chart-testing
+  become: true
+  unarchive:
+    remote_src: true
+    src: "https://github.com/helm/chart-testing/releases/download/v{{ chart_testing_version }}/chart-testing_{{ chart_testing_version }}_linux_amd64.tar.gz"
+    dest: /usr/local/bin
+
+- name: Setup /etc/ct
+  become: true
+  file:
+    path: /etc/ct
+    state: directory
+
+- name: Install configuration files
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/helm/chart-testing/v{{ chart_testing_version }}/etc/{{ item }}"
+    dest: "/etc/ct/{{ item }}"
+  loop:
+  - chart_schema.yaml
+  - lintconf.yaml
