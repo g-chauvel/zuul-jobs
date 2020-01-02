@@ -7,12 +7,16 @@
       jobs:
         - zuul-tox-docs
         - tox-py27
-        - tox-py35
+        - tox-py35:
+            nodeset: ubuntu-xenial
+        - tox-py37
     gate:
       jobs:
         - zuul-tox-docs
         - tox-py27
-        - tox-py35
+        - tox-py35:
+            nodeset: ubuntu-xenial
+        - tox-py37
     promote:
       jobs:
         - zuul-promote-docs
