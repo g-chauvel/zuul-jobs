@@ -789,7 +789,14 @@ class Uploader():
                 headers['content-encoding'] = 'gzip'
                 data = GzipFilter(open(file_detail.full_path, 'rb'))
             else:
-                if file_detail.encoding:
+                if (not file_detail.filename.endswith(".gz") and
+                    file_detail.encoding):
+                    # Don't apply gzip encoding to files that we receive as
+                    # already gzipped. The reason for this is swift will
+                    # serve this back to users as an uncompressed file if they
+                    # don't set an accept-encoding that includes gzip. This
+                    # can cause problems when the desired file state is
+                    # compressed as with .tar.gz tarballs.
                     headers['content-encoding'] = file_detail.encoding
                 data = open(file_detail.full_path, 'rb')
         else:
