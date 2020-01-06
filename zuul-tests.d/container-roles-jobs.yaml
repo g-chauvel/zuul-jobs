@@ -112,6 +112,30 @@
       container_command: docker
 
 - job:
+    name: zuul-jobs-test-registry-buildset-registry-k8s-crio
+    dependencies: zuul-jobs-test-registry-buildset-registry
+    description: |
+      Test a buildset registry with kubernetes and CRIO
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/install-docker/.*
+      - roles/install-kubernetes/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run: test-playbooks/registry/buildset-registry-k8s-crio.yaml
+    post-run:
+      - test-playbooks/registry/buildset-registry-k8s-crio-post.yaml
+      - test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: podman
+
+- job:
     name: zuul-jobs-test-registry-buildset-registry-openshift-docker
     dependencies: zuul-jobs-test-registry-buildset-registry
     description: |
@@ -193,6 +217,7 @@
         - zuul-jobs-test-registry-podman
         - zuul-jobs-test-registry-buildset-registry
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
+        - zuul-jobs-test-registry-buildset-registry-k8s-crio
         - zuul-jobs-test-registry-buildset-registry-openshift-docker
         - zuul-jobs-test-install-kubernetes-docker
         - zuul-jobs-test-install-kubernetes-crio
