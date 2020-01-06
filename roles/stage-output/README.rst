@@ -60,6 +60,11 @@ intended to be used before output fetching in a base job's post-playbook.
      zuul.conf --(staged as)--> zuul_conf.txt
 
 .. zuul:rolevar:: stage_compress_logs
-   :default: True
+   :default: False
 
    When True, files staged as logs will be compressed individually.
+   Note this option is deprecated as final log storage should control
+   whether or not contents are compressed. The reason for this is certain
+   services like swift may serve compressed files like .tar.gz tarballs
+   uncompressed when you want them to be compressed when served in this
+   way.
