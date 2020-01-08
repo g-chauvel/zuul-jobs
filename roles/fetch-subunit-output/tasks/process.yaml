@@ -16,15 +16,10 @@
       - testrepository.subunit
   register: subunit_files
 
-- name: Compress subunit files
-  archive:
-    path: "{{ item.path }}"
-  with_items: "{{ subunit_files.files }}"
-
 - name: Collect test-results
   synchronize:
     dest: "{{ zuul.executor.log_root }}"
     mode: pull
-    src: "{{ item.path }}.gz"
+    src: "{{ item.path }}"
     verify_host: true
   with_items: "{{ subunit_files.files }}"

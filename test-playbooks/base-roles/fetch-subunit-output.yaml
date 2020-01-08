@@ -45,14 +45,14 @@
     - name: Check that the testrepository file has been pulled
       delegate_to: localhost
       file:
-        path: "{{ zuul.executor.log_root }}/testrepository.subunit.gz"
+        path: "{{ zuul.executor.log_root }}/testrepository.subunit"
         state: file
       register: local_subunit_file
 
     - name: Check that HTML test result file has been pulled
       delegate_to: localhost
       file:
-        path: "{{ zuul.executor.log_root }}/testr_results.html.gz"
+        path: "{{ zuul.executor.log_root }}/testr_results.html"
         state: file
       register: local_html_test_results
 
@@ -70,10 +70,10 @@
       shell: |
         GLOBAL_RESULT=1
         zgrep -q -E 'subunit_tests.test_working.WorkingTest.test_success$' \
-            {{ zuul.executor.log_root }}/testr_results.html.gz
+            {{ zuul.executor.log_root }}/testr_results.html
         T1=$?
         zgrep -q -E 'subunit_tests.test_failing.FailingTest.test_failure.*_StringException:' \
-            {{ zuul.executor.log_root }}/testr_results.html.gz
+            {{ zuul.executor.log_root }}/testr_results.html
         T2=$?
         if [ ${T1} -eq 0 ] && [ ${T2} -ne 0 ]; then
             GLOBAL_RESULT=0
@@ -92,14 +92,14 @@
     - name: Check that the testrepository file has been pulled
       delegate_to: localhost
       file:
-        path: "{{ zuul.executor.log_root }}/testrepository.subunit.gz"
+        path: "{{ zuul.executor.log_root }}/testrepository.subunit"
         state: file
       register: local_subunit_file
 
     - name: Check that HTML test result file has been pulled
       delegate_to: localhost
       file:
-        path: "{{ zuul.executor.log_root }}/testr_results.html.gz"
+        path: "{{ zuul.executor.log_root }}/testr_results.html"
         state: file
       register: local_html_test_results
 
@@ -116,10 +116,10 @@
       shell: |
         GLOBAL_RESULT=1
         zgrep -q -E 'subunit_tests.test_working.WorkingTest.test_success$' \
-            {{ zuul.executor.log_root }}/testr_results.html.gz
+            {{ zuul.executor.log_root }}/testr_results.html
         T1=$?
         zgrep -q -E 'subunit_tests.test_failing.FailingTest.test_failure.*_StringException:' \
-            {{ zuul.executor.log_root }}/testr_results.html.gz
+            {{ zuul.executor.log_root }}/testr_results.html
         T2=$?
         if [ ${T1} -eq 0 ] && [ ${T2} -eq 0 ]; then
             GLOBAL_RESULT=0
