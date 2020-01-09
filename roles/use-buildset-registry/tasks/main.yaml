@@ -105,3 +105,15 @@
   when: buildset_registry_docker_user is not defined
   block:
     - include_tasks: user-config.yaml
+
+- name: Check if cri-o is installed
+  stat:
+    path: /etc/crio/crio.conf
+  register: crio_path
+# TODO: with cri-o >= 1.16, change this to a SIGHUP of the crio process
+- name: Restart cri-o
+  when: crio_path.stat.exists
+  service:
+    name: crio
+    state: restarted
+  become: true
