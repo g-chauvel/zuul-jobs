@@ -4,3 +4,11 @@
       Run chart-testing on Helm charts
     pre-run: playbooks/chart-testing/pre.yaml
     run: playbooks/chart-testing/run.yaml
+
+- job:
+    name: apply-helm-charts
+    description: |
+      Deploy a Kubernetes cluster and apply charts
+    pre-run: playbooks/helm/pre.yaml
+    run: playbooks/helm/run.yaml
+    post-run: playbooks/helm/post.yaml
