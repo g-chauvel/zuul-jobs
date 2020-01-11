@@ -14,4 +14,4 @@ already setup and the Helm executable is installed.
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 
-   Directory to run go in.
+   Directory in which to run helm.
