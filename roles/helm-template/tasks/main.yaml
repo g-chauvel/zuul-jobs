@@ -1,0 +1,39 @@
+- name: Install dependencies
+  command: "helm dep up {{ helm_chart }}"
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Print templated charts
+  command: "helm template -n zuul {{ helm_chart }}"
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Deploy templated charts
+  shell: |
+    set -o pipefail
+    helm template -n {{ helm_release_name }} {{ helm_chart }} | kubectl apply -f-
+  args:
+    executable: /bin/bash
+    chdir: "{{ zuul_work_dir }}"
+
+# NOTE(mnaser): When a StatefulSet is deployed, it creates the pods one
+#               by one, which means the `kubectl wait` can race if it
+#               is ran before the other pods are created.  We instead
+#               check for all the StatefulSets here manually instead
+#               and then use the second check below to do a "confirmation"
+- name: Wait for all StatefulSets to become ready
+  block:
+    - name: Retrieve all StatefulSets
+      command: kubectl get statefulset -o name
+      register: _statefulsets
+
+    - name: Ensure the number of ready replicas matches the replicas
+      shell: kubectl get {{ item }} -ogo-template='{{ '{{' }}eq .status.replicas .status.readyReplicas{{ '}}' }}'
+      register: _is_ready
+      until: _is_ready.stdout == 'true'
+      retries: 60
+      delay: 5
+      loop: "{{ _statefulsets.stdout_lines }}"
+
+- name: Wait for all pods to become ready
+  command: kubectl wait --for=condition=Ready --timeout=120s pod --all
