@@ -7,12 +7,12 @@
     with_first_found:
       - skip: true
         files:
-          - "vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yaml"
-          - "vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
-          - "vars/{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
-          - "vars/{{ ansible_distribution | lower }}.yaml"
-          - "vars/{{ ansible_os_family | lower }}-{{ ansible_distribution_version.split('.')[0] }}.yaml"
-          - "vars/{{ ansible_os_family | lower }}.yaml"
+          - "molecule-vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yaml"
+          - "molecule-vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+          - "molecule-vars/{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+          - "molecule-vars/{{ ansible_distribution | lower }}.yaml"
+          - "molecule-vars/{{ ansible_os_family | lower }}-{{ ansible_distribution_version.split('.')[0] }}.yaml"
+          - "molecule-vars/{{ ansible_os_family | lower }}.yaml"
     tags:
       - always
 
