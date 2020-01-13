@@ -8,6 +8,7 @@ docker_distro_packages: "{{ _docker_distro_packages | default([]) }}"
 docker_compose_install: false
 docker_upstream_distro_packages: "{{ _docker_upstream_distro_packages | default([]) }}"
 docker_upstream_distro_required_packages: "{{ _docker_upstream_distro_required_packages | default([]) }}"
+docker_upstream_distro_remove_packages: "{{ _docker_upstream_distro_remove_packages | default([]) }}"
 docker_update_channel: stable
 docker_download_fqdn: download.docker.com
 docker_mirror_base_url: "{{ _docker_mirror_base_url | default('') }}"

@@ -1,4 +1,10 @@
 ---
+- name: Remove packages
+  package:
+    name: "{{ docker_upstream_distro_remove_packages }}"
+    state: absent
+  when: docker_upstream_distro_remove_packages
+
 # package/dnf module do not support `--nobest` option which is needed for
 # installing docker-ce on centos-8
 - name: Install upstream docker using package

@@ -14,6 +14,9 @@ _docker_upstream_distro_packages:
   - docker-ce-cli
   - containerd.io
 
+_docker_upstream_distro_remove_packages:
+  - docker.io
+
 docker_distro_vars_loaded: true
 
 _docker_mirror_base_url: "https://{{ docker_download_fqdn }}/linux/debian"
