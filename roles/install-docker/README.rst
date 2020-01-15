@@ -75,3 +75,10 @@ An ansible role to install docker and configure it to use mirrors if available.
    based on :zuul:rolevar:`install-docker.docker_download_fqdn`. When this
    option is unset, the role will use distro specific variables which are
    loaded at the time of execution.
+
+.. zuul:rolevar:: docker_userland_proxy
+   :type: bool
+
+   Set to false to disable the docker userland proxy. This variable is useful
+   when docker is causing routing problem, such as when a kubernetes deployment
+   is unable to reach its own service.
