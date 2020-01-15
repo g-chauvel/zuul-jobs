@@ -44,7 +44,10 @@
     - name: Restore iptables
       become: yes
       command: "/etc/init.d/boot.local"
-      when: ansible_os_family == "Suse" and iptables_service is not defined and boot_local_file.stat.exists == True
+      when:
+        - ansible_os_family == "Suse"
+        - iptables_service is not defined
+        - boot_local_file.stat.exists
 
     - name: switch and peer nodes should be in the ipv4 firewall
       become: yes

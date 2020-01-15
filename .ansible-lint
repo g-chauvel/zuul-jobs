@@ -1,5 +1,3 @@
-exclude_paths:
-  - test-playbooks/  # TODO(ssbarnea): remove skip in follow-up
 parseable: true
 quiet: false
 skip_list:
