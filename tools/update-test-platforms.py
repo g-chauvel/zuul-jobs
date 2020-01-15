@@ -41,7 +41,9 @@ PLATFORMS = [
 ]
 
 # insert a platform from above to make it non-voting
-NON_VOTING = []
+NON_VOTING = [
+    'opensuse-tumbleweed',
+]
 
 
 def get_nodeset(platform, multinode):
