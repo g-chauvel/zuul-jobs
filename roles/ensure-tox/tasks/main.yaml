@@ -1,2 +1,9 @@
 - name: Ensure tox is installed
-  shell: type tox || pip install --user tox
+  shell: |
+    set -euo pipefail
+    PIP=$(command -v pip pip3 | head -n1)
+    type tox || $PIP install --user tox
+  args:
+    executable: /bin/bash
+  register: result
+  changed_when: "'Successfully installed' in result.stdout"
