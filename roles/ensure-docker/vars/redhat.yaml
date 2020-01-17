@@ -33,7 +33,10 @@ _docker_keys:
 
 _docker_repos:
   # TODO(mordred) We should add a proxy cache mirror for this
+  # Keep 'name' (section) and 'file' in sync with https://download.docker.com/linux/centos/docker-ce.repo
+  # to avoid breaking tools that assume standard repository install.
   - name: docker-ce-stable
+    file: docker-ce
     description: Docker CE Stable - $basearch
     baseurl: "{{ docker_mirror_base_url }}/7/$basearch/stable"
     gpgcheck: yes

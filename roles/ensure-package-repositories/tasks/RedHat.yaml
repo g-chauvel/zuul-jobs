@@ -32,6 +32,7 @@
 - name: Add repositories
   yum_repository:
     name: "{{ zj_item['name'] }}"
+    file: "{{ zj_item['file'] | default(zj_item['name']) }}"
     description: "{{ zj_item['description'] | default(omit) }}"
     baseurl: "{{ zj_item['baseurl'] | default(omit) }}"
     gpgcheck: "{{ zj_item['gpgcheck'] | default(omit) }}"
