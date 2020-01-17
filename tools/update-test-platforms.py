@@ -37,7 +37,6 @@ PLATFORMS = [
     'opensuse-15',
     'opensuse-tumbleweed',
     'ubuntu-bionic',
-    'ubuntu-trusty',
     'ubuntu-xenial',
 ]
 

@@ -205,16 +205,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-base-roles-ubuntu-trusty
-    description: Tests roles in the 'base' job on ubuntu-trusty
-    parent: zuul-jobs-test-base-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-trusty
-          label: ubuntu-trusty
-
-- job:
     name: zuul-jobs-test-base-roles-ubuntu-xenial
     description: Tests roles in the 'base' job on ubuntu-xenial
     parent: zuul-jobs-test-base-roles
@@ -434,25 +424,6 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-ubuntu-trusty
-    description: Tests multinode setup roles on ubuntu-trusty
-    parent: zuul-jobs-test-multinode-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: primary
-          label: ubuntu-trusty
-        - name: secondary
-          label: ubuntu-trusty
-      groups:
-        - name: switch
-          nodes:
-            - primary
-        - name: peers
-          nodes:
-            - secondary
-
-- job:
     name: zuul-jobs-test-multinode-roles-ubuntu-xenial
     description: Tests multinode setup roles on ubuntu-xenial
     parent: zuul-jobs-test-multinode-roles
@@ -506,7 +477,6 @@
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-opensuse-tumbleweed
         - zuul-jobs-test-base-roles-ubuntu-bionic
-        - zuul-jobs-test-base-roles-ubuntu-trusty
         - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-bindep
         - zuul-jobs-test-clear-firewall
@@ -520,7 +490,6 @@
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-opensuse-tumbleweed
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
-        - zuul-jobs-test-multinode-roles-ubuntu-trusty
         - zuul-jobs-test-multinode-roles-ubuntu-xenial
         - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-git-mirror
