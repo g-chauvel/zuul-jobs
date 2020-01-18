@@ -23,3 +23,15 @@
     src: "{{ item.path }}"
     verify_host: true
   with_items: "{{ subunit_files.files }}"
+
+- name: Return artifact to Zuul
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: "Unit Test Report"
+            url: "testr_results.html"
+            metadata:
+              type: unit_test_report
+  when: "'testr_results.html' in item.path"
+  with_items: "{{ subunit_files.files }}"
