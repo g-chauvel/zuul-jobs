@@ -1,7 +1,13 @@
 - name: Ensure tox is installed
   shell: |
     set -euo pipefail
-    PIP=$(command -v pip pip3 | head -n1)
+
+    if command -v pip; then
+      PIP=pip
+    elif command -v pip3; then
+      PIP=pip3
+    fi
+
     type tox || $PIP install --user tox
   args:
     executable: /bin/bash
