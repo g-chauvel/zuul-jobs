@@ -13,3 +13,6 @@
     executable: /bin/bash
   register: result
   changed_when: "'Successfully installed' in result.stdout"
+
+- name: Output tox version
+  command: tox --version
