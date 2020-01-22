@@ -23,3 +23,5 @@ openstacksdk>=0.17.1
 requests
 requestsexceptions
 bs4
+# For upload-logs-google
+google-cloud-storage
