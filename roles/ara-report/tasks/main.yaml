@@ -59,7 +59,7 @@
       command: gzip --recursive --best {{ final_ara_report_path }}
       when:
         - ara_compress_html | bool
-        - not ara_generated | skipped
+        - not ara_generated is skipped
   rescue:
     - name: HTML generation rescue
       debug:
