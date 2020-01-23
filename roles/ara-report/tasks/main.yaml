@@ -60,14 +60,6 @@
       when:
         - ara_compress_html | bool
         - not ara_generated | skipped
-    - name: Return ARA report
-      when: not ara_generated | skipped
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-               - name: ARA report
-                 url: "{{ ara_report_path }}"
   rescue:
     - name: HTML generation rescue
       debug:
@@ -88,10 +80,3 @@
 
     - name: Save the ARA database
       command: cp {{ ara_database_path }} {{ final_ara_report_path }}
-    - name: Return ARA report
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-               - name: ARA report
-                 url: "{{ ara_report_path }}"
