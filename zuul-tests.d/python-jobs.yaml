@@ -22,10 +22,32 @@
 #    tools/update-test-platforms.py
 #  Please re-run to generate new job lists
 
+- job:
+    name: zuul-jobs-test-fetch-tox-output
+    description: Test the fetch-tox-output
+    files:
+      - roles/ensure-output-dirs/.*
+      - roles/fetch-tox-output/.*
+      - roles/fetch-output/.*
+    run: test-playbooks/python/fetch-tox-output.yaml
+    vars:
+      zuul_use_fetch_output: true
+
+- job:
+    name: zuul-jobs-test-fetch-tox-output-synchronize
+    description: Test the fetch-tox-output
+    files:
+      - roles/fetch-tox-output/.*
+    run: test-playbooks/python/fetch-tox-output.yaml
+    vars:
+      zuul_use_fetch_output: false
+
 - project:
     check:
       jobs: &id001
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-tox-siblings
+        - zuul-jobs-test-fetch-tox-output
+        - zuul-jobs-test-fetch-tox-output-synchronize
     gate:
       jobs: *id001
