@@ -1,8 +1,9 @@
-Prepare remote workspaces
+Prepare remote workspaces in OpenShift
 
-This role can be used instead of the `prepare-workspace` role when the
-synchronize module doesn't work with kubectl connection. It copies the
-prepared source repos to the pods' cwd using the `oc rsync` command.
+This role can be used instead of the :zuul:role:`prepare-workspace`
+role when the synchronize module doesn't work with kubectl connection.
+It copies the prepared source repos to the pods' cwd using the `oc
+rsync` command.
 
 This role is intended to run once before any other role in a Zuul job.
 This role requires the origin-clients to be installed.
