@@ -1,0 +1,121 @@
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv
+    description: Test the ensure-python role with pyenv
+    files:
+      - zuul-tests.d/python-roles-jobs.yaml
+    run: test-playbooks/ensure-python-pyenv.yaml
+    tags: all-platforms
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-centos-7
+    description: Test the ensure-python role with pyenv on centos-7
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-centos-8
+    description: Test the ensure-python role with pyenv on centos-8
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-debian-stretch
+    description: Test the ensure-python role with pyenv on debian-stretch
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-fedora-30
+    description: Test the ensure-python role with pyenv on fedora-30
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-30
+          label: fedora-30
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
+    description: Test the ensure-python role with pyenv on gentoo-17-0-systemd
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-opensuse-15
+    description: Test the ensure-python role with pyenv on opensuse-15
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
+    voting: false
+    description: Test the ensure-python role with pyenv on opensuse-tumbleweed
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
+    description: Test the ensure-python role with pyenv on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
+    description: Test the ensure-python role with pyenv on ubuntu-xenial
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-ensure-python-pyenv-centos-7
+        - zuul-jobs-test-ensure-python-pyenv-centos-8
+        - zuul-jobs-test-ensure-python-pyenv-debian-stretch
+        - zuul-jobs-test-ensure-python-pyenv-fedora-30
+        - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-python-pyenv-opensuse-15
+        - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
+    gate:
+      jobs:
+        - zuul-jobs-test-ensure-python-pyenv-centos-7
+        - zuul-jobs-test-ensure-python-pyenv-centos-8
+        - zuul-jobs-test-ensure-python-pyenv-debian-stretch
+        - zuul-jobs-test-ensure-python-pyenv-fedora-30
+        - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-python-pyenv-opensuse-15
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
