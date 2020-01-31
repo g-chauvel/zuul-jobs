@@ -15,8 +15,11 @@ General Purpose Roles
 .. zuul:autorole:: emit-job-header
 .. zuul:autorole:: enable-netconsole
 .. zuul:autorole:: ensure-dstat-graph
+.. zuul:autorole:: ensure-markdownlint
+.. zuul:autorole:: fetch-markdownlint
 .. zuul:autorole:: git-prepare-nodecache
 .. zuul:autorole:: log-inventory
+.. zuul:autorole:: markdownlint
 .. zuul:autorole:: mirror-workspace-git-repos
 .. zuul:autorole:: multi-node-bridge
 .. zuul:autorole:: multi-node-firewall

@@ -335,3 +335,14 @@
       - test-requirements.txt
       - tox.ini
 
+- job:
+    name: markdownlint
+    files: '^.*\.md$'
+    pre-run: playbooks/markdownlint/pre.yaml
+    run: playbooks/markdownlint/run.yaml
+    post-run: playbooks/markdownlint/post.yaml
+    description: |
+      Check any markdown for basic lint problems. Include a file named
+      `.markdownlint.json` that is configured according to
+      https://github.com/DavidAnson/markdownlint#optionsconfig
+      to control rule specifics.
