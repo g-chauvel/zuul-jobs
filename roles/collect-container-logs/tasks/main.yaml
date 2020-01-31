@@ -10,7 +10,11 @@
 
 - name: Save container logs
   loop: "{{ docker_containers.stdout_lines | default([]) }}"
-  shell: "{{ container_command }} logs {{ item }} &> {{ ansible_user_dir }}/zuul-output/logs/{{ container_command }}/{{ item }}.txt"
+  # We can't use the default 'item' because roles may be used in
+  # higher level loops and 'item' could conflict in that case.
+  loop_control:
+    loop_var: loop_container_name
+  shell: "{{ container_command }} logs {{ loop_container_name }} &> {{ ansible_user_dir }}/zuul-output/logs/{{ container_command }}/{{ loop_container_name }}.txt"
   args:
     executable: /bin/bash
   ignore_errors: true
