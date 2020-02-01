@@ -84,13 +84,15 @@
     - name: Pull artifacts from intermediate registry
       command: >-
         skopeo --insecure-policy copy
-        {{ item.url }}
-        docker://127.0.0.1:{{ socat_port }}/{{ item.metadata.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ item.metadata.tag }}
+        {{ zj_zuul_artifact.url }}
+        docker://127.0.0.1:{{ socat_port }}/{{ zj_zuul_artifact.metadata.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ zj_zuul_artifact.metadata.tag }}
       retries: 3
       register: result
       until: result is success
-      when: "'metadata' in item and item.metadata.type | default('') == 'container_image'"
+      when: "'metadata' in zj_zuul_artifact and zj_zuul_artifact.metadata.type | default('') == 'container_image'"
       loop: "{{ zuul.artifacts | default([]) }}"
+      loop_control:
+        loop_var: zj_zuul_artifact
   always:
     - name: Remove docker user config
       command: "shred ~/.docker/config.json"

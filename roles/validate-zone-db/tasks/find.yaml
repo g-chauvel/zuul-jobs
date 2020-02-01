@@ -8,5 +8,7 @@
 
 - name: Build zone.db file list
   set_fact:
-    zone_db_files: '{{ zone_db_files + [ [item.path.split("/")[-2], item.path] ] }}'
+    zone_db_files: '{{ zone_db_files + [ [zj_zone_db_found_file.path.split("/")[-2], zj_zone_db_found_file.path] ] }}'
   loop: "{{ zone_db_found_files['files'] }}"
+  loop_control:
+    loop_var: zj_zone_db_found_file
