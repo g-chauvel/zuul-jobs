@@ -87,10 +87,11 @@ def walk(root, original_root=None):
     return data
 
 
-def run(root_path, output):
+def run(root_path, output, index_links):
     data = walk(root_path, root_path)
     with open(output, 'w') as f:
-        f.write(json.dumps({'tree': data}))
+        f.write(json.dumps({'tree': data,
+                            'index_links': index_links}))
 
 
 def ansible_main():
@@ -98,11 +99,12 @@ def ansible_main():
         argument_spec=dict(
             root=dict(type='path'),
             output=dict(type='path'),
+            index_links=dict(type='bool', default=False),
         )
     )
 
     p = module.params
-    run(p.get('root'), p.get('output'))
+    run(p.get('root'), p.get('output'), p.get('index_links'))
 
     module.exit_json(changed=True)
 
@@ -117,13 +119,15 @@ def cli_main():
                         help='Root of upload directory')
     parser.add_argument('output',
                         help='Output file path')
+    parser.add_argument('index_links', action='store_true',
+                        help='Link to index.html instead of dirs')
 
     args = parser.parse_args()
 
     if args.verbose:
         logging.basicConfig(level=logging.DEBUG)
 
-    run(args.root, args.output)
+    run(args.root, args.output, args.index_links)
 
 
 if __name__ == '__main__':
