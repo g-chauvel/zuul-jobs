@@ -1,0 +1,12 @@
+- name: Upload contents to AFS
+  synchronize:
+    src: "{{ afs_source }}"
+    dest: "{{ afs_target }}"
+    # NOTE(ianw): you can't set group permissions on AFS, hence we
+    # don't set owner specifically.
+    archive: false
+    perms: true
+    times: true
+    recursive: true
+    rsync_opts: '{{ ["--safe-links"] + ["--delete-after"] if not afs_copy_only else [] }}'
+

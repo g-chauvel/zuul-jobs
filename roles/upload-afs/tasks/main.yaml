@@ -1,4 +1,3 @@
-- name: Synchronize files to AFS
-  zuul_afs:
-    source: "{{ afs_source }}"
-    target: "{{ afs_target }}"
+- name: Call upload-afs-roots
+  include_role:
+    name: upload-afs-roots
