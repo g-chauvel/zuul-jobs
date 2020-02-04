@@ -465,10 +465,12 @@ class Indexer():
                                        file_details.filename),
                 }))
             filename = file_details.filename
+            link_filename = filename
             if file_details.folder:
                 filename += '/'
+                link_filename += '/index.html'
             output += '<td><a href="%s">%s</a></td>' % (
-                urlparse.quote(filename),
+                urlparse.quote(link_filename),
                 filename)
             output += '<td>%s</td>' % time.asctime(
                 file_details.last_modified)
