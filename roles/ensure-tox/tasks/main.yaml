@@ -14,5 +14,11 @@
   register: result
   changed_when: "'Successfully installed' in result.stdout"
 
+- name: Set tox_executable fact
+  set_fact:
+    tox_executable: "{{ ansible_user_dir }}/.local/bin/tox"
+    cacheable: true
+  when: result is changed
+
 - name: Output tox version
-  command: tox --version
+  command: "{{ tox_executable }} --version"
