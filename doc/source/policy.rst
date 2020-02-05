@@ -153,6 +153,30 @@ If relevant, the specific steps where the privilege escalation occurs should be
 documented so that they can be reproduced when configuring hosts. If possible,
 they should be grouped in a separate playbook that can be applied to hosts manually.
 
+Ansible Loops in Roles
+**********************
+
+Because the Ansible roles contained in this repo are expected to be
+pretty universally applicable in Zuul systems we must write them
+defensively to work around some Ansible behaviors. In particular
+nesting Ansible loops using the default `loop_var` of `item` is not
+safe.
+
+Roles in this repo should override the default `loop_var` in loops
+and use a variable name prefixed with `zj_` to make them more unique.
+The idea is this will avoid conflicts with the calling level which
+may use `include_role` in a loop creating a `loop_var` conflict.
+
+For example::
+
+  command: echo {{ zj_number }}
+  loop:
+    - one
+    - two
+    - three
+  loop_control:
+    loop_var: zj_number
+
 Installing Dependencies in Roles
 ********************************
 

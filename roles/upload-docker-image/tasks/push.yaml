@@ -1,8 +1,8 @@
 - name: Upload tag to dockerhub
-  command: "docker push {{ image.repository }}:change_{{ zuul.change }}_{{ image_tag }}"
+  command: "docker push {{ image.repository }}:change_{{ zuul.change }}_{{ zj_image_tag }}"
   loop: "{{ image.tags | default(['latest']) }}"
   loop_control:
-    loop_var: image_tag
+    loop_var: zj_image_tag
   register: result
   until: result.rc == 0
   retries: 3

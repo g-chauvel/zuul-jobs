@@ -9,5 +9,7 @@
   when: not zone_db_files
 
 - name: 'Run checkzone'
-  command: '/usr/sbin/named-checkzone {{ item[0] }} {{ item[1] }}'
+  command: '/usr/sbin/named-checkzone {{ zj_zone_db_file[0] }} {{ zj_zone_db_file[1] }}'
   loop: "{{ zone_db_files }}"
+  loop_control:
+    loop_var: zj_zone_db_file

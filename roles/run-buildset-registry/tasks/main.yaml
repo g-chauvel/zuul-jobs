@@ -19,10 +19,12 @@
 - name: Ensure registry volume directories exists
   file:
     state: directory
-    path: "{{ buildset_registry_root }}/{{ item }}"
+    path: "{{ buildset_registry_root }}/{{ zj_dir }}"
   loop:
     - tls
     - conf
+  loop_control:
+    loop_var: zj_dir
 - name: Generate registry secrets
   set_fact:
     registry_password: "{{ lookup('password', '/dev/null') }}"
