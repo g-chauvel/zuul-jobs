@@ -2,6 +2,7 @@
   generate_manifest:
     root: "{{ generate_zuul_manifest_root }}"
     output: "{{ generate_zuul_manifest_output }}"
+    index_links: "{{ generate_zuul_manifest_index_links }}"
 
 - name: Return Zuul manifest URL to Zuul
   zuul_return:
@@ -10,6 +11,5 @@
         artifacts:
           - name: Zuul Manifest
             url: "{{ generate_zuul_manifest_filename }}"
-            index_links: "{{ generate_zuul_manifest_index_links }}"
             metadata:
               type: "{{ generate_zuul_manifest_type }}"
