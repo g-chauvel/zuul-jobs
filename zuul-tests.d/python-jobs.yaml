@@ -12,7 +12,100 @@
     description: Test the ensure-tox role
     files:
       - roles/ensure-tox/.*
+      - test-playbooks/ensure-tox.yaml
     run: test-playbooks/ensure-tox.yaml
+    tags: all-platforms
+
+- job:
+    name: zuul-jobs-test-ensure-tox-centos-7
+    description: Test the ensure-tox role on centos-7
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-ensure-tox-centos-8
+    description: Test the ensure-tox role on centos-8
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-ensure-tox-debian-stretch
+    description: Test the ensure-tox role on debian-stretch
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-ensure-tox-fedora-30
+    description: Test the ensure-tox role on fedora-30
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-30
+          label: fedora-30
+
+- job:
+    name: zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
+    description: Test the ensure-tox role on gentoo-17-0-systemd
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-ensure-tox-opensuse-15
+    description: Test the ensure-tox role on opensuse-15
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
+    voting: false
+    description: Test the ensure-tox role on opensuse-tumbleweed
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-ensure-tox-ubuntu-bionic
+    description: Test the ensure-tox role on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-ensure-tox-ubuntu-xenial
+    description: Test the ensure-tox role on ubuntu-xenial
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
 
 - job:
     name: zuul-jobs-test-tox-siblings
@@ -71,13 +164,35 @@
 
 - project:
     check:
-      jobs: &id001
+      jobs:
         - zuul-jobs-test-ensure-sphinx
-        - zuul-jobs-test-ensure-tox
+        - zuul-jobs-test-ensure-tox-centos-7
+        - zuul-jobs-test-ensure-tox-centos-8
+        - zuul-jobs-test-ensure-tox-debian-stretch
+        - zuul-jobs-test-ensure-tox-fedora-30
+        - zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-tox-opensuse-15
+        - zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
+        - zuul-jobs-test-ensure-tox-ubuntu-bionic
+        - zuul-jobs-test-ensure-tox-ubuntu-xenial
         - zuul-jobs-test-tox-siblings
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
         - zuul-jobs-test-fetch-subunit-output
         - zuul-jobs-test-fetch-subunit-output-synchronize
     gate:
-      jobs: *id001
+      jobs:
+        - zuul-jobs-test-ensure-sphinx
+        - zuul-jobs-test-ensure-tox-centos-7
+        - zuul-jobs-test-ensure-tox-centos-8
+        - zuul-jobs-test-ensure-tox-debian-stretch
+        - zuul-jobs-test-ensure-tox-fedora-30
+        - zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-tox-opensuse-15
+        - zuul-jobs-test-ensure-tox-ubuntu-bionic
+        - zuul-jobs-test-ensure-tox-ubuntu-xenial
+        - zuul-jobs-test-tox-siblings
+        - zuul-jobs-test-fetch-tox-output
+        - zuul-jobs-test-fetch-tox-output-synchronize
+        - zuul-jobs-test-fetch-subunit-output
+        - zuul-jobs-test-fetch-subunit-output-synchronize
