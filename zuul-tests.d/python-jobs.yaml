@@ -8,6 +8,13 @@
       role_name: ensure-sphinx
 
 - job:
+    name: zuul-jobs-test-ensure-tox
+    description: Test the ensure-tox role
+    files:
+      - roles/ensure-tox/.*
+    run: test-playbooks/ensure-tox.yaml
+
+- job:
     name: zuul-jobs-test-tox-siblings
     description: Test the tox role's sibling functionality
     files:
@@ -46,6 +53,7 @@
     check:
       jobs: &id001
         - zuul-jobs-test-ensure-sphinx
+        - zuul-jobs-test-ensure-tox
         - zuul-jobs-test-tox-siblings
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
