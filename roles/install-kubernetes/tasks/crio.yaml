@@ -19,6 +19,18 @@
     group: root
     state: link
   become: true
+- name: Fix missing registries.conf
+  # See: https://github.com/containers/podman.io/issues/127
+  copy:
+    content: |
+      [registries.search]
+      registries = []
+      [registries.insecure]
+      registries = []
+      [registries.block]
+      registries = []
+    dest: /etc/containers/registries.conf
+  become: true
 - name: Set crio cgroup driver
   ini_file:
     path: /etc/crio/crio.conf
