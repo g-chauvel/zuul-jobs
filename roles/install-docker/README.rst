@@ -18,6 +18,12 @@ An ansible role to install docker and configure it to use mirrors if available.
    By default this role adds repositories to install docker from upstream
    docker. Set this to False to use the docker that comes with the distro.
 
+.. zuul:rolevar:: docker_compose_install
+   :default: False
+
+   This role does not install docker-compose by default but you can use
+   this setting to install docker-compose as well.
+
 .. zuul:rolevar:: docker_update_channel
    :default: stable
 

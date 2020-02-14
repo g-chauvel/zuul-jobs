@@ -57,6 +57,13 @@
 
 - include_tasks: "docker-{{ (use_upstream_docker | bool) | ternary('upstream', 'distro') }}.yaml"
 
+- name: Install docker-compose
+  become: true
+  package:
+    name: docker-compose
+    state: present
+  when: docker_compose_install | bool
+
 - name: Flush handlers before role exit
   meta: flush_handlers
 
