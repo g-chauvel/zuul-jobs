@@ -141,6 +141,7 @@
       Uses tox with the ``linters`` environment.
     vars:
       tox_envlist: linters
+      test_setup_skip: true
 
 - job:
     name: tox-molecule
