@@ -1,23 +1,25 @@
 - name: Rename tarball for uploading
   shell: |
-    mkdir -p dist
-    cp *.tgz dist/{{ zuul.project.short_name }}-{{ project_ver }}.tar.gz
-    cp *.tgz dist/{{ zuul.project.short_name }}-latest.tar.gz
+    mkdir -p {{ zuul_output_dir }}/artifacts
+    cp *.tgz {{ zuul_output_dir }}/artifacts/{{ zuul.project.short_name }}-{{ project_ver }}.tar.gz
+    cp *.tgz {{ zuul_output_dir }}/artifacts/{{ zuul.project.short_name }}-latest.tar.gz
   args:
     chdir: "{{ zuul_work_dir }}"
   tags:
     # Ignore ANSIBLE0007: No need to use file module instead of mkdir
     - skip_ansible_lint
 
-- name: Ensure artifacts directory exists
-  file:
-    path: "{{ zuul.executor.work_root }}/artifacts"
-    state: directory
-  delegate_to: localhost
+- block:
+    - name: Ensure artifacts directory exists
+      file:
+        path: "{{ zuul.executor.work_root }}/artifacts"
+        state: directory
+      delegate_to: localhost
 
-- name: Collect artifacts
-  synchronize:
-    dest: "{{ zuul.executor.work_root }}/artifacts/"
-    mode: pull
-    src: "{{ zuul_work_dir }}/dist/"
-    verify_host: true
+    - name: Collect artifacts
+      synchronize:
+        dest: "{{ zuul.executor.work_root }}/artifacts/"
+        mode: pull
+        src: "{{ zuul_output_dir }}/artifacts/"
+        verify_host: true
+  when: not zuul_use_fetch_output
