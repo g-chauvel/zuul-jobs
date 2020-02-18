@@ -10,13 +10,7 @@ baseurl=http://mirror.centos.org/centos/7/cloud/$basearch/openstack-queens/
 gpgcheck=1
 enabled=1
 gpgkey=file:///tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
-{% elif ansible_distribution == 'RedHat' and ansible_distribution_major_version|int >= 8 %}
-[RDO-RHEL8-deps]
-name=RedHat OpenStack deps repo
-baseurl=https://trunk.rdoproject.org/rhel8-master/deps/latest/
-gpgcheck=0
-enabled=1
-{% elif ansible_distribution == 'CentOS' and ansible_distribution_major_version|int >= 8 %}
+{% elif ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_major_version|int >= 8 %}
 [RDO-CentOS8-deps]
 name=CentOS OpenStack deps repo
 baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
