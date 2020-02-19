@@ -34,11 +34,11 @@
     - name: Remove tox package with pip
       shell: pip uninstall -y tox
       become: true
-      ignore_errors: true
+      failed_when: false
     - name: Remove tox package with pip3
       shell: pip3 uninstall -y tox
       become: true
-      ignore_errors: true
+      failed_when: false
     - name: Verify tox is not installed
       command: "tox --version"
       register: result
@@ -49,8 +49,8 @@
   tasks:
     - name: Remove tox package
       shell: pip uninstall tox || pip3 uninstall tox
+      failed_when: false
       become: true
-      ignore_errors: true
     - name: Verify tox is not installed
       command: "tox --version"
       register: result
