@@ -41,6 +41,17 @@
   package:
     name: "{{ ovs_package }}"
     state: present
+  when:
+    - ansible_distribution != 'Gentoo'
+
+- name: Install openvswitch (Gentoo)
+  become: yes
+  package:
+    name: "{{ ovs_package }}"
+    state: present
+    jobs: 8
+  when:
+    - ansible_distribution == 'Gentoo'
 
 - name: Ensure openvswitch is started
   become: yes
