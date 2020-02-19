@@ -219,10 +219,106 @@
     name: zuul-jobs-test-bindep
     description: Test the bindep role
     files:
+      - bindep.txt
       - roles/bindep/.*
+      - test-playbooks/simple-role-test.yaml
+      - test-requirements.txt
+      - zuul-tests.d/general-roles-jobs.yaml
     run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: bindep
+    tags: all-platforms
+
+- job:
+    name: zuul-jobs-test-bindep-centos-7
+    description: Test the bindep role on centos-7
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-bindep-centos-8
+    description: Test the bindep role on centos-8
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-bindep-debian-stretch
+    description: Test the bindep role on debian-stretch
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-bindep-fedora-30
+    description: Test the bindep role on fedora-30
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-30
+          label: fedora-30
+
+- job:
+    name: zuul-jobs-test-bindep-gentoo-17-0-systemd
+    description: Test the bindep role on gentoo-17-0-systemd
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-bindep-opensuse-15
+    description: Test the bindep role on opensuse-15
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-bindep-opensuse-tumbleweed-nv
+    voting: false
+    description: Test the bindep role on opensuse-tumbleweed
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-bindep-ubuntu-bionic
+    description: Test the bindep role on ubuntu-bionic
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-bindep-ubuntu-xenial
+    description: Test the bindep role on ubuntu-xenial
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
 
 - job:
     name: zuul-jobs-test-clear-firewall
@@ -489,7 +585,15 @@
         - zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-xenial
-        - zuul-jobs-test-bindep
+        - zuul-jobs-test-bindep-centos-7
+        - zuul-jobs-test-bindep-centos-8
+        - zuul-jobs-test-bindep-debian-stretch
+        - zuul-jobs-test-bindep-fedora-30
+        - zuul-jobs-test-bindep-gentoo-17-0-systemd
+        - zuul-jobs-test-bindep-opensuse-15
+        - zuul-jobs-test-bindep-opensuse-tumbleweed-nv
+        - zuul-jobs-test-bindep-ubuntu-bionic
+        - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
@@ -518,7 +622,14 @@
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-xenial
-        - zuul-jobs-test-bindep
+        - zuul-jobs-test-bindep-centos-7
+        - zuul-jobs-test-bindep-centos-8
+        - zuul-jobs-test-bindep-debian-stretch
+        - zuul-jobs-test-bindep-fedora-30
+        - zuul-jobs-test-bindep-gentoo-17-0-systemd
+        - zuul-jobs-test-bindep-opensuse-15
+        - zuul-jobs-test-bindep-ubuntu-bionic
+        - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
