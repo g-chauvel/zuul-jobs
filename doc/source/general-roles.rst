@@ -14,6 +14,7 @@ General Purpose Roles
 .. zuul:autorole:: dstat-graph
 .. zuul:autorole:: emit-job-header
 .. zuul:autorole:: enable-netconsole
+.. zuul:autorole:: ensure-bazelisk
 .. zuul:autorole:: ensure-dstat-graph
 .. zuul:autorole:: ensure-markdownlint
 .. zuul:autorole:: fetch-markdownlint
