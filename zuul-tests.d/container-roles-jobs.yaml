@@ -17,11 +17,9 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-install-docker-centos-8-nv
+    name: zuul-jobs-test-install-docker-centos-8
     description: Tests install-docker role on centos-8
     parent: zuul-jobs-test-install-docker
-    # TODO(ssbarnea): fix centos-8 in follow-up and remove nv
-    voting: false
     nodeset:
       nodes:
         - name: centos-8
@@ -277,9 +275,9 @@
 
 - project:
     check:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-install-docker-centos-7
-        - zuul-jobs-test-install-docker-centos-8-nv
+        - zuul-jobs-test-install-docker-centos-8
         - zuul-jobs-test-install-docker-debian-stretch
         - zuul-jobs-test-install-docker-fedora-30
         - zuul-jobs-test-install-docker-ubuntu-bionic
@@ -294,18 +292,4 @@
         - zuul-jobs-test-install-kubernetes-crio
         - zuul-jobs-test-install-podman
     gate:
-      jobs:
-        - zuul-jobs-test-install-docker-centos-7
-        - zuul-jobs-test-install-docker-debian-stretch
-        - zuul-jobs-test-install-docker-fedora-30
-        - zuul-jobs-test-install-docker-ubuntu-bionic
-        - zuul-jobs-test-install-docker-ubuntu-xenial
-        - zuul-jobs-test-registry-docker
-        - zuul-jobs-test-registry-podman
-        - zuul-jobs-test-registry-buildset-registry
-        - zuul-jobs-test-registry-buildset-registry-k8s-docker
-        - zuul-jobs-test-registry-buildset-registry-k8s-crio
-        - zuul-jobs-test-registry-buildset-registry-openshift-docker
-        - zuul-jobs-test-install-kubernetes-docker
-        - zuul-jobs-test-install-kubernetes-crio
-        - zuul-jobs-test-install-podman
+      jobs: *id001

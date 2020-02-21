@@ -1,8 +1,20 @@
 ---
-
-- name: Install upstream docker
+# package/dnf module do not support `--nobest` option which is needed for
+# installing docker-ce on centos-8
+- name: Install upstream docker using package
+  when: not (ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8')
   package:
     name: "{{ docker_upstream_distro_packages }}"
     state: present
     update_cache: yes
+  notify: Restart docker
+
+- name: Install upstream docker using shell
+  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
+  shell:
+    cmd: |
+      dnf install --nobest -y {{ docker_upstream_distro_packages | join(' ') }}
+    warn: false
+  register: result
+  changed_when: "'Complete!' in result.stdout"
   notify: Restart docker
