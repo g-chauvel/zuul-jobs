@@ -105,7 +105,7 @@ def handle_file(fn):
                     joblist_check.append(ojob['name'])
                     if voting:
                         joblist_gate.append(ojob['name'])
-            else:
+            elif not job.get('abstract', False):
                 joblist_check.append(job['name'])
                 # don't append non-voting jobs to gate
                 if job.get('voting', True):

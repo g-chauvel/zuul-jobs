@@ -1,4 +1,69 @@
 - job:
+    name: zuul-jobs-test-install-docker
+    description: Tests install-docker role
+    abstract: true
+    files:
+      - roles/install-docker/.*
+      - test-requirements.txt
+    run: test-playbooks/install-docker.yaml
+
+- job:
+    name: zuul-jobs-test-install-docker-centos-7
+    description: Tests install-docker role on centos-7
+    parent: zuul-jobs-test-install-docker
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-install-docker-centos-8-nv
+    description: Tests install-docker role on centos-8
+    parent: zuul-jobs-test-install-docker
+    # TODO(ssbarnea): fix centos-8 in follow-up and remove nv
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-install-docker-debian-stretch
+    description: Tests install-docker role on debian-stretch
+    parent: zuul-jobs-test-install-docker
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-install-docker-fedora-29
+    description: Tests install-docker role on fedora-29
+    parent: zuul-jobs-test-install-docker
+    nodeset:
+      nodes:
+        - name: fedora-29
+          label: fedora-29
+
+- job:
+    name: zuul-jobs-test-install-docker-ubuntu-bionic
+    description: Tests install-docker role on ubuntu-bionic
+    parent: zuul-jobs-test-install-docker
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-install-docker-ubuntu-xenial
+    description: Tests install-docker role on ubuntu-xenial
+    parent: zuul-jobs-test-install-docker
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
     name: zuul-jobs-test-registry-docker
     description: |
       Test the intermediate registry roles.
@@ -212,7 +277,13 @@
 
 - project:
     check:
-      jobs: &id001
+      jobs:
+        - zuul-jobs-test-install-docker-centos-7
+        - zuul-jobs-test-install-docker-centos-8-nv
+        - zuul-jobs-test-install-docker-debian-stretch
+        - zuul-jobs-test-install-docker-fedora-29
+        - zuul-jobs-test-install-docker-ubuntu-bionic
+        - zuul-jobs-test-install-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker
         - zuul-jobs-test-registry-podman
         - zuul-jobs-test-registry-buildset-registry
@@ -223,4 +294,18 @@
         - zuul-jobs-test-install-kubernetes-crio
         - zuul-jobs-test-install-podman
     gate:
-      jobs: *id001
+      jobs:
+        - zuul-jobs-test-install-docker-centos-7
+        - zuul-jobs-test-install-docker-debian-stretch
+        - zuul-jobs-test-install-docker-fedora-29
+        - zuul-jobs-test-install-docker-ubuntu-bionic
+        - zuul-jobs-test-install-docker-ubuntu-xenial
+        - zuul-jobs-test-registry-docker
+        - zuul-jobs-test-registry-podman
+        - zuul-jobs-test-registry-buildset-registry
+        - zuul-jobs-test-registry-buildset-registry-k8s-docker
+        - zuul-jobs-test-registry-buildset-registry-k8s-crio
+        - zuul-jobs-test-registry-buildset-registry-openshift-docker
+        - zuul-jobs-test-install-kubernetes-docker
+        - zuul-jobs-test-install-kubernetes-crio
+        - zuul-jobs-test-install-podman

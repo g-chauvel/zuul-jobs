@@ -1,6 +1,6 @@
 ---
 
-- name: Install docker
+- name: Install upstream docker
   package:
     name: "{{ docker_upstream_distro_packages }}"
     state: present
