@@ -12,6 +12,7 @@ Roles
    deprecated-roles
    galaxy-roles
    go-roles
+   java-roles
    js-roles
    launchpad-roles
    puppet-roles
