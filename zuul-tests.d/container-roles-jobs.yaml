@@ -37,13 +37,13 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-install-docker-fedora-29
-    description: Tests install-docker role on fedora-29
+    name: zuul-jobs-test-install-docker-fedora-30
+    description: Tests install-docker role on fedora-30
     parent: zuul-jobs-test-install-docker
     nodeset:
       nodes:
-        - name: fedora-29
-          label: fedora-29
+        - name: fedora-30
+          label: fedora-30
 
 - job:
     name: zuul-jobs-test-install-docker-ubuntu-bionic
@@ -281,7 +281,7 @@
         - zuul-jobs-test-install-docker-centos-7
         - zuul-jobs-test-install-docker-centos-8-nv
         - zuul-jobs-test-install-docker-debian-stretch
-        - zuul-jobs-test-install-docker-fedora-29
+        - zuul-jobs-test-install-docker-fedora-30
         - zuul-jobs-test-install-docker-ubuntu-bionic
         - zuul-jobs-test-install-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker
@@ -297,7 +297,7 @@
       jobs:
         - zuul-jobs-test-install-docker-centos-7
         - zuul-jobs-test-install-docker-debian-stretch
-        - zuul-jobs-test-install-docker-fedora-29
+        - zuul-jobs-test-install-docker-fedora-30
         - zuul-jobs-test-install-docker-ubuntu-bionic
         - zuul-jobs-test-install-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker

@@ -1,2 +1,2 @@
-zuul===3.12.0
+requests===2.18.4
 doesnotexistonpypi===0.0.1

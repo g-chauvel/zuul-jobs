@@ -2,8 +2,8 @@
 # of appearance. Changing the order has an impact on the overall integration
 # process, which may cause wedges in the gate later.
 flake8
-GitPython>=2.1.8,<2.1.12
-zuul
+enum34==1.1.6; python_version < "3.4"
+zuul; python_version > "3"
 
 # We need to pin the ansible version directly here; per the
 # deprecation policy it should trail the version used by Zuul by 4
