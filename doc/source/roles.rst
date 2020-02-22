@@ -20,6 +20,7 @@ Roles
    js-roles
    kubernetes-roles
    launchpad-roles
+   packer-roles
    puppet-roles
    python-roles
    system-roles

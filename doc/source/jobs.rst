@@ -10,4 +10,5 @@ Jobs
    docker-jobs
    go-jobs
    helm-jobs
+   packer-jobs
    system-jobs

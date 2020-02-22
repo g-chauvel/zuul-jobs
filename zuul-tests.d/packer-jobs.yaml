@@ -1,0 +1,144 @@
+- job:
+    name: test-packer
+    parent: packer
+    description: Test packer job
+    post-run: test-playbooks/packer/post.yaml
+    tags: all-platforms
+    files:
+      - roles/ensure-packer/.*
+      - roles/packer/.*
+      - test-playbooks/packer/.*
+      - zuul.d/packer-jobs.yaml
+    vars:
+      packer_install_dir: '{{ ansible_user_dir }}/packer'
+      packer_template: test-playbooks/packer/packer.json
+      packer_environment:
+        PACKER_TEST_FILE: testfile
+      packer_variables:
+        packer_test_content: "abc\n"
+
+- job:
+    name: test-packer-centos-7
+    description: Test packer job on centos-7
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: test-packer-centos-8
+    description: Test packer job on centos-8
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: test-packer-debian-stretch
+    description: Test packer job on debian-stretch
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: test-packer-fedora-30
+    description: Test packer job on fedora-30
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-30
+          label: fedora-30
+
+- job:
+    name: test-packer-gentoo-17-0-systemd
+    description: Test packer job on gentoo-17-0-systemd
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: test-packer-opensuse-15
+    description: Test packer job on opensuse-15
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: test-packer-opensuse-tumbleweed-nv
+    voting: false
+    description: Test packer job on opensuse-tumbleweed
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: test-packer-ubuntu-bionic
+    description: Test packer job on ubuntu-bionic
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: test-packer-ubuntu-bionic-plain-nv
+    voting: false
+    description: Test packer job on ubuntu-bionic-plain
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
+
+- job:
+    name: test-packer-ubuntu-xenial
+    description: Test packer job on ubuntu-xenial
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- project:
+    check:
+      jobs:
+        - test-packer-centos-7
+        - test-packer-centos-8
+        - test-packer-debian-stretch
+        - test-packer-fedora-30
+        - test-packer-gentoo-17-0-systemd
+        - test-packer-opensuse-15
+        - test-packer-opensuse-tumbleweed-nv
+        - test-packer-ubuntu-bionic
+        - test-packer-ubuntu-bionic-plain-nv
+        - test-packer-ubuntu-xenial
+    gate:
+      jobs:
+        - test-packer-centos-7
+        - test-packer-centos-8
+        - test-packer-debian-stretch
+        - test-packer-fedora-30
+        - test-packer-gentoo-17-0-systemd
+        - test-packer-opensuse-15
+        - test-packer-ubuntu-bionic
+        - test-packer-ubuntu-xenial
