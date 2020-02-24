@@ -1,3 +1,0 @@
-- name: Call upload-afs-roots
-  include_role:
-    name: upload-afs-roots

@@ -2,7 +2,6 @@ AFS Roles
 =========
 
 .. zuul:autorole:: destroy-afs-token
-.. zuul:autorole:: upload-afs
 .. zuul:autorole:: upload-afs-roots
 .. zuul:autorole:: upload-afs-synchronize
 .. zuul:autorole:: create-afs-token
