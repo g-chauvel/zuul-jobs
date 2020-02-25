@@ -43,17 +43,10 @@ class SymlinkFixture(fixtures.Fixture):
     ]
 
     def _setUp(self):
-        self._cleanup()
         for (src, target) in self.links:
             path = os.path.join(FIXTURE_DIR, 'links', src)
             os.symlink(target, path)
-        self.addCleanup(self._cleanup)
-
-    def _cleanup(self):
-        for (src, target) in self.links:
-            path = os.path.join(FIXTURE_DIR, 'links', src)
-            if os.path.exists(path):
-                os.unlink(path)
+            self.addCleanup(os.unlink, path)
 
 
 class TestFileList(testtools.TestCase):
