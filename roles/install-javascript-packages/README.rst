@@ -6,3 +6,9 @@ Install javascript dependencies needed for a project
    :default: {{ zuul.project.src_dir }}
 
    The directory to work in.
+
+.. zuul:rolevar:: tox_constraints_file
+
+   Path to a pip constraints file. Will set the
+   ``UPPER_CONSTRAINTS_FILE`` environment variable.  Useful if npm
+   ``postinstall`` runs tox.
