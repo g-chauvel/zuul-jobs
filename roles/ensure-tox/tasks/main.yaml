@@ -2,11 +2,19 @@
   shell: |
     set -euo pipefail
 
+    {% if tox_prefer_python2 %}
     if command -v pip; then
       PIP=pip
     elif command -v pip3; then
       PIP=pip3
     fi
+    {% else %}
+    if command -v pip3; then
+      PIP=pip3
+    elif command -v pip; then
+      PIP=pip
+    fi
+    {% endif %}
 
     type tox || $PIP install --user tox
   args:
