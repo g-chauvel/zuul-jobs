@@ -1,2 +1,2 @@
 tox_executable: tox
-tox_prefer_python2: true
+tox_prefer_python2: false

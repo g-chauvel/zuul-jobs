@@ -14,6 +14,4 @@ user install directory (i.e., "pip install --user").
    :default: ``true``
 
    If tox is not detected, prefer to install tox inside Python 2 instead of
-   Python 3.  The default value is currently set to ``true`` for compatibility
-   reasons, it will be switched to false eventually.  It's best to set this to
-   ``false`` when using it.
+   Python 3.
