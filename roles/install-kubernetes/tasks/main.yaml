@@ -10,10 +10,12 @@
     repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
     state: present
 
-- name: Install kubernetes packages
+- name: Install kubernetes packages and dependencies
   become: yes
   apt:
-    name: kubectl
+    name:
+      - kubectl
+      - liblz4-tool
     update_cache: yes
 
 - name: Run cluster tasks
