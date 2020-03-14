@@ -18,4 +18,5 @@ Roles
    puppet-roles
    python-roles
    translation-roles
+   kubernetes-roles
    helm-roles
