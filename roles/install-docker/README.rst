@@ -18,6 +18,13 @@ An ansible role to install docker and configure it to use mirrors if available.
    By default this role adds repositories to install docker from upstream
    docker. Set this to False to use the docker that comes with the distro.
 
+.. zuul:rolevar:: docker_use_buildset_registry
+   :default: False
+
+   This role does not enable the usage of the buildset registry by default,
+   this variable allows enabling the usage of the buildset registry after
+   installing Docker.
+
 .. zuul:rolevar:: docker_compose_install
    :default: False
 

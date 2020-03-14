@@ -2,8 +2,7 @@
   roles:
     - role: clear-firewall
     - role: install-kubernetes
-    - role: use-buildset-registry
-      buildset_registry_docker_user: root
+      docker_use_buildset_registry: true
   tasks:
     - name: Wait for cluster to come up
       command: kubectl cluster-info

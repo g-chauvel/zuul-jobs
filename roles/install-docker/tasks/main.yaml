@@ -80,3 +80,11 @@
 - name: Dump installed docker details
   debug:
     msg: '{{ docker_installed_version }}'
+
+- name: Use buildset registry
+  include_role:
+    name: use-buildset-registry
+  vars:
+    buildset_registry_docker_user: root
+  when:
+    - docker_use_buildset_registry | bool

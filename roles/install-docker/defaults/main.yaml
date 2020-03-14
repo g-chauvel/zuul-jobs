@@ -1,5 +1,6 @@
 use_upstream_docker: True
 docker_group: docker
+docker_use_buildset_registry: false
 # NOTE(cloudnull): Packages are loaded through distro specific variables.
 #                  The default option will return an empty list which
 #                  allows folks to override these lists as they see fit.
