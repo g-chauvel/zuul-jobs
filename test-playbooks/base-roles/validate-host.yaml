@@ -11,3 +11,4 @@
   roles:
     - role: validate-host
       zuul_site_traceroute_host: files.openstack.org
+      validate_host_hostname: "abc/123"
