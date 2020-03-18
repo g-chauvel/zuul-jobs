@@ -7,9 +7,16 @@
   with_dict: "{{ zuul.projects }}"
 
 - name: Synchronize src repos to workspace directory
-  command: "git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror git+ssh://{{ ansible_user }}@{{ ansible_host | ipwrap }}:{{ ansible_port }}/{{ ansible_user_dir }}/{{ item.value.src_dir }}"
+  command: |-
+    {% if ansible_connection == "kubectl" %}
+      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror "ext::kubectl -n {{ zuul.resources[inventory_hostname].namespace }} exec -i {{ zuul.resources[inventory_hostname].pod }} -- %S {{ ansible_user_dir }}/{{ item.value.src_dir }}"
+    {% else %}
+      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror git+ssh://{{ ansible_user }}@{{ ansible_host | ipwrap }}:{{ ansible_port }}/{{ ansible_user_dir }}/{{ item.value.src_dir }}
+    {% endif %}
   args:
     chdir: "{{ zuul.executor.work_root }}/{{ item.value.src_dir }}"
+  environment:
+    GIT_ALLOW_PROTOCOL: ext:ssh
   with_dict: "{{ zuul.projects }}"
   delegate_to: localhost
   # We occasionally see git pushes in the middle of this loop fail then
