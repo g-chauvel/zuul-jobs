@@ -1,10 +1,10 @@
 exclude_paths:
   - playbooks/legacy
 parseable: true
-# [ANSIBLE0012] Commands should not change things if nothing needs doing
 # [204] Lines should be no longer than 160 chars
+# [301] Commands should not change things if nothing needs doing
 skip_list:
-  - ANSIBLE0012
   - '204'
+  - '301'
 use_default_rules: true
 verbosity: 1
