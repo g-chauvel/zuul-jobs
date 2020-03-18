@@ -19,7 +19,7 @@
     - skip_ansible_lint
 
 - name: Run git garbage collection
-  command: git gc
+  command: git gc --prune=now --aggressive
   args:
     chdir: "{{ git_cache_root }}/{{ item.canonical_name }}"
   with_items: "{{ zuul.projects.values() | list }}"
