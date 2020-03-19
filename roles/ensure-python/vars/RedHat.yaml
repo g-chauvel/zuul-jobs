@@ -1,0 +1,8 @@
+python_build_depends:
+  - bzip2-devel
+  - gcc
+  - make
+  - openssl-devel
+  - readline-devel
+  - sqlite-devel
+  - zlib-devel
