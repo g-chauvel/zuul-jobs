@@ -37,13 +37,21 @@
         download_template: "{{ download_template | default(omit) }}"
       register: upload_results
 
+    - name: Get download script name
+      set_fact:
+        download_script: "{{ zuul_log_download_template | basename | regex_replace('\\.j2$') }}"
+      when:
+        - zuul_log_include_download_script
+
     - name: Set download template artifact
       zuul_return:
         data:
           zuul:
             artifacts:
-              - name: bulk-download
-                url: '{{ upload_results.url }}/{{ zuul_log_download_template[:-3] }}'
+              - name: Download all logs
+                url: '{{ download_script }}'
+                metadata:
+                  command: 'curl "{{ upload_results.url }}/{{ download_script }}" | bash'
       when:
         - zuul_log_include_download_script
 
