@@ -22,16 +22,6 @@
       when:
         - zuul_log_include_download_script
 
-    - name: Set download template artifact
-      zuul_return:
-        data:
-          zuul:
-            artifacts:
-              - name: bulk-download
-                url: '{{ upload_results.url }}/{{ zuul_log_download_template[:-3] }}'
-      when:
-        - zuul_log_include_download_script
-
     - name: Upload logs to swift
       delegate_to: localhost
       zuul_swift_upload:
@@ -46,6 +36,16 @@
         delete_after: "{{ zuul_log_delete_after | default(omit) }}"
         download_template: "{{ download_template | default(omit) }}"
       register: upload_results
+
+    - name: Set download template artifact
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: bulk-download
+                url: '{{ upload_results.url }}/{{ zuul_log_download_template[:-3] }}'
+      when:
+        - zuul_log_include_download_script
 
 - name: Return log URL to Zuul
   delegate_to: localhost
