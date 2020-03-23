@@ -1,0 +1,42 @@
+- name: List pods
+  command: "kubectl get pod -o=custom-columns=NAME:.metadata.name --no-headers"
+  register: podlist
+  ignore_errors: true
+
+- name: Create pod describe dir
+  file:
+    path: "{{ ansible_user_dir }}/zuul-output/logs/pods"
+    state: directory
+
+- name: Save pod descriptions
+  loop: "{{ podlist.stdout_lines | default([]) }}"
+  loop_control:
+    loop_var: pod_name
+  shell: "kubectl describe po {{ pod_name }} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ pod_name }}.txt"
+  args:
+    executable: /bin/bash
+  ignore_errors: true
+
+- name: Open pod descriptions permissions
+  file:
+    dest: "{{ ansible_user_dir }}/zuul-output/logs/pods"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+
+- name: Create kubelet log dir
+  file:
+    path: "{{ ansible_user_dir }}/zuul-output/logs/kubelet"
+    state: directory
+
+- name: Save kubelet logs
+  shell: "journalctl -u kubelet &> {{ ansible_user_dir }}/zuul-output/logs/kubelet/kubelet.txt"
+  args:
+    executable: /bin/bash
+  ignore_errors: true
+  become: yes
+
+- name: Open kubelet logs permissions
+  file:
+    dest: "{{ ansible_user_dir }}/zuul-output/logs/kubelet"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
