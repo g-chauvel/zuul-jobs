@@ -3,7 +3,7 @@
   uri:
     url: "https://auth.docker.io/token?service=registry.docker.io&scope=repository:{{ image.repository }}:pull,push"
     user: "{{ docker_credentials.username }}"
-    password: "{{ docker_credentials.password }}"
+    password: "{{ docker_credentials.password | trim }}"
     force_basic_auth: true
   register: token
 - name: Retag image
