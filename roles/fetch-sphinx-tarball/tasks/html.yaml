@@ -1,17 +1,17 @@
 - name: Create temporary HTML archive file
   tempfile:
     state: file
-    suffix: ".tar.bz2"
+    suffix: ".tar.gz"
   register: html_archive
 
 - name: Archive HTML
-  command: "tar -f {{ html_archive.path }} -C {{ zuul_work_dir }}/{{ sphinx_build_dir }}/html --exclude=.doctrees -cj ."
+  command: "tar -f {{ html_archive.path }} -C {{ zuul_work_dir }}/{{ sphinx_build_dir }}/html --exclude=.doctrees -cz ."
   args:
     warn: false
 
 - name: Fetch archive HTML
   synchronize:
-    dest: "{{ zuul.executor.log_root }}/docs-html.tar.bz2"
+    dest: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
     mode: pull
     src: "{{ html_archive.path }}"
     verify_host: true
@@ -25,7 +25,7 @@
 - name: Extract archive HTML
   delegate_to: localhost
   unarchive:
-    src: "{{ zuul.executor.log_root }}/docs-html.tar.bz2"
+    src: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
     dest: "{{ zuul.executor.log_root }}/docs"
 
 - name: Return artifact to Zuul
@@ -34,7 +34,7 @@
       zuul:
         artifacts:
           - name: "Docs archive"
-            url: "docs-html.tar.bz2"
+            url: "docs-html.tar.gz"
             metadata:
               type: docs_archive
           - name: "Docs preview site"
