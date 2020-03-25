@@ -30,6 +30,7 @@ import io
 import logging
 import mimetypes
 import os
+import jinja2
 try:
     import queue as queuelib
 except ImportError:
@@ -54,6 +55,7 @@ import requests.exceptions
 import requestsexceptions
 import keystoneauth1.exceptions
 
+from ansible.module_utils._text import to_text
 from ansible.module_utils.basic import AnsibleModule
 
 try:
@@ -265,13 +267,15 @@ class FileDetail():
     to push to swift.
     """
 
-    def __init__(self, full_path, relative_path, filename=None):
+    def __init__(self, full_path, relative_path,
+                 filename=None, is_index=False):
         """
         Args:
             full_path (str): The absolute path to the file on disk.
             relative_path (str): The relative path from the artifacts source
                                  used for links.
             filename (str): An optional alternate filename in links.
+            is_index (bool): Is this file an index
         """
         # Make FileNotFoundError exception to be compatible with python2
         try:
@@ -285,6 +289,7 @@ class FileDetail():
         else:
             self.filename = filename
         self.relative_path = relative_path
+        self.is_index = is_index
 
         if self.full_path and os.path.isfile(self.full_path):
             mime_guess, encoding = mimetypes.guess_type(self.full_path)
@@ -305,7 +310,8 @@ class FileDetail():
 
     def __repr__(self):
         t = 'Folder' if self.folder else 'File'
-        return '<%s %s>' % (t, self.relative_path)
+        return '<%s %s%s>' % (t, self.relative_path,
+                              ' (index)' if self.is_index else '')
 
 
 class FileList(Sequence):
@@ -411,6 +417,7 @@ class Indexer():
     FileList
 
      - make_indexes() : make index.html in folders
+     - make_download_script() : make a script to download all logs
     """
     def __init__(self, file_list):
         '''
@@ -530,7 +537,8 @@ class Indexer():
             if full_path:
                 filename = os.path.basename(full_path)
                 relative_name = os.path.join(folder, filename)
-                indexes[folder] = FileDetail(full_path, relative_name)
+                indexes[folder] = FileDetail(full_path, relative_name,
+                                             is_index=True)
 
         # This appends the index file at the end of the group of files
         # for each directory.
@@ -552,6 +560,41 @@ class Indexer():
             new_list.append(f)
         new_list.reverse()
         self.file_list.file_list = new_list
+
+    def make_download_script(self, base_url, download_template):
+        '''Make a download script from template
+
+        Note since you need the base_url, it really only makes sense
+        to call this after the Uploader() is initalised.
+
+        Args:
+            base_url (str): The base URL to prefix
+            download_template (str): Path to a jinja2 template
+
+        Return:
+             None; a file with the same name as the template (stripped of
+            .j2 if present) is added to self.file_list for upload.
+        '''
+        # Prune the list to just be files, no indexes (this should run
+        # before indexing anyway)
+        download_files = [f for f in self.file_list
+                          if not f.folder and not f.is_index]
+        output_filename = os.path.basename(download_template[:-3]
+                                           if download_template.endswith('.j2')
+                                           else download_template)
+        output = os.path.join(self.file_list.get_tempdir(), output_filename)
+
+        with open(download_template) as f, open(output, 'wb') as output:
+            logging.debug("Writing template %s" % output.name)
+            template = jinja2.Template(f.read())
+            rendered = template.stream(
+                base_url=base_url.rstrip('/'),
+                # jinja wants unicode input
+                file_list=[to_text(f.relative_path) for f in download_files])
+            rendered.dump(output, encoding='utf-8')
+
+        download_script = FileDetail(output.name, output_filename)
+        self.file_list.file_list.append(download_script)
 
 
 class GzipFilter():
@@ -770,7 +813,7 @@ class Uploader():
 def run(cloud, container, files,
         indexes=True, parent_links=True, topdir_parent_link=False,
         partition=False, footer='index_footer.html', delete_after=15552000,
-        prefix=None, public=True, dry_run=False):
+        prefix=None, public=True, dry_run=False, download_template=''):
 
     if prefix:
         prefix = prefix.lstrip('/')
@@ -786,7 +829,15 @@ def run(cloud, container, files,
         for file_path in files:
             file_list.add(file_path)
 
+        # Upload.
+        uploader = Uploader(cloud, container, prefix, delete_after,
+                            public, dry_run)
+
         indexer = Indexer(file_list)
+
+        # (Possibly) make download script
+        if download_template:
+            indexer.make_download_script(uploader.url, download_template)
 
         # (Possibly) make indexes.
         if indexes:
@@ -798,9 +849,6 @@ def run(cloud, container, files,
         for x in file_list:
             logging.debug(x)
 
-        # Upload.
-        uploader = Uploader(cloud, container, prefix, delete_after,
-                            public, dry_run)
         uploader.upload(file_list)
         return uploader.url
 
@@ -819,6 +867,7 @@ def ansible_main():
             footer=dict(type='str'),
             delete_after=dict(type='int'),
             prefix=dict(type='str'),
+            download_template=dict(type='str'),
         )
     )
 
@@ -833,7 +882,8 @@ def ansible_main():
                   footer=p.get('footer'),
                   delete_after=p.get('delete_after', 15552000),
                   prefix=p.get('prefix'),
-                  public=p.get('public'))
+                  public=p.get('public'),
+                  download_template=p.get('download_template'))
     except (keystoneauth1.exceptions.http.HttpError,
             requests.exceptions.RequestException):
         s = "Error uploading to %s.%s" % (cloud.name, cloud.config.region_name)
@@ -875,6 +925,9 @@ def cli_main():
                              'upload. Default is 6 months (15552000 seconds) '
                              'and if set to 0 X-Delete-After will not be set',
                         type=int)
+    parser.add_argument('--download-template', default='',
+                        help='Path to a Jinja2 template that will be filled '
+                             'out to create an automatic download script')
     parser.add_argument('--prefix',
                         help='Prepend this path to the object names when '
                              'uploading')
@@ -912,7 +965,8 @@ def cli_main():
               delete_after=args.delete_after,
               prefix=args.prefix,
               public=not args.no_public,
-              dry_run=args.dry_run)
+              dry_run=args.dry_run,
+              download_template=args.download_template)
     print(url)
 
 
