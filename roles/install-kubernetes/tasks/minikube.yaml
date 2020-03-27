@@ -64,10 +64,21 @@
     MINIKUBE_HOME: "{{ ansible_user_dir }}"
     KUBECONFIG: "{{ ansible_user_dir }}/.kube/config"
 
+- name: Get KUBECONFIG
+  command: "kubectl config view"
+  register: kubeconfig_yaml
+
+- name: Parse KUBECONFIG YAML
+  set_fact:
+    kube_config: "{{ kubeconfig_yaml.stdout | from_yaml }}"
+
 - name: Ensure minikube config is owned by ansible_user
   become: yes
+  loop: "{{ kube_config['users'] }}"
+  loop_control:
+    loop_var: item
   file:
-    path: "{{ ansible_user_dir }}/.minikube/client.key"
+    path: "{{ item['user']['client-key'] }}"
     owner: "{{ ansible_user }}"
 
 - name: Get cluster info
