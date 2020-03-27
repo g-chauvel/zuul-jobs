@@ -2,5 +2,3 @@ zuul_log_partition: false
 zuul_log_container: logs
 zuul_log_container_public: true
 zuul_log_create_indexes: true
-zuul_log_include_download_script: false
-zuul_log_download_template: '{{ role_path }}/templates/download-logs.sh.j2'

@@ -76,17 +76,3 @@ This uploads logs to an OpenStack Object Store (Swift) container.
 
    More details can be found at
    :zuul:rolevar:`set-zuul-log-path-fact.zuul_log_path_shard_build`.
-
-.. zuul:rolevar:: zuul_log_include_download_script
-   :default: False
-
-   Generate a script from ``zuul_log_download_template`` in the root
-   directory of the uploaded logs to facilitate easy bulk download.
-
-.. zuul:rolevar:: zuul_log_download_template
-   :default: templates/download-logs.sh.j2
-
-   Path to template file if ``zuul_log_include_download_script`` is
-   set.  See the sample file for parameters available to the template.
-   The file will be placed in the root of the uploaded logs (with
-   ``.j2`` suffix removed).
