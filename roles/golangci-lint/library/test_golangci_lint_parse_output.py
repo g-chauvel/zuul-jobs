@@ -16,20 +16,18 @@
 
 import os
 
-import yaml
+import testtools
+
+from tests import generate_dynamic_comments_tests
+from .golangci_lint_parse_output import parse_output
+
+TESTS_DIR = os.path.join(os.path.dirname(__file__),
+                         'test-cases')
 
 
-def generate_dynamic_comments_tests(cls, test_path, func):
-    def _create_test_using_file(name):
-        def test(self):
-            path = "%s/%s" % (test_path, name)
-            with open(path) as fd:
-                data = yaml.load(fd, Loader=yaml.FullLoader)
-            comments = func(data['output'], data['workdir'])
-            self.assertEqual(data['comments'], comments)
-        return test
+class TestGolangciLintParseOutput(testtools.TestCase):
+    pass
 
-    for t in os.listdir(test_path):
-        test = _create_test_using_file(t)
-        test.__name__ = "test_%s" % t.split('.')[0]
-        setattr(cls, test.__name__, test)
+
+generate_dynamic_comments_tests(TestGolangciLintParseOutput, TESTS_DIR,
+                                parse_output)
