@@ -53,9 +53,6 @@
     data:
       zuul:
         file_comments: '{{ file_comments.file_comments }}'
-  tags:
-    # Avoid "no action detected in task" linter error
-    - skip_ansible_lint
 
 - name: Return tox status
   fail:
