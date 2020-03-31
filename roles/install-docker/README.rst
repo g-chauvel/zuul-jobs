@@ -68,6 +68,14 @@ An ansible role to install docker and configure it to use mirrors if available.
    installed prior to installing docker-ce. If the package set needs to
    be changed this option can be overridden as needed.
 
+.. zuul:rolevar:: docker_upstream_distro_remove_packages
+   :default: list
+
+   List of packages to be removed before installing new ones. It is used
+   for avoiding potential conflicts. For example it can remove `docker`
+   package before trying to install `docker-ce`. The default value is
+   distro specific.
+
 .. zuul:rolevar:: docker_upstream_distro_packages
    :default: list
 

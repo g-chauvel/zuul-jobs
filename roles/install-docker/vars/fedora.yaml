@@ -11,6 +11,9 @@ _docker_upstream_distro_packages:
   - docker-ce-cli
   - containerd.io
 
+_docker_upstream_distro_remove_packages:
+  - docker
+
 docker_repo_template: docker-ce-fedora.repo.j2
 
 docker_distro_vars_loaded: true
