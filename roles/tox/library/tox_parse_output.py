@@ -35,6 +35,7 @@ options:
     type: str
 '''
 
+import os
 import re
 
 from ansible.module_utils.basic import AnsibleModule
@@ -69,6 +70,9 @@ def extract_file_comments(tox_output, tox_envlist):
             # Clean up the file path if it has a leading ./
             if file_path.startswith('./'):
                 file_path = file_path[2:]
+            # Don't report if the file path isn't valid
+            if not os.path.isfile(file_path):
+                continue
             ret.setdefault(file_path, [])
             if tox_envlist:
                 message = "{envlist}: {message}".format(
@@ -89,10 +93,12 @@ def main():
         argument_spec=dict(
             tox_output=dict(required=True, type='str', no_log=True),
             tox_envlist=dict(required=True, type='str'),
+            workdir=dict(required=True, type='str'),
         )
     )
     tox_output = module.params['tox_output']
     tox_envlist = module.params['tox_envlist']
+    os.chdir(module.params['workdir'])
 
     file_comments = extract_file_comments(tox_output, tox_envlist)
     module.exit_json(changed=False, file_comments=file_comments)

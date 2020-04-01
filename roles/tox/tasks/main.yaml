@@ -45,6 +45,7 @@
   tox_parse_output:
     tox_output: '{{ tox_output.stdout }}'
     tox_envlist: '{{ tox_envlist }}'
+    workdir: '{{ zuul_work_dir }}'
   when: tox_inline_comments
   register: file_comments
   ignore_errors: yes
