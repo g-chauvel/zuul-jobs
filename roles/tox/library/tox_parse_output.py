@@ -40,6 +40,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 PEP8_RE = re.compile(r"^(.*):(\d+):(\d+): (.*)$")
+ANSI_RE = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
 
 
 def extract_pep8_comments(line):
@@ -69,8 +70,10 @@ def extract_file_comments(tox_output):
             if file_path.startswith('./'):
                 file_path = file_path[2:]
             ret.setdefault(file_path, [])
-            ret[file_path].append(dict(line=int(start_line),
-                                       message=message))
+            ret[file_path].append(dict(
+                line=int(start_line),
+                message=ANSI_RE.sub('', message),
+            ))
         except Exception:
             pass
     return ret
