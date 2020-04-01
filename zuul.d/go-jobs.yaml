@@ -90,3 +90,11 @@
          Path to operate in.
     vars:
       go_command: test
+
+- job:
+    name: golangci-lint
+    parent: unittests
+    description: |
+      Run golangci-lint on a Go project
+    pre-run: playbooks/golangci-lint/pre.yaml
+    run: playbooks/golangci-lint/run.yaml
