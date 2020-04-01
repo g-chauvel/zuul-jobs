@@ -79,7 +79,7 @@ def extract_file_comments(tox_output):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            tox_output=dict(required=True, type='str'),
+            tox_output=dict(required=True, type='str', no_log=True),
         )
     )
     tox_output = module.params['tox_output']
