@@ -1,8 +1,3 @@
-- name: Find distribution installation
-  include: "{{ item }}"
-  static: no
-  with_first_found:
-    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
-    - "{{ ansible_distribution }}.yaml"
-    - "{{ ansible_os_family }}.yaml"
-    - "default.yaml"
+- name: Include ensure-podman
+  include_role:
+    name: ensure-podman

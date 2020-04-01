@@ -15,7 +15,7 @@ They all accept the same input data, principally a list of
 dictionaries representing the images to build.  YAML anchors_ can be
 used to supply the same data to all three jobs.
 
-Use the :zuul:role:`ensure-docker` or :zuul:role:`install-podman`
+Use the :zuul:role:`ensure-docker` or :zuul:role:`ensure-podman`
 role to install Docker or Podman before using these roles.
 
 **Role Variables**
