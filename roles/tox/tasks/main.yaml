@@ -44,6 +44,7 @@
 - name: Look for output
   tox_parse_output:
     tox_output: '{{ tox_output.stdout }}'
+  when: tox_inline_comments
   register: file_comments
   ignore_errors: yes
 
