@@ -1,6 +1,7 @@
 Go Roles
 ========
 
+.. zuul:autorole:: ensure-go
 .. zuul:autorole:: ensure-golangci-lint
 .. zuul:autorole:: install-go
 .. zuul:autorole:: go
