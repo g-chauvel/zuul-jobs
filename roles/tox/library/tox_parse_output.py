@@ -52,12 +52,12 @@ def extract_pep8_comments(line):
     if m:
         file_path = m.group(1)
         start_line = m.group(2)
-        message = m.group(4)
+        message = ANSI_RE.sub('', m.group(4))
 
     return file_path, start_line, message
 
 
-def extract_file_comments(tox_output):
+def extract_file_comments(tox_output, tox_envlist):
     ret = {}
     for line in tox_output.split('\n'):
         try:
@@ -70,9 +70,14 @@ def extract_file_comments(tox_output):
             if file_path.startswith('./'):
                 file_path = file_path[2:]
             ret.setdefault(file_path, [])
+            if tox_envlist:
+                message = "{envlist}: {message}".format(
+                    envlist=tox_envlist,
+                    message=message,
+                )
             ret[file_path].append(dict(
                 line=int(start_line),
-                message=ANSI_RE.sub('', message),
+                message=message,
             ))
         except Exception:
             pass
@@ -83,11 +88,13 @@ def main():
     module = AnsibleModule(
         argument_spec=dict(
             tox_output=dict(required=True, type='str', no_log=True),
+            tox_envlist=dict(required=True, type='str'),
         )
     )
     tox_output = module.params['tox_output']
+    tox_envlist = module.params['tox_envlist']
 
-    file_comments = extract_file_comments(tox_output)
+    file_comments = extract_file_comments(tox_output, tox_envlist)
     module.exit_json(changed=False, file_comments=file_comments)
 
 
