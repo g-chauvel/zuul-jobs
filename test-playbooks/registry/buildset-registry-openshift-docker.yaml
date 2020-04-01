@@ -1,7 +1,7 @@
 - hosts: all
   roles:
     - role: clear-firewall
-    - role: install-openshift
+    - role: ensure-openshift
     - role: use-buildset-registry
       buildset_registry_docker_user: root
     - role: deploy-openshift
