@@ -8,6 +8,7 @@ Log Roles
 .. zuul:autorole:: fetch-output-openshift
 .. zuul:autorole:: generate-zuul-manifest
 .. zuul:autorole:: htmlify-logs
+.. zuul:autorole:: local-log-download
 .. zuul:autorole:: merge-output-to-logs
 .. zuul:autorole:: publish-artifacts-to-fileserver
 .. zuul:autorole:: set-zuul-log-path-fact
