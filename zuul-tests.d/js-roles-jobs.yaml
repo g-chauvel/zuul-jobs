@@ -1,11 +1,11 @@
 - job:
-    name: zuul-jobs-test-install-nodejs
-    description: Test the install-nodejs role
+    name: zuul-jobs-test-ensure-nodejs
+    description: Test the ensure-nodejs role
     files:
-      - roles/install-nodejs/.*
+      - roles/ensure-nodejs/.*
     run: test-playbooks/simple-role-test.yaml
     vars:
-      role_name: install-nodejs
+      role_name: ensure-nodejs
 
 
 - job:
@@ -35,7 +35,7 @@
 - project:
     check:
       jobs: &id001
-        - zuul-jobs-test-install-nodejs
+        - zuul-jobs-test-ensure-nodejs
         - zuul-jobs-test-fetch-javascript-tarball
         - zuul-jobs-test-fetch-javascript-tarball-synchronize
     gate:
