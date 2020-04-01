@@ -3,6 +3,7 @@ Javascript Roles
 
 .. zuul:autorole:: ensure-javascript-packages
 .. zuul:autorole:: ensure-nodejs
+.. zuul:autorole:: ensure-yarn
 .. zuul:autorole:: fetch-javascript-content-tarball
 .. zuul:autorole:: fetch-javascript-output
 .. zuul:autorole:: fetch-javascript-tarball
