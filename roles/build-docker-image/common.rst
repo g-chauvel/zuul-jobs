@@ -31,7 +31,7 @@ They all accept the same input data, principally a list of
 dictionaries representing the images to build.  YAML anchors_ can be
 used to supply the same data to all three jobs.
 
-Use the :zuul:role:`install-docker` role to install Docker before
+Use the :zuul:role:`ensure-docker` role to install Docker before
 using this role.
 
 **Role Variables**

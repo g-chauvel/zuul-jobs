@@ -105,7 +105,7 @@ pull images from the intermediate registry into the buildset registry.
      tasks:
        - name: Install docker
          include_role:
-           name: install-docker
+           name: ensure-docker
        - name: Run buildset registry (if not already running)
          when: buildset_registry is not defined
          include_role:

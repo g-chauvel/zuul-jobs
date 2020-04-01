@@ -10,9 +10,9 @@
     mode: 0755
   when: not stat_result.stat.exists
 
-- name: Run install-docker role
+- name: Run ensure-docker role
   include_role:
-    name: install-docker
+    name: ensure-docker
 
 - name: Install crio
   when: kubernetes_runtime == 'cri-o'

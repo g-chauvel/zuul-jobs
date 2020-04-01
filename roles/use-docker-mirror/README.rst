@@ -10,7 +10,7 @@ Configure docker to use mirrors if available.
 .. zuul:rolevar:: docker_mirror
 
    URL to override the generated docker hub mirror url based on
-   :zuul:rolevar:`install-docker.mirror_fqdn`.
+   :zuul:rolevar:`ensure-docker.mirror_fqdn`.
 
 .. zuul:rolevar:: docker_insecure_registries
    :default: undefined
