@@ -1,7 +1,7 @@
 - hosts: all
   roles:
     - role: clear-firewall
-    - role: install-kubernetes
+    - role: ensure-kubernetes
       vars:
         minikube_dns_resolvers:
           - '1.1.1.1'
