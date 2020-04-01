@@ -38,7 +38,10 @@
     chdir: "{{ zuul_work_dir }}"
   environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
   command: "{{ tox_executable }} -e{{ tox_envlist }} {{ tox_extra_args }}"
-  failed_when: false
+  # Note: This intentionally ignores errors to give us the chance to look
+  # for file comments in the stdout. In case of an error this will be returned
+  # in a later task.
+  ignore_errors: yes
   register: tox_output
 
 - name: Look for output
