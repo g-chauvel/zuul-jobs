@@ -6,3 +6,13 @@
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family }}.yaml"
     - "default.yaml"
+
+- name: Validate podman engine
+  when: ensure_podman_validate
+  # on purpose to verify that non-root user can call docker/podman
+  become: false
+  shell: |
+    podman version
+    podman info
+    podman ps
+  changed_when: false

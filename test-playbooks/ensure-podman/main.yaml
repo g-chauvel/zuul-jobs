@@ -1,4 +1,6 @@
 - hosts: all
+  vars:
+    ensure_podman_validate: true
   roles:
     - ensure-podman
 
