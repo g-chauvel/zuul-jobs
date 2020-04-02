@@ -111,6 +111,11 @@ def extract_file_comments(tox_output, tox_envlist):
         if file_path.startswith(cwd):
             file_path = file_path[len(cwd):]
 
+        # After stripping we don't allow absolute paths anymore since they
+        # cannot be linked to a file in the repo in zuul.
+        if file_path.startswith('/'):
+            continue
+
         ret.setdefault(file_path, [])
         if tox_envlist:
             message = "{envlist}: {message}".format(
