@@ -40,20 +40,51 @@ import re
 
 from ansible.module_utils.basic import AnsibleModule
 
-PEP8_RE = re.compile(r"^(.*):(\d+):(\d+): (.*)$")
 ANSI_RE = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
+PEP8_RE = re.compile(r"^(.*):(\d+):(\d+): (.*)$")
+SPHINX_RE = re.compile(r"^([^:]*):([\d]+):(.+)$")
 
 
-def extract_pep8_comments(line):
+def simple_matcher(line, regex, file_path_group, start_line_group,
+                   message_group):
+    m = regex.match(line)
+    file_path = None
+    start_line = None
+    message = None
+    if m:
+        file_path = m.group(file_path_group)
+        start_line = m.group(start_line_group)
+        message = m.group(message_group)
+    return file_path, start_line, message
+
+
+def pep8_matcher(line):
+    return simple_matcher(line, PEP8_RE, 1, 2, 4)
+
+
+def sphinx_matcher(line):
+    return simple_matcher(line, SPHINX_RE, 1, 2, 3)
+
+
+matchers = [
+    pep8_matcher,
+    sphinx_matcher,
+]
+
+
+def extract_line_comment(line):
+    """
+    Extracts line comment data from a line using multiple matchers.
+    """
     file_path = None
     start_line = None
     message = None
 
-    m = PEP8_RE.match(line)
-    if m:
-        file_path = m.group(1)
-        start_line = m.group(2)
-        message = ANSI_RE.sub('', m.group(4))
+    for matcher in matchers:
+        file_path, start_line, message = matcher(line)
+        if file_path:
+            message = ANSI_RE.sub('', message)
+            break
 
     return file_path, start_line, message
 
@@ -66,7 +97,9 @@ def extract_file_comments(tox_output, tox_envlist):
                 continue
             if line[0].isspace():
                 continue
-            file_path, start_line, message = extract_pep8_comments(line)
+            file_path, start_line, message = extract_line_comment(line)
+            if not file_path:
+                continue
             # Clean up the file path if it has a leading ./
             if file_path.startswith('./'):
                 file_path = file_path[2:]
