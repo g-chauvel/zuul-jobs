@@ -105,6 +105,12 @@ def extract_file_comments(tox_output, tox_envlist):
         # Don't report if the file path isn't valid
         if not os.path.isfile(file_path):
             continue
+
+        # Strip current working dir to make absolute paths relative
+        cwd = os.getcwd() + '/'
+        if file_path.startswith(cwd):
+            file_path = file_path[len(cwd):]
+
         ret.setdefault(file_path, [])
         if tox_envlist:
             message = "{envlist}: {message}".format(
