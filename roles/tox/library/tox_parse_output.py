@@ -89,7 +89,8 @@ def extract_line_comment(line):
     return file_path, start_line, message
 
 
-def extract_file_comments(tox_output, tox_envlist):
+def extract_file_comments(tox_output, workdir, tox_envlist=None):
+    os.chdir(workdir)
     ret = {}
     for line in tox_output.split('\n'):
         if not line:
@@ -139,9 +140,9 @@ def main():
     )
     tox_output = module.params['tox_output']
     tox_envlist = module.params['tox_envlist']
-    os.chdir(module.params['workdir'])
 
-    file_comments = extract_file_comments(tox_output, tox_envlist)
+    file_comments = extract_file_comments(
+        tox_output, module.params['workdir'], tox_envlist)
     module.exit_json(changed=False, file_comments=file_comments)
 
 

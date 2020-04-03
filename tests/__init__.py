@@ -15,7 +15,7 @@
 # limitations under the License.
 
 import os
-
+import re
 import yaml
 
 
@@ -24,8 +24,18 @@ def generate_dynamic_comments_tests(cls, test_path, func):
         def test(self):
             path = "%s/%s" % (test_path, name)
             with open(path) as fd:
+                # Don't filter unicode chars as we need to parse \x1B
+                yaml.reader.Reader.NON_PRINTABLE = re.compile('.^')
                 data = yaml.load(fd, Loader=yaml.FullLoader)
-            comments = func(data['output'], data['workdir'])
+            extra_args = {
+                arg: data[arg] for arg in data
+                if arg not in ('output', 'comments')
+            }
+
+            # Replace workdir in output by current work dir
+            data['output'] = data['output'].format(workdir=os.getcwd())
+
+            comments = func(data['output'], **extra_args)
             self.assertEqual(data['comments'], comments)
         return test
 
