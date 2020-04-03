@@ -92,32 +92,29 @@ def extract_line_comment(line):
 def extract_file_comments(tox_output, tox_envlist):
     ret = {}
     for line in tox_output.split('\n'):
-        try:
-            if not line:
-                continue
-            if line[0].isspace():
-                continue
-            file_path, start_line, message = extract_line_comment(line)
-            if not file_path:
-                continue
-            # Clean up the file path if it has a leading ./
-            if file_path.startswith('./'):
-                file_path = file_path[2:]
-            # Don't report if the file path isn't valid
-            if not os.path.isfile(file_path):
-                continue
-            ret.setdefault(file_path, [])
-            if tox_envlist:
-                message = "{envlist}: {message}".format(
-                    envlist=tox_envlist,
-                    message=message,
-                )
-            ret[file_path].append(dict(
-                line=int(start_line),
+        if not line:
+            continue
+        if line[0].isspace():
+            continue
+        file_path, start_line, message = extract_line_comment(line)
+        if not file_path:
+            continue
+        # Clean up the file path if it has a leading ./
+        if file_path.startswith('./'):
+            file_path = file_path[2:]
+        # Don't report if the file path isn't valid
+        if not os.path.isfile(file_path):
+            continue
+        ret.setdefault(file_path, [])
+        if tox_envlist:
+            message = "{envlist}: {message}".format(
+                envlist=tox_envlist,
                 message=message,
-            ))
-        except Exception:
-            pass
+            )
+        ret[file_path].append(dict(
+            line=int(start_line),
+            message=message,
+        ))
     return ret
 
 
