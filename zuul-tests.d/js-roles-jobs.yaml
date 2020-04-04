@@ -3,6 +3,7 @@
     description: Test the ensure-nodejs role
     files:
       - roles/ensure-nodejs/.*
+      - roles/ensure-package-repositories/.*
     run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: ensure-nodejs
