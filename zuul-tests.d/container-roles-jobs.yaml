@@ -103,6 +103,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-podman/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-container-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -271,6 +272,7 @@
     abstract: true
     files:
       - roles/ensure-podman/.*
+      - roles/ensure-package-repositories/.*
       - test-playbooks/ensure-podman/.*
     run: test-playbooks/ensure-podman/main.yaml
 
