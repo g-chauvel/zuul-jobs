@@ -140,6 +140,7 @@
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -163,6 +164,7 @@
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -187,6 +189,7 @@
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -236,6 +239,7 @@
     files:
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
       - test-playbooks/ensure-kubernetes/.*
     run: test-playbooks/ensure-kubernetes/docker.yaml
     post-run: test-playbooks/ensure-kubernetes/post.yaml
@@ -251,6 +255,7 @@
     files:
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
       - test-playbooks/ensure-kubernetes/.*
     run: test-playbooks/ensure-kubernetes/crio.yaml
     post-run: test-playbooks/ensure-kubernetes/post.yaml

@@ -1,14 +1,11 @@
-- name: Install apt key
-  become: yes
-  apt_key:
-    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
-    state: present
-
-- name: Add kubernetes repo
-  become: yes
-  apt_repository:
-    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
-    state: present
+- name: Add all repositories
+  include_role:
+    name: ensure-package-repositories
+  vars:
+    repositories_keys:
+      - url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    repositories_list:
+      - repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
 
 - name: Install kubernetes packages and dependencies
   become: yes
