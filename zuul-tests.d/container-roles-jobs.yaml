@@ -4,6 +4,7 @@
     abstract: true
     files:
       - roles/ensure-docker/.*
+      - roles/ensure-package-repositories/.*
       - test-requirements.txt
     run: test-playbooks/ensure-docker.yaml
 
@@ -73,6 +74,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -215,6 +217,7 @@
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
       - roles/ensure-openshift/.*
+      - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*

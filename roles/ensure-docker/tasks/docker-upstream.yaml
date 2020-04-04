@@ -1,4 +1,8 @@
 ---
+- name: Not Implemented
+  fail:
+    msg: This set of tasks has not been implemented.
+  when: ansible_pkg_mgr == 'zypper'
 
 - name: Upstream block
   become: true
@@ -7,7 +11,41 @@
       include_role:
         name: use-docker-mirror
 
-    - name: Install docker-ce from upstream
-      include_tasks: "upstream-{{ ansible_pkg_mgr }}.yaml"
+    - name: Add all repositories
+      include_role:
+        name: ensure-package-repositories
+      vars:
+        repositories_keys: "{{ _docker_keys }}"
+        repositories_list: "{{ _docker_repos }}"
+
+    - name: Install pre-reqs
+      package:
+        name: "{{ _docker_upstream_distro_required_packages }}"
+        state: present
+
+    - name: Remove packages
+      package:
+        name: "{{ docker_upstream_distro_remove_packages }}"
+        state: absent
+      when: docker_upstream_distro_remove_packages
+
+    # package/dnf module do not support `--nobest` option which is needed for
+    # installing docker-ce on centos-8
+    - name: Install upstream docker using package
+      when: not (ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8')
+      package:
+        name: "{{ docker_upstream_distro_packages }}"
+        state: present
+      notify: Restart docker
+
+    - name: Install upstream docker using shell
+      when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '8'
+      shell:
+        cmd: |
+          dnf install --nobest -y {{ docker_upstream_distro_packages | join(' ') }}
+        warn: false
+      register: result
+      changed_when: "'Complete!' in result.stdout"
+      notify: Restart docker
 
     - include_tasks: docker-setup.yaml
