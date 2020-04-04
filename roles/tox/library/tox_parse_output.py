@@ -117,6 +117,11 @@ def extract_file_comments(tox_output, workdir, tox_envlist=None):
         if file_path.startswith('/'):
             continue
 
+        # We should only handle files that are in under version control.
+        # For now, skip .tox directory, we can enhance later.
+        if file_path.startswith('.tox'):
+            continue
+
         ret.setdefault(file_path, [])
         if tox_envlist:
             message = "{envlist}: {message}".format(
