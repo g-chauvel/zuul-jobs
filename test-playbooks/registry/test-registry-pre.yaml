@@ -34,11 +34,11 @@
 
 - hosts: executor
   name: Set up a simulated executor
+  roles:
+    - name: ensure-package-repositories
+      repositories_list:
+        - repo: ppa:projectatomic/ppa
   tasks:
-    - name: Add project atomic PPA
-      become: true
-      apt_repository:
-        repo: ppa:projectatomic/ppa
     - name: Install packages
       become: true
       package:
