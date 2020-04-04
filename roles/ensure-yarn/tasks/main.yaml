@@ -1,3 +1,26 @@
+- name: Gather variables for each operating system
+  include_vars: "{{ zj_item }}"
+  with_first_found:
+    - skip: true
+      files:
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yaml"
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+        - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yaml"
+        - "{{ ansible_distribution | lower }}.yaml"
+        - "{{ ansible_os_family | lower }}-{{ ansible_distribution_version.split('.')[0] }}.yaml"
+        - "{{ ansible_os_family | lower }}.yaml"
+  loop_control:
+    loop_var: zj_item
+  tags:
+    - always
+
+- name: Add all repositories
+  include_role:
+    name: ensure-package-repositories
+  vars:
+    repositories_keys: "{{ _yarn_keys | default([]) }}"
+    repositories_list: "{{ _yarn_repos | default([]) }}"
+
 - name: Check for yarn.lock file
   stat:
     path: "{{ yarn_lock_file_path }}"
@@ -7,9 +30,6 @@
   register: yarn_lock
 
 - name: Install yarn if needed
-  include: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution }}.yaml"
-    - "{{ ansible_os_family }}.yaml"
+  include: yarn.yaml
   when:
     - yarn_lock.stat.exists
