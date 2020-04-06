@@ -1,0 +1,14 @@
+- hosts: all
+  roles:
+    - ensure-pip
+
+# NOTE(ianw) : this does not play nicely with pip-and-virtualenv which
+# has already installed from source.  We might be able to test this
+# once it's gone...
+
+#- hosts: all
+#  roles:
+#    - role: ensure-pip
+#      vars:
+#        ensure_pip_from_upstream: True
+

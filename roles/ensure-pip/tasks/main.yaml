@@ -1,0 +1,13 @@
+- name: Install pip from packages
+  include: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family }}.yaml"
+    - "default.yaml"
+  when:
+    - ensure_pip_from_packages
+
+- name: Install pip from source
+  include: source.yaml
+  when:
+    - ensure_pip_from_upstream

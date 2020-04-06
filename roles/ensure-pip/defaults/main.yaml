@@ -1,0 +1,6 @@
+ensure_pip_from_packages: True
+ensure_pip_from_packages_with_python2: False
+ensure_pip_from_upstream_url: 'https://bootstrap.pypa.io/get-pip.py'
+ensure_pip_from_upstream: False
+ensure_pip_from_upstream_interpreters:
+  - '{{ ansible_python.executable }}'

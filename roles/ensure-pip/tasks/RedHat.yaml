@@ -1,0 +1,40 @@
+# NOTE(ianw) : Skip attempting installation if the package is
+# excluded.  This is a temporary workaround for nodes that use
+# pip-and-virtualenv and pre-install python3-pip but place it in the
+# excludes list.  In this case, the "package: " call will fail on
+# dnf/Fedora because it notices it is excluded.  Doesn't seem to
+# happen with yum or even centos8 era dnf.  Can go away when we stop
+# this on the base nodes.
+- name: Read dnf.conf
+  shell: |
+    if [[ -e /etc/dnf/dnf.conf ]]; then
+      if grep -e 'exclude=.*python3-pip' /etc/dnf/dnf.conf; then
+        exit 1
+      else
+        exit 0
+      fi
+    fi
+    exit 0
+  failed_when: false
+  register: _pkg_excluded
+
+- name: Install Python 3 pip
+  package:
+    name:
+      - python3-pip
+      - python3-setuptools
+    state: present
+  when:
+    - _pkg_excluded.rc == 0
+    - ansible_python.version.major == 3
+  become: yes
+
+- name: Install Python 2 pip
+  package:
+    name:
+      - python-pip
+      - python-setuptools
+    state: present
+  become: yes
+  when: (ensure_pip_from_packages_with_python2) or
+        (ansible_python.version.major == 2)

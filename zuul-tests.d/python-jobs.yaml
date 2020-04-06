@@ -1,4 +1,114 @@
 - job:
+    name: zuul-jobs-test-ensure-pip
+    description: Test the ensure-pip role
+    files:
+      - roles/ensure-pip/.*
+    run: test-playbooks/ensure-pip.yaml
+    tags: all-platforms
+
+- job:
+    name: zuul-jobs-test-ensure-pip-centos-7
+    description: Test the ensure-pip role on centos-7
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-ensure-pip-centos-8
+    description: Test the ensure-pip role on centos-8
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-ensure-pip-debian-stretch
+    description: Test the ensure-pip role on debian-stretch
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-ensure-pip-fedora-30
+    description: Test the ensure-pip role on fedora-30
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-30
+          label: fedora-30
+
+- job:
+    name: zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
+    description: Test the ensure-pip role on gentoo-17-0-systemd
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-ensure-pip-opensuse-15
+    description: Test the ensure-pip role on opensuse-15
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
+    voting: false
+    description: Test the ensure-pip role on opensuse-tumbleweed
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-ensure-pip-ubuntu-bionic
+    description: Test the ensure-pip role on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-ensure-pip-ubuntu-bionic-plain-nv
+    voting: false
+    description: Test the ensure-pip role on ubuntu-bionic-plain
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
+
+- job:
+    name: zuul-jobs-test-ensure-pip-ubuntu-xenial
+    description: Test the ensure-pip role on ubuntu-xenial
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
     name: zuul-jobs-test-ensure-sphinx
     description: Test the ensure-sphinx role
     files:
@@ -176,6 +286,16 @@
 - project:
     check:
       jobs:
+        - zuul-jobs-test-ensure-pip-centos-7
+        - zuul-jobs-test-ensure-pip-centos-8
+        - zuul-jobs-test-ensure-pip-debian-stretch
+        - zuul-jobs-test-ensure-pip-fedora-30
+        - zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-pip-opensuse-15
+        - zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
+        - zuul-jobs-test-ensure-pip-ubuntu-bionic
+        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain-nv
+        - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8
@@ -194,6 +314,14 @@
         - zuul-jobs-test-fetch-subunit-output-synchronize
     gate:
       jobs:
+        - zuul-jobs-test-ensure-pip-centos-7
+        - zuul-jobs-test-ensure-pip-centos-8
+        - zuul-jobs-test-ensure-pip-debian-stretch
+        - zuul-jobs-test-ensure-pip-fedora-30
+        - zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
+        - zuul-jobs-test-ensure-pip-opensuse-15
+        - zuul-jobs-test-ensure-pip-ubuntu-bionic
+        - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8

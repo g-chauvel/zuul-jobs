@@ -1,0 +1,20 @@
+- name: Temporary install directory
+  tempfile:
+    state: directory
+    suffix: ensure-pip
+  register: _install_dir
+
+- name: Download pip
+  get_url:
+    url: '{{ ensure_pip_from_upstream_url }}'
+    dest: '{{ _install_dir.path }}/get-pip.py'
+
+- name: 'Run get-pip.py for {{ item }}'
+  command: '{{ item }} {{ _install_dir.path }}/get-pip.py'
+  become: yes
+  loop: '{{ ensure_pip_from_upstream_interpreters }}'
+
+- name: Remove temporary install dir
+  file:
+    state: absent
+    path: '{{ _install_dir.path }}'
