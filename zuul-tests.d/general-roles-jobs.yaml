@@ -206,6 +206,17 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-base-roles-ubuntu-bionic-plain-nv
+    voting: false
+    description: Tests roles in the 'base' job on ubuntu-bionic-plain
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
+
+- job:
     name: zuul-jobs-test-base-roles-ubuntu-xenial
     description: Tests roles in the 'base' job on ubuntu-xenial
     parent: zuul-jobs-test-base-roles
@@ -309,6 +320,17 @@
       nodes:
         - name: ubuntu-bionic
           label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-bindep-ubuntu-bionic-plain-nv
+    voting: false
+    description: Test the bindep role on ubuntu-bionic-plain
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
 
 - job:
     name: zuul-jobs-test-bindep-ubuntu-xenial
@@ -531,6 +553,26 @@
             - secondary
 
 - job:
+    name: zuul-jobs-test-multinode-roles-ubuntu-bionic-plain-nv
+    voting: false
+    description: Tests multinode setup roles on ubuntu-bionic-plain
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-bionic-plain
+        - name: secondary
+          label: ubuntu-bionic-plain
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
     name: zuul-jobs-test-multinode-roles-ubuntu-xenial
     description: Tests multinode setup roles on ubuntu-xenial
     parent: zuul-jobs-test-multinode-roles
@@ -584,6 +626,7 @@
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-base-roles-ubuntu-bionic
+        - zuul-jobs-test-base-roles-ubuntu-bionic-plain-nv
         - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8
@@ -593,6 +636,7 @@
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-opensuse-tumbleweed-nv
         - zuul-jobs-test-bindep-ubuntu-bionic
+        - zuul-jobs-test-bindep-ubuntu-bionic-plain-nv
         - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-ensure-bazelisk
@@ -606,6 +650,7 @@
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
+        - zuul-jobs-test-multinode-roles-ubuntu-bionic-plain-nv
         - zuul-jobs-test-multinode-roles-ubuntu-xenial
         - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-git-mirror
