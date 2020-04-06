@@ -24,4 +24,4 @@
       - (tox_molecule_packages | length) > 0
 
   roles:
-    - role: install-docker
+    - role: ensure-docker

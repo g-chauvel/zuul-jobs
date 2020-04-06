@@ -1,61 +1,61 @@
 - job:
-    name: zuul-jobs-test-install-docker
-    description: Tests install-docker role
+    name: zuul-jobs-test-ensure-docker
+    description: Tests ensure-docker role
     abstract: true
     files:
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - test-requirements.txt
-    run: test-playbooks/install-docker.yaml
+    run: test-playbooks/ensure-docker.yaml
 
 - job:
-    name: zuul-jobs-test-install-docker-centos-7
-    description: Tests install-docker role on centos-7
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-centos-7
+    description: Tests ensure-docker role on centos-7
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: centos-7
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-install-docker-centos-8
-    description: Tests install-docker role on centos-8
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-centos-8
+    description: Tests ensure-docker role on centos-8
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: centos-8
           label: centos-8
 
 - job:
-    name: zuul-jobs-test-install-docker-debian-stretch
-    description: Tests install-docker role on debian-stretch
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-debian-stretch
+    description: Tests ensure-docker role on debian-stretch
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: debian-stretch
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-install-docker-fedora-30
-    description: Tests install-docker role on fedora-30
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-fedora-30
+    description: Tests ensure-docker role on fedora-30
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: fedora-30
           label: fedora-30
 
 - job:
-    name: zuul-jobs-test-install-docker-ubuntu-bionic
-    description: Tests install-docker role on ubuntu-bionic
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-ubuntu-bionic
+    description: Tests ensure-docker role on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: ubuntu-bionic
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-install-docker-ubuntu-xenial
-    description: Tests install-docker role on ubuntu-xenial
-    parent: zuul-jobs-test-install-docker
+    name: zuul-jobs-test-ensure-docker-ubuntu-xenial
+    description: Tests ensure-docker role on ubuntu-xenial
+    parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
         - name: ubuntu-xenial
@@ -72,7 +72,7 @@
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -138,7 +138,7 @@
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
@@ -161,7 +161,7 @@
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
@@ -185,7 +185,7 @@
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
@@ -209,7 +209,7 @@
     files:
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-openshift/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
@@ -234,7 +234,7 @@
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
     files:
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-kubernetes/.*
       - test-playbooks/install-kubernetes/.*
     run: test-playbooks/install-kubernetes/docker.yaml
@@ -249,7 +249,7 @@
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
     files:
-      - roles/install-docker/.*
+      - roles/ensure-docker/.*
       - roles/install-kubernetes/.*
       - test-playbooks/install-kubernetes/.*
     run: test-playbooks/install-kubernetes/crio.yaml
@@ -276,12 +276,12 @@
 - project:
     check:
       jobs: &id001
-        - zuul-jobs-test-install-docker-centos-7
-        - zuul-jobs-test-install-docker-centos-8
-        - zuul-jobs-test-install-docker-debian-stretch
-        - zuul-jobs-test-install-docker-fedora-30
-        - zuul-jobs-test-install-docker-ubuntu-bionic
-        - zuul-jobs-test-install-docker-ubuntu-xenial
+        - zuul-jobs-test-ensure-docker-centos-7
+        - zuul-jobs-test-ensure-docker-centos-8
+        - zuul-jobs-test-ensure-docker-debian-stretch
+        - zuul-jobs-test-ensure-docker-fedora-30
+        - zuul-jobs-test-ensure-docker-ubuntu-bionic
+        - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker
         - zuul-jobs-test-registry-podman
         - zuul-jobs-test-registry-buildset-registry
