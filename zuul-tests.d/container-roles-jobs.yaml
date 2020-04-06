@@ -139,7 +139,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
-      - roles/install-kubernetes/.*
+      - roles/ensure-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -162,7 +162,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
-      - roles/install-kubernetes/.*
+      - roles/ensure-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -186,7 +186,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
-      - roles/install-kubernetes/.*
+      - roles/ensure-kubernetes/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
@@ -226,34 +226,34 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-install-kubernetes-docker
+    name: zuul-jobs-test-ensure-kubernetes-docker
     description: |
-      Test the install-kubernetes role with docker
+      Test the ensure-kubernetes role with docker
 
-      This job tests changes to the install-kubernetes roles.  It
+      This job tests changes to the ensure-kubernetes roles.  It
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
     files:
       - roles/ensure-docker/.*
-      - roles/install-kubernetes/.*
-      - test-playbooks/install-kubernetes/.*
-    run: test-playbooks/install-kubernetes/docker.yaml
-    post-run: test-playbooks/install-kubernetes/post.yaml
+      - roles/ensure-kubernetes/.*
+      - test-playbooks/ensure-kubernetes/.*
+    run: test-playbooks/ensure-kubernetes/docker.yaml
+    post-run: test-playbooks/ensure-kubernetes/post.yaml
 
 - job:
-    name: zuul-jobs-test-install-kubernetes-crio
+    name: zuul-jobs-test-ensure-kubernetes-crio
     description: |
-      Test the install-kubernetes role with crio-o
+      Test the ensure-kubernetes role with crio-o
 
-      This job tests changes to the install-kubernetes roles.  It
+      This job tests changes to the ensure-kubernetes roles.  It
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
     files:
       - roles/ensure-docker/.*
-      - roles/install-kubernetes/.*
-      - test-playbooks/install-kubernetes/.*
-    run: test-playbooks/install-kubernetes/crio.yaml
-    post-run: test-playbooks/install-kubernetes/post.yaml
+      - roles/ensure-kubernetes/.*
+      - test-playbooks/ensure-kubernetes/.*
+    run: test-playbooks/ensure-kubernetes/crio.yaml
+    post-run: test-playbooks/ensure-kubernetes/post.yaml
 
 - job:
     name: zuul-jobs-test-install-podman
@@ -288,8 +288,8 @@
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-registry-buildset-registry-k8s-crio
         - zuul-jobs-test-registry-buildset-registry-openshift-docker
-        - zuul-jobs-test-install-kubernetes-docker
-        - zuul-jobs-test-install-kubernetes-crio
+        - zuul-jobs-test-ensure-kubernetes-docker
+        - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-install-podman
     gate:
       jobs: *id001

@@ -6,6 +6,7 @@ Container Roles
 .. zuul:autorole:: collect-container-logs
 .. zuul:autorole:: deploy-openshift
 .. zuul:autorole:: ensure-docker
+.. zuul:autorole:: ensure-kubernetes
 .. zuul:autorole:: install-docker
 .. zuul:autorole:: install-kubernetes
 .. zuul:autorole:: install-openshift
