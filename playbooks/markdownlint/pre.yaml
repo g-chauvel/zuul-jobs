@@ -1,5 +1,5 @@
 - name: Ensure Markdownlint is installed via NPM
   hosts: all
   roles:
-    - install-nodejs
+    - ensure-nodejs
     - ensure-markdownlint
