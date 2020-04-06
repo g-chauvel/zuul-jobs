@@ -11,7 +11,7 @@ user install directory (i.e., "pip install --user").
    Optional path to point tox executable
 
 .. zuul:rolevar:: tox_prefer_python2
-   :default: ``true``
+   :default: ``false``
 
-   If tox is not detected, prefer to install tox inside Python 2 instead of
-   Python 3.
+   If tox is not detected, prefer to install tox inside Python 2
+   instead of Python 3.
