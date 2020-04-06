@@ -1,6 +1,6 @@
 - hosts: all
   roles:
-    - install-podman
+    - ensure-podman
 
 - hosts: all
   tasks:

@@ -1,4 +1,1 @@
-Install podman container manager
-
-**Role Variables**
-
+.. warning:: Deprecated, use ensure-podman instead.
