@@ -210,7 +210,7 @@
       - roles/pull-from-intermediate-registry/.*
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
-      - roles/install-openshift/.*
+      - roles/ensure-openshift/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
       - roles/use-buildset-registry/.*
