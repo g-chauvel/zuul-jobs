@@ -1,18 +1,23 @@
+- name: Run ensure-pip
+  include_role:
+    name: ensure-pip
+
 - name: Install zuul-cloner shim dependencies
   pip:
     name: PyYAML
-    virtualenv: "{{ virtualenv }}"
+    virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
+    virtualenv: '{{ fetch_zuul_cloner_virtualenv }}'
   become: yes
 
 - name: Install zuul-cloner shim
   template:
     src: templates/zuul-cloner-shim.py.j2
-    dest: "{{ virtualenv }}/bin/zuul-cloner"
+    dest: "{{ fetch_zuul_cloner_virtualenv }}/bin/zuul-cloner"
   become: yes
 
 - name: Change zuul-cloner permissions
   file:
-    path: "{{ virtualenv }}/bin/zuul-cloner"
+    path: "{{ fetch_zuul_cloner_virtualenv }}/bin/zuul-cloner"
     mode: 0755
   become: yes
 

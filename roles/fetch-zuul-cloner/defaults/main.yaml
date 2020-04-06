@@ -1,1 +1,1 @@
-virtualenv: /usr/zuul-env
+fetch_zuul_cloner_virtualenv: /usr/zuul-env
