@@ -1,5 +1,4 @@
 - hosts: all
   roles:
-    - ensure-nodejs
     - ensure-yarn
     - ensure-javascript-packages
