@@ -32,7 +32,7 @@ PLATFORMS = [
     'centos-7',
     'centos-8',
     'debian-stretch',
-    'fedora-30',
+    'fedora-31',
     'gentoo-17-0-systemd',
     'opensuse-15',
     'opensuse-tumbleweed',

@@ -48,14 +48,14 @@
           label: debian-stretch
 
 - job:
-    name: test-packer-fedora-30
-    description: Test packer job on fedora-30
+    name: test-packer-fedora-31
+    description: Test packer job on fedora-31
     parent: test-packer
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-30
-          label: fedora-30
+        - name: fedora-31
+          label: fedora-31
 
 - job:
     name: test-packer-gentoo-17-0-systemd
@@ -125,7 +125,7 @@
         - test-packer-centos-7
         - test-packer-centos-8
         - test-packer-debian-stretch
-        - test-packer-fedora-30
+        - test-packer-fedora-31
         - test-packer-gentoo-17-0-systemd
         - test-packer-opensuse-15
         - test-packer-opensuse-tumbleweed-nv
@@ -137,7 +137,7 @@
         - test-packer-centos-7
         - test-packer-centos-8
         - test-packer-debian-stretch
-        - test-packer-fedora-30
+        - test-packer-fedora-31
         - test-packer-gentoo-17-0-systemd
         - test-packer-opensuse-15
         - test-packer-ubuntu-bionic

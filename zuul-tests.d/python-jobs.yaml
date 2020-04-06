@@ -37,14 +37,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-ensure-pip-fedora-30
-    description: Test the ensure-pip role on fedora-30
+    name: zuul-jobs-test-ensure-pip-fedora-31
+    description: Test the ensure-pip role on fedora-31
     parent: zuul-jobs-test-ensure-pip
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-30
-          label: fedora-30
+        - name: fedora-31
+          label: fedora-31
 
 - job:
     name: zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
@@ -157,14 +157,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-ensure-tox-fedora-30
-    description: Test the ensure-tox role on fedora-30
+    name: zuul-jobs-test-ensure-tox-fedora-31
+    description: Test the ensure-tox role on fedora-31
     parent: zuul-jobs-test-ensure-tox
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-30
-          label: fedora-30
+        - name: fedora-31
+          label: fedora-31
 
 - job:
     name: zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
@@ -289,7 +289,7 @@
         - zuul-jobs-test-ensure-pip-centos-7
         - zuul-jobs-test-ensure-pip-centos-8
         - zuul-jobs-test-ensure-pip-debian-stretch
-        - zuul-jobs-test-ensure-pip-fedora-30
+        - zuul-jobs-test-ensure-pip-fedora-31
         - zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
@@ -300,7 +300,7 @@
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8
         - zuul-jobs-test-ensure-tox-debian-stretch
-        - zuul-jobs-test-ensure-tox-fedora-30
+        - zuul-jobs-test-ensure-tox-fedora-31
         - zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
@@ -317,7 +317,7 @@
         - zuul-jobs-test-ensure-pip-centos-7
         - zuul-jobs-test-ensure-pip-centos-8
         - zuul-jobs-test-ensure-pip-debian-stretch
-        - zuul-jobs-test-ensure-pip-fedora-30
+        - zuul-jobs-test-ensure-pip-fedora-31
         - zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
@@ -326,7 +326,7 @@
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8
         - zuul-jobs-test-ensure-tox-debian-stretch
-        - zuul-jobs-test-ensure-tox-fedora-30
+        - zuul-jobs-test-ensure-tox-fedora-31
         - zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
