@@ -20,3 +20,8 @@ a valid ``tox``.
 
    If tox is not detected, prefer to install tox inside Python 2
    instead of Python 3.
+
+   If set,
+   :zuul:rolevar:`ensure-pip.ensure_pip_from_packages_with_python2`
+   will be automatically set to `True` to enable a Python 2
+   installation of `pip`.

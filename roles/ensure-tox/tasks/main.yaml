@@ -1,3 +1,9 @@
+- name: Install pip
+  include_role:
+    name: ensure-pip
+  vars:
+    ensure_pip_from_packages_with_python2: '{{ tox_prefer_python2 }}'
+
 - name: Ensure tox is installed
   shell: |
     set -euo pipefail

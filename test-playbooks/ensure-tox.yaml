@@ -40,6 +40,7 @@
       pip:
         name: tox
         virtualenv: "{{ ansible_user_dir }}/tox-venv"
+        virtualenv_command: "{{ ensure_pip_virtualenv_command }}"
     - name: Run ensure-tox pointing to an already installed tox
       include_role:
         name: ensure-tox
