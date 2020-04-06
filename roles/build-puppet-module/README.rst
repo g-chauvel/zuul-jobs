@@ -5,7 +5,7 @@ Development Kit (PDK).
 
    This role requires installed Ruby, Ruby development and build tools
    (gcc/g++ and make) packages, they can be installed using the
-   :zuul:role:`install-pdk-dependencies` role.
+   :zuul:role:`ensure-pdk-dependencies` role.
 
 **Role Variables**
 
