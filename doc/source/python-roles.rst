@@ -4,6 +4,7 @@ Python Roles
 .. zuul:autorole:: build-python-release
 .. zuul:autorole:: build-releasenotes
 .. zuul:autorole:: ensure-babel
+.. zuul:autorole:: ensure-if-python
 .. zuul:autorole:: ensure-python
 .. zuul:autorole:: ensure-sphinx
 .. zuul:autorole:: ensure-tox
