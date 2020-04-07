@@ -88,6 +88,17 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain-nv
+    voting: false
+    description: Test the ensure-python role with pyenv on ubuntu-bionic-plain
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
+
+- job:
     name: zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
     description: Test the ensure-python role with pyenv on ubuntu-xenial
     parent: zuul-jobs-test-ensure-python-pyenv
@@ -108,6 +119,7 @@
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain-nv
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
     gate:
       jobs:
