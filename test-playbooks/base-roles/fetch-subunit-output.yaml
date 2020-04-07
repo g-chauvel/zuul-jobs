@@ -9,6 +9,9 @@
         directory: "/var/tmp/extratests"
         test_pattern: "FailingTest.test_failure"
   pre_tasks:
+    - name: Ensure pip
+      include_role:
+        name: ensure-pip
     # Required packages; install them into a .tox path
     # to cover the find-*.sh scripts in the role a bit more.
     - name: Install stestr and subunit-output
@@ -17,6 +20,7 @@
            - stestr>=2.0.0,<2.6.0
            - python-subunit
          virtualenv: "{{ zuul_work_dir }}/.tox/utests/"
+         virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
 
     - name: Ensure that the test directories exists
       file:
