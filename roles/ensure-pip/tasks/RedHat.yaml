@@ -34,6 +34,7 @@
     name:
       - python-pip
       - python-setuptools
+      - python-virtualenv
     state: present
   become: yes
   when: (ensure_pip_from_packages_with_python2) or

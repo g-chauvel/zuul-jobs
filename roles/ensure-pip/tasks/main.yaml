@@ -29,6 +29,7 @@
 - name: Install pip from packages
   include: "{{ item }}"
   with_first_found:
+    - "{{ ansible_distribution_release }}.yaml"
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family }}.yaml"
     - "default.yaml"
@@ -41,3 +42,34 @@
   when:
     - ensure_pip_from_upstream
     - pip_preinstalled.rc != 0
+
+#
+# virtualenv setup
+#
+- name: Probe for venv
+  command: /usr/bin/python3 -m venv --help
+  no_log: True
+  failed_when: false
+  register: _venv_probe
+
+- name: Set host default
+  set_fact:
+    _host_virtualenv: '{{ (_venv_probe.rc == 0) | ternary("/usr/bin/python3 -m venv", "virtualenv") }}'
+  when: ansible_distribution_release != 'xenial'
+
+# The pip included with Xenial (version ~8) has issues with our wheel
+# mirrors; it will not correctly look to upstream pypi when it can't
+# find the wheel in the configured mirror, so virutalenv creation
+# fails.  venv uses the system pip version; for this reason we need to
+# use virtualenv which does upgrade pip in the environment; but note
+# that on Xenial "virtualenv" is owned by the python2 package; so we
+# specify the command to python3 directly.
+- name: Set host default (Xenial)
+  set_fact:
+    _host_virtualenv: '/usr/bin/python3 -m virtualenv'
+  when: ansible_distribution_release == 'xenial'
+
+- name: Set ensure_pip_virtualenv_cmd
+  set_fact:
+    ensure_pip_virtualenv_command: '{{ ensure_pip_virtualenv_command | default(_host_virtualenv) }}'
+    cacheable: true
