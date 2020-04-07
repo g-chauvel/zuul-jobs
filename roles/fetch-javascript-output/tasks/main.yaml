@@ -148,3 +148,5 @@
         artifacts:
           - name: "Site preview"
             url: "npm/html/"
+            metadata:
+              type: site
