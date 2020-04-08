@@ -16,17 +16,23 @@
     fi
     {% endif %}
 
-    type tox || $PIP install --user tox
+    type {{ tox_executable }} || $PIP install --user tox
   args:
     executable: /bin/bash
   register: result
   changed_when: "'Successfully installed' in result.stdout"
 
-- name: Set tox_executable fact
+- name: Set tox_executable fact to pip installed
   set_fact:
     tox_executable: "{{ ansible_user_dir }}/.local/bin/tox"
     cacheable: true
   when: result is changed
+
+- name: Set tox_exectuable fact to found tox
+  set_fact:
+    tox_executable: "{{ tox_executable }}"
+    cacheable: true
+  when: result is not changed
 
 - name: Output tox version
   command: "{{ tox_executable }} --version"
