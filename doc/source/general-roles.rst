@@ -15,6 +15,7 @@ General Purpose Roles
 .. zuul:autorole:: emit-job-header
 .. zuul:autorole:: enable-netconsole
 .. zuul:autorole:: ensure-bazelisk
+.. zuul:autorole:: ensure-dhall
 .. zuul:autorole:: ensure-dstat-graph
 .. zuul:autorole:: ensure-markdownlint
 .. zuul:autorole:: fetch-markdownlint
@@ -33,6 +34,7 @@ General Purpose Roles
 .. zuul:autorole:: remove-build-sshkey
 .. zuul:autorole:: remove-gpgkey
 .. zuul:autorole:: remove-sshkey
+.. zuul:autorole:: render-diff
 .. zuul:autorole:: revoke-sudo
 .. zuul:autorole:: run-dstat
 .. zuul:autorole:: sign-artifacts

@@ -93,3 +93,24 @@
          Override the default searching above with explicit
          domain/path references (see validate-zone-db role)
     run: playbooks/validate-zone-db/run.yaml
+
+- job:
+    name: dhall-diff
+    description: |
+      Ensure that generated configuration files are idempotent.
+
+      This job runs a render command and check that no files are
+      modified.
+
+      .. zuul:jobvar:: dhall_render_command
+         :default: make
+
+         The command that render the configuration files.
+
+      .. zuul:jobvar:: dhall_version
+         :default: 1.31.1
+
+         The dhall version.
+
+    pre-run: playbooks/dhall/prepare.yaml
+    run: playbooks/dhall/diff.yaml

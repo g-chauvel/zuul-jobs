@@ -2,6 +2,7 @@ General Purpose Jobs
 ====================
 
 .. zuul:autojob:: dco-license
+.. zuul:autojob:: dhall-diff
 .. zuul:autojob:: unittests
 .. zuul:autojob:: markdownlint
 .. zuul:autojob:: multinode
