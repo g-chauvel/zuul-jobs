@@ -1,3 +1,0 @@
-- name: Error if used
-  fail:
-    msg: This role has been renamed. Please use ensure-nodejs instead.
