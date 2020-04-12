@@ -5,7 +5,7 @@
     tags: all-platforms
     files:
       - playbooks/go
-      - roles/install-go
+      - roles/ensure-go
       - roles/go
       - zuul.d/go-jobs.yaml
     vars:
