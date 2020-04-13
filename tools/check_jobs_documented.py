@@ -132,10 +132,11 @@ r = Roles()
 d = Docs()
 
 ret = 0
-for role in r.roles:
-    if role not in d.roles:
-        print("Role %s not included in document tree" % (role,))
-        ret = 1
+if not d.autoroles:
+    for role in r.roles:
+        if role not in d.roles:
+            print("Role %s not included in document tree" % (role,))
+            ret = 1
 for job in [x['name'] for x in z.layout.jobs]:
     if job not in d.jobs:
         print("Job %s not included in document tree" % (job,))
