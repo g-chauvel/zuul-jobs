@@ -117,3 +117,11 @@
     name: crio
     state: restarted
   become: true
+
+- name: Wait for kubernetes connection to come back
+  command: timeout 10s kubectl get pods
+  when: kubelet_config.stat.exists or crio_path.stat.exists
+  register: _api_ready
+  until: _api_ready.rc == 0
+  retries: 6
+  delay: 10
