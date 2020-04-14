@@ -99,8 +99,7 @@
           label: ubuntu-bionic
 
 - job:
-    name: test-packer-ubuntu-bionic-plain-nv
-    voting: false
+    name: test-packer-ubuntu-bionic-plain
     description: Test packer job on ubuntu-bionic-plain
     parent: test-packer
     tags: auto-generated
@@ -130,7 +129,7 @@
         - test-packer-opensuse-15
         - test-packer-opensuse-tumbleweed-nv
         - test-packer-ubuntu-bionic
-        - test-packer-ubuntu-bionic-plain-nv
+        - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial
     gate:
       jobs:
@@ -141,4 +140,5 @@
         - test-packer-gentoo-17-0-systemd
         - test-packer-opensuse-15
         - test-packer-ubuntu-bionic
+        - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial

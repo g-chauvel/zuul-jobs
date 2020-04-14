@@ -44,7 +44,6 @@ PLATFORMS = [
 # insert a platform from above to make it non-voting
 NON_VOTING = [
     'opensuse-tumbleweed',
-    'ubuntu-bionic-plain',
 ]
 
 

@@ -88,8 +88,7 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-pip-ubuntu-bionic-plain-nv
-    voting: false
+    name: zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
     description: Test the ensure-pip role on ubuntu-bionic-plain
     parent: zuul-jobs-test-ensure-pip
     tags: auto-generated
@@ -208,8 +207,7 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-tox-ubuntu-bionic-plain-nv
-    voting: false
+    name: zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
     description: Test the ensure-tox role on ubuntu-bionic-plain
     parent: zuul-jobs-test-ensure-tox
     tags: auto-generated
@@ -294,7 +292,7 @@
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
-        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain-nv
+        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
@@ -305,7 +303,7 @@
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
-        - zuul-jobs-test-ensure-tox-ubuntu-bionic-plain-nv
+        - zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-tox-ubuntu-xenial
         - zuul-jobs-test-tox-siblings
         - zuul-jobs-test-fetch-tox-output
@@ -321,6 +319,7 @@
         - zuul-jobs-test-ensure-pip-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
+        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
@@ -330,6 +329,7 @@
         - zuul-jobs-test-ensure-tox-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
+        - zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-tox-ubuntu-xenial
         - zuul-jobs-test-tox-siblings
         - zuul-jobs-test-fetch-tox-output
