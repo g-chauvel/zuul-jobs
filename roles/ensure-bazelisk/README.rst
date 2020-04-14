@@ -21,14 +21,17 @@ home directory by default.
 
    The URL from which to download bazelisk.
 
-.. zuul:rolevar:: bazelisk_executable
-   :default: bazelisk
-
-   The bazelisk executable.  If this already exists, the
-   role will not perform any further actions.
-
 .. zuul:rolevar:: bazelisk_target
    :default: "{{ ansible_user_dir }}/.local/bin/bazelisk"
 
    Where to install bazelisk.  If the role downloads bazelisk, it will
    set :zuul:rolevar:`ensure-bazelisk.bazelisk_executable` to this value as well.
+
+**Output Variables**
+
+.. zuul:rolevar:: bazelisk_executable
+   :default: bazelisk
+
+   The bazelisk executable.  If this already exists, the role will not
+   perform any further actions.  It will be made available for other
+   roles running after role.

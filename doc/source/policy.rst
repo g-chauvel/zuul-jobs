@@ -197,6 +197,18 @@ Here are the ways to install dependencies in order of preference:
 In any case, the role's documentation should mention which dependencies are
 needed, allowing users to prepare their hosts accordingly.
 
+Output Variables
+****************
+
+Some roles may find it useful to set a variable that can be consumed
+by later roles.  For example, the `ensure-pip` role sets a variable
+which specifies a working `virtualenv` command for the host.
+
+Roles should document their output under the **Output** section of
+their README documentation.  The variable should use the `cacheable:
+true` flag to `set_fact` to ensure that the variable is available
+across playbooks.
+
 Testing
 -------
 

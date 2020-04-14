@@ -49,3 +49,13 @@ qualified name (``pip2`` or ``pip3``) to avoid confusion.
    does not install the Python 2 interpreter, which may not be
    available on the system, so caution should be used when specifying
    ``python2`` in this list.
+
+**Output Variables**
+
+.. zuul:rolevar:: ensure_pip_virtualenv_cmd
+
+   This variable will be set to a command appropriate for general
+   usage with the `pip` module `virtualenv_command` argument on the
+   host.  On Python 3 hosts this will be the inbuilt `venv` module, on
+   Python 2 hosts the `virtualenv` package will be installed (this is
+   avoided on Python 3 hosts as an unnecessary dependency).
