@@ -26,15 +26,27 @@ function get_urls {
 import gzip
 import json
 import urllib.request
+from urllib.error import HTTPError
+import sys
 
-base_url = urllib.request.urlopen("${ZUUL_API_URL}").read()
-base_json = json.loads(base_url)
-manifest_url = [x['url'] for x in base_json['artifacts'] if x.get('metadata', {}).get('type') == 'zuul_manifest'][0]
-manifest = urllib.request.urlopen(manifest_url)
-if manifest.info().get('Content-Encoding') == 'gzip':
-    manifest_json = json.loads(gzip.decompress(manifest.read()))
-else:
-    manifest_json = json.loads(manifest.read())
+try:
+    base_url = urllib.request.urlopen("${ZUUL_API_URL}").read()
+    base_json = json.loads(base_url)
+    manifest_url = [x['url'] for x in base_json['artifacts'] if x.get('metadata', {}).get('type') == 'zuul_manifest'][0]
+    manifest = urllib.request.urlopen(manifest_url)
+    if manifest.info().get('Content-Encoding') == 'gzip':
+        manifest_json = json.loads(gzip.decompress(manifest.read()))
+    else:
+        manifest_json = json.loads(manifest.read())
+except HTTPError as e:
+    if e.code == 404:
+        print(
+            "Could not find build UUID in Zuul API. This can happen with "
+            "buildsets still running, or aborted ones. Try again after the "
+            "buildset is reported back to Zuul.", file=sys.stderr)
+    else:
+        print(e, file=sys.stderr)
+    sys.exit(2)
 
 def p(node, parent):
     if node.get('mimetype') != 'application/directory':
