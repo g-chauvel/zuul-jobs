@@ -1,3 +1,31 @@
+- name: Check if pip is installed
+  shell: |
+    PYTHON2=0
+    PYTHON3=1
+    {% if ensure_pip_from_packages and ensure_pip_from_packages_with_python2 %}
+    PYTHON2=1
+    {% elif ensure_pip_from_upstream and 'python2' in ensure_pip_from_upstream_interpreters %}
+    PYTHON2=1
+    {% endif %}
+    {% if ensure_pip_from_upstream and 'python3' not in ensure_pip_from_upstream_interpreters %}
+    PYTHON3=0
+    {% endif %}
+
+    # Not all platforms install a `pip` when installing python
+    # specific pip packages. We first check if pip$VERSION is
+    # available and if not fallback to checking if just `pip`
+    # is present.
+    if [ "$PYTHON2" -eq "1" ] ; then
+        command -v pip2 || command -v pip || exit 1
+    fi
+    if [ "$PYTHON3" -eq "1" ] ; then
+        command -v pip3 || command -v pip || exit 1
+    fi
+  args:
+    executable: /bin/bash
+  register: pip_preinstalled
+  failed_when: false
+
 - name: Install pip from packages
   include: "{{ item }}"
   with_first_found:
@@ -6,8 +34,10 @@
     - "default.yaml"
   when:
     - ensure_pip_from_packages
+    - pip_preinstalled.rc != 0
 
 - name: Install pip from source
   include: source.yaml
   when:
     - ensure_pip_from_upstream
+    - pip_preinstalled.rc != 0
