@@ -10,7 +10,7 @@ Ensure specified python interpreter and development files are installed
   Optional version of python interpreter to install, such as ``3.7``.
 
 .. zuul:rolevar:: python_use_pyenv
-   :default: false
+   :default: False
 
-  Whether to optionally use pyenv to install python instead of distro
-  packages.
+   Whether to optionally use pyenv to install python instead of distro
+   packages.

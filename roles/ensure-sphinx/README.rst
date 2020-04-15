@@ -12,13 +12,13 @@ All pip installs are done with a provided constraints file, if given.
    Optional path to a pip constraints file for installing python libraries.
 
 .. zuul:rolevar:: doc_building_packages
-   :default: ``list``
+   :default: []
 
    List of python packages to install for building docs. The default
    package list is based on the python version in use.
 
 .. zuul:rolevar:: doc_building_extra_packages
-   :default: ``list``
+   :default: []
 
    List of python additional packages to install for building docs.
    By default this list is empty.

@@ -6,7 +6,7 @@ install directory (i.e., ``pip install --user``).
 **Role Variables**
 
 .. zuul:rolevar:: tox_prefer_python2
-   :default: ``false``
+   :default: False
 
    If tox is not detected, prefer to install tox inside Python 2
    instead of Python 3.
@@ -19,7 +19,7 @@ install directory (i.e., ``pip install --user``).
 **Output Variables**
 
 .. zuul:rolevar:: tox_executable
-   :default: ``tox``
+   :default: tox
 
    After running this role, ``tox_executable`` will be set as the path
    to a valid ``tox``.
