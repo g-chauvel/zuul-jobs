@@ -25,17 +25,24 @@
     envlist: "{{ tox_envlist.split(',') }}"
   when: tox_envlist is defined
 
-- name: Find all environments
-  command: tox -l
+- name: Find all default environments
+  command: "{{ tox_executable }} -l"
   args:
     chdir: "{{ zuul_work_dir }}"
   register: tox_environments
-  when: tox_envlist is not defined or tox_envlist|lower == 'all'
+  when: tox_envlist is not defined
+
+- name: Find all default environments
+  command: "{{ tox_executable }} -a"
+  args:
+    chdir: "{{ zuul_work_dir }}"
+  register: tox_environments
+  when: tox_envlist == 'ALL'
 
 - name: Set envlist fact
   set_fact:
     envlist: "{{ tox_environments.stdout_lines }}"
-  when: tox_envlist is not defined or tox_envlist|lower == 'all'
+  when: tox_envlist is not defined or tox_envlist == 'ALL'
 
 - name: Copy tox logs
   copy:
