@@ -17,3 +17,10 @@
   include_tasks: pdf.yaml
 
 # Other sphinx output processing can be added here.
+
+# Finally fail, if no html exists
+
+- name: Fail if no HTML exists
+  fail:
+    msg: 'No html output in "{{ sphinx_build_dir }}".'
+  when: "'html' not in sphinx_dir"
