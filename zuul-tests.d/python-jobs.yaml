@@ -248,6 +248,10 @@
       - roles/ensure-output-dirs/.*
       - roles/fetch-tox-output/.*
       - roles/fetch-output/.*
+      - roles/ensure-tox/.*
+      - test-playbooks/python/fetch-tox-output.yaml
+      - test-playbooks/tox/reinstall-tox.yaml
+    pre-run: test-playbooks/tox/reinstall-tox.yaml
     run: test-playbooks/python/fetch-tox-output.yaml
     vars:
       zuul_use_fetch_output: true

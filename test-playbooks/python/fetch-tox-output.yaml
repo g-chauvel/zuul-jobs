@@ -35,6 +35,8 @@
   tasks:
     - import_role:
         name: fetch-tox-output
+      vars:
+        tox_envlist: "ALL"
 
     - block:
         - name: Undo the log_path fact set by fetch-javascript-output
