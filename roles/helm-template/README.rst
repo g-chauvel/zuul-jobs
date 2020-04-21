@@ -11,6 +11,12 @@ already setup and the Helm executable is installed.
 
    Directory of the Helm chart.
 
+.. zuul:rolevar:: helm_wait_for_pods
+   :default: True
+
+   Determine if the role should wait for all pods to go up after it applies
+   the template.
+
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 
