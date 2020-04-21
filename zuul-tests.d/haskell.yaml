@@ -1,0 +1,21 @@
+- job:
+    name: zuul-jobs-test-cabal-test
+    description: Test the cabal-test job and roles
+    parent: cabal-test
+    files:
+      - playbooks/haskell/.*
+      - roles/ensure-cabal/.*
+      - roles/ensure-ghc/.*
+      - roles/cabal-test/.*
+    pre-run: test-playbooks/haskell/setup-project.yaml
+    nodeset:
+      nodes:
+        - name: fedora-31
+          label: fedora-31
+
+- project:
+    check:
+      jobs: &id001
+        - zuul-jobs-test-cabal-test
+    gate:
+      jobs: *id001

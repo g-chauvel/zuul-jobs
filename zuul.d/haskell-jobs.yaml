@@ -1,0 +1,14 @@
+- job:
+    name: cabal-test
+    description: |
+      Run cabal test for a Haskell project.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: ghc_version
+
+         Use the specified ghc version (``latest`` picks the latest).
+    run: playbooks/haskell/cabal.yaml
+    pre-run: playbooks/haskell/pre.yaml
+    vars:
+      ghc_version: latest

@@ -15,6 +15,7 @@ Roles
    deprecated-roles
    galaxy-roles
    go-roles
+   haskell-roles
    helm-roles
    java-roles
    js-roles
