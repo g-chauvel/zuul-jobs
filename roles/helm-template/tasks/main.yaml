@@ -19,3 +19,4 @@
 - name: Wait for all pods to become Ready
   include_role:
     name: wait-for-pods
+  when: helm_wait_for_pods | bool
