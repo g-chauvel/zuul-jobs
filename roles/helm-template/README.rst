@@ -17,6 +17,10 @@ already setup and the Helm executable is installed.
    Determine if the role should wait for all pods to go up after it applies
    the template.
 
+.. zuul:rolevar:: helm_values_file
+
+   File containing Helm values to use when templating.
+
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 
