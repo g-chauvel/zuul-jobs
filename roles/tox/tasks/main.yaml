@@ -31,13 +31,23 @@
 
 - name: Emit tox command
   debug:
-    msg: "Running tox: {{ tox_executable }} -e{{ tox_envlist }} {{ tox_extra_args }}"
+    msg: >-
+      {{ tox_executable }}
+      {% if tox_envlist is defined and tox_envlist %}
+      -e{{ tox_envlist }}
+      {% endif %}
+      {{ tox_extra_args }}
 
 - name: Run tox
   args:
     chdir: "{{ zuul_work_dir }}"
   environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
-  command: "{{ tox_executable }} -e{{ tox_envlist }} {{ tox_extra_args }}"
+  command: >-
+    {{ tox_executable }}
+    {% if tox_envlist is defined and tox_envlist %}
+    -e{{ tox_envlist }}
+    {% endif %}
+    {{ tox_extra_args }}
   # Note: This intentionally ignores errors to give us the chance to look
   # for file comments in the stdout. In case of an error this will be returned
   # in a later task.
