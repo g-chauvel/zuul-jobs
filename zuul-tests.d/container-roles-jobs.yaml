@@ -35,13 +35,13 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-ensure-docker-fedora-30
-    description: Tests ensure-docker role on fedora-30
+    name: zuul-jobs-test-ensure-docker-fedora-31
+    description: Tests ensure-docker role on fedora-31
     parent: zuul-jobs-test-ensure-docker
     nodeset:
       nodes:
-        - name: fedora-30
-          label: fedora-30
+        - name: fedora-31
+          label: fedora-31
 
 - job:
     name: zuul-jobs-test-ensure-docker-ubuntu-bionic
@@ -279,13 +279,13 @@
           label: centos-8
 
 - job:
-    name: zuul-jobs-test-ensure-podman-fedora-30
-    description: Tests ensure-podman role on fedora-30
+    name: zuul-jobs-test-ensure-podman-fedora-31
+    description: Tests ensure-podman role on fedora-31
     parent: zuul-jobs-test-ensure-podman
     nodeset:
       nodes:
-        - name: fedora-30
-          label: fedora-30
+        - name: fedora-31
+          label: fedora-31
 
 - job:
     name: zuul-jobs-test-ensure-podman-ubuntu-bionic
@@ -307,7 +307,7 @@
         - zuul-jobs-test-ensure-docker-centos-7
         - zuul-jobs-test-ensure-docker-centos-8
         - zuul-jobs-test-ensure-docker-debian-stretch
-        - zuul-jobs-test-ensure-docker-fedora-30
+        - zuul-jobs-test-ensure-docker-fedora-31
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
         - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker
@@ -319,7 +319,7 @@
         - zuul-jobs-test-ensure-kubernetes-docker
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
-        - zuul-jobs-test-ensure-podman-fedora-30
+        - zuul-jobs-test-ensure-podman-fedora-31
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
     gate:
       jobs: *id001
