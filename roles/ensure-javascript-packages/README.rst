@@ -9,6 +9,8 @@ Install javascript dependencies needed for a project
 
 .. zuul:rolevar:: tox_constraints_file
 
-   Path to a pip constraints file. Will set the
-   ``UPPER_CONSTRAINTS_FILE`` environment variable.  Useful if npm
-   ``postinstall`` runs tox.
+   Path to a pip constraints file. Will be provided to via
+   ``TOX_CONSTRAINTS_FILE`` (deprecated but currently still supported
+   name is ``UPPER_CONSTRAINTS_FILE``) environment variable if it
+   exists.
+   Useful if npm ``postinstall`` runs tox.
