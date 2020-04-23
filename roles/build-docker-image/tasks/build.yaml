@@ -1,49 +1,20 @@
-- name: Check sibling directory
-  stat:
-    path: '{{ zuul_work_dir }}/{{ item.context }}/.zuul-siblings'
-  register: _dot_zuul_siblings
-
-# This should have been cleaned up; multiple builds may specify
-# different siblings to include so we need to start fresh.
-- name: Check for clean build
-  assert:
-    that: not _dot_zuul_siblings.stat.exists
-
-- name: Create sibling source directory
-  file:
-    path: '{{ zuul_work_dir }}/{{ item.context }}/.zuul-siblings'
-    state: directory
-    mode: 0755
-  when: item.siblings is defined
-
-# NOTE(ianw): could use recursive copy: with remote_src, but it's
-# Ansible 2.8 only.  take the simple approach.
-- name: Copy sibling source directories
-  command:
-    cmd: 'cp --parents -r {{ zj_sibling }} {{ ansible_user_dir }}/{{ zuul_work_dir }}/{{ item.context }}/.zuul-siblings'
-    chdir: '~/src'
-  loop: '{{ item.siblings }}'
-  loop_control:
-    loop_var: zj_sibling
-  when: item.siblings is defined
-
 - name: Build a docker image
   command: >-
-    docker build {{ item.path | default('.') }} -f {{ item.dockerfile | default(docker_dockerfile) }}
-    {% if item.target | default(false) -%}
-      --target {{ item.target }}
+    docker build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
+    {% if zj_image.target | default(false) -%}
+      --target {{ zj_image.target }}
     {% endif -%}
-    {% for build_arg in item.build_args | default([]) -%}
+    {% for build_arg in zj_image.build_args | default([]) -%}
       --build-arg {{ build_arg }}
     {% endfor -%}
-    {% if item.siblings | default(false) -%}
-      --build-arg "ZUUL_SIBLINGS={{ item.siblings | join(' ') }}"
+    {% if zj_image.siblings | default(false) -%}
+      --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
     {% endif -%}
-    {% for tag in item.tags | default(['latest']) -%}
+    {% for tag in zj_image.tags | default(['latest']) -%}
       {% if zuul.change | default(false) -%}
-        --tag {{ item.repository }}:change_{{ zuul.change }}_{{ tag }}
+        --tag {{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
       {% endif -%}
-      --tag {{ item.repository }}:{{ tag }}
+      --tag {{ zj_image.repository }}:{{ tag }}
     {% endfor -%}
     {% for label in zj_image.labels | default([]) -%}
       --label "{{ label }}"
@@ -51,10 +22,4 @@
     --label "org.zuul-ci.change={{ zuul.change }}"
     --label "org.zuul-ci.change_url={{ zuul.change_url }}"
   args:
-    chdir: "{{ zuul_work_dir }}/{{ item.context }}"
-
-- name: Cleanup sibling source directory
-  file:
-    path: '{{ zuul_work_dir }}/.zuul-siblings'
-    state: absent
-
+    chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"

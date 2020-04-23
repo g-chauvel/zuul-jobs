@@ -1,0 +1,43 @@
+- name: Build a docker image
+  command: >-
+    docker buildx build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
+      --platform={{ zj_image.arch | join(',') }}
+    {% if zj_image.target | default(false) -%}
+      --target {{ zj_image.target }}
+    {% endif -%}
+    {% for build_arg in zj_image.build_args | default([]) -%}
+      --build-arg {{ build_arg }}
+    {% endfor -%}
+    {% if zj_image.siblings | default(false) -%}
+      --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
+    {% endif -%}
+    {% for tag in zj_image.tags | default(['latest']) -%}
+      {% if zuul.change | default(false) -%}
+        --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
+      {% endif -%}
+      --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ tag }}
+    {% endfor -%}
+    {% for label in zj_image.labels | default([]) -%}
+      --label "{{ label }}"
+    {% endfor %}
+    --label "org.zuul-ci.change={{ zuul.change }}"
+    --label "org.zuul-ci.change_url={{ zuul.change_url }}"
+    --push
+  args:
+    chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+  environment:
+    DOCKER_CLI_EXPERIMENTAL: enabled
+
+- name: Pull images from buildset registry
+  command: >-
+    docker pull {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ zj_image_tag }}
+  loop: "{{ zj_image.tags | default(['latest']) }}"
+  loop_control:
+    loop_var: zj_image_tag
+
+- name: Tag image for local registry
+  command: >-
+    docker tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ zj_image_tag }} {{ zj_image.repository }}:{{ zj_image_tag }}
+  loop: "{{ zj_image.tags | default(['latest']) }}"
+  loop_control:
+    loop_var: zj_image_tag

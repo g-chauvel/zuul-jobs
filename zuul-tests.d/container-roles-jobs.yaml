@@ -82,6 +82,38 @@
     post-run: test-playbooks/registry/test-registry-post.yaml
     vars:
       container_command: docker
+      multiarch: false
+    nodeset:
+      nodes:
+        - name: intermediate-registry
+          label: ubuntu-bionic
+        - name: executor
+          label: ubuntu-bionic
+        - name: builder
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-registry-docker-multiarch
+    description: |
+      Test the intermediate registry roles with multiarch.
+
+      This job tests changes to the intermediate registry roles.  It
+      is not meant to be used directly but rather run on changes to
+      roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/ensure-docker/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    pre-run: test-playbooks/registry/test-registry-pre.yaml
+    run: test-playbooks/registry/test-registry.yaml
+    post-run: test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
+      multiarch: true
     nodeset:
       nodes:
         - name: intermediate-registry
@@ -112,6 +144,7 @@
     post-run: test-playbooks/registry/test-registry-post.yaml
     vars:
       container_command: podman
+      multiarch: false
     nodeset:
       nodes:
         - name: intermediate-registry
@@ -311,6 +344,7 @@
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
         - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-registry-docker
+        - zuul-jobs-test-registry-docker-multiarch
         - zuul-jobs-test-registry-podman
         - zuul-jobs-test-registry-buildset-registry
         - zuul-jobs-test-registry-buildset-registry-k8s-docker

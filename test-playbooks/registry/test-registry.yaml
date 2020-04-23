@@ -134,12 +134,20 @@
       include_role:
         name: "build-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
-        docker_images:
+        _normal_docker_images:
           - context: test-playbooks/registry/docker-siblings
             repository: downstream/image
             siblings:
               - opendev.org/project/fake-sibling
               - openstack.org/project/fake-sibling
+        _arch_docker_images:
+          - context: test-playbooks/registry/docker-siblings
+            repository: downstream/image
+            siblings:
+              - opendev.org/project/fake-sibling
+              - openstack.org/project/fake-sibling
+            arch: ['linux/amd64', 'linux/arm64']
+        docker_images: "{{ multiarch | ternary(_arch_docker_images, _normal_docker_images) }}"
         container_images: "{{ docker_images }}"
 - hosts: executor
   name: Test pushing to the intermediate registry
@@ -150,9 +158,14 @@
       include_role:
         name: push-to-intermediate-registry
       vars:
-        docker_images:
+        _normal_docker_images:
           - context: playbooks/registry/docker
             repository: downstream/image
+        _arch_docker_images:
+          - context: playbooks/registry/docker
+            repository: downstream/image
+            arch: ['linux/amd64', 'linux/arm64']
+        docker_images: "{{ multiarch | ternary(_arch_docker_images, _normal_docker_images) }}"
         container_images: "{{ docker_images }}"
 
 # And finally an external verification step.
