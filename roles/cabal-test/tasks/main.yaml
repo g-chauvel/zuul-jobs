@@ -1,0 +1,19 @@
+- name: Run cabal install --only-dependencies
+  command: cabal install --only-dependencies
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Run cabal configure --enable-test
+  command: cabal configure --enable-test
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Run cabal build
+  command: cabal build
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Run cabal test
+  command: cabal test
+  args:
+    chdir: "{{ zuul_work_dir }}"

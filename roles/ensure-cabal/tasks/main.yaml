@@ -1,0 +1,20 @@
+- name: Check cabal version
+  command: cabal --version
+  failed_when: false
+  register: _cabal_version
+
+- name: Install cabal
+  package:
+    name: cabal-install
+    state: present
+  become: yes
+  when: "_cabal_version.rc != 0"
+
+- name: Check package
+  stat:
+    path: "~/.cabal/packages"
+  register: _cabal_packages
+
+- name: Update package list
+  command: cabal update
+  when: not _cabal_packages.stat.exists
