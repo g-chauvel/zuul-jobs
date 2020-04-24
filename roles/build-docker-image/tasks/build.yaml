@@ -20,7 +20,7 @@
 # Ansible 2.8 only.  take the simple approach.
 - name: Copy sibling source directories
   command:
-    cmd: 'cp --parents -r {{ sibling }} /home/zuul/{{ zuul_work_dir }}/{{ item.context }}/.zuul-siblings'
+    cmd: 'cp --parents -r {{ sibling }} {{ ansible_user_dir }}/{{ zuul_work_dir }}/{{ item.context }}/.zuul-siblings'
     chdir: '~/src'
   loop: '{{ item.siblings }}'
   loop_control:
