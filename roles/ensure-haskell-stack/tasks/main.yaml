@@ -1,0 +1,28 @@
+- name: Make sure the role is run on Fedora
+  fail:
+    msg: "This role supports Fedora only"
+  when: "ansible_distribution != 'Fedora'"
+
+- name: Check stack version
+  command: stack --version
+  failed_when: false
+  register: _stack_version
+
+- block:
+    - name: Install stack copr
+      command: dnf copr enable -y petersen/stack2
+      become: true
+
+    - name: Install stack
+      package:
+        name: stack
+        state: present
+      become: true
+
+    - name: Upgrade stack
+      command: stack upgrade
+      become: true
+
+    - name: Setup stack LTS
+      command: "stack {% if lts_version %}--resolver {{ lts_version }}{% endif %} setup"
+  when: _stack_version.rc != 0
