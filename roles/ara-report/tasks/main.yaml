@@ -1,7 +1,7 @@
 - block:
     - name: Check that ARA is installed
       command: bash -c "type -p {{ ara_report_executable }}"
-      ignore_errors: yes
+      failed_when: false
       register: ara_installed
 
     - name: Warn if ARA is not installed
