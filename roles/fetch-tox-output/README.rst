@@ -5,7 +5,9 @@ Collect log output from a tox build
 .. zuul:rolevar:: tox_envlist
    :default: venv
 
-   Which tox environment to fetch log output from.
+    Comma separated string with test environmens to fetch log output from.
+    ``ALL`` fetches all environments while an empty string fetches all test
+    environments configured with ``envlist`` in tox.
 
 .. zuul:rolevar:: tox_executable
    :default: tox

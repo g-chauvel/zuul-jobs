@@ -9,7 +9,9 @@ Runs tox for a project
 .. zuul:rolevar:: tox_envlist
    :default: venv
 
-   Which tox environment to run.
+   Comma separated string with test environments tox should run.
+   ``ALL`` runs all test environments while an empty string runs
+   all test environments configured with ``envlist`` in tox.
 
 .. zuul:rolevar:: tox_executable
    :default: tox
