@@ -38,43 +38,38 @@
       {% endif %}
       {{ tox_extra_args }}
 
-- name: Run tox
-  args:
-    chdir: "{{ zuul_work_dir }}"
-  environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
-  command: >-
-    {{ tox_executable }}
-    {% if tox_envlist is defined and tox_envlist %}
-    -e{{ tox_envlist }}
-    {% endif %}
-    {{ tox_extra_args }}
-  # Note: This intentionally ignores errors to give us the chance to look
-  # for file comments in the stdout. In case of an error this will be returned
-  # in a later task.
-  ignore_errors: yes
-  register: tox_output
+- block:
+    - name: Run tox
+      args:
+        chdir: "{{ zuul_work_dir }}"
+      environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
+      command: >-
+        {{ tox_executable }}
+        {% if tox_envlist is defined and tox_envlist %}
+        -e{{ tox_envlist }}
+        {% endif %}
+        {{ tox_extra_args }}
+      register: tox_output
 
-- name: Look for output
-  tox_parse_output:
-    tox_output: '{{ tox_output.stdout }}'
-    tox_envlist: '{{ tox_envlist }}'
-    workdir: '{{ zuul_work_dir }}'
-  when: tox_inline_comments
-  register: file_comments
-  ignore_errors: yes
+  # Even though any test environment in tox failed we want to
+  # return file comments produced so always run this.
+  always:
+    - name: Look for output
+      tox_parse_output:
+        tox_output: '{{ tox_output.stdout }}'
+        tox_envlist: '{{ tox_envlist }}'
+        workdir: '{{ zuul_work_dir }}'
+      when: tox_inline_comments
+      register: file_comments
+      failed_when: false
 
-- name: Return file comments to Zuul
-  when:
-    - file_comments
-    - file_comments.file_comments
-  delegate_to: localhost
-  zuul_return:
-    data:
-      zuul:
-        file_comments: '{{ file_comments.file_comments }}'
-  ignore_errors: yes
-
-- name: Return tox status
-  fail:
-    msg: 'tox exited with return code {{ tox_output.rc }}'
-  when: tox_output.rc != 0
+    - name: Return file comments to Zuul
+      when:
+        - tox_inline_comments
+        - file_comments.file_comments
+      delegate_to: localhost
+      zuul_return:
+        data:
+          zuul:
+            file_comments: '{{ file_comments.file_comments }}'
+      failed_when: false
