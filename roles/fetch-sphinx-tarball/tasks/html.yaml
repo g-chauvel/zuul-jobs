@@ -27,6 +27,7 @@
   unarchive:
     src: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
     dest: "{{ zuul.executor.log_root }}/docs"
+    remote_src: true
 
 - name: Return artifact to Zuul
   zuul_return:
