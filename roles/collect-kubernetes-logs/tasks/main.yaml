@@ -1,7 +1,7 @@
 - name: List pods
   command: "kubectl get pod -o=custom-columns=NAME:.metadata.name --no-headers"
   register: podlist
-  ignore_errors: true
+  failed_when: false
 
 - name: Create pod describe dir
   file:
@@ -15,7 +15,7 @@
   shell: "kubectl describe po {{ pod_name }} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ pod_name }}.txt"
   args:
     executable: /bin/bash
-  ignore_errors: true
+  failed_when: false
 
 - name: Open pod descriptions permissions
   file:
@@ -32,7 +32,7 @@
   shell: "journalctl -u kubelet &> {{ ansible_user_dir }}/zuul-output/logs/kubelet/kubelet.txt"
   args:
     executable: /bin/bash
-  ignore_errors: true
+  failed_when: false
   become: yes
 
 - name: Open kubelet logs permissions
