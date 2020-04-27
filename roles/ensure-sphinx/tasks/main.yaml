@@ -4,7 +4,7 @@
 # so we need to check a command provided by gettext package.
 - name: Check for gettext installed
   command: bash -c "type msgmerge"
-  ignore_errors: yes
+  failed_when: false
   register: gettext_exists
 
 # TODO(mordred) Make this a list of known binary depends that sphinx needs
