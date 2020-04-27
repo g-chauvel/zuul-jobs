@@ -39,7 +39,7 @@
       file:
         name: "{{ temp_subunit_file.path }}"
         state: absent
-      ignore_errors: true
+      failed_when: false
 
     - name: Process and fetch subunit results
       include: process.yaml
