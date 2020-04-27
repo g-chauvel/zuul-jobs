@@ -12,3 +12,12 @@
     pre-run: playbooks/haskell/pre.yaml
     vars:
       ghc_version: latest
+
+- job:
+    name: hlint
+    description: |
+      Run haskell source code suggestions.
+
+      This job produces an hlint.html report.
+    run: playbooks/haskell/hlint.yaml
+    pre-run: playbooks/haskell/pre-hlint.yaml
