@@ -1,9 +1,16 @@
+- name: Check for results.json
+  stat:
+    path: "{{ zuul.executor.work_root }}/results.json"
+  register: result_json_stat
+
 # This can be removed if we add this functionality to Zuul directly
 - name: Load information from zuul_return
-  when: buildset_registry is not defined
   set_fact:
     buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
-  ignore_errors: true
+  when:
+    - buildset_registry is not defined
+    - result_json_stat.stat.exists
+    - "'buildset_registry' in (lookup('file', zuul.executor.work_root + '/results.json') | from_json)"
 
 - name: Build docker images
   include_tasks: build.yaml
