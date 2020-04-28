@@ -1,7 +1,7 @@
 - name: List containers
   command: "{{ container_command }} ps -a --format '{{ '{{ .Names }}' }}'"
   register: docker_containers
-  failed_when: false
+  ignore_errors: true
 
 - name: Create container log dir
   file:
