@@ -3,6 +3,7 @@
     description: Test the ensure-pip role
     files:
       - roles/ensure-pip/.*
+      - roles/ensure-virtualenv/.*
     run: test-playbooks/ensure-pip.yaml
     tags: all-platforms
 
