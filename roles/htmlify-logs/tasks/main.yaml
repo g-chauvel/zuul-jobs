@@ -9,7 +9,9 @@
 
 - name: HTMLify text files
   htmlify:
-    input: "{{ item.path }}"
-    output: "{{ item.path | regex_replace('\\.txt', '.html') }}"
+    input: "{{ zj_item.path }}"
+    output: "{{ zj_item.path | regex_replace('\\.txt', '.html') }}"
   loop: "{{ htmlify_files.files }}"
+  loop_control:
+    loop_var: zj_item
   no_log: true

@@ -10,12 +10,14 @@
       register: _statefulsets
 
     - name: Ensure the number of ready replicas matches the replicas
-      shell: kubectl get {{ item }} -ogo-template='{{ '{{' }}eq .status.replicas .status.readyReplicas{{ '}}' }}'
+      shell: kubectl get {{ zj_item }} -ogo-template='{{ '{{' }}eq .status.replicas .status.readyReplicas{{ '}}' }}'
       register: _is_ready
       until: _is_ready.stdout == 'true'
       retries: 60
       delay: 5
       loop: "{{ _statefulsets.stdout_lines }}"
+      loop_control:
+        loop_var: zj_item
 
 - name: Wait for all pods to become ready
   command: kubectl wait --for=condition=Ready --timeout=120s pod --all

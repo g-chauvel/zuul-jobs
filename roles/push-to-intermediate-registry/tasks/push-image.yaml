@@ -5,26 +5,26 @@
 - name: Push tag to intermediate registry
   command: >-
     skopeo --insecure-policy copy
-    docker://127.0.0.1:{{ socat_port }}/{{ image.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ image_tag }}
-    docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ image_tag }}
+    docker://127.0.0.1:{{ socat_port }}/{{ image.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ zj_image_tag }}
+    docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ zj_image_tag }}
   retries: 3
   register: result
   until: result is success
   loop: "{{ image.tags | default(['latest']) }}"
   loop_control:
-    loop_var: image_tag
+    loop_var: zj_image_tag
 
 - name: Return artifact to Zuul
   zuul_return:
     data:
       zuul:
         artifacts:
-          - name: "{{ image.repository }}:{{ image_tag }}"
-            url: "docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ image_tag }}"
+          - name: "{{ image.repository }}:{{ zj_image_tag }}"
+            url: "docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ image.repository }}:{{ zuul.build }}_{{ zj_image_tag }}"
             metadata:
               type: container_image
               repository: "{{ image.repository }}"
-              tag: "{{ image_tag }}"
+              tag: "{{ zj_image_tag }}"
   loop: "{{ image.tags | default(['latest']) }}"
   loop_control:
-    loop_var: image_tag
+    loop_var: zj_image_tag

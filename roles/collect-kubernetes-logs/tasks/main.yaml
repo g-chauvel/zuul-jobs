@@ -11,8 +11,8 @@
 - name: Save pod descriptions
   loop: "{{ podlist.stdout_lines | default([]) }}"
   loop_control:
-    loop_var: pod_name
-  shell: "kubectl describe po {{ pod_name }} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ pod_name }}.txt"
+    loop_var: zj_pod_name
+  shell: "kubectl describe po {{ zj_pod_name }} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ zj_pod_name }}.txt"
   args:
     executable: /bin/bash
   failed_when: false

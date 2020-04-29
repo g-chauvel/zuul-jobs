@@ -22,8 +22,10 @@
 - name: Install configuration files
   become: true
   get_url:
-    url: "https://raw.githubusercontent.com/helm/chart-testing/v{{ chart_testing_version }}/etc/{{ item }}"
-    dest: "/etc/ct/{{ item }}"
+    url: "https://raw.githubusercontent.com/helm/chart-testing/v{{ chart_testing_version }}/etc/{{ zj_item }}"
+    dest: "/etc/ct/{{ zj_item }}"
   loop:
   - chart_schema.yaml
   - lintconf.yaml
+  loop_control:
+    loop_var: zj_item

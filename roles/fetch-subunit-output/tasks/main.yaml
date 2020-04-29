@@ -26,8 +26,10 @@
     - name: Generate subunit file
       shell:
         cmd: "{{ testr_command.stdout_lines[0] }} last --subunit >>{{ temp_subunit_file.path }}"
-        chdir: "{{ item }}"
+        chdir: "{{ zj_item }}"
       loop: "{{ all_subunit_dirs }}"
+      loop_control:
+        loop_var: zj_item
 
     - name: Copy the combined subunit file to the zuul work directory
       copy:

@@ -46,11 +46,13 @@
 
 - name: Return artifacts to Zuul
   loop: "{{ result.files }}"
+  loop_control:
+    loop_var: zj_item
   zuul_return:
     data:
       zuul:
         artifacts:
           - name: Javascript content archive
-            url: "artifacts/{{ item.path | basename }}"
+            url: "artifacts/{{ zj_item.path | basename }}"
             metadata:
               type: javascript_content

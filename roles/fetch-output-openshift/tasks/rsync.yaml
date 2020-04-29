@@ -4,8 +4,8 @@
     oc --context "{{ item.1.context }}"
        --namespace "{{ item.1.namespace }}"
         rsync -q --progress=false
-          {{ item.1.pod }}:{{ output.src }}/
-          {{ output.dst }}/
+          {{ item.1.pod }}:{{ zj_output.src }}/
+          {{ zj_output.dst }}/
   no_log: "{{ not zuul_log_verbose }}"
   delegate_to: localhost
   loop:
@@ -16,4 +16,4 @@
     - src: "{{ zuul_output_dir }}/docs"
       dst: "{{ zuul.executor.work_root }}/docs"
   loop_control:
-    loop_var: output
+    loop_var: zj_output

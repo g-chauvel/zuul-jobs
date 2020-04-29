@@ -23,10 +23,10 @@
 - name: Promote image
   loop: "{{ docker_images }}"
   loop_control:
-    loop_var: image
+    loop_var: zj_image
   include_tasks: promote-retag.yaml
 - name: Delete obsolete tags
   loop: "{{ docker_images }}"
   loop_control:
-    loop_var: image
+    loop_var: zj_image
   include_tasks: promote-cleanup.yaml

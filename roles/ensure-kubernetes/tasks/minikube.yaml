@@ -76,9 +76,9 @@
   become: yes
   loop: "{{ kube_config['users'] }}"
   loop_control:
-    loop_var: item
+    loop_var: zj_item
   file:
-    path: "{{ item['user']['client-key'] }}"
+    path: "{{ zj_item['user']['client-key'] }}"
     owner: "{{ ansible_user }}"
 
 - name: Get cluster info

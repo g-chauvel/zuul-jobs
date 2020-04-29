@@ -27,12 +27,14 @@
       debug:
         msg: |
           # Node Information
-          Hostname: {{ hostvars[item]['ansible_hostname']|default('unknown') }}
-          Distro: {{ hostvars[item]['ansible_distribution'] | default('unknown') }} {{ hostvars[item]['ansible_distribution_version'] | default('unknown') }}
-          Provider: {{ hostvars[item]['nodepool']['provider'] }}
-          Label: {{ hostvars[item]['nodepool']['label'] }}
-          {% if hostvars[item]['nodepool']['interface_ip'] is defined %}
-          Interface IP: {{ hostvars[item]['nodepool']['interface_ip'] }}
+          Hostname: {{ hostvars[zj_item]['ansible_hostname']|default('unknown') }}
+          Distro: {{ hostvars[zj_item]['ansible_distribution'] | default('unknown') }} {{ hostvars[zj_item]['ansible_distribution_version'] | default('unknown') }}
+          Provider: {{ hostvars[zj_item]['nodepool']['provider'] }}
+          Label: {{ hostvars[zj_item]['nodepool']['label'] }}
+          {% if hostvars[zj_item]['nodepool']['interface_ip'] is defined %}
+          Interface IP: {{ hostvars[zj_item]['nodepool']['interface_ip'] }}
           {% endif %}
       loop: "{{ query('inventory_hostnames', 'all,!localhost') }}"
+      loop_control:
+        loop_var: zj_item
       ignore_errors: yes
