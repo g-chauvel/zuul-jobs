@@ -1,0 +1,18 @@
+#
+# This file contains workaround tasks for specific issues
+#
+
+# Somehow on SuSE 15 the dependencies are such that python2-pip can be
+# installed, but setuptools is not.  This breaks Ansible's pip: which
+# does a direct import of pkg_resources and thus has a hard-dependency
+# on setuptools.  This doesn't appear to happen for python3.  Thus we
+# ensure this is installed, even if we skipped install phase because
+# pip looked like it was installed already.
+- name: Ensure setuptools
+  package:
+    name: python-setuptools
+  become: yes
+  when:
+    - ansible_python.version.major == 2
+    - ansible_os_family == 'Suse'
+    - ansible_distribution_major_version == '15'
