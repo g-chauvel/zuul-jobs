@@ -1,6 +1,6 @@
 - name: List tags
   uri:
-    url: "https://hub.docker.com/v2/repositories/{{ image.repository }}/tags?page_size=1000"
+    url: "https://hub.docker.com/v2/repositories/{{ zj_image.repository }}/tags?page_size=1000"
     status_code: 200
   register: tags
 - name: Set cutoff timestamp to 24 hours ago
@@ -13,7 +13,7 @@
     loop_var: zj_docker_tag
   when: zj_docker_tag.last_updated < cutoff.stdout and zj_docker_tag.name.startswith('change_')
   uri:
-    url: "https://hub.docker.com/v2/repositories/{{ image.repository }}/tags/{{ zj_docker_tag.name }}/"
+    url: "https://hub.docker.com/v2/repositories/{{ zj_image.repository }}/tags/{{ zj_docker_tag.name }}/"
     method: DELETE
     status_code: [200,204]
     headers:
