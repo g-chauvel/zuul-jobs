@@ -1,7 +1,7 @@
 - name: Get dockerhub token
   no_log: true
   uri:
-    url: "https://auth.docker.io/token?service=registry.docker.io&scope=repository:{{ image.repository }}:pull,push"
+    url: "https://auth.docker.io/token?service=registry.docker.io&scope=repository:{{ zj_image.repository }}:pull,push"
     user: "{{ docker_credentials.username }}"
     password: "{{ docker_credentials.password | trim }}"
     force_basic_auth: true
