@@ -33,15 +33,15 @@
 # which is handled here).
 - name: Set source and destination for files and folders
   set_fact:
-    source: "{{ zj_source.stat.path }}"
-    dest: "{{ zj_source.item.value.split('_')[0] }}/{{ zj_source.stat.path|basename|regex_replace('^(\\..*)$', '_\\1') }}{% if zj_source.item.value.endswith('_txt') %}.txt{% endif %}"
-    type: "{{ zj_source.item.value.split('_')[0] }}"
+    source: "{{ zj_result.stat.path }}"
+    dest: "{{ zj_result.zj_source.value.split('_')[0] }}/{{ zj_result.stat.path|basename|regex_replace('^(\\..*)$', '_\\1') }}{% if zj_result.zj_source.value.endswith('_txt') %}.txt{% endif %}"
+    type: "{{ zj_result.zj_source.value.split('_')[0] }}"
   with_items: "{{ sources.results }}"
   loop_control:
-    loop_var: zj_source
+    loop_var: zj_result
   when:
-    - zj_source.stat.exists
-    - zj_source.item.value
+    - zj_result.stat.exists
+    - zj_result.zj_source.value
   register: results
   no_log: true
 
