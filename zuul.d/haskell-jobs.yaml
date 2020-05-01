@@ -14,6 +14,19 @@
       ghc_version: latest
 
 - job:
+    name: haskell-stack-test
+    description: |
+      Run stack test for a Haskell project.
+
+      .. zuul:jobvar:: lts_version
+
+         Use the specified lts version.
+    run: playbooks/haskell/stack.yaml
+    pre-run: playbooks/haskell/pre-stack.yaml
+    vars:
+      ghc_version: latest
+
+- job:
     name: hlint
     description: |
       Run haskell source code suggestions.

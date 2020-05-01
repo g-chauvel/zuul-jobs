@@ -15,6 +15,21 @@
           label: fedora-31
 
 - job:
+    name: zuul-jobs-test-haskell-stack-test
+    description: Test the haskell-stack-test job and roles
+    parent: haskell-stack-test
+    files:
+      - playbooks/haskell/stack.yaml
+      - playbooks/haskell/pre-stack.yaml
+      - roles/ensure-haskell-stack/.*
+      - roles/haskell-stack-test/.*
+    pre-run: test-playbooks/haskell/setup-stack-project.yaml
+    nodeset:
+      nodes:
+        - name: fedora-31
+          label: fedora-31
+
+- job:
     name: zuul-jobs-test-hlint
     description: Test the hlint job and roles
     parent: hlint
@@ -35,6 +50,7 @@
     check:
       jobs: &id001
         - zuul-jobs-test-cabal-test
+        - zuul-jobs-test-haskell-stack-test
         - zuul-jobs-test-hlint
     gate:
       jobs: *id001
