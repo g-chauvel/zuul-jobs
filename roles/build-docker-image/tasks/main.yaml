@@ -31,10 +31,12 @@
     line: "{{ buildset_registry.host }}\tzuul-jobs.buildset-registry"
     insertafter: EOF
   when: buildset_registry is defined and buildset_registry.host | ipaddr
+
 - name: Set buildset_registry alias variable when using ip
   set_fact:
     buildset_registry_alias: zuul-jobs.buildset-registry
   when: buildset_registry is defined and buildset_registry.host | ipaddr
+
 - name: Set buildset_registry alias variable when using name
   set_fact:
     buildset_registry_alias: "{{ buildset_registry.host }}"

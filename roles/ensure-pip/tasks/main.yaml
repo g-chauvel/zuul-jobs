@@ -27,7 +27,7 @@
   failed_when: false
 
 - name: Install pip from packages
-  include: "{{ item }}"
+  include: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution_release }}.yaml"
     - "{{ ansible_distribution }}.yaml"
@@ -36,6 +36,8 @@
   when:
     - ensure_pip_from_packages
     - pip_preinstalled.rc != 0
+  loop_control:
+    loop_var: zj_distro_os
 
 - name: Install pip from source
   include: source.yaml
