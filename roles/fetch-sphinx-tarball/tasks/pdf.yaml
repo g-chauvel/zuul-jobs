@@ -39,7 +39,7 @@
 
     - name: Fetch PDF files
       synchronize:
-        dest: "{{ zuul.executor.log_root }}/pdf/{{ zj_pdf.item }}"
+        dest: "{{ zuul.executor.log_root }}/pdf/{{ zj_pdf.zj_sphinx_pdf }}"
         mode: pull
         src: "{{ zj_pdf.stat.path }}"
         verify_host: true
@@ -54,8 +54,8 @@
         data:
           zuul:
             artifacts:
-              - name: "Docs PDF: {{ zj_pdf.item }}"
-                url: "pdf/{{ zj_pdf.item }}"
+              - name: "Docs PDF: {{ zj_pdf.zj_sphinx_pdf }}"
+                url: "pdf/{{ zj_pdf.zj_sphinx_pdf }}"
                 metadata:
                   type: docs_pdf
       with_items: "{{ pdf_file_stat.results }}"
