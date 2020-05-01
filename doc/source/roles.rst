@@ -10,6 +10,7 @@ Roles
    general-roles
    log-roles
    afs-roles
+   build-roles
    cloud-roles
    container-roles
    deprecated-roles
