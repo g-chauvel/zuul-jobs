@@ -28,8 +28,10 @@
   register: artifacts
 
 - name: Sign artifacts
-  command: "gpg --homedir {{ gnupg_tmpdir.path }} --armor --detach-sign {{ item.path }}"
+  command: "gpg --homedir {{ gnupg_tmpdir.path }} --armor --detach-sign {{ zj_artifact.path }}"
   with_items: "{{ artifacts.files }}"
+  loop_control:
+    loop_var: zj_artifact
   when: artifacts.matched > 0
 
 - name: Delete keyring directory

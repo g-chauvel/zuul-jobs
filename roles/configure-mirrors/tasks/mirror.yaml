@@ -4,13 +4,15 @@
     state: absent
 
 - name: Include OS-specific variables
-  include_vars: "{{ item }}"
+  include_vars: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
     - "{{ ansible_distribution }}.{{ ansible_architecture }}.yaml"
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family }}.yaml"
     - "default.yaml"
+  loop_control:
+    loop_var: zj_distro_os
 
 - name: Install /etc/pip.conf configuration
   become: yes
@@ -22,10 +24,12 @@
     src: etc/pip.conf.j2
 
 - name: Setup distribution specific packaging mirrors
-  include: "{{ item }}"
+  include: "{{ zj_distro_os }}"
   static: no
   with_first_found:
     - "mirror/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
     - "mirror/{{ ansible_distribution }}.yaml"
     - "mirror/{{ ansible_os_family }}.yaml"
     - "mirror/default.yaml"
+  loop_control:
+    loop_var: zj_distro_os

@@ -7,8 +7,10 @@
 
 - name: Display stat for tarballs and wheels
   stat:
-    path: "{{ item.path }}"
+    path: "{{ zj_tarball_wheel.path }}"
   with_items: "{{ result.files }}"
+  loop_control:
+    loop_var: zj_tarball_wheel
 
 - name: Ensure artifacts directory exists
   file:
@@ -20,6 +22,8 @@
   synchronize:
     dest: "{{ zuul.executor.work_root }}/artifacts/"
     mode: pull
-    src: "{{ item.path }}"
+    src: "{{ zj_artifact.path }}"
     verify_host: true
   with_items: "{{ result.files }}"
+  loop_control:
+    loop_var: zj_artifact

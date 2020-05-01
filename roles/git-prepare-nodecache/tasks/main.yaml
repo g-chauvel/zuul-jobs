@@ -1,19 +1,25 @@
 - name: Create git parent dirs
   file:
-    path: "{{ git_cache_root }}/{{ item.canonical_name | dirname }}"
+    path: "{{ git_cache_root }}/{{ zj_project.canonical_name | dirname }}"
     state: directory
   with_items: "{{ zuul.projects.values() | list }}"
+  loop_control:
+    loop_var: zj_project
 
 - name: Copy git repos to {{ git_cache_root }}
-  command: cp -r "{{ ansible_user_dir }}/{{ item.src_dir }}/.git"
-    "{{ git_cache_root }}/{{ item.canonical_name }}"
+  command: cp -r "{{ ansible_user_dir }}/{{ zj_project.src_dir }}/.git"
+    "{{ git_cache_root }}/{{ zj_project.canonical_name }}"
   with_items: "{{ zuul.projects.values() | list }}"
+  loop_control:
+    loop_var: zj_project
 
 - name: Mark repos as bare
   command: git config --bool core.bare true
   args:
-    chdir: "{{ git_cache_root }}/{{ item.canonical_name }}"
+    chdir: "{{ git_cache_root }}/{{ zj_project.canonical_name }}"
   with_items: "{{ zuul.projects.values() | list }}"
+  loop_control:
+    loop_var: zj_project
   # We don't want git module foo, just set a config value.
   tags:
     - skip_ansible_lint
@@ -21,8 +27,10 @@
 - name: Run git garbage collection
   command: git gc --prune=now --aggressive
   args:
-    chdir: "{{ git_cache_root }}/{{ item.canonical_name }}"
+    chdir: "{{ git_cache_root }}/{{ zj_project.canonical_name }}"
   with_items: "{{ zuul.projects.values() | list }}"
+  loop_control:
+    loop_var: zj_project
   # The ansible git module doesn't support garbage collection.
   tags:
     - skip_ansible_lint

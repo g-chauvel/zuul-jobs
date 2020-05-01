@@ -1,14 +1,16 @@
 - name: Install CentOS repository files
   become: yes
   template:
-    dest: "/{{ item }}"
+    dest: "/{{ zj_repo }}"
     group: root
     mode: 0644
     owner: root
-    src: "centos7/{{ item }}.j2"
+    src: "centos7/{{ zj_repo }}.j2"
   with_items:
     - etc/yum.repos.d/CentOS-Base.repo
     - etc/yum.repos.d/epel.repo
+  loop_control:
+    loop_var: zj_repo
   notify:
     - Update yum/dnf cache
 

@@ -14,5 +14,7 @@
     dest: /etc/hosts
     state: present
     insertafter: EOF
-    line: "{{ item.value }} {{ item.key }}"
+    line: "{{ zj_host_address.value }} {{ zj_host_address.key }}"
   with_dict: "{{ host_addresses }}"
+  loop_control:
+    loop_var: zj_host_address

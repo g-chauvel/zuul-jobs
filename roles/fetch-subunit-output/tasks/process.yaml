@@ -20,17 +20,21 @@
   synchronize:
     dest: "{{ zuul.executor.log_root }}"
     mode: pull
-    src: "{{ item.path }}"
+    src: "{{ zj_subunit_file.path }}"
     verify_host: true
   with_items: "{{ subunit_files.files }}"
+  loop_control:
+    loop_var: zj_subunit_file
   when: not zuul_use_fetch_output
 
 - name: Copy test-results
   copy:
     dest: "{{ zuul_output_dir }}/logs/"
-    src: "{{ item.path }}"
+    src: "{{ zj_subunit_file.path }}"
     remote_src: true
   with_items: "{{ subunit_files.files }}"
+  loop_control:
+    loop_var: zj_subunit_file
   when: zuul_use_fetch_output
 
 - name: Return artifact to Zuul
@@ -42,5 +46,7 @@
             url: "testr_results.html"
             metadata:
               type: unit_test_report
-  when: "'testr_results.html' in item.path"
+  when: "'testr_results.html' in zj_subunit_file.path"
   with_items: "{{ subunit_files.files }}"
+  loop_control:
+    loop_var: zj_subunit_file

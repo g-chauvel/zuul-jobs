@@ -32,9 +32,11 @@
     action: insert
     chain: INPUT
     ip_version: ipv4
-    source: "{{ item }}"
+    source: "{{ zj_ipv4 }}"
     jump: ACCEPT
   with_items: "{{ ipv4_addresses }}"
+  loop_control:
+    loop_var: zj_ipv4
 
 - name: Set up ipv6 iptables rules
   become: yes
@@ -43,9 +45,11 @@
     action: insert
     chain: INPUT
     ip_version: ipv6
-    source: "{{ item }}"
+    source: "{{ zj_ipv6 }}"
     jump: ACCEPT
   with_items: "{{ ipv6_addresses }}"
+  loop_control:
+    loop_var: zj_ipv6
 
 - name: Persist iptables rules
   include_role:

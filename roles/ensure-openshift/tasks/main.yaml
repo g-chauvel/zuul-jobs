@@ -5,10 +5,12 @@
 
 - name: Install requirements
   yum:
-    name: "{{ item }}"
+    name: "{{ zj_package }}"
   with_items:
     - origin
     - docker
+  loop_control:
+    loop_var: zj_package
   become: yes
 
 - name: Fix docker start options
@@ -46,7 +48,7 @@
   become: yes
 
 - name: Pull origin images
-  command: "docker pull docker.io/openshift/{{ item }}:{{ origin_version }}"
+  command: "docker pull docker.io/openshift/{{ zj_docker_image }}:{{ origin_version }}"
   with_items:
     - origin-web-console
     - origin-docker-registry
@@ -54,6 +56,8 @@
     - origin-deployer
     - origin-pod
     - origin
+  loop_control:
+    loop_var: zj_docker_image
   become: yes
 
 - name: Set group ownership of docker socket

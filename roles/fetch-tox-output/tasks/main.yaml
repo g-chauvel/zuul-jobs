@@ -52,9 +52,11 @@
 - name: Copy tox logs
   copy:
     dest: "{{ zuul_output_dir }}/logs/tox/"
-    src: "{{ zuul_work_dir }}/.tox/{{ item }}/log/"
+    src: "{{ zuul_work_dir }}/.tox/{{ zj_testenv }}/log/"
     remote_src: true
-  with_items: "{{ envlist }}"
+  loop: "{{ envlist }}"
+  loop_control:
+    loop_var: zj_testenv
   # some tox runs may not create a virtualenv and thus have
   # no ./tox/env directory
   failed_when: false
@@ -64,9 +66,11 @@
   synchronize:
     dest: "{{ log_path }}"
     mode: pull
-    src: "{{ zuul_work_dir }}/.tox/{{ item }}/log/"
+    src: "{{ zuul_work_dir }}/.tox/{{ zj_testenv }}/log/"
     verify_host: true
-  with_items: "{{ envlist }}"
+  loop: "{{ envlist }}"
+  loop_control:
+    loop_var: zj_testenv
   # some tox runs may not create a virtualenv and thus have
   # no ./tox/env directory
   failed_when: false

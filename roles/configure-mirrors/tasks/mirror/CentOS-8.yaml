@@ -1,11 +1,11 @@
 - name: Install CentOS 8 repository files
   become: yes
   template:
-    dest: "/{{ item }}"
+    dest: "/{{ zj_repo }}"
     group: root
     mode: 0644
     owner: root
-    src: "centos8/{{ item }}.j2"
+    src: "centos8/{{ zj_repo }}.j2"
   with_items:
     - etc/yum.repos.d/CentOS-AppStream.repo
     - etc/yum.repos.d/CentOS-Base.repo
@@ -13,6 +13,8 @@
     - etc/yum.repos.d/CentOS-Extras.repo
     - etc/yum.repos.d/CentOS-PowerTools.repo
     - etc/yum.repos.d/epel.repo
+  loop_control:
+    loop_var: zj_repo
   notify:
     - Update yum/dnf cache
 
