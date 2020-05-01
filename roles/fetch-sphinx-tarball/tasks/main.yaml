@@ -1,6 +1,7 @@
 - name: Inspect sphinx build directory
   find:
     file_type: any
+    follow: true
     paths: "{{ zuul_work_dir }}/{{ sphinx_build_dir }}"
   register: sphinx_dir
 
