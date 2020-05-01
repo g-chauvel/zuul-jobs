@@ -39,14 +39,14 @@
 
     - name: Fetch PDF files
       synchronize:
-        dest: "{{ zuul.executor.log_root }}/pdf/{{ item.item }}"
+        dest: "{{ zuul.executor.log_root }}/pdf/{{ zj_pdf.item }}"
         mode: pull
-        src: "{{ item.stat.path }}"
+        src: "{{ zj_pdf.stat.path }}"
         verify_host: true
       with_items: "{{ pdf_file_stat.results }}"
       loop_control:
         loop_var: zj_pdf
-      when: item.stat.exists
+      when: zj_pdf.stat.exists
 
 
     - name: Return PDF artifact to Zuul
@@ -61,4 +61,4 @@
       with_items: "{{ pdf_file_stat.results }}"
       loop_control:
         loop_var: zj_pdf
-      when: item.stat.exists
+      when: zj_pdf.stat.exists
