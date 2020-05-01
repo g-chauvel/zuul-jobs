@@ -1,8 +1,10 @@
 - name: Ensure Zuul Output directories exist
   file:
-    path: "{{ zuul_output_dir }}/{{ item }}"
+    path: "{{ zuul_output_dir }}/{{ zj_output_dir }}"
     state: directory
   with_items:
     - logs
     - artifacts
     - docs
+  loop_control:
+    loop_var: zj_output_dir

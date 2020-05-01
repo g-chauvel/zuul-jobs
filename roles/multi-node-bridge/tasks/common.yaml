@@ -1,9 +1,11 @@
 - name: Include OS-specific variables
-  include_vars: "{{ item }}"
+  include_vars: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family }}.yaml"
     - "default.yaml"
+  loop_control:
+    loop_var: zj_distro_os
 
 # openvswitch for CentOS is available from the RDO repositories.
 # We're setting it up manually to prevent centos-release-openstack or rdo-release
@@ -27,12 +29,14 @@
   become: yes
   lineinfile:
     path: /etc/portage/package.use/ovs
-    line: "{{ item.line }}"
+    line: "{{ zj_item.line }}"
     create: yes
-  with_items:
+  loop:
     - { line: 'dev-python/twisted conch  # for openvswitch' }
     - { line: 'sys-apps/util-linux caps  # for openvswitch' }
     - { line: 'net-misc/openvswitch -modules  # ovs/gre are staticly built' }
+  loop_control:
+    loop_var: zj_item
   when:
     - ansible_distribution == 'Gentoo'
 
@@ -63,11 +67,13 @@
 - name: Remove RDO repository files
   become: yes
   file:
-    path: "{{ item }}"
+    path: "{{ zj_rdo }}"
     state: absent
-  with_items:
+  loop:
     - /tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
     - /etc/yum.repos.d/zuul-multi-node-bridge-ovs.repo
+  loop_control:
+    loop_var: zj_rdo
   when:
     - ansible_os_family == "RedHat"
     - ansible_distribution != "Fedora"

@@ -36,30 +36,36 @@
     - name: gzip console log and json output
       delegate_to: localhost
       archive:
-        path: "{{ zuul.executor.log_root }}/{{ item }}"
+        path: "{{ zuul.executor.log_root }}/{{ zj_log }}"
       with_items:
         - job-output.txt
         - job-output.json
+      loop_control:
+        loop_var: zj_log
       when: zuul_log_compress | bool
 
     - name: Upload compressed console log and json output
       synchronize:
-        src: "{{ zuul.executor.log_root }}/{{ item }}.gz"
-        dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ item }}.gz"
+        src: "{{ zuul.executor.log_root }}/{{ zj_log }}.gz"
+        dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ zj_log }}.gz"
         verify_host: true
       with_items:
         - job-output.txt
         - job-output.json
+      loop_control:
+        loop_var: zj_log
       when: zuul_log_compress | bool
 
     - name: Upload console log and json output
       synchronize:
-        src: "{{ zuul.executor.log_root }}/{{ item }}"
-        dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ item }}"
+        src: "{{ zuul.executor.log_root }}/{{ zj_log }}"
+        dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ zj_log }}"
         verify_host: true
       with_items:
         - job-output.txt
         - job-output.json
+      loop_control:
+        loop_var: zj_log
       when: not zuul_log_compress | bool
 
 - name: Return log URL to Zuul

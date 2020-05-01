@@ -3,21 +3,25 @@
     name: receive.denyCurrentBranch ignore
     value: ignore
     scope: local
-    repo: "{{ ansible_user_dir }}/{{ item.value.src_dir }}"
+    repo: "{{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
   with_dict: "{{ zuul.projects }}"
+  loop_control:
+    loop_var: zj_project
 
 - name: Synchronize src repos to workspace directory
   command: |-
     {% if ansible_connection == "kubectl" %}
-      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror "ext::kubectl -n {{ zuul.resources[inventory_hostname].namespace }} exec -i {{ zuul.resources[inventory_hostname].pod }} -- %S {{ ansible_user_dir }}/{{ item.value.src_dir }}"
+      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror "ext::kubectl -n {{ zuul.resources[inventory_hostname].namespace }} exec -i {{ zuul.resources[inventory_hostname].pod }} -- %S {{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
     {% else %}
-      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror git+ssh://{{ ansible_user }}@{{ ansible_host | ipwrap }}:{{ ansible_port }}/{{ ansible_user_dir }}/{{ item.value.src_dir }}
+      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror git+ssh://{{ ansible_user }}@{{ ansible_host | ipwrap }}:{{ ansible_port }}/{{ ansible_user_dir }}/{{ zj_project.value.src_dir }}
     {% endif %}
   args:
-    chdir: "{{ zuul.executor.work_root }}/{{ item.value.src_dir }}"
+    chdir: "{{ zuul.executor.work_root }}/{{ zj_project.value.src_dir }}"
   environment:
     GIT_ALLOW_PROTOCOL: ext:ssh
   with_dict: "{{ zuul.projects }}"
+  loop_control:
+    loop_var: zj_project
   delegate_to: localhost
   # We occasionally see git pushes in the middle of this loop fail then
   # subsequent pushes for other repos succeed. The entire loop ends up
@@ -41,13 +45,15 @@
     # Undo the config setting we did above
     git config --local --unset receive.denyCurrentBranch
     # checkout the branch matching the branch set up by the executor
-    git checkout {% if mirror_workspace_quiet %}--quiet{% endif %} {{ item.value.checkout }}
+    git checkout {% if mirror_workspace_quiet %}--quiet{% endif %} {{ zj_project.value.checkout }}
     # put out a status line with the current HEAD
-    echo "{{ item.value.canonical_name }} checked out to:"
+    echo "{{ zj_project.value.canonical_name }} checked out to:"
     git log --pretty=oneline  -1
   args:
-    chdir: "{{ ansible_user_dir }}/{{ item.value.src_dir }}"
+    chdir: "{{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
   with_dict: "{{ zuul.projects }}"
+  loop_control:
+    loop_var: zj_project
   # ANSIBLE0006: Skip linting since it triggers on the "git" command,
   # but we prefer the shell above
   tags:

@@ -1,7 +1,9 @@
 ---
 
 - name: Gather variables for each operating system
-  include_vars: "{{ item }}"
+  include_vars: "{{ zj_distro_os }}"
+  loop_control:
+    loop_var: zj_distro_os
   with_first_found:
     - skip: true
       files:

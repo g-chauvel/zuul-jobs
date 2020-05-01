@@ -39,11 +39,13 @@
       # Source the activate file so that sphinx subcommands have the correct
       # paths set.
       source {{ zuul_work_virtualenv }}/bin/activate
-      sphinx-build -b {{ item }} \
+      sphinx-build -b {{ zj_sphinx_builder }} \
         {% if sphinx_warning_is_error %} -W {% endif %} \
-        {{ sphinx_source_dir }} {{ sphinx_build_dir }}/{{ item }}
+        {{ sphinx_source_dir }} {{ sphinx_build_dir }}/{{ zj_sphinx_builder }}
     chdir: "{{ zuul_work_dir }}"
   with_items: "{{ sphinx_builders }}"
+  loop_control:
+    loop_var: zj_sphinx_builder
   when:
     - not use_doc_dir or not sphinx_pbr_autodoc
 

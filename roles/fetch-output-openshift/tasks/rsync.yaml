@@ -4,7 +4,7 @@
     oc --context "{{ item.1.context }}"
        --namespace "{{ item.1.namespace }}"
         rsync -q --progress=false
-          {{ item.1.pod }}:{{ zj_output.src }}/
+          {{ zj_pod.1.pod }}:{{ zj_output.src }}/
           {{ zj_output.dst }}/
   no_log: "{{ not zuul_log_verbose }}"
   delegate_to: localhost

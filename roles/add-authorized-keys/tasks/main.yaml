@@ -2,6 +2,8 @@
   authorized_key:
     user: "{{ ansible_ssh_user }}"
     state: present
-    key: "{{ item.public_key }}"
+    key: "{{ zj_public_key.public_key }}"
   with_items:
     - "{{ public_keys }}"
+  loop_control:
+    loop_var: zj_public_key

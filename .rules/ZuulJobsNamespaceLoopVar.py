@@ -18,8 +18,14 @@ https://zuul-ci.org/docs/zuul-jobs/policy.html\
     def matchtask(self, file, task):
         if file.get('type') != 'tasks':
             return False
-        if 'loop' in set(task.keys()):
-            if 'loop_control' not in set(task.keys()):
+
+        has_loop = 'loop' in task
+        for key in task.keys():
+            if key.startswith('with_'):
+                has_loop = True
+
+        if has_loop:
+            if 'loop_control' not in task:
                 return True
             elif 'loop_var' not in task.get('loop_control'):
                 return True

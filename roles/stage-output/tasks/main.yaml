@@ -1,7 +1,9 @@
 - name: Register sources
   stat:
-    path: "{{ item.key }}"
+    path: "{{ zj_source.key }}"
   with_dict: "{{ zuul_copy_output }}"
+  loop_control:
+    loop_var: zj_source
   register: sources
   no_log: true
 
@@ -22,7 +24,7 @@
   set_fact:
     extensions_regex: "^(.*)\\.({{ extension_list | join('|') }})$"
 
-# TODO(andreaf) We might want to enforce that item.value is a valid value
+# TODO(andreaf) We might want to enforce that zj_source.value is a valid value
 # in docs, artifacts, logs. Null case already handled.
 # NOTE(andreaf) Files or folders that start with a '.' are renamed to starting
 # with an '_' else they would not be visible in the logs folder once uploaded.
@@ -31,13 +33,15 @@
 # which is handled here).
 - name: Set source and destination for files and folders
   set_fact:
-    source: "{{ item.stat.path }}"
-    dest: "{{ item.item.value.split('_')[0] }}/{{ item.stat.path|basename|regex_replace('^(\\..*)$', '_\\1') }}{% if item.item.value.endswith('_txt') %}.txt{% endif %}"
-    type: "{{ item.item.value.split('_')[0] }}"
+    source: "{{ zj_source.stat.path }}"
+    dest: "{{ zj_source.item.value.split('_')[0] }}/{{ zj_source.stat.path|basename|regex_replace('^(\\..*)$', '_\\1') }}{% if zj_source.item.value.endswith('_txt') %}.txt{% endif %}"
+    type: "{{ zj_source.item.value.split('_')[0] }}"
   with_items: "{{ sources.results }}"
+  loop_control:
+    loop_var: zj_source
   when:
-    - item.stat.exists
-    - item.item.value
+    - zj_source.stat.exists
+    - zj_source.item.value
   register: results
   no_log: true
 
@@ -48,20 +52,24 @@
 - name: Ensure target folders exist
   become: true
   file:
-    path: "{{ stage_dir }}/{{ item }}"
+    path: "{{ stage_dir }}/{{ zj_output_dirs }}"
     state: directory
     owner: "{{ ansible_user }}"
   with_items:
     - docs
     - artifacts
     - logs
+  loop_control:
+    loop_var: zj_output_dirs
 
 - name: Copy files and folders to staging folder
   # remote_src copy does not work recursively, synchronise is restricted by
   # zuul, using command
-  command: cp -pRL {{ item.source }} {{ stage_dir }}/{{ item.dest }}
+  command: cp -pRL {{ zj_source.source }} {{ stage_dir }}/{{ zj_source.dest }}
   become: true
   with_items: "{{ all_sources }}"
+  loop_control:
+    loop_var: zj_source
 
 - name: Make all log files readable
   file:
