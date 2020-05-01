@@ -1,3 +1,7 @@
+- name: Install NodeJS
+  include_role:
+    name: ensure-nodejs
+
 - name: Gather variables for each operating system
   include_vars: "{{ zj_item }}"
   with_first_found:

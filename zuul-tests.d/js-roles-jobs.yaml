@@ -8,6 +8,16 @@
     vars:
       role_name: ensure-nodejs
 
+- job:
+    name: zuul-jobs-test-ensure-yarn
+    description: Test the ensure-yarn role
+    files:
+      - roles/ensure-yarn/.*
+      - roles/ensure-nodejs/.*
+      - roles/ensure-package-repositories/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: ensure-yarn
 
 - job:
     name: zuul-jobs-test-fetch-javascript-tarball
@@ -37,6 +47,7 @@
     check:
       jobs: &id001
         - zuul-jobs-test-ensure-nodejs
+        - zuul-jobs-test-ensure-yarn
         - zuul-jobs-test-fetch-javascript-tarball
         - zuul-jobs-test-fetch-javascript-tarball-synchronize
     gate:
