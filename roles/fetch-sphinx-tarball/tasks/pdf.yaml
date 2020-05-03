@@ -48,7 +48,6 @@
         loop_var: zj_pdf
       when: zj_pdf.stat.exists
 
-
     - name: Return PDF artifact to Zuul
       zuul_return:
         data:

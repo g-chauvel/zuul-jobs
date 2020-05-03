@@ -84,7 +84,6 @@
         fi
         exit $GLOBAL_RESULT
 
-
 # The following test(s) require(s) the previous playbook
 - name: Run the fetch-subunit-output role with multiple subunits
   hosts: all

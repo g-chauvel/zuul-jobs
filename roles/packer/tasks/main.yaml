@@ -14,7 +14,7 @@
       {{ packer_variables | to_json }}
     dest: "{{ packer_variable_tempfile.path }}"
   when: packer_variables is defined
-  no_log: true # We don't want to log this since credentials could be passed this way
+  no_log: true  # We don't want to log this since credentials could be passed this way
 
 - block:
     - name: Run packer

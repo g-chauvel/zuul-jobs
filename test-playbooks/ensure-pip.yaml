@@ -42,9 +42,9 @@
 # has already installed from source.  We might be able to test this
 # once it's gone...
 
-#- hosts: all
-#  roles:
-#    - role: ensure-pip
-#      vars:
-#        ensure_pip_from_upstream: True
+# - hosts: all
+#   roles:
+#     - role: ensure-pip
+#       vars:
+#         ensure_pip_from_upstream: True
 
