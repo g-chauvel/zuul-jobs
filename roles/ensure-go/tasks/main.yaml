@@ -3,7 +3,7 @@
   register: go_installed_version
   environment:
     PATH: "{{ ansible_env.PATH }}:{{ go_install_dir }}/go/bin"
-  ignore_errors: yes
+  failed_when: false
 
 - name: Skip if correct version of go is installed
   include_tasks: install-go.yaml

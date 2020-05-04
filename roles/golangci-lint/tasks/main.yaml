@@ -1,27 +1,23 @@
-- name: Run golangci-lint
-  command: "golangci-lint run {{ golangci_lint_options }}"
-  args:
-    chdir: "{{ zuul_work_dir }}"
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ go_bin_path }}"
-  ignore_errors: true
-  register: _golangci_lint
+- block:
+    - name: Run golangci-lint
+      command: "golangci-lint run {{ golangci_lint_options }}"
+      args:
+        chdir: "{{ zuul_work_dir }}"
+      environment:
+        PATH: "{{ ansible_env.PATH }}:{{ go_bin_path }}"
+      register: _golangci_lint
 
-- name: Look for output
-  golangci_lint_parse_output:
-    workdir: '{{ zuul_work_dir }}'
-    output: '{{ _golangci_lint.stdout }}'
-  register: _golangci_lint_parse_output
+  always:
+    - name: Look for output
+      golangci_lint_parse_output:
+        workdir: '{{ zuul_work_dir }}'
+        output: '{{ _golangci_lint.stdout }}'
+      register: _golangci_lint_parse_output
 
-- name: Return file comments to Zuul
-  when: _golangci_lint_parse_output.comments
-  delegate_to: localhost
-  zuul_return:
-    data:
-      zuul:
-        file_comments: '{{ _golangci_lint_parse_output.comments }}'
-
-- name: Return golangci-lint status
-  fail:
-    msg: 'golangci-lint exited with return code {{ _golangci_lint.rc }}'
-  when: _golangci_lint.rc != 0
+    - name: Return file comments to Zuul
+      when: _golangci_lint_parse_output.comments
+      delegate_to: localhost
+      zuul_return:
+        data:
+          zuul:
+            file_comments: '{{ _golangci_lint_parse_output.comments }}'
