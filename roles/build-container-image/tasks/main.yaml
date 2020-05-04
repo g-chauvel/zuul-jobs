@@ -14,10 +14,6 @@
     - result_json_stat.stat.size > 0
     - "'buildset_registry' in (lookup('file', zuul.executor.work_root + '/results.json') | from_json)"
 
-- name: Set container filename arg
-  set_fact:
-    containerfile: "{{ item.container_filename|default(container_filename|default('')) }}"
-
 - name: Build container images
   include_tasks: build.yaml
   loop: "{{ container_images }}"
