@@ -1,6 +1,11 @@
+- name: Make tempfile for buildkit.toml
+  tempfile:
+    state: file
+  register: buildkit_toml_tmp
+
 - name: Write buildkit.toml file
   template:
-    dest: /tmp/buildkitd.toml
+    dest: '{{ buildkit_toml_tmp.path }}'
     src: buildkitd.toml.j2
 
 - name: Run binfmt container
@@ -9,7 +14,7 @@
     DOCKER_CLI_EXPERIMENTAL: enabled
 
 - name: Create builder
-  command: docker buildx create --name mybuilder --driver-opt network=host --config /tmp/buildkitd.toml
+  command: 'docker buildx create --name mybuilder --driver-opt network=host --config {{ buildkit_toml_tmp.path }}'
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
 
@@ -29,14 +34,19 @@
 - name: Update CA certs in worker container
   command: docker exec buildx_buildkit_mybuilder0 update-ca-certificates
 
+- name: Make tempfile for /etc/hosts
+  tempfile:
+    state: file
+  register: etc_hosts_tmp
+
 - name: Copy /etc/hosts for editing
-  command: docker cp buildx_buildkit_mybuilder0:/etc/hosts /tmp/mybuilder-hosts
+  command: 'docker cp buildx_buildkit_mybuilder0:/etc/hosts {{ etc_hosts_tmp.path }}'
 
 # Docker buildx has its own /etc/hosts in the builder image.
 - name: Configure /etc/hosts for buildset_registry to workaround docker not understanding ipv6 addresses
   become: yes
   lineinfile:
-    path: /tmp/mybuilder-hosts
+    path: '{{ etc_hosts_tmp.path }}'
     state: present
     regex: "^{{ buildset_registry.host }}\tzuul-jobs.buildset-registry$"
     line: "{{ buildset_registry.host }}\tzuul-jobs.buildset-registry"
@@ -50,7 +60,13 @@
 # in the previous step, when we try to copy the file back directly, we get:
 #   unlinkat /etc/hosts: device or resource busy
 - name: Copy modified hosts file back in
-  command: docker cp /tmp/mybuilder-hosts buildx_buildkit_mybuilder0:/etc/new-hosts
+  command: 'docker cp {{ etc_hosts_tmp.path }} buildx_buildkit_mybuilder0:/etc/new-hosts'
 
 - name: Copy modified hosts file into place
   command: docker exec buildx_buildkit_mybuilder0 cp /etc/new-hosts /etc/hosts
+
+- name: Remove tempfile for /etc/hosts
+  file:
+    state: absent
+    path: '{{ etc_hosts_tmp.path }}'
+
