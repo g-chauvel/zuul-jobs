@@ -1,8 +1,8 @@
 ---
 - name: Fetch zuul-output from the pod
   command: >
-    oc --context "{{ item.1.context }}"
-       --namespace "{{ item.1.namespace }}"
+    oc --context "{{ zj_pod.1.context }}"
+       --namespace "{{ zj_pod.1.namespace }}"
         rsync -q --progress=false
           {{ zj_pod.1.pod }}:{{ zj_output.src }}/
           {{ zj_output.dst }}/
