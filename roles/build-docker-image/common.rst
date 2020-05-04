@@ -130,4 +130,10 @@ using this role.
       added with each sibling project.  Note that projects here must
       be listed in ``required-projects``.
 
+   .. zuul:rolevar:: labels
+      :type: list
+      :default: []
+
+      A list of labels to attach to the built image, in the form of "key=value".
+
 .. _anchors: https://yaml.org/spec/1.2/spec.html#&%20anchor//

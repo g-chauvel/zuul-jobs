@@ -45,6 +45,11 @@
       {% endif -%}
       --tag {{ item.repository }}:{{ tag }}
     {% endfor -%}
+    {% for label in zj_image.labels | default([]) -%}
+      --label "{{ label }}"
+    {% endfor %}
+    --label "org.zuul-ci.change={{ zuul.change }}"
+    --label "org.zuul-ci.change_url={{ zuul.change_url }}"
   args:
     chdir: "{{ zuul_work_dir }}/{{ item.context }}"
 
