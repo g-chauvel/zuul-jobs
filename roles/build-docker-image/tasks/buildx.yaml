@@ -30,14 +30,7 @@
 
 - name: Pull images from buildset registry
   command: >-
-    docker pull {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ zj_image_tag }}
-  loop: "{{ zj_image.tags | default(['latest']) }}"
-  loop_control:
-    loop_var: zj_image_tag
-
-- name: Tag image for local registry
-  command: >-
-    docker tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ zj_image_tag }} {{ zj_image.repository }}:{{ zj_image_tag }}
+    docker pull {{ zj_image.repository }}:{{ zj_image_tag }}
   loop: "{{ zj_image.tags | default(['latest']) }}"
   loop_control:
     loop_var: zj_image_tag
