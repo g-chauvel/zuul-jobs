@@ -15,9 +15,10 @@ https://zuul-ci.org/docs/zuul-jobs/policy.html\
 
     tags = {'zuul-jobs-namespace-loop-var'}
 
-    def matchtask(self, file, task):
-        if file.get('type') != 'tasks':
-            return False
+    def matchplay(self, file, task):
+        results = []
+        if file.get('type') not in ('tasks', 'handlers'):
+            return results
 
         has_loop = 'loop' in task
         for key in task.keys():
@@ -26,10 +27,10 @@ https://zuul-ci.org/docs/zuul-jobs/policy.html\
 
         if has_loop:
             if 'loop_control' not in task:
-                return True
+                results.append(("", self.shortdesc))
             elif 'loop_var' not in task.get('loop_control'):
-                return True
+                results.append(("", self.shortdesc))
             elif not task.get('loop_control')\
                     .get('loop_var').startswith('zj_'):
-                return True
-        return False
+                results.append(("", self.shortdesc))
+        return results

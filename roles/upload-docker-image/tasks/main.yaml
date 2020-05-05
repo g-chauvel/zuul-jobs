@@ -7,11 +7,13 @@
     loop_var: zj_image
   fail:
     msg: "{{ zj_image.repository }} not permitted by {{ docker_credentials.repository }}"
+
 - name: Log in to dockerhub
   command: "docker login -u {{ docker_credentials.username }} -p {{ docker_credentials.password }}"
   no_log: true
+
 - name: Upload image to dockerhub
   loop: "{{ docker_images }}"
   loop_control:
-    loop_var: image
+    loop_var: zj_image
   include_tasks: push.yaml

@@ -1,0 +1,42 @@
+- hosts: all
+  roles:
+    - ensure-pip
+  tasks:
+    - name: Create tempdir for ansible-lint venv
+      tempfile:
+        state: directory
+      register: ansible_lint_tempdir
+
+    - name: Install test-requirements.txt
+      pip:
+        requirements: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}/test-requirements.txt"
+        virtualenv: "{{ ansible_lint_tempdir.path }}"
+
+    - name: Make sure ansible-lint is installed
+      command: "{{ ansible_lint_tempdir.path }}/bin/ansible-lint --version"
+
+    - name: Make sure missing loopvars fail linting
+      command: "{{ ansible_lint_tempdir.path }}/bin/ansible-lint test-playbooks/ansible-lint-rules/roles/{{ item }}"
+      args:
+        chdir: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}"
+      register: ansible_lint
+      failed_when: ansible_lint.rc == 0
+      loop:
+        - tasks-missing-loopvar-with
+        - tasks-missing-loopvar-loop
+        - tasks-include-missing-loopvar-with
+        - tasks-include-missing-loopvar-loop
+        - handlers-missing-loopvar-with
+        - handlers-missing-loopvar-loop
+
+    - name: Make sure valid configuration passes linting
+      command: "{{ ansible_lint_tempdir.path }}/bin/ansible-lint test-playbooks/ansible-lint-rules/roles/{{ item }}"
+      args:
+        chdir: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}"
+      loop:
+        - tasks-loopvar-with
+        - tasks-loopvar-loop
+        - tasks-include-loopvar-with
+        - tasks-include-loopvar-loop
+        - handlers-loopvar-with
+        - handlers-loopvar-loop

@@ -89,8 +89,10 @@
   register: log_files_to_rename
 
 - name: Rename log files that match extension_list
-  shell: "mv {{ item.path }} {{ item.path | regex_replace(extensions_regex, '\\1_\\2.txt') }}"
+  shell: "mv {{ zj_log_file.path }} {{ zj_log_file.path | regex_replace(extensions_regex, '\\1_\\2.txt') }}"
   with_items: "{{ log_files_to_rename.files }}"
+  loop_control:
+    loop_var: zj_log_file
   args:
     chdir: "{{ stage_dir }}/logs"
   tags:
