@@ -31,3 +31,8 @@
   loop: "{{ dhall_versions[dhall_version] }}"
   loop_control:
     loop_var: zj_dhall_tool_item
+
+- name: Remove temp directory
+  file:
+    state: absent
+    path: '{{ dhall_archive_tempdir.path }}'

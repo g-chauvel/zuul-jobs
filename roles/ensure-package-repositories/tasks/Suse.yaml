@@ -24,6 +24,11 @@
     loop_var: zj_item
     index_var: zj_idx
 
+- name: Remove GPG temp directory
+  file:
+    state: absent
+    path: '{{ gpg_key_tempdir.path }}'
+
 - name: Add repositories
   zypper_repository:
     name: "{{ zj_item['name'] }}"
