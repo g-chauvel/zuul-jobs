@@ -1,3 +1,14 @@
+- name: Include OS-specific variables
+  include_vars: "{{ zj_distro_os }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
+    - "{{ ansible_distribution }}.{{ ansible_architecture }}.yaml"
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family }}.yaml"
+    - "default.yaml"
+  loop_control:
+    loop_var: zj_distro_os
+
 - name: Make tempfile for buildkit.toml
   tempfile:
     state: file
