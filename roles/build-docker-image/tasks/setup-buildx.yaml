@@ -1,31 +1,10 @@
-- name: Include OS-specific variables
-  include_vars: "{{ zj_distro_os }}"
-  with_first_found:
-    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
-    - "{{ ansible_distribution }}.{{ ansible_architecture }}.yaml"
-    - "{{ ansible_distribution }}.yaml"
-    - "{{ ansible_os_family }}.yaml"
-    - "default.yaml"
-  loop_control:
-    loop_var: zj_distro_os
-
-- name: Make tempfile for buildkit.toml
-  tempfile:
-    state: file
-  register: buildkit_toml_tmp
-
-- name: Write buildkit.toml file
-  template:
-    dest: '{{ buildkit_toml_tmp.path }}'
-    src: buildkitd.toml.j2
-
 - name: Run binfmt container
   command: docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
 
 - name: Create builder
-  command: 'docker buildx create --name mybuilder --driver-opt network=host --config {{ buildkit_toml_tmp.path }}'
+  command: docker buildx create --name mybuilder --driver-opt network=host --config /etc/buildkit/buildkitd.toml
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
 
@@ -39,11 +18,31 @@
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
 
+- name: Make tempfile for registry TLS certificate
+  tempfile:
+    state: file
+  register: buildkit_cert_tmp
+
+- name: Write buildset registry TLS certificate
+  become: true
+  copy:
+    content: "{{ buildset_registry.cert }}"
+    dest: "{{ buildkit_cert_tmp.path }}"
+  when: buildset_registry is defined and buildset_registry.cert
+
 - name: Copy buildset registry TLS cert into worker container
-  command: "docker cp {{ ca_dir }}/buildset-registry.crt buildx_buildkit_mybuilder0:/usr/local/share/ca-certificates"
+  command: "docker cp {{ buildkit_cert_tmp.path }} buildx_buildkit_mybuilder0:/usr/local/share/ca-certificates"
+  when: buildset_registry is defined and buildset_registry.cert
 
 - name: Update CA certs in worker container
   command: docker exec buildx_buildkit_mybuilder0 update-ca-certificates
+  when: buildset_registry is defined and buildset_registry.cert
+
+- name: Remove TLS cert tempfile
+  file:
+    state: absent
+    path: '{{ buildkit_cert_tmp.path }}'
+  when: buildset_registry is defined and buildset_registry.cert
 
 - name: Make tempfile for /etc/hosts
   tempfile:

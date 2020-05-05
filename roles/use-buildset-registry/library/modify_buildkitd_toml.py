@@ -48,25 +48,14 @@ def ansible_main():
         input_data = None
         data = {}
 
-    unseen = set(p['namespaces'])
     if 'registry' not in data:
-        data['registry'] = []
-    for reg in data['registry']:
-        if reg['prefix'] in unseen:
-            unseen.remove(reg['prefix'])
-        else:
-            continue
-        mirrors = reg.setdefault('mirror', [])
-        new_loc = dict(location=get_location(reg['prefix'], location))
+        data['registry'] = {}
+    for namespace in set(p['namespaces']):
+        n_config = data['registry'].setdefault(namespace, {})
+        mirrors = n_config.setdefault('mirrors', [])
+        new_loc = get_location(namespace, location)
         if not mirrors or new_loc != mirrors[0]:
             mirrors.insert(0, new_loc)
-    for prefix in unseen:
-        mirrors = [{'location': get_location(prefix, location)},
-                   {'location': prefix}]
-        reg = {'prefix': prefix,
-               'location': prefix,
-               'mirror': mirrors}
-        data['registry'].append(reg)
 
     output_data = remarshal.encode_toml(data, True)
     changed = input_data is None or input_data != output_data
