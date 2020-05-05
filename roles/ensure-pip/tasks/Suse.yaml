@@ -7,5 +7,4 @@
   package:
     name: python2-pip
   become: yes
-  when:
-    - ensure_pip_from_packages_with_python2
+  when: ensure_pip_from_packages_with_python2

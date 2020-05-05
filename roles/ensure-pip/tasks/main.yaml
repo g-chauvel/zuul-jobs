@@ -37,6 +37,9 @@
     - ensure_pip_from_packages
     - pip_preinstalled.rc != 0
 
+- name: Include workarounds
+  include: workarounds.yaml
+
 - name: Install pip from source
   include: source.yaml
   when:
