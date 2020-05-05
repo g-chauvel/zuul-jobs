@@ -99,6 +99,16 @@
           label: ubuntu-bionic
 
 - job:
+    name: test-packer-ubuntu-xenial
+    description: Test packer job on ubuntu-xenial
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
     name: test-packer-ubuntu-bionic-plain
     description: Test packer job on ubuntu-bionic-plain
     parent: test-packer
@@ -109,14 +119,34 @@
           label: ubuntu-bionic-plain
 
 - job:
-    name: test-packer-ubuntu-xenial
-    description: Test packer job on ubuntu-xenial
+    name: test-packer-ubuntu-xenial-plain
+    description: Test packer job on ubuntu-xenial-plain
     parent: test-packer
     tags: auto-generated
     nodeset:
       nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
+        - name: ubuntu-xenial-plain
+          label: ubuntu-xenial-plain
+
+- job:
+    name: test-packer-centos-8-plain
+    description: Test packer job on centos-8-plain
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-plain
+          label: centos-8-plain
+
+- job:
+    name: test-packer-opensuse-15-plain
+    description: Test packer job on opensuse-15-plain
+    parent: test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15-plain
+          label: opensuse-15-plain
 
 - project:
     check:
@@ -129,8 +159,11 @@
         - test-packer-opensuse-15
         - test-packer-opensuse-tumbleweed-nv
         - test-packer-ubuntu-bionic
-        - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial
+        - test-packer-ubuntu-bionic-plain
+        - test-packer-ubuntu-xenial-plain
+        - test-packer-centos-8-plain
+        - test-packer-opensuse-15-plain
     gate:
       jobs:
         - test-packer-centos-7
@@ -140,5 +173,8 @@
         - test-packer-gentoo-17-0-systemd
         - test-packer-opensuse-15
         - test-packer-ubuntu-bionic
-        - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial
+        - test-packer-ubuntu-bionic-plain
+        - test-packer-ubuntu-xenial-plain
+        - test-packer-centos-8-plain
+        - test-packer-opensuse-15-plain

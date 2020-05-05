@@ -98,6 +98,16 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-golang-go-ubuntu-xenial
+    description: Test the golang-go job on ubuntu-xenial
+    parent: zuul-jobs-test-golang-go
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
     name: zuul-jobs-test-golang-go-ubuntu-bionic-plain
     description: Test the golang-go job on ubuntu-bionic-plain
     parent: zuul-jobs-test-golang-go
@@ -108,14 +118,34 @@
           label: ubuntu-bionic-plain
 
 - job:
-    name: zuul-jobs-test-golang-go-ubuntu-xenial
-    description: Test the golang-go job on ubuntu-xenial
+    name: zuul-jobs-test-golang-go-ubuntu-xenial-plain
+    description: Test the golang-go job on ubuntu-xenial-plain
     parent: zuul-jobs-test-golang-go
     tags: auto-generated
     nodeset:
       nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
+        - name: ubuntu-xenial-plain
+          label: ubuntu-xenial-plain
+
+- job:
+    name: zuul-jobs-test-golang-go-centos-8-plain
+    description: Test the golang-go job on centos-8-plain
+    parent: zuul-jobs-test-golang-go
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-plain
+          label: centos-8-plain
+
+- job:
+    name: zuul-jobs-test-golang-go-opensuse-15-plain
+    description: Test the golang-go job on opensuse-15-plain
+    parent: zuul-jobs-test-golang-go
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15-plain
+          label: opensuse-15-plain
 
 - project:
     check:
@@ -128,8 +158,11 @@
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
         - zuul-jobs-test-golang-go-ubuntu-bionic
-        - zuul-jobs-test-golang-go-ubuntu-bionic-plain
         - zuul-jobs-test-golang-go-ubuntu-xenial
+        - zuul-jobs-test-golang-go-ubuntu-bionic-plain
+        - zuul-jobs-test-golang-go-ubuntu-xenial-plain
+        - zuul-jobs-test-golang-go-centos-8-plain
+        - zuul-jobs-test-golang-go-opensuse-15-plain
     gate:
       jobs:
         - zuul-jobs-test-golang-go-centos-7
@@ -139,5 +172,8 @@
         - zuul-jobs-test-golang-go-gentoo-17-0-systemd
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic
-        - zuul-jobs-test-golang-go-ubuntu-bionic-plain
         - zuul-jobs-test-golang-go-ubuntu-xenial
+        - zuul-jobs-test-golang-go-ubuntu-bionic-plain
+        - zuul-jobs-test-golang-go-ubuntu-xenial-plain
+        - zuul-jobs-test-golang-go-centos-8-plain
+        - zuul-jobs-test-golang-go-opensuse-15-plain
