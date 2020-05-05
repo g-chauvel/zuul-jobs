@@ -24,4 +24,6 @@
 - name: Fail if no HTML exists
   fail:
     msg: 'No html output in "{{ sphinx_build_dir }}".'
-  when: "'html' not in sphinx_dir"
+  when:
+    - zuul_success | bool
+    - "'html' not in sphinx_dir"
