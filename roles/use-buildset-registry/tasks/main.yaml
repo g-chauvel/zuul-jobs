@@ -39,9 +39,11 @@
   copy:
     content: "{{ buildset_registry.cert }}"
     dest: "{{ ca_dir }}/buildset-registry.crt"
+  register: _tls_ca
 - name: Update CA certs
   command: "{{ ca_command }}"
   become: true
+  when: _tls_ca is changed
 
 # Update daemon config
 - name: Check if docker daemon configuration exists
