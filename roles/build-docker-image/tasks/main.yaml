@@ -1,9 +1,18 @@
+- name: Check for results.json
+  stat:
+    path: "{{ zuul.executor.work_root }}/results.json"
+  register: result_json_stat
+  delegate_to: localhost
+
 # This can be removed if we add this functionality to Zuul directly
 - name: Load information from zuul_return
-  when: buildset_registry is not defined
   set_fact:
     buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
-  ignore_errors: true
+  when:
+    - buildset_registry is not defined
+    - result_json_stat.stat.exists
+    - result_json_stat.stat.size > 0
+    - "'buildset_registry' in (lookup('file', zuul.executor.work_root + '/results.json') | from_json)"
 
 - name: Set up siblings
   include_tasks: siblings.yaml
