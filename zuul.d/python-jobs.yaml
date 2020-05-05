@@ -230,7 +230,6 @@
 
          The version of Node to use.
 
-
       .. zuul:jobvar:: javascript_content_dir
          :default: dist
 
