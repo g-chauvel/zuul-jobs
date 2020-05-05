@@ -9,14 +9,14 @@
         - tox-py27
         - tox-py35:
             nodeset: ubuntu-xenial
-        - tox-py37
+        - tox-py38
     gate:
       jobs:
         - zuul-tox-docs
         - tox-py27
         - tox-py35:
             nodeset: ubuntu-xenial
-        - tox-py37
+        - tox-py38
     promote:
       jobs:
         - zuul-promote-docs
