@@ -136,4 +136,15 @@ using this role.
 
       A list of labels to attach to the built image, in the form of "key=value".
 
+   .. zuul:rolevar:: arch
+      :type: list
+      :default: []
+
+      A list of architectures to build on. When enabling this on any
+      image, all of them will be built with ``docker buildx``.
+
+      Valid values are ``linux/amd64``, ``linux/arm64``, ``linux/riscv64``,
+      ``linux/ppc64le``, ``linux/s390x``, ``linux/386``,
+      ``linux/arm/v7``, ``linux/arm/v6``.
+
 .. _anchors: https://yaml.org/spec/1.2/spec.html#&%20anchor//

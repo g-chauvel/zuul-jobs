@@ -5,9 +5,11 @@
     buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
   ignore_errors: true
 
-- name: Build docker images
-  include_tasks: build.yaml
+- name: Set up siblings
+  include_tasks: siblings.yaml
   loop: "{{ docker_images }}"
+  loop_control:
+    loop_var: zj_image
 
 # Docker doesn't understand docker push [1234:5678::]:5000/image/path:tag
 # so we set up /etc/hosts with a registry alias name to support ipv6 and 4.
@@ -28,10 +30,49 @@
   set_fact:
     buildset_registry_alias: "{{ buildset_registry.host }}"
   when: buildset_registry is defined and not ( buildset_registry.host | ipaddr )
-# Push each image.
-- name: Push image to buildset registry
-  when: buildset_registry is defined
-  include_tasks: push.yaml
-  loop: "{{ docker_images }}"
-  loop_control:
-    loop_var: image
+
+- name: Determine if we need to use buildx or normal build
+  set_fact:
+    use_buildx: "{{ docker_images | selectattr('arch', 'defined') | list }}"
+
+- name: Normal docker block
+  when: not use_buildx
+  block:
+
+    - name: Build docker images
+      include_tasks: build.yaml
+      loop: "{{ docker_images }}"
+      loop_control:
+        loop_var: zj_image
+
+    # Push each image.
+    - name: Push image to buildset registry
+      when: buildset_registry is defined
+      include_tasks: push.yaml
+      loop: "{{ docker_images }}"
+      loop_control:
+        loop_var: zj_image
+
+- name: Buildx block
+  when: use_buildx
+  block:
+
+    - name: Assert buildset registry is defined for buildx
+      assert:
+        that:
+           - buildset_registry is defined
+        fail_msg: "Building multi-arch images requires a buildset registry"
+
+    - name: Set up buildx builders
+      include_tasks: setup-buildx.yaml
+
+    - name: Build and push each image using buildx.
+      include_tasks: buildx.yaml
+      loop: "{{ docker_images }}"
+      loop_control:
+        loop_var: zj_image
+
+- name: Cleanup sibling source directory
+  file:
+    path: '{{ zuul_work_dir }}/.zuul-siblings'
+    state: absent
