@@ -112,10 +112,12 @@
     # gzip will however return 1 if any compressed file is encountered, so we
     # must ignore that (there's no specific error code).
     - name: Archive everything from logs
-      shell: gzip --recursive --best {{ item.path }} || true
+      shell: gzip --recursive --best {{ zj_log_file.path }} || true
       args:
         chdir: "{{ stage_dir }}/logs"
       with_items: "{{ log_files_to_compress.files }}"
+      loop_control:
+        loop_var: zj_log_file
       tags:
        - skip_ansible_lint
   when:
