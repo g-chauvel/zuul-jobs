@@ -65,7 +65,7 @@
     - name: Assert buildset registry is defined for buildx
       assert:
         that:
-           - buildset_registry is defined
+          - buildset_registry is defined
         fail_msg: "Building multi-arch images requires a buildset registry"
 
     - name: Set up buildx builders
