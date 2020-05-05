@@ -45,6 +45,7 @@ def ansible_main():
             input_data = f.read()
         data = remarshal.decode('toml', input_data, True)
     else:
+        input_data = None
         data = {}
 
     unseen = set(p['namespaces'])
@@ -56,8 +57,9 @@ def ansible_main():
         else:
             continue
         mirrors = reg.setdefault('mirror', [])
-        mirrors.insert(0, {
-            'location': get_location(reg['prefix'], location)})
+        new_loc = dict(location=get_location(reg['prefix'], location))
+        if mirrors and new_loc != mirrors[0]:
+            mirrors.insert(0, new_loc)
     for prefix in unseen:
         mirrors = [{'location': get_location(prefix, location)},
                    {'location': prefix}]
@@ -67,10 +69,12 @@ def ansible_main():
         data['registry'].append(reg)
 
     output_data = remarshal.encode_toml(data, True)
-    with open(p['path'], 'wb') as f:
-        f.write(output_data.encode('utf8'))
+    changed = input_data is None or input_data != output_data
+    if changed:
+        with open(p['path'], 'wb') as f:
+            f.write(output_data.encode('utf8'))
 
-    module.exit_json(changed=True, data=data)
+    module.exit_json(changed=changed, data=data)
 
 
 if __name__ == '__main__':
