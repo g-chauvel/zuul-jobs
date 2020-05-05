@@ -14,12 +14,6 @@
     - result_json_stat.stat.size > 0
     - "'buildset_registry' in (lookup('file', zuul.executor.work_root + '/results.json') | from_json)"
 
-- name: Set up siblings
-  include_tasks: siblings.yaml
-  loop: "{{ docker_images }}"
-  loop_control:
-    loop_var: zj_image
-
 # Docker doesn't understand docker push [1234:5678::]:5000/image/path:tag
 # so we set up /etc/hosts with a registry alias name to support ipv6 and 4.
 - name: Configure /etc/hosts for buildset_registry to workaround docker not understanding ipv6 addresses

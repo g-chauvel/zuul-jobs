@@ -50,5 +50,5 @@
 
 - name: Cleanup sibling source directory
   file:
-    path: '{{ zuul_work_dir }}/.zuul-siblings'
+    path: '{{ zuul_work_dir }}/{{ zj_image.context }}/.zuul-siblings'
     state: absent

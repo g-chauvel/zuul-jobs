@@ -140,9 +140,24 @@
             siblings:
               - opendev.org/project/fake-sibling
               - openstack.org/project/fake-sibling
+            target: first
+          - context: test-playbooks/registry/docker-siblings
+            repository: downstream/image2
+            target: second
+            siblings:
+              - opendev.org/project/fake-sibling
+              - openstack.org/project/fake-sibling
         _arch_docker_images:
           - context: test-playbooks/registry/docker-siblings
             repository: downstream/image
+            target: first
+            siblings:
+              - opendev.org/project/fake-sibling
+              - openstack.org/project/fake-sibling
+            arch: ['linux/amd64', 'linux/arm64']
+          - context: test-playbooks/registry/docker-siblings
+            repository: downstream/image2
+            target: second
             siblings:
               - opendev.org/project/fake-sibling
               - openstack.org/project/fake-sibling

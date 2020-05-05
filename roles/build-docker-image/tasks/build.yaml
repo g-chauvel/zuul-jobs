@@ -1,3 +1,6 @@
+- name: Set up siblings
+  include_tasks: siblings.yaml
+
 - name: Build a docker image
   command: >-
     docker build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
@@ -23,3 +26,6 @@
     --label "org.zuul-ci.change_url={{ zuul.change_url }}"
   args:
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+
+- name: Cleanup sibling source directory
+  include_tasks: clean-siblings.yaml

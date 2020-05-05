@@ -1,3 +1,6 @@
+- name: Set up siblings
+  include_tasks: siblings.yaml
+
 - name: Build a docker image
   command: >-
     docker buildx build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
@@ -34,3 +37,6 @@
   loop: "{{ zj_image.tags | default(['latest']) }}"
   loop_control:
     loop_var: zj_image_tag
+
+- name: Cleanup sibling source directory
+  include_tasks: clean-siblings.yaml
