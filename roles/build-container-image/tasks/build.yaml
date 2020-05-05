@@ -25,6 +25,10 @@
     loop_var: zj_sibling
   when: item.siblings is defined
 
+- name: Set container filename arg
+  set_fact:
+    containerfile: "{{ item.container_filename|default(container_filename)|default('') }}"
+
 - name: Build a container image
   command: >-
     {{ container_command }} build {{ item.path | default('.') }} {% if containerfile %}-f {{ containerfile }}{% endif %}
