@@ -4,41 +4,33 @@
   vars:
     ensure_pip_from_packages_with_python2: '{{ tox_prefer_python2 }}'
 
-- name: Ensure tox is installed
+- name: Check if tox is installed
   shell: |
-    set -euo pipefail
-
-    {% if tox_prefer_python2 %}
-    if command -v pip; then
-      PIP=pip
-    elif command -v pip3; then
-      PIP=pip3
-    fi
-    {% else %}
-    if command -v pip3; then
-      PIP=pip3
-    elif command -v pip; then
-      PIP=pip
-    fi
-    {% endif %}
-
-    type {{ tox_executable }} || $PIP install --user tox
+    command -v {{ tox_executable }} || exit 1
   args:
     executable: /bin/bash
-  register: result
-  changed_when: "'Successfully installed' in result.stdout"
+  register: tox_preinstalled
+  failed_when: false
 
-- name: Set tox_executable fact to pip installed
+- name: Export preinstalled tox_exectuable
   set_fact:
-    tox_executable: "{{ ansible_user_dir }}/.local/bin/tox"
+    tox_executable: '{{ tox_executable }}'
     cacheable: true
-  when: result is changed
+  when: tox_preinstalled.rc == 0
 
-- name: Set tox_exectuable fact to found tox
-  set_fact:
-    tox_executable: "{{ tox_executable }}"
-    cacheable: true
-  when: result is not changed
+- name: Install tox to local env
+  when: tox_preinstalled.rc != 0
+  block:
+    - name: Install tox to local venv
+      pip:
+        name: tox
+        virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
+        virtualenv: '{{ tox_venv_path }}'
+
+    - name: Export installed tox_executable path
+      set_fact:
+        tox_executable: '{{ tox_venv_path }}/bin/tox'
+        cacheable: true
 
 - name: Output tox version
   command: "{{ tox_executable }} --version"

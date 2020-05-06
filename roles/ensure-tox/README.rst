@@ -1,7 +1,7 @@
 Ensure tox is installed
 
-Look for ``tox``, and if not found, install it via ``pip`` in the user
-install directory (i.e., ``pip install --user``).
+Look for ``tox``, and if not found, install it via ``pip`` into a
+virtual environment for the current user.
 
 **Role Variables**
 
