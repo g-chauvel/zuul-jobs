@@ -30,6 +30,7 @@
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
+  retries: 3
 
 - name: Pull images from buildset registry
   command: >-
