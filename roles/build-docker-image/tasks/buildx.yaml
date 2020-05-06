@@ -1,36 +1,54 @@
 - name: Set up siblings
   include_tasks: siblings.yaml
 
-- name: Build a docker image
-  command: >-
-    docker buildx build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
-      --platform={{ zj_image.arch | join(',') }}
-    {% if zj_image.target | default(false) -%}
-      --target {{ zj_image.target }}
-    {% endif -%}
-    {% for build_arg in zj_image.build_args | default([]) -%}
-      --build-arg {{ build_arg }}
-    {% endfor -%}
-    {% if zj_image.siblings | default(false) -%}
-      --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
-    {% endif -%}
-    {% for tag in zj_image.tags | default(['latest']) -%}
-      {% if zuul.change | default(false) -%}
-        --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
+- name: Set base docker build command
+  set_fact:
+    docker_buildx_command: >-
+      docker buildx build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
+      {% if zj_image.target | default(false) -%}
+        --target {{ zj_image.target }}
       {% endif -%}
-      --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ tag }}
-    {% endfor -%}
-    {% for label in zj_image.labels | default([]) -%}
-      --label "{{ label }}"
-    {% endfor %}
-    --label "org.zuul-ci.change={{ zuul.change }}"
-    --label "org.zuul-ci.change_url={{ zuul.change_url }}"
-    --push
+      {% for build_arg in zj_image.build_args | default([]) -%}
+        --build-arg {{ build_arg }}
+      {% endfor -%}
+      {% if zj_image.siblings | default(false) -%}
+        --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
+      {% endif -%}
+      {% for tag in zj_image.tags | default(['latest']) -%}
+        {% if zuul.change | default(false) -%}
+          --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
+        {% endif -%}
+        --tag {{ buildset_registry_alias }}:{{ buildset_registry.port }}/{{ zj_image.repository }}:{{ tag }}
+      {% endfor -%}
+      {% for label in zj_image.labels | default([]) -%}
+        --label "{{ label }}"
+      {% endfor %}
+      --label "org.zuul-ci.change={{ zuul.change }}"
+      --label "org.zuul-ci.change_url={{ zuul.change_url }}"
+
+- name: Build images for all arches
+  command: "{{ docker_buildx_command }} --platform={{ zj_image.arch | join(',') }}"
   args:
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
   environment:
     DOCKER_CLI_EXPERIMENTAL: enabled
-  retries: 3
+
+- name: Push arch-specific layers one at a time
+  command: "{{ docker_buildx_command }} --platform={{ zj_arch }} --push"
+  args:
+    chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+  environment:
+    DOCKER_CLI_EXPERIMENTAL: enabled
+  loop: '{{ zj_image.arch }}'
+  loop_control:
+    loop_var: zj_arch
+
+- name: Push final to buildset registry
+  command: "{{ docker_buildx_command }} --platform={{ zj_image.arch | join(',') }} --push"
+  args:
+    chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+  environment:
+    DOCKER_CLI_EXPERIMENTAL: enabled
 
 - name: Pull images from buildset registry
   command: >-
