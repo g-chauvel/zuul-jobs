@@ -138,16 +138,6 @@
         - name: centos-8-plain
           label: centos-8-plain
 
-- job:
-    name: test-packer-opensuse-15-plain
-    description: Test packer job on opensuse-15-plain
-    parent: test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-15-plain
-          label: opensuse-15-plain
-
 - project:
     check:
       jobs:
@@ -163,7 +153,6 @@
         - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial-plain
         - test-packer-centos-8-plain
-        - test-packer-opensuse-15-plain
     gate:
       jobs:
         - test-packer-centos-7
@@ -177,4 +166,3 @@
         - test-packer-ubuntu-bionic-plain
         - test-packer-ubuntu-xenial-plain
         - test-packer-centos-8-plain
-        - test-packer-opensuse-15-plain
