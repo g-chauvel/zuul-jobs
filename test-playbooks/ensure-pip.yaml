@@ -1,24 +1,32 @@
 - hosts: all
   tasks:
+    # ensure-pip
+
     - name: Include ensure-pip
       include_role:
         name: ensure-pip
 
-    - name: Sanity check provided virtualenv command works
-      shell: |
-        tmp_venv=$(mktemp -d -t venv-XXXXXXXXXX)
-        trap "rm -rf $tmp_venv" EXIT
-        {{ ensure_pip_virtualenv_command }} $tmp_venv
-        $tmp_venv/bin/pip install tox
-      failed_when: false
-      register: _venv_sanity
+    - name: Create temp directory
+      tempfile:
+        state: directory
+        suffix: venv-test
+      register: _tmp_venv
 
-    - name: Assert pip venv sanity check
-      fail:
-        msg: 'The virtualenv_command: "{{ ensure_pip_virtualenv_command }}" does not appear to work!'
-      when:
-        - _venv_sanity.rc != 0
+    - name: Sanity check provided virtualenv command installs
+      pip:
+        name: tox
+        virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
+        virtualenv: '{{ _tmp_venv.path }}'
 
+    - name: Sanity check installed command runs without error
+      command: '{{ _tmp_venv.path }}/bin/tox --version'
+
+    - name: Remove tmpdir
+      file:
+        path: '{{ _tmp_venv.path }}'
+        state: absent
+
+    # ensure-virtualenv
     - name: Include ensure-virtualenv
       include_role:
         name: ensure-virtualenv

@@ -84,5 +84,5 @@
 
     - name: Override virtualenv
       set_fact:
-        ensure_pip_virtualenv_command: 'virtualenv -p python3'
+        ensure_pip_virtualenv_command: '/usr/local/bin/virtualenv -p python3'
       when: _pip_check.rc == 0
