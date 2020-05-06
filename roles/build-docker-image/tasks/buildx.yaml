@@ -57,5 +57,13 @@
   loop_control:
     loop_var: zj_image_tag
 
+- name: Locally tag for changes so push works later
+  command: >-
+    docker tag {{ zj_image.repository }}:{{ zj_image_tag }} {{ zj_image.repository }}:change_{{ zuul.change }}_{{ zj_image_tag }}
+  loop: "{{ zj_image.tags | default(['latest']) }}"
+  loop_control:
+    loop_var: zj_image_tag
+  when: zuul.change | default(false)
+
 - name: Cleanup sibling source directory
   include_tasks: clean-siblings.yaml
