@@ -125,11 +125,11 @@
       bindep_profile: compile doc
     run: playbooks/tox/run.yaml
     pre-run:
-        - playbooks/tox-docs/pre.yaml
-        - playbooks/tox/pre.yaml
+      - playbooks/tox-docs/pre.yaml
+      - playbooks/tox/pre.yaml
     post-run:
-        - playbooks/tox/docs-post.yaml
-        - playbooks/tox/post.yaml
+      - playbooks/tox/docs-post.yaml
+      - playbooks/tox/post.yaml
     success-url: docs/
 
 - job:

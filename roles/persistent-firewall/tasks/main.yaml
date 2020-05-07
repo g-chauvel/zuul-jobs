@@ -6,7 +6,7 @@
   failed_when: false
   register: iptables_rules
   tags:
-   - skip_ansible_lint
+    - skip_ansible_lint
 
 - name: List current ipv6 rules
   become: yes
@@ -16,7 +16,7 @@
   failed_when: false
   register: ip6tables_rules
   tags:
-   - skip_ansible_lint
+    - skip_ansible_lint
 
 - name: Configure persistent iptables rules
   include: "{{ zj_distro_os }}"

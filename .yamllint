@@ -14,7 +14,9 @@ rules:
   empty-lines:
     max: 1
     max-end: 2
-  indentation: disable
+  indentation:
+    level: error
+    indent-sequences: consistent
   new-line-at-end-of-file: disable
   line-length: disable
   truthy: false

@@ -66,8 +66,8 @@
         data:
           zuul:
             artifacts:
-               - name: ARA report
-                 url: "{{ ara_report_path }}"
+              - name: ARA report
+                url: "{{ ara_report_path }}"
   rescue:
     - name: HTML generation rescue
       debug:
@@ -93,5 +93,5 @@
         data:
           zuul:
             artifacts:
-               - name: ARA report
-                 url: "{{ ara_report_path }}"
+              - name: ARA report
+                url: "{{ ara_report_path }}"

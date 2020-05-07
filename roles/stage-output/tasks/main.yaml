@@ -96,7 +96,7 @@
   args:
     chdir: "{{ stage_dir }}/logs"
   tags:
-   - skip_ansible_lint
+    - skip_ansible_lint
 
 - block:
     - name: Discover log files for compression
@@ -119,6 +119,6 @@
       loop_control:
         loop_var: zj_log_file
       tags:
-       - skip_ansible_lint
+        - skip_ansible_lint
   when:
     - stage_compress_logs
