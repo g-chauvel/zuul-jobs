@@ -21,7 +21,6 @@
       {% if zuul.change | default(false) -%}
         --tag {{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
       {% endif -%}
-      --tag {{ zj_image.repository }}:{{ tag }}
     {% endfor -%}
     {% for label in zj_image.labels | default([]) -%}
       --label "{{ label }}"
