@@ -11,7 +11,7 @@ yamllint>=1.23.0
 # here to pull in ansible anyway; pip doesn't actually have a
 # dependency solver and the uncapped ansible requirement from
 # ansible-lint pull in the latest version.
-ansible>=2.5.1,<2.6 # https://review.openstack.org/567007
+ansible>=2.6,<2.7 # https://review.opendev.org/#/c/650431/
 # Don't automatically switch to ansible-lint 5 when it becomes
 # available, so that it can be evaluated for an orderly transition.
 ansible-lint>=4.1.1a0,<5
