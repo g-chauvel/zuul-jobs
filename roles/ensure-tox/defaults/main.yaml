@@ -1,2 +1,3 @@
 tox_executable: tox
+tox_venv_path: '{{ ansible_user_dir }}/.local/tox'
 tox_prefer_python2: false
