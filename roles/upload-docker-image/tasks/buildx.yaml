@@ -25,6 +25,7 @@
     {% endfor %}
     --label "org.zuul-ci.change={{ zuul.change }}"
     --label "org.zuul-ci.change_url={{ zuul.change_url }}"
+    --platform={{ zj_image.arch | join(',') }}
     --push
   args:
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
