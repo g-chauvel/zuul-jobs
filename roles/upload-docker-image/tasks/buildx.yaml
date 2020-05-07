@@ -1,0 +1,36 @@
+- name: Upload tag to dockerhub
+  # docker buildx doesn't have a separate push command, only the
+  # ability to push at the end of a build. We run build here with
+  # all the same arguments as in the buildx build tasks, so they
+  # should result in a noop build and just a push.
+  command: >-
+    docker buildx build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
+    {% if zj_image.target | default(false) -%}
+      --target {{ zj_image.target }}
+    {% endif -%}
+    {% for build_arg in zj_image.build_args | default([]) -%}
+      --build-arg {{ build_arg }}
+    {% endfor -%}
+    {% if zj_image.siblings | default(false) -%}
+      --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
+    {% endif -%}
+    {% for tag in zj_image.tags | default(['latest']) -%}
+      {% if zuul.change | default(false) -%}
+        --tag {{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
+      {% endif -%}
+      --tag {{ zj_image.repository }}:{{ tag }}
+    {% endfor -%}
+    {% for label in zj_image.labels | default([]) -%}
+      --label "{{ label }}"
+    {% endfor %}
+    --label "org.zuul-ci.change={{ zuul.change }}"
+    --label "org.zuul-ci.change_url={{ zuul.change_url }}"
+    --push
+  args:
+    chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+  environment:
+    DOCKER_CLI_EXPERIMENTAL: enabled
+  register: result
+  until: result.rc == 0
+  retries: 3
+  delay: 30
