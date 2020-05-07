@@ -127,16 +127,6 @@
         - name: centos-8-plain
           label: centos-8-plain
 
-- job:
-    name: zuul-jobs-test-ensure-python-pyenv-opensuse-15-plain
-    description: Test the ensure-python role with pyenv on opensuse-15-plain
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-15-plain
-          label: opensuse-15-plain
-
 - project:
     check:
       jobs:
@@ -152,7 +142,6 @@
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial-plain
         - zuul-jobs-test-ensure-python-pyenv-centos-8-plain
-        - zuul-jobs-test-ensure-python-pyenv-opensuse-15-plain
     gate:
       jobs:
         - zuul-jobs-test-ensure-python-pyenv-centos-7
@@ -166,4 +155,3 @@
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial-plain
         - zuul-jobs-test-ensure-python-pyenv-centos-8-plain
-        - zuul-jobs-test-ensure-python-pyenv-opensuse-15-plain
