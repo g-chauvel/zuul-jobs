@@ -4,7 +4,7 @@
       Test custom ansible-lint rules in zuul-jobs
     run: test-playbooks/ansible-lint-rules/run.yaml
     files:
-      - ^/.rules/.*
+      - ^\.rules/.*
       - ^test-playbooks/ansible-lint-rules/.*
       - ^\.ansible-lint
 
