@@ -1,3 +1,0 @@
-npm_environment:
-  DISPLAY: ':99'
-zuul_work_dir: "{{ zuul.project.src_dir }}"
