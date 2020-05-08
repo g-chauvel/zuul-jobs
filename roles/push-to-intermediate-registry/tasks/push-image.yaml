@@ -4,7 +4,7 @@
 # name, we strip it here.
 - name: Push tag to intermediate registry
   command: >-
-    skopeo --insecure-policy copy
+    skopeo --insecure-policy copy --all
     docker://127.0.0.1:{{ socat_port }}/{{ zj_image.repository | regex_replace('^docker\.io/(.*)', '\1') }}:{{ zj_image_tag }}
     docker://{{ intermediate_registry.host | ipwrap }}:{{ intermediate_registry.port }}/{{ zj_image.repository }}:{{ zuul.build }}_{{ zj_image_tag }}
   retries: 3
