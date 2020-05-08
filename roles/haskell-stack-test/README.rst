@@ -2,6 +2,10 @@ Run the Haskell stack test command.
 
 **Role Variables**
 
+.. zuul:rolevar:: haskell_stack_target
+
+   The stack target(s) to test.
+
 .. zuul:rolevar:: lts_version
 
    The lts version.

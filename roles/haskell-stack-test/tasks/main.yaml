@@ -1,4 +1,9 @@
-- name: Run stack test
-  command: "stack {% if lts_version %}--resolver {{ lts_version }}{% endif %} test"
+- name: Run stack build {{ _stack_build_args }}
+  command: "stack build {{ _stack_build_args }}"
+  args:
+    chdir: "{{ zuul_work_dir }}"
+
+- name: Run stack test {{ _stack_test_args }}
+  command: "stack test {{ _stack_test_args }}"
   args:
     chdir: "{{ zuul_work_dir }}"
