@@ -1,1 +1,2 @@
-python_build_depends: []
+python_build_depends:
+  - virtual/libffi
