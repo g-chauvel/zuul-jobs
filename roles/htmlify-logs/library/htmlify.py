@@ -14,6 +14,11 @@
 # under the License.
 
 import cgi
+html_escape = getattr(cgi, 'escape', None)
+if not html_escape:
+    import html
+    html_escape = html.escape
+
 import argparse
 import gzip
 import sys
@@ -95,7 +100,7 @@ def run(inpath, outpath):
 
     for i, line in enumerate(infile):
         i = i + 1
-        line = cgi.escape(line.rstrip('\n'))
+        line = html_escape(line.rstrip('\n'))
         outfile.write('<a name="l%s" class="l%s" href="#l%s">' % (i, i, i))
         outfile.write(line.rstrip('\n'))
         outfile.write("</a>\n")
