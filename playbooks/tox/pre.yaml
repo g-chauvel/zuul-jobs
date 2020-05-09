@@ -1,4 +1,4 @@
 - hosts: all
   roles:
-    - ensure-tox
     - ensure-python
+    - ensure-tox
