@@ -10,6 +10,7 @@ Javascript Roles
 .. zuul:autorole:: install-javascript-packages
 .. zuul:autorole:: install-nodejs
 .. zuul:autorole:: install-yarn
+.. zuul:autorole:: js-package-manager
 .. zuul:autorole:: nodejs-test-dependencies
 .. zuul:autorole:: npm
 .. zuul:autorole:: upload-npm

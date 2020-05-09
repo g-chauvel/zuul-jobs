@@ -1,10 +1,211 @@
 # Jobs listed in js-jobs.rst.
 
 - job:
-    name: nodejs-npm
+    name: js-build
     parent: unittests
     description: |
       Base job for javascript operations
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: js_build_command
+         :default: build
+
+         Command to pass to the javascript package manager..
+
+      .. zuul:jobvar:: js_build_tool
+         :default: autodetected
+
+         Command to use for running the package manager, such as npm or yarn.
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+    pre-run: playbooks/javascript/pre.yaml
+    run: playbooks/javascript/run.yaml
+    post-run: playbooks/javascript/post.yaml
+    vars:
+      js_build_command: build
+
+- job:
+    name: build-javascript-source-tarball
+    parent: js-build
+    description: |
+      Build a source tarball for a Javascript project
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+    vars:
+      js_build_command: pack
+
+- job:
+    name: build-javascript-deployment
+    parent: js-build
+    description: |
+      Build javascript web content as it should be deployed.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: js_build_command
+         :default: build
+
+         Command to pass to npm.
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+    success-url: npm/html/
+
+- job:
+    name: build-javascript-deployment-tarball
+    parent: js-build
+    description: |
+      Build an archive of javascript web content as it should be deployed.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: js_build_command
+         :default: build
+
+         Command to pass to npm.
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+
+      .. zuul:jobvar:: create_tarball_directory
+
+         Create a tarball with the contents of
+         create_tarball_directory (relative to zuul_work_dir).
+    post-run: playbooks/javascript/tarball.yaml
+
+- job:
+    name: nodejs-run-test
+    parent: js-build
+    description: |
+      Run test using nodejs. This test also starts Xvfb for run time
+      tests.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+        The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+    pre-run: playbooks/javascript/pre-test.yaml
+    vars:
+      js_build_command: test
+
+- job:
+    name: nodejs-run-lint
+    parent: js-build
+    description: |
+      Run lint using nodejs.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+
+      .. zuul:jobvar:: javascript_content_dir
+         :default: dist
+
+         Directory, relative to zuul_work_dir, holding build content.
+    vars:
+      js_build_command: lint
+
+- job:
+    name: nodejs-run-docs
+    parent: js-build
+    description: |
+      Run docs using nodejs.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: node_version
+         :default: 14
+
+         The version of Node to use.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
+    post-run: playbooks/tox/docs-post.yaml
+    success-url: docs/
+    vars:
+      js_build_command: docs
+
+- job:
+    name: nodejs-npm
+    parent: unittests
+    description: |
+      Base job for javascript operations using npm.
+      ** DEPRECATED: Switch to js-build **
 
       Responds to these variables:
 
@@ -27,8 +228,8 @@
          :default: dist
 
          Directory, relative to zuul_work_dir, holding build content.
-    pre-run: playbooks/javascript/pre.yaml
-    run: playbooks/javascript/run.yaml
+    pre-run: playbooks/nodejs-npm/pre.yaml
+    run: playbooks/nodejs-npm/run.yaml
     post-run: playbooks/javascript/post.yaml
     vars:
       npm_command: build
@@ -38,6 +239,8 @@
     parent: nodejs-npm
     description: |
       Build a source tarball for a Javascript project
+
+      ** DEPRECATED: Switch to build-javascript-source-tarball **
 
       Responds to these variables:
 
@@ -63,6 +266,8 @@
     parent: nodejs-npm
     description: |
       Build javascript web content as it should be deployed.
+
+      ** DEPRECATED: Please switch to build-javascript-release **
 
       Responds to these variables:
 
@@ -92,6 +297,8 @@
     parent: nodejs-npm
     description: |
       Build an archive of javascript web content as it should be deployed.
+
+      ** DEPRECATED: Please use build-javascript-deployment-tarball **
 
       Responds to these variables:
 
@@ -128,6 +335,8 @@
       Run test using nodejs. This test also starts Xvfb for run time
       tests.
 
+      ** DEPRECATED: Please switch to nodejs-run-test **
+
       Responds to these variables:
 
       .. zuul:jobvar:: node_version
@@ -154,6 +363,8 @@
     description: |
       Run lint using nodejs.
 
+      ** DEPRECATED: Please switch to nodejs-run-lint **
+
       Responds to these variables:
 
       .. zuul:jobvar:: node_version
@@ -179,7 +390,14 @@
     description: |
       Run docs using nodejs.
 
+      ** DEPRECATED: Please switch to nodejs-run-docs **
+
       Responds to these variables:
+
+      .. zuul:jobvar:: npm_executable
+         :default: autodetected
+
+         Command to use for running npm, such as npm or yarn.
 
       .. zuul:jobvar:: node_version
          :default: 6

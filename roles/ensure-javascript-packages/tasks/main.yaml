@@ -20,13 +20,19 @@
       UPPER_CONSTRAINTS_FILE: "{{ tox_constraints_file }}"
   when: tox_constraints_file is defined
 
-- name: Check for yarn.lock file
+- name: Check for yarn.lock
+  when: js_build_tool is not defined
   stat:
     path: "{{ zuul_work_dir }}/yarn.lock"
     get_checksum: false
     get_mime: false
     get_md5: false
-  register: yarn_lock
+  register: yarn_lock_exists
+
+- name: Set js_build_tool fact
+  set_fact:
+    js_build_tool: '{{ yarn_lock_exists.stat.exists | ternary("yarn", "npm") }}'
+  when: js_build_tool is not defined
 
 - name: Install yarn dependencies
   command: yarn install
@@ -34,11 +40,11 @@
     DISPLAY: ':99'
   args:
     chdir: "{{ zuul_work_dir }}"
-  when: yarn_lock.stat.exists
+  when: js_build_tool == 'yarn'
 
 - name: Install npm dependencies
   command: npm install --verbose
   environment: "{{ npm_environment|combine(tox_constraints_env|default({})) }}"
   args:
     chdir: "{{ zuul_work_dir }}"
-  when: not yarn_lock.stat.exists
+  when: js_build_tool == 'npm'
