@@ -1,1 +1,7 @@
+cabal_target: ""
+
 zuul_work_dir: "{{ zuul.project.src_dir }}"
+
+_cabal_install_args: "--only-dependencies {{ cabal_target }}"
+_cabal_build_args: "--enable-tests {{ cabal_target }}"
+_cabal_test_args: "{{ cabal_target }}"

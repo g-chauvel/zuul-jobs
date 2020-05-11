@@ -5,6 +5,10 @@
 
       Responds to these variables:
 
+      .. zuul:jobvar:: cabal_target
+
+         The cabal target(s) to test.
+
       .. zuul:jobvar:: ghc_version
 
          Use the specified ghc version (``latest`` picks the latest).
