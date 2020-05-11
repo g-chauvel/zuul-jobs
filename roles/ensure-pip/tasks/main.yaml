@@ -49,17 +49,28 @@
     - pip_preinstalled.rc != 0
 
 #
-# virtualenv setup
+# Export a working virtualenv_command
 #
-- name: Probe for venv
-  command: /usr/bin/python3 -m venv --help
-  no_log: True
+
+# Ansible's "pip:" module looks at the virtualenv_command and, if it
+# isn't fully qualified, tries to find the command and add the leading
+# path for you.  However, it doesn't split it up; it will actually
+# look for a command "python3 -m venv" (not, as you'd want, just
+# "python") and everything fails.  Thus we find the full path to
+# python3 and build our default command for output.
+- name: Probe for venv python full path
+  shell: |
+    command -v python3
+  args:
+    executable: /bin/bash
+  tags:
+    - skip_ansible_lint  # command is a bash built-in
   failed_when: false
   register: _venv_probe
 
 - name: Set host default
   set_fact:
-    _host_virtualenv: '{{ (_venv_probe.rc == 0) | ternary("/usr/bin/python3 -m venv", "virtualenv") }}'
+    _host_virtualenv: '{{ (_venv_probe.rc == 0) | ternary(_venv_probe.stdout + " -m venv", "virtualenv") }}'
 
 - name: Set ensure_pip_virtualenv_cmd
   set_fact:
