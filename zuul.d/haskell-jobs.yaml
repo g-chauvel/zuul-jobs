@@ -22,6 +22,10 @@
     description: |
       Run stack test for a Haskell project.
 
+      .. zuul:jobvar:: haskell_stack_target
+
+         The stack target(s) to test.
+
       .. zuul:jobvar:: lts_version
 
          Use the specified lts version.
