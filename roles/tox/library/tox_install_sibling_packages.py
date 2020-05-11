@@ -32,9 +32,14 @@ requirements:
 options:
   tox_envlist:
     description:
-      - The tox environment to operate in.
+      - The tox test environments to act on.
     required: true
     type: str
+  tox_show_config:
+    description:
+      - Path to a file containing the output from C(tox --showconfig).
+    required: true
+    type: path
   project_dir:
     description:
       - The directory in which the project we care about is in.
@@ -159,19 +164,126 @@ def _get_package_root(name, sibling_packages):
     return pkg_root
 
 
+def find_installed_siblings(tox_python, package_name, sibling_python_packages):
+    installed_sibling_packages = []
+    for dep_name in get_installed_packages(tox_python):
+        log.append(
+            "Found {name} python package installed".format(
+                name=dep_name))
+        if (dep_name == package_name or
+            prAPI.to_filename(dep_name) == package_name):
+            # We don't need to re-process ourself.
+            # We've filtered ourselves from the source dir list,
+            # but let's be sure nothing is weird.
+            log.append(
+                "Skipping {name} because it's us".format(
+                    name=dep_name))
+            continue
+        if dep_name in sibling_python_packages:
+            log.append(
+                "Package {name} on system in {root}".format(
+                    name=dep_name,
+                    root=sibling_python_packages[dep_name]))
+            installed_sibling_packages.append(dep_name)
+        elif prAPI.to_filename(dep_name) in sibling_python_packages:
+            real_name = prAPI.to_filename(dep_name)
+            log.append(
+                "Package {name} ({pkg_name}) on system in {root}".format(
+                    name=dep_name,
+                    pkg_name=real_name,
+                    root=sibling_python_packages[real_name]))
+            # need to use dep_name here for later constraint file rewrite
+            installed_sibling_packages.append(dep_name)
+    return installed_sibling_packages
+
+
+def install_siblings(envdir, projects, package_name, constraints):
+    changed = False
+    tox_python = '{envdir}/bin/python'.format(envdir=envdir)
+
+    sibling_python_packages = get_sibling_python_packages(
+        projects, tox_python)
+    for name, root in sibling_python_packages.items():
+        log.append("Sibling {name} at {root}".format(name=name,
+                                                     root=root))
+
+    installed_sibling_packages = find_installed_siblings(
+        tox_python,
+        package_name,
+        sibling_python_packages)
+
+    if constraints:
+        constraints_file = write_new_constraints_file(
+            constraints, installed_sibling_packages)
+
+    for sibling_package in installed_sibling_packages:
+        changed = True
+        log.append("Uninstalling {name}".format(name=sibling_package))
+        uninstall_output = subprocess.check_output(
+            [tox_python, '-m',
+             'pip', 'uninstall', '-y', sibling_package],
+            stderr=subprocess.STDOUT)
+        log.extend(uninstall_output.decode('utf-8').split('\n'))
+
+        args = [tox_python, '-m', 'pip', 'install']
+        if constraints:
+            args.extend(['-c', constraints_file])
+
+        pkg_root = _get_package_root(sibling_package,
+                                     sibling_python_packages)
+        log.append(
+            "Installing {name} from {root} for deps".format(
+                name=sibling_package,
+                root=pkg_root))
+        args.append(pkg_root)
+
+        install_output = subprocess.check_output(args)
+        log.extend(install_output.decode('utf-8').split('\n'))
+
+    for sibling_package in installed_sibling_packages:
+        changed = True
+        pkg_root = _get_package_root(sibling_package,
+                                     sibling_python_packages)
+        log.append(
+            "Installing {name} from {root}".format(
+                name=sibling_package,
+                root=pkg_root))
+
+        install_output = subprocess.check_output(
+            [tox_python, '-m', 'pip', 'install', '--no-deps',
+             pkg_root])
+        log.extend(install_output.decode('utf-8').split('\n'))
+    return changed
+
+
 def main():
     module = AnsibleModule(
         argument_spec=dict(
             tox_envlist=dict(required=True, type='str'),
+            tox_show_config=dict(required=True, type='path'),
             tox_constraints_file=dict(type='str'),
             project_dir=dict(required=True, type='str'),
             projects=dict(required=True, type='list'),
         )
     )
-    envlist = module.params['tox_envlist']
     constraints = module.params.get('tox_constraints_file')
     project_dir = module.params['project_dir']
     projects = module.params['projects']
+    tox_envlist = module.params.get('tox_envlist', '')
+    tox_show_config = module.params.get('tox_show_config')
+
+    tox_config = configparser.ConfigParser()
+    tox_config.read(tox_show_config)
+
+    envlist = {testenv.strip() for testenv
+               in tox_envlist.split(',')}
+
+    if not envlist:
+        module.exit_json(
+            changed=False,
+            msg='No envlist to run, no action needed.')
+
+    log.append('Using envlist: {}'.format(envlist))
 
     if not os.path.exists(os.path.join(project_dir, 'setup.cfg')):
         module.exit_json(changed=False, msg="No setup.cfg, no action needed")
@@ -187,110 +299,34 @@ def main():
         module.exit_json(
             changed=False, msg="No name in setup.cfg, skipping siblings")
 
-    envdir = '{project_dir}/.tox/{envlist}'.format(
-        project_dir=project_dir, envlist=envlist)
-    if not os.path.exists(envdir):
-        module.exit_json(
-            changed=False, msg="envdir does not exist, skipping siblings")
-
-    tox_python = '{envdir}/bin/python'.format(envdir=envdir)
-    # Write a log file into the .tox dir so that it'll get picked up
-    # Name it with envlist as a prefix so that fetch-tox-output will properly
-    # get it in a multi-env scenario
-    log_dir = '{envdir}/log'.format(envdir=envdir)
-    log_file = '{log_dir}/{envlist}-siblings.txt'.format(
-        log_dir=log_dir, envlist=envlist)
-
     log.append(
         "Processing siblings for {name} from {project_dir}".format(
             name=package_name,
             project_dir=project_dir))
 
     changed = False
-
-    try:
-        sibling_python_packages = get_sibling_python_packages(
-            projects, tox_python)
-        for name, root in sibling_python_packages.items():
-            log.append("Sibling {name} at {root}".format(name=name, root=root))
-        found_sibling_packages = []
-        for dep_name in get_installed_packages(tox_python):
-            log.append(
-                "Found {name} python package installed".format(
-                    name=dep_name))
-            if (dep_name == package_name or
-                prAPI.to_filename(dep_name) == package_name):
-                # We don't need to re-process ourself. We've filtered ourselves
-                # from the source dir list, but let's be sure nothing is weird.
-                log.append(
-                    "Skipping {name} because it's us".format(
-                        name=dep_name))
-                continue
-            if dep_name in sibling_python_packages:
-                log.append(
-                    "Package {name} on system in {root}".format(
-                        name=dep_name,
-                        root=sibling_python_packages[dep_name]))
-                changed = True
-                found_sibling_packages.append(dep_name)
-            elif prAPI.to_filename(dep_name) in sibling_python_packages:
-                real_name = prAPI.to_filename(dep_name)
-                log.append(
-                    "Package {name} ({pkg_name}) on system in {root}".format(
-                        name=dep_name,
-                        pkg_name=real_name,
-                        root=sibling_python_packages[real_name]))
-                changed = True
-                # need to use dep_name here for later constraint file rewrite
-                found_sibling_packages.append(dep_name)
-
-        if constraints:
-            constraints_file = write_new_constraints_file(
-                constraints, found_sibling_packages)
-
-        for sibling_package in found_sibling_packages:
-            log.append("Uninstalling {name}".format(name=sibling_package))
-            uninstall_output = subprocess.check_output(
-                [tox_python, '-m',
-                 'pip', 'uninstall', '-y', sibling_package],
-                stderr=subprocess.STDOUT)
-            log.extend(uninstall_output.decode('utf-8').split('\n'))
-
-            args = [tox_python, '-m', 'pip', 'install']
-            if constraints:
-                args.extend(['-c', constraints_file])
-
-            pkg_root = _get_package_root(sibling_package,
-                                         sibling_python_packages)
-            log.append(
-                "Installing {name} from {root} for deps".format(
-                    name=sibling_package,
-                    root=pkg_root))
-            args.append(pkg_root)
-
-            install_output = subprocess.check_output(args)
-            log.extend(install_output.decode('utf-8').split('\n'))
-
-        for sibling_package in found_sibling_packages:
-            pkg_root = _get_package_root(sibling_package,
-                                         sibling_python_packages)
-            log.append(
-                "Installing {name} from {root}".format(
-                    name=sibling_package,
-                    root=pkg_root))
-
-            install_output = subprocess.check_output(
-                [tox_python, '-m', 'pip', 'install', '--no-deps',
-                 pkg_root])
-            log.extend(install_output.decode('utf-8').split('\n'))
-    except Exception as e:
-        tb = traceback.format_exc()
-        log.append(str(e))
-        log.append(tb)
-        module.fail_json(msg=str(e), log="\n".join(log))
-    finally:
-        log_text = "\n".join(log)
-        module.append_to_file(log_file, log_text)
+    for testenv in envlist:
+        testenv_config = tox_config['testenv:{}'.format(testenv)]
+        envdir = testenv_config['envdir']
+        envlogdir = testenv_config['envlogdir']
+        try:
+            # Write a log file into the .tox dir so that it'll get picked up
+            # Name it with testenv as a prefix so that fetch-tox-output
+            # will properly get it in a multi-env scenario
+            log_file = '{envlogdir}/{testenv}-siblings.txt'.format(
+                envlogdir=envlogdir, testenv=testenv)
+            changed = changed or install_siblings(envdir,
+                                                  projects,
+                                                  package_name,
+                                                  constraints)
+        except Exception as e:
+            tb = traceback.format_exc()
+            log.append(str(e))
+            log.append(tb)
+            module.fail_json(msg=str(e), log="\n".join(log))
+        finally:
+            log_text = "\n".join(log)
+            module.append_to_file(log_file, log_text)
     module.exit_json(changed=changed, msg=log_text)
 
 
