@@ -1,3 +1,3 @@
-- name: Include ensure-kubernetes
-  include_role:
-    name: ensure-kubernetes
+- name: Error if used
+  fail:
+    msg: This role has been renamed. Please use ensure-kubernetes instead.

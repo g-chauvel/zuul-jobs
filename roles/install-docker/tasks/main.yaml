@@ -1,5 +1,3 @@
----
-
-- name: Import ensure-docker
-  include_role:
-    name: ensure-docker
+- name: Error if used
+  fail:
+    msg: This role has been renamed. Please use ensure-docker instead.
