@@ -13,3 +13,4 @@ Jobs
    helm-jobs
    packer-jobs
    system-jobs
+   deprecated-jobs

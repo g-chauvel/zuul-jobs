@@ -1,10 +1,10 @@
 Javascript Jobs
 ===============
 
-.. zuul:autojob:: build-javascript-tarball
-.. zuul:autojob:: build-javascript-content
-.. zuul:autojob:: build-javascript-content-tarball
-.. zuul:autojob:: nodejs-npm
-.. zuul:autojob:: nodejs-npm-run-test
-.. zuul:autojob:: nodejs-npm-run-lint
-.. zuul:autojob:: nodejs-npm-run-docs
+.. zuul:autojob:: build-javascript-source-tarball
+.. zuul:autojob:: build-javascript-deployment
+.. zuul:autojob:: build-javascript-deployment-tarball
+.. zuul:autojob:: js-build
+.. zuul:autojob:: nodejs-run-test
+.. zuul:autojob:: nodejs-run-lint
+.. zuul:autojob:: nodejs-run-docs
