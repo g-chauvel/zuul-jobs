@@ -1,4 +1,4 @@
-Ensure output directories are in place
+Ensure output directories are in place and are empty.
 
 **Role Variables**
 
