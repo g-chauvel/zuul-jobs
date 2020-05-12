@@ -28,6 +28,10 @@
     js_build_tool: '{{ yarn_lock_exists.stat.exists | ternary("yarn", "npm") }}'
   when: js_build_tool is not defined
 
+- name: Install javascript depends
+  include_role:
+    name: ensure-javascript-packages
+
 - name: Run js build command
   command: "{{ js_build_tool }} {% if js_build_command not in npm_lifecycle_phases %} run {% endif %} {{ js_build_command }} --verbose"
   # Need to set DISPLAY to the value that will be set when the virtual
