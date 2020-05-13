@@ -219,20 +219,30 @@ group should not be preserved when transfering files between them.
 For example when using the synchronize module set owner and group
 to ``false``::
 
-  synchronize:
-    dest: /tmp/log.txt
-    src: /tmp/log.txt
-    owner: false
-    group: false
+    - name: valid
+      synchronize:
+        dest: /tmp/log.txt
+        src: /tmp/log.txt
+        owner: false
+        group: false
 
-And when using the unarchive module add ``--no-same-owner`` to
-extra-ops::
+When using the unarchive module add ``--no-same-owner`` to extra_opts
+when handling tarballs and do not use ``-X`` when handling zipfiles::
 
-  unarchive:
-    dest: ~/example
-    src: /tmp/example.tar.gz
-    extra_ops:
-      - '--no-same-owner'
+    - name: valid
+      unarchive:
+        dest: ~/example
+        src: /tmp/example.tar.gz
+        extra_opts:
+          - '--no-same-owner'
+
+    - name: faulty
+      unarchive:
+        dest: ~/example
+        src: /tmp/example.zip
+        extra_opts:
+          - '-X'
+
 
 Testing
 -------
