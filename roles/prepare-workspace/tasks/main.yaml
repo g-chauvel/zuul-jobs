@@ -7,4 +7,6 @@
     dest: "{{ zuul_workspace_root }}"
     recursive: true
     src: "{{ zuul.executor.src_root }}"
+    owner: no
+    group: no
   no_log: true
