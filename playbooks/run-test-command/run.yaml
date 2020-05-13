@@ -14,5 +14,5 @@
     - name: Run test_command
       command: '{{ item }}'
       args:
-        chdir: '{{ zuul.project.src_dir }}'
+        chdir: '{{ zuul_work_dir | default(zuul.project.src_dir) }}'
       with_items: '{{ test_commands }}'

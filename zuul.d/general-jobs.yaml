@@ -36,6 +36,11 @@
       To use this, set the ``test_command`` variable to a single command or
       a list of commands. For complex list of commands, it is recommended to
       use a single command that runs a proper script.
+
+      .. zuul:jobvar:: zuul_work_dir
+         :default: {{ zuul.project.src_dir }}
+
+         Path to operate in.
     run: playbooks/run-test-command/run.yaml
     vars:
       test_command: "exit 1"
