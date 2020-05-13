@@ -37,6 +37,7 @@
     post-run: playbooks/javascript/post.yaml
     vars:
       js_build_command: build
+      node_version: 14
 
 - job:
     name: build-javascript-source-tarball
