@@ -17,3 +17,5 @@
     mode: pull
     src: "{{ coverage_output_src }}"
     verify_host: true
+    owner: no
+    group: no
