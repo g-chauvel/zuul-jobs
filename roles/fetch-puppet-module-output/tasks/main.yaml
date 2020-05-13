@@ -24,6 +24,8 @@
     mode: pull
     src: "{{ zj_artifact.path }}"
     verify_host: true
+    owner: no
+    group: no
   with_items: "{{ result.files }}"
   loop_control:
     loop_var: zj_artifact
