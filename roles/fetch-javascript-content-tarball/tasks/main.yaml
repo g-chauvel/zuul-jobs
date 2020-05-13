@@ -43,6 +43,8 @@
     mode: pull
     src: "{{ zuul_work_dir }}/dist/"
     verify_host: true
+    owner: no
+    group: no
 
 - name: Find content tarball
   find:
