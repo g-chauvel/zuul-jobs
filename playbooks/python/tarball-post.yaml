@@ -24,6 +24,8 @@
         mode: pull
         src: "{{ item.path }}"
         verify_host: true
+        owner: no
+        group: no
       with_items: "{{ result.files }}"
 
     - name: Return sdist artifacts to Zuul
