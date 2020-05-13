@@ -25,5 +25,5 @@
   fail:
     msg: 'No html output in "{{ sphinx_build_dir }}".'
   when:
-    - zuul_success | bool
+    - zuul_success | default(true) | bool
     - "'html' not in sphinx_dir"
