@@ -153,29 +153,17 @@ If relevant, the specific steps where the privilege escalation occurs should be
 documented so that they can be reproduced when configuring hosts. If possible,
 they should be grouped in a separate playbook that can be applied to hosts manually.
 
-Ansible Loops in Roles
-**********************
+Output Variables
+****************
 
-Because the Ansible roles contained in this repo are expected to be
-pretty universally applicable in Zuul systems we must write them
-defensively to work around some Ansible behaviors. In particular
-nesting Ansible loops using the default `loop_var` of `item` is not
-safe.
+Some roles may find it useful to set a variable that can be consumed
+by later roles.  For example, the `ensure-pip` role sets a variable
+which specifies a working `virtualenv` command for the host.
 
-Roles in this repo should override the default `loop_var` in loops
-and use a variable name prefixed with `zj_` to make them more unique.
-The idea is this will avoid conflicts with the calling level which
-may use `include_role` in a loop creating a `loop_var` conflict.
-
-For example::
-
-  command: echo {{ zj_number }}
-  loop:
-    - one
-    - two
-    - three
-  loop_control:
-    loop_var: zj_number
+Roles should document their output under the **Output** section of
+their README documentation.  The variable should use the `cacheable:
+true` flag to `set_fact` to ensure that the variable is available
+across playbooks.
 
 Installing Dependencies in Roles
 ********************************
@@ -197,17 +185,59 @@ Here are the ways to install dependencies in order of preference:
 In any case, the role's documentation should mention which dependencies are
 needed, allowing users to prepare their hosts accordingly.
 
-Output Variables
-****************
+Ansible Linting Rules
+*********************
 
-Some roles may find it useful to set a variable that can be consumed
-by later roles.  For example, the `ensure-pip` role sets a variable
-which specifies a working `virtualenv` command for the host.
+Because the Ansible roles contained in this repo are expected to be
+pretty universally applicable in Zuul systems, we must write them
+defensively to work around some Ansible behaviors.
+Custom rules for ansible-lint have been set up to enforce this.
 
-Roles should document their output under the **Output** section of
-their README documentation.  The variable should use the `cacheable:
-true` flag to `set_fact` to ensure that the variable is available
-across playbooks.
+Loops in Roles
+^^^^^^^^^^^^^^
+
+Nesting Ansible loops using the default ``loop_var`` of ``item`` is not
+safe.
+
+Roles in this repo should override the default ``loop_var`` in loops
+and use a variable name prefixed with ``zj_`` to make them more unique.
+The idea is this will avoid conflicts with the calling level which
+may use ``include_role`` in a loop creating a ``loop_var`` conflict.
+
+For example::
+
+  command: echo {{ zj_number }}
+  loop:
+    - one
+    - two
+    - three
+  loop_control:
+    loop_var: zj_number
+
+Preservation Of Owner Between Executor And Remote
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Since it's not possible to make sure the user and group on the
+remote node also exists on the executor and vice versa, owner and
+group should not be preserved when transfering files between them.
+
+For example when using the synchronize module set owner and group
+to ``false``::
+
+  synchronize:
+    dest: /tmp/log.txt
+    src: /tmp/log.txt
+    owner: false
+    group: false
+
+And when using the unarchive module add ``--no-same-owner`` to
+extra-ops::
+
+  unarchive:
+    dest: ~/example
+    src: /tmp/example.tar.gz
+    extra_ops:
+      - '--no-same-owner'
 
 Testing
 -------

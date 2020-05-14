@@ -10,7 +10,7 @@ Check for tasks that does not follow
 the policy of namespacing loop variables with zj_ prefix.
 See: \
 https://zuul-ci.org/docs/zuul-jobs/policy.html\
-#ansible-loops-in-roles
+#loops-in-roles
 """
 
     tags = {'zuul-jobs-namespace-loop-var'}
