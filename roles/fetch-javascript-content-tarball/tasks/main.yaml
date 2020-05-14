@@ -1,3 +1,10 @@
+- name: Set create_tarball_directory from javascript_content_directory
+  set_fact:
+    create_tarball_directory: '{{ javascript_content_dir }}'
+  when:
+    - create_tarball_directory is not defined
+    - javascript_content_dir is defined
+
 - name: Create tarball
   shell: "tar czf {{ ansible_user_dir }}/{{ zuul_work_dir }}/build.tgz *"
   args:
