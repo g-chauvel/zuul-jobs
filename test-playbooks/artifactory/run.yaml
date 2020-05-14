@@ -1,0 +1,90 @@
+- hosts: all
+  tasks:
+    - name: Ensure docker is installed
+      include_role:
+        name: ensure-docker
+
+    - name: Start artifactory in a container
+      command: >-
+        docker run -d
+        -p 8081:8081 -p 8082:8082
+        --name {{ zuul.build }}
+        docker.bintray.io/jfrog/artifactory-oss:latest
+
+    - name: Wait for artifactory to start
+      uri:
+        url: http://localhost:8082/artifactory/api/system/ping
+        method: GET
+      register: artifactory_status
+      until: artifactory_status.status == 200
+      retries: 12
+      delay: 10
+
+    - name: Create a generic repository in artifactory
+      uri:
+        url: http://localhost:8082/artifactory/api/system/configuration
+        user: admin
+        password: password
+        force_basic_auth: true
+        method: PATCH
+        body: |
+          localRepositories:
+            generic-repository:
+              type: generic
+        headers:
+          Content-Type: application/yaml
+
+    - name: Create an api key for the admin user
+      uri:
+        url: http://localhost:8082/artifactory/api/security/apiKey
+        user: admin
+        password: password
+        status_code: 201
+        return_content: true
+        method: POST
+      register: artifactory_api_key
+
+    - name: Set artifactory instances fact
+      set_fact:
+        cacheable: true
+        upload_artifactory_instance:
+          localhost_password:
+            fqdn: localhost:8081
+            transport: http
+            user: admin
+            password: password
+            force_basic_auth: true
+          localhost_api_key:
+            fqdn: localhost:8081
+            transport: http
+            user: admin
+            api_key: "{{ (artifactory_api_key.content | from_json)['apiKey'] }}"
+
+- hosts: all
+  vars:
+    # Since we're testing a role that normally requires a
+    # trusted context flip the delegate_to so we execute on the
+    # remote instead. Also set the working directory to something
+    # that is known to exist on the remote.
+    _undocumented_test_worker_node_: "{{ inventory_hostname }}"
+    _undocumented_test_work_dir_: "{{ ansible_user_dir }}/zuul-output"
+  pre_tasks:
+    - name: Write a file with some content to artifacts directory
+      copy:
+        content: |
+          First file
+        dest: "{{ ansible_user_dir }}/zuul-output/artifacts/test-file.txt"
+    - name: Set upload_artifactory_manifest fact
+      set_fact:
+        upload_artifactory_manifest:
+          artifacts:
+            - name: test-file.txt
+              src: test-file.txt
+              dest: generic-repository/path/to/dest/test-file-password.txt
+              instance: localhost_password
+            - name: test-file.txt
+              src: test-file.txt
+              dest: generic-repository/path/to/dest/test-file-api-key.txt
+              instance: localhost_api_key
+  roles:
+    - upload-artifactory
