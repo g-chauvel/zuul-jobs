@@ -675,6 +675,15 @@
       - ^test-playbooks/generate-zuul-manifest.yaml
 
 - job:
+    name: zuul-jobs-test-upload-artifactory
+    description: Test the upload-artifactory role
+    files:
+      - roles/upload-artifactory/.*
+      - test-playbooks/artifactory/.*
+    run: test-playbooks/artifactory/run.yaml
+    cleanup-run: test-playbooks/artifactory/cleanup.yaml
+
+- job:
     name: zuul-jobs-test-upload-git-mirror
     description: Test the upload-git-mirror role
     run: test-playbooks/upload-git-mirror.yaml
@@ -734,6 +743,7 @@
         - zuul-jobs-test-multinode-roles-ubuntu-xenial-plain
         - zuul-jobs-test-multinode-roles-centos-8-plain
         - zuul-jobs-test-generate-zuul-manifest
+        - zuul-jobs-test-upload-artifactory
         - zuul-jobs-test-upload-git-mirror
     gate:
       jobs:
@@ -778,4 +788,5 @@
         - zuul-jobs-test-multinode-roles-ubuntu-xenial-plain
         - zuul-jobs-test-multinode-roles-centos-8-plain
         - zuul-jobs-test-generate-zuul-manifest
+        - zuul-jobs-test-upload-artifactory
         - zuul-jobs-test-upload-git-mirror
