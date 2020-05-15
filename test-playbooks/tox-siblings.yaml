@@ -9,3 +9,6 @@
       vars:
         tox_envlist: docs
         tox_constraints_file: '{{ zuul.project.src_dir }}/zuul-tests.d/test-constraints.txt'
+        tox_environment:
+          ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
+          ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"

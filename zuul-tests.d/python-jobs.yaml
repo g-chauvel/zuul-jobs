@@ -404,6 +404,8 @@
     description: Test the tox role's sibling functionality
     files:
       - roles/tox/.*
+      - tox.ini
+      - test-playbooks/tox-siblings.yaml
     run: test-playbooks/tox-siblings.yaml
     required-projects:
       - zuul/zuul
