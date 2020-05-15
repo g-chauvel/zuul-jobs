@@ -6,10 +6,15 @@
   notify:
     - remove bindep temp dir
 
+- name: Ensure we have pip dependencies
+  include_role:
+    name: ensure-pip
+
 - name: install bindep into temporary venv
   pip:
     name: bindep
-    virtualenv: "{{ bindep_temp_dir.path }}/venv"
+    virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
+    virtualenv: '{{ bindep_temp_dir.path }}/venv'
 
 - name: Define bindep_command
   set_fact:
