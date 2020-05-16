@@ -1,4 +1,4 @@
-- name: find all .md files
+- name: Find all .md files
   find:
     paths: "{{ zuul_work_dir }}"
     pattern: "*.md"

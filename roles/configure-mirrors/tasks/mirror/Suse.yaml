@@ -1,9 +1,9 @@
-- name: set zypper base package repository (openSUSE Leap)
+- name: Set zypper base package repository (openSUSE Leap)
   set_fact:
     opensuse_repo_baseurl: "{{ package_mirror }}/distribution/leap/$releasever/repo/oss/"
   when: ansible_distribution is not search("Tumbleweed")
 
-- name: set zypper base package repository (openSUSE Tumbleweed)
+- name: Set zypper base package repository (openSUSE Tumbleweed)
   set_fact:
     opensuse_repo_baseurl: "{{ package_mirror }}/tumbleweed/repo/oss/"
   when: ansible_distribution is search("Tumbleweed")

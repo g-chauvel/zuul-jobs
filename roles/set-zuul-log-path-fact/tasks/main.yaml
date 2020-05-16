@@ -16,7 +16,7 @@
       set_fact:
         zuul_log_path: "{{ zuul.pipeline }}/{{ zuul.project.canonical_name }}/{{ zuul.branch }}/{{ zuul.job }}/{{ zuul.build[:7] }}"
 
-- name: object store friendly log path specifications
+- name: Object store friendly log path specifications
   when: zuul_log_path_shard_build
   block:
     - name: Set log path for a change
