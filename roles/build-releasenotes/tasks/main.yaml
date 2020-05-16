@@ -50,7 +50,7 @@
       trap "rm -f -- '$REFERENCES'" EXIT
 
       # Extract translations
-      sphinx-build -b gettext \
+      sphinx-build -j auto -b gettext \
           -d ${DIRECTORY}/build/doctrees.gettext \
           ${DIRECTORY}/source/ \
           ${DIRECTORY}/source/locale/
@@ -92,7 +92,7 @@
           done
 
           # Build translated document
-          sphinx-build -b html -D language=${language} \
+          sphinx-build -j auto -b html -D language=${language} \
               -d "${DIRECTORY}/build/doctrees.${language}" \
               ${DIRECTORY}/source/ ${DIRECTORY}/build/html/${language}
 
@@ -126,6 +126,6 @@
     executable: /bin/bash
     chdir: '{{ zuul_work_dir }}'
     cmd: |
-      {{ zuul_work_virtualenv }}/bin/sphinx-build -a -E -W \
+      {{ zuul_work_virtualenv }}/bin/sphinx-build -a -E -W -j auto \
         -d releasenotes/build/doctrees \
         -b html releasenotes/source releasenotes/build/html
