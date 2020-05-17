@@ -1,7 +1,7 @@
 - name: Remove ssh key
   command: "shred ~/.ssh/id_rsa"
 
-- name: remove host key information from known hosts
+- name: Remove host key information from known hosts
   known_hosts:
     name: "{{ ssh_key.fqdn }}"
     key: "{{ ssh_key.ssh_known_hosts }}"

@@ -1,4 +1,4 @@
-- name: gather needed facts
+- name: Gather needed facts
   when: ansible_pkg_mgr is not defined
   setup:
     gather_subset: pkg_mgr
