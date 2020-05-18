@@ -68,6 +68,8 @@
     mode: pull
     src: "{{ zuul_work_dir }}/.tox/{{ zj_testenv }}/log/"
     verify_host: true
+    owner: no
+    group: no
   loop: "{{ envlist }}"
   loop_control:
     loop_var: zj_testenv
