@@ -27,6 +27,8 @@
       synchronize:
         src: "{{ zuul.executor.log_root }}/"
         dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/"
+        owner: no
+        group: no
         rsync_opts:
           - "--exclude=job-output.txt"
           - "--exclude=job-output.json"
@@ -49,6 +51,8 @@
         src: "{{ zuul.executor.log_root }}/{{ zj_log }}.gz"
         dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ zj_log }}.gz"
         verify_host: true
+        owner: no
+        group: no
       with_items:
         - job-output.txt
         - job-output.json
@@ -61,6 +65,8 @@
         src: "{{ zuul.executor.log_root }}/{{ zj_log }}"
         dest: "{{ zuul_logserver_root }}/{{ zuul_log_path }}/{{ zj_log }}"
         verify_host: true
+        owner: no
+        group: no
       with_items:
         - job-output.txt
         - job-output.json
