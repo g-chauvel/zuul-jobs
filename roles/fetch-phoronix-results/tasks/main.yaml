@@ -17,6 +17,8 @@
     src: "{{ result_path.stdout }}/"
     dest: "{{ log_path }}/phoronix-results-{{ ansible_hostname }}/"
     mode: pull
+    owner: no
+    group: no
 
 - name: Return site artifact location to Zuul
   zuul_return:
