@@ -22,6 +22,8 @@
     mode: pull
     src: "{{ zj_subunit_file.path }}"
     verify_host: true
+    owner: no
+    group: no
   with_items: "{{ subunit_files.files }}"
   loop_control:
     loop_var: zj_subunit_file
