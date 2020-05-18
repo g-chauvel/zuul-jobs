@@ -44,6 +44,8 @@
         mode: pull
         src: "{{ zj_pdf.stat.path }}"
         verify_host: true
+        owner: no
+        group: no
       with_items: "{{ pdf_file_stat.results }}"
       loop_control:
         loop_var: zj_pdf

@@ -16,6 +16,8 @@
         mode: pull
         src: "{{ html_archive.path }}"
         verify_host: true
+        owner: no
+        group: no
 
     - name: Create browseable HTML directory
       delegate_to: localhost
