@@ -9,3 +9,5 @@
   synchronize:
     src: "{{ zuul.executor.work_root }}/artifacts/"
     dest: "{{ zuul_fileserver_project_path }}/"
+    owner: no
+    group: no
