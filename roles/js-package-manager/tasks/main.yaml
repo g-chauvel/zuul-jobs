@@ -33,7 +33,7 @@
     name: ensure-javascript-packages
 
 - name: Run js build command
-  command: "{{ js_build_tool }} {% if js_build_command not in npm_lifecycle_phases %} run {% endif %} {{ js_build_command }} --verbose"
+  command: "{{ js_build_tool }} {% if js_build_command not in npm_lifecycle_phases %} run {% endif %} {{ js_build_command }}"
   # Need to set DISPLAY to the value that will be set when the virtual
   # framebuffer is set up for doing browser tests.
   environment:
