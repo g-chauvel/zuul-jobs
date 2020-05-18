@@ -67,6 +67,8 @@
     mode: pull
     src: "{{ zuul_work_dir }}/reports"
     verify_host: true
+    owner: no
+    group: no
   when: reports_stat.stat.exists
 
 - name: Check for karma.subunit files
@@ -83,6 +85,8 @@
     mode: pull
     src: "{{ zuul_work_dir }}/karma.subunit"
     verify_host: true
+    owner: no
+    group: no
   when: karma_stat.stat.exists
 
 - name: Check again for shrinkwrap
@@ -100,6 +104,8 @@
     mode: pull
     src: "{{ zuul_work_dir }}/npm-shrinkwrap.json"
     verify_host: true
+    owner: no
+    group: no
   when:
     - not yarn_lock.stat.exists
     - shrinkwrap_final.stat.exists
@@ -119,6 +125,8 @@
     mode: pull
     copy_links: "{{ javascript_copy_links }}"
     verify_host: true
+    owner: no
+    group: no
   when: javascript_output.stat.exists
 
 - name: Check to see if coverage report exists
@@ -139,6 +147,8 @@
     mode: pull
     src: "{{ coverage_output_src }}"
     verify_host: true
+    owner: no
+    group: no
   when: coverage_report_stat.stat.exists
 
 - name: Return site artifact location to Zuul
