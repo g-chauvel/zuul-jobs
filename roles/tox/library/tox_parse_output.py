@@ -41,8 +41,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 
 ANSI_RE = re.compile(r'(?:\x1B[@-_]|[\x80-\x9F])[0-?]*[ -/]*[@-~]')
-PEP8_RE = re.compile(r"^(.*):(\d+):(\d+): (.*)$")
-SPHINX_RE = re.compile(r"^([^:]*):([\d]+):(\w.+)$")
+LINT_RE = re.compile(r"^([^:]*):(\d+):((\d+):)?\s?(.*)$")
 
 
 def simple_matcher(line, regex, file_path_group, start_line_group,
@@ -58,17 +57,12 @@ def simple_matcher(line, regex, file_path_group, start_line_group,
     return file_path, start_line, message
 
 
-def pep8_matcher(line):
-    return simple_matcher(line, PEP8_RE, 1, 2, 4)
-
-
-def sphinx_matcher(line):
-    return simple_matcher(line, SPHINX_RE, 1, 2, 3)
+def lint_matcher(line):
+    return simple_matcher(line, LINT_RE, 1, 2, 5)
 
 
 matchers = [
-    pep8_matcher,
-    sphinx_matcher,
+    lint_matcher,
 ]
 
 
