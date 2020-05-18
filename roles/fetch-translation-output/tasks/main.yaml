@@ -9,4 +9,6 @@
     mode: pull
     src: "{{ translation_output_src }}"
     verify_host: true
+    owner: no
+    group: no
   when: translation_files.stat.exists
