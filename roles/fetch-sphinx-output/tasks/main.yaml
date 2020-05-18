@@ -4,6 +4,8 @@
     mode: pull
     src: "{{ sphinx_output_src }}"
     verify_host: true
+    owner: no
+    group: no
   when: not zuul_use_fetch_output
 
 - name: Copy sphinx build html
