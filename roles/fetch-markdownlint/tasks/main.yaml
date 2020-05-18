@@ -10,3 +10,5 @@
     src: "{{ zuul_work_dir }}/markdownlint.txt"
     dest: "{{ zuul.executor.log_root }}/markdownlint.txt"
     verify_host: true
+    owner: no
+    group: no
