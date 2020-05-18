@@ -1,8 +1,0 @@
-workdir: .
-output: |
-  roles/tox/tasks/main.yaml:41: [EZUULJOBS0001] Loop vars should have zj_ prefix
-
-comments:
-  roles/tox/tasks/main.yaml:
-    - line: 41
-      message: "[EZUULJOBS0001] Loop vars should have zj_ prefix"
