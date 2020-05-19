@@ -28,7 +28,7 @@ VARS = [
 ]
 
 
-def run(dest, hostvars, groups, include, exclude):
+def run(dest, hostvars, groups, include, exclude, additional):
     children = {}
     for group, hostnames in groups.items():
         if group == 'all' or group == 'ungrouped':
@@ -58,6 +58,15 @@ def run(dest, hostvars, groups, include, exclude):
                     continue
             d[v] = hvars[v]
         out_all[host] = d
+        if additional:
+            for new_var_name, old_var_name in additional.items():
+                old_var = hvars
+                for part in old_var_name.split('.'):
+                    old_var = old_var.get(part)
+                    if old_var is None:
+                        break
+                else:
+                    d[new_var_name] = old_var
 
     with open(dest, 'w') as f:
         f.write(json.dumps(out))
@@ -71,6 +80,7 @@ def ansible_main():
             groups=dict(required=True, type='raw'),
             include_hostvars=dict(type='list'),
             exclude_hostvars=dict(type='list'),
+            additional_hostvars=dict(type='raw'),
         )
     )
 
@@ -81,8 +91,9 @@ def ansible_main():
     groups = p.get('groups')
     include = p.get('include_hostvars')
     exclude = p.get('exclude_hostvars')
+    additional = p.get('additional_hostvars', {})
 
-    run(dest, hostvars, groups, include, exclude)
+    run(dest, hostvars, groups, include, exclude, additional)
 
     module.exit_json(changed=True)
 

@@ -37,7 +37,6 @@ bionic:
     private_ipv4: 10.210.196.115
     provider: rax-ord
     public_ipv4: 104.130.217.77
-    public_ipv6: 2001:4801:7828:101:be76:4eff:fe10:14eb
     region: ORD
 xenial:
   ansible_connection: ssh
@@ -51,7 +50,6 @@ xenial:
     label: ubuntu-xenial
     private_ipv4: 149.202.170.85
     provider: ovh-gra1
-    public_ipv4: 149.202.170.85
     public_ipv6: 2001:41d0:302:1000::17:a32b
     region: GRA1
 """)
@@ -75,7 +73,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test passing all variables'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, None, None)
+        run(dest, INPUT, GROUPS_INPUT, None, None, None)
 
         self.assertOutput(dest, {
             'all': {
@@ -108,7 +106,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test incuding vars'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, ['ansible_host'], None)
+        run(dest, INPUT, GROUPS_INPUT, ['ansible_host'], None, None)
 
         self.assertOutput(dest, {
             'all': {
@@ -135,7 +133,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test passing all variables'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, None, ['ansible_user'])
+        run(dest, INPUT, GROUPS_INPUT, None, ['ansible_user'], None)
 
         self.assertOutput(dest, {
             'all': {
@@ -157,6 +155,44 @@ class TestWriteInventory(testtools.TestCase):
                         "ansible_connection": "ssh",
                         "ansible_host": "149.202.170.85",
                         "ansible_port": 22,
+                    }
+                }
+            }
+        })
+
+    def test_additional(self):
+        '''Test passing additional variables'''
+        dest = self.useFixture(fixtures.TempDir()).path
+        dest = os.path.join(dest, 'out.yaml')
+        run(dest, INPUT, GROUPS_INPUT, None, None,
+            {'public_v4': 'nodepool.public_ipv4',
+             'public_v6': 'nodepool.public_ipv6',
+        })
+
+        self.assertOutput(dest, {
+            'all': {
+                'children': {
+                    'puppet': {
+                        'hosts': {
+                            'bionic': None,
+                            'xenial': None,
+                        },
+                    },
+                },
+                'hosts': {
+                    'bionic': {
+                        "ansible_connection": "ssh",
+                        "ansible_user": "zuul",
+                        "ansible_host": "104.130.217.77",
+                        "ansible_port": 22,
+                        "public_v4": "104.130.217.77",
+                    },
+                    'xenial': {
+                        "ansible_connection": "ssh",
+                        "ansible_user": "zuul",
+                        "ansible_host": "149.202.170.85",
+                        "ansible_port": 22,
+                        "public_v6": "2001:41d0:302:1000::17:a32b",
                     }
                 }
             }

@@ -5,3 +5,4 @@
     groups: "{{ groups }}"
     include_hostvars: "{{ write_inventory_include_hostvars | default(omit) }}"
     exclude_hostvars: "{{ write_inventory_exclude_hostvars | default(omit) }}"
+    additional_hostvars: "{{ write_inventory_additional_hostvars | default(omit) }}"

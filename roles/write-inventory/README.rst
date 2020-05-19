@@ -24,3 +24,18 @@ with the inventory for the job.
    A list of facts about the host to exclude.  By default, all
    variables about a host will be included.  To exclude certain
    variables, list them here.
+
+.. zuul:rolevar:: write_inventory_additional_hostvars
+   :type: dict
+
+   Additional hostvars to include.  This can be used to map
+   information from nodepool into the inventory if used as follows:
+
+   .. code-block:: yaml
+
+      write_inventory_additional_hostvars:
+        public_v4: nodepool.public_ipv4
+        public_v6: nodepool.public_ipv6
+
+   This will map hostvars[hostname]['nodepool']['public_ipv4'] to
+   hostvars[hostname]['public_v4'].
