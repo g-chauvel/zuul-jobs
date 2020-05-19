@@ -400,13 +400,14 @@
           label: centos-8-plain
 
 - job:
-    name: zuul-jobs-test-tox-siblings
+    name: zuul-jobs-test-tox
     description: Test the tox role's sibling functionality
     files:
       - roles/tox/.*
       - tox.ini
-      - test-playbooks/tox-siblings.yaml
-    run: test-playbooks/tox-siblings.yaml
+      - test-playbooks/python/tox.yaml
+      - test-playbooks/python/tox.ini
+    run: test-playbooks/python/tox.yaml
     required-projects:
       - zuul/zuul
       - zuul/nodepool
@@ -540,7 +541,7 @@
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic-plain
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial-plain
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8-plain
-        - zuul-jobs-test-tox-siblings
+        - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
         - zuul-jobs-test-fetch-subunit-output
@@ -585,7 +586,7 @@
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic-plain
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial-plain
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8-plain
-        - zuul-jobs-test-tox-siblings
+        - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
         - zuul-jobs-test-fetch-subunit-output

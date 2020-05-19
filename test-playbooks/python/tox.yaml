@@ -1,0 +1,78 @@
+- hosts: all
+  tasks:
+    - name: Run bindep
+      include_role:
+        name: bindep
+    - name: Run tox with constraints
+      include_role:
+        name: tox
+      vars:
+        tox_envlist: docs
+        tox_constraints_file: '{{ zuul.project.src_dir }}/zuul-tests.d/test-constraints.txt'
+
+    - name: Run tox with multiple testenvs
+      include_role:
+        name: tox
+      vars:
+        tox_envlist: docs,linters
+        tox_environment:
+          ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
+          ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
+
+    - name: Create tempfile to verify testenvs ran
+      tempfile:
+      register: default_tempfile
+
+    - block:
+        - name: Run tox with empty envlist
+          include_role:
+            name: tox
+          vars:
+            zuul_work_dir: "{{ zuul.project.src_dir }}/test-playbooks/python/"
+            tox_extra_args: "{{ default_tempfile.path }}"
+            tox_install_siblings: false
+            tox_envlist: ''
+            tox_environment:
+              ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
+              ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
+
+        - name: Make sure magic lines are present
+          lineinfile:
+            path: "{{ default_tempfile.path }}"
+            line: linters
+          check_mode: true
+          register: default_status
+          failed_when: default_status is changed
+      always:
+        - name: Remove tempfile
+          file:
+            state: absent
+            path: "{{ default_tempfile.path }}"
+
+    - block:
+        - name: Create tempfile to verify testenvs ran
+          tempfile:
+          register: ALL_tempfile
+
+        - name: Run tox with ALL
+          include_role:
+            name: tox
+          vars:
+            zuul_work_dir: "{{ zuul.project.src_dir }}/test-playbooks/python/"
+            tox_install_siblings: false
+            tox_extra_args: "{{ ALL_tempfile.path }}"
+            tox_envlist: 'ALL'
+            tox_environment:
+              ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
+              ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
+      always:
+        - name: Make sure magic lines are present
+          loop:
+            - linters
+            - non-default
+          lineinfile:
+            path: "{{ ALL_tempfile.path }}"
+            line: "{{ item }}"
+          check_mode: true
+          register: ALL_status
+          failed_when: ALL_status is changed
