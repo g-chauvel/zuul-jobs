@@ -272,7 +272,7 @@ def main():
     tox_envlist = module.params.get('tox_envlist', '')
     tox_show_config = module.params.get('tox_show_config')
 
-    tox_config = configparser.ConfigParser()
+    tox_config = configparser.RawConfigParser()
     tox_config.read(tox_show_config)
 
     envlist = {testenv.strip() for testenv
