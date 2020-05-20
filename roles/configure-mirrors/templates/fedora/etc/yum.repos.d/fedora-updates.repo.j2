@@ -1,7 +1,6 @@
 # {{ ansible_managed }}
 [updates]
 name=Fedora $releasever - $basearch - Updates
-failovermethod=priority
 {% if ansible_distribution_version is version('28', '<') %}
 baseurl={{ package_mirror }}/updates/$releasever/$basearch/
 {% else %}
@@ -17,7 +16,6 @@ skip_if_unavailable=False
 
 [updates-debuginfo]
 name=Fedora $releasever - $basearch - Updates - Debug
-failovermethod=priority
 {% if ansible_distribution_version is version('28', '<') %}
 baseurl={{ package_mirror }}/updates/$releasever/$basearch/debug/
 {% else %}
@@ -33,7 +31,6 @@ skip_if_unavailable=False
 
 [updates-source]
 name=Fedora $releasever - Updates Source
-failovermethod=priority
 {% if ansible_distribution_version is version('28', '<') %}
 baseurl={{ package_mirror }}/updates/$releasever/SRPMS/
 {% else %}
