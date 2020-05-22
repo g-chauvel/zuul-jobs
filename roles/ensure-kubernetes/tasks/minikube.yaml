@@ -50,7 +50,7 @@
     - name: Set extra kube setttings
       set_fact:
         minikube_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
-  when: minikube_dns_resolvers
+  when: minikube_dns_resolvers|length>0
 
 - name: Start Minikube
   become: yes
@@ -83,3 +83,43 @@
 
 - name: Get cluster info
   command: kubectl cluster-info
+
+- name: Concatenate the dns resolvers
+  # This is a hack to solve a temp problem.
+  # The problem is related to the resolv conf auto-setting function of the minikube v1.10.x.
+  # Zuul uses ubound as a DNS caching, so the systemd resolv has localhost.
+  # To avoid the coreDNS loop, we specified nameservers explicitly and overrided the for the minikube.
+  # But the new version is appending the systemd resolv conf always. i.e. coreDNS loop.
+  set_fact:
+    dns_resolvers: "{{ minikube_dns_resolvers | join(' ') }}"
+  when: minikube_dns_resolvers|length>0
+
+- name: Patch coreDNS corefile with the specified dns resolvers
+  command: |
+    kubectl patch cm coredns -n kube-system --patch="
+    data:
+      Corefile: |
+        .:53 {
+            errors
+            health {
+                lameduck 5s
+            }
+            ready
+            kubernetes cluster.local in-addr.arpa ip6.arpa {
+                pods insecure
+                fallthrough in-addr.arpa ip6.arpa
+                ttl 30
+            }
+            prometheus :9153
+            forward . {{ dns_resolvers }}
+            cache 30
+            loop
+            reload
+            loadbalance
+        }"
+  when: minikube_dns_resolvers|length>0
+
+- name: Rollout coreDNS deployment
+  command: |
+    kubectl rollout restart deploy/coredns -n kube-system
+  when: minikube_dns_resolvers|length>0
