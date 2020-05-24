@@ -1,5 +1,5 @@
 - job:
-    name: test-packer
+    name: zuul-jobs-test-packer
     parent: packer
     description: Test packer job
     post-run: test-playbooks/packer/post.yaml
@@ -18,9 +18,9 @@
         packer_test_content: "abc\n"
 
 - job:
-    name: test-packer-centos-7
+    name: zuul-jobs-test-packer-centos-7
     description: Test packer job on centos-7
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -28,9 +28,9 @@
           label: centos-7
 
 - job:
-    name: test-packer-centos-8
+    name: zuul-jobs-test-packer-centos-8
     description: Test packer job on centos-8
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -38,9 +38,9 @@
           label: centos-8
 
 - job:
-    name: test-packer-debian-stretch
+    name: zuul-jobs-test-packer-debian-stretch
     description: Test packer job on debian-stretch
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -48,9 +48,9 @@
           label: debian-stretch
 
 - job:
-    name: test-packer-fedora-31
+    name: zuul-jobs-test-packer-fedora-31
     description: Test packer job on fedora-31
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -58,9 +58,9 @@
           label: fedora-31
 
 - job:
-    name: test-packer-gentoo-17-0-systemd
+    name: zuul-jobs-test-packer-gentoo-17-0-systemd
     description: Test packer job on gentoo-17-0-systemd
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -68,9 +68,9 @@
           label: gentoo-17-0-systemd
 
 - job:
-    name: test-packer-opensuse-15
+    name: zuul-jobs-test-packer-opensuse-15
     description: Test packer job on opensuse-15
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -78,10 +78,10 @@
           label: opensuse-15
 
 - job:
-    name: test-packer-opensuse-tumbleweed-nv
+    name: zuul-jobs-test-packer-opensuse-tumbleweed-nv
     voting: false
     description: Test packer job on opensuse-tumbleweed
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -89,9 +89,9 @@
           label: opensuse-tumbleweed
 
 - job:
-    name: test-packer-ubuntu-bionic
+    name: zuul-jobs-test-packer-ubuntu-bionic
     description: Test packer job on ubuntu-bionic
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -99,9 +99,9 @@
           label: ubuntu-bionic
 
 - job:
-    name: test-packer-ubuntu-xenial
+    name: zuul-jobs-test-packer-ubuntu-xenial
     description: Test packer job on ubuntu-xenial
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -109,9 +109,9 @@
           label: ubuntu-xenial
 
 - job:
-    name: test-packer-ubuntu-bionic-plain
+    name: zuul-jobs-test-packer-ubuntu-bionic-plain
     description: Test packer job on ubuntu-bionic-plain
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -119,9 +119,9 @@
           label: ubuntu-bionic-plain
 
 - job:
-    name: test-packer-ubuntu-xenial-plain
+    name: zuul-jobs-test-packer-ubuntu-xenial-plain
     description: Test packer job on ubuntu-xenial-plain
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -129,9 +129,9 @@
           label: ubuntu-xenial-plain
 
 - job:
-    name: test-packer-centos-8-plain
+    name: zuul-jobs-test-packer-centos-8-plain
     description: Test packer job on centos-8-plain
-    parent: test-packer
+    parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
@@ -141,28 +141,28 @@
 - project:
     check:
       jobs:
-        - test-packer-centos-7
-        - test-packer-centos-8
-        - test-packer-debian-stretch
-        - test-packer-fedora-31
-        - test-packer-gentoo-17-0-systemd
-        - test-packer-opensuse-15
-        - test-packer-opensuse-tumbleweed-nv
-        - test-packer-ubuntu-bionic
-        - test-packer-ubuntu-xenial
-        - test-packer-ubuntu-bionic-plain
-        - test-packer-ubuntu-xenial-plain
-        - test-packer-centos-8-plain
+        - zuul-jobs-test-packer-centos-7
+        - zuul-jobs-test-packer-centos-8
+        - zuul-jobs-test-packer-debian-stretch
+        - zuul-jobs-test-packer-fedora-31
+        - zuul-jobs-test-packer-gentoo-17-0-systemd
+        - zuul-jobs-test-packer-opensuse-15
+        - zuul-jobs-test-packer-opensuse-tumbleweed-nv
+        - zuul-jobs-test-packer-ubuntu-bionic
+        - zuul-jobs-test-packer-ubuntu-xenial
+        - zuul-jobs-test-packer-ubuntu-bionic-plain
+        - zuul-jobs-test-packer-ubuntu-xenial-plain
+        - zuul-jobs-test-packer-centos-8-plain
     gate:
       jobs:
-        - test-packer-centos-7
-        - test-packer-centos-8
-        - test-packer-debian-stretch
-        - test-packer-fedora-31
-        - test-packer-gentoo-17-0-systemd
-        - test-packer-opensuse-15
-        - test-packer-ubuntu-bionic
-        - test-packer-ubuntu-xenial
-        - test-packer-ubuntu-bionic-plain
-        - test-packer-ubuntu-xenial-plain
-        - test-packer-centos-8-plain
+        - zuul-jobs-test-packer-centos-7
+        - zuul-jobs-test-packer-centos-8
+        - zuul-jobs-test-packer-debian-stretch
+        - zuul-jobs-test-packer-fedora-31
+        - zuul-jobs-test-packer-gentoo-17-0-systemd
+        - zuul-jobs-test-packer-opensuse-15
+        - zuul-jobs-test-packer-ubuntu-bionic
+        - zuul-jobs-test-packer-ubuntu-xenial
+        - zuul-jobs-test-packer-ubuntu-bionic-plain
+        - zuul-jobs-test-packer-ubuntu-xenial-plain
+        - zuul-jobs-test-packer-centos-8-plain
