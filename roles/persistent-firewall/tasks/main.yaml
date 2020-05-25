@@ -19,8 +19,7 @@
     - skip_ansible_lint
 
 - name: Configure persistent iptables rules
-  include: "{{ zj_distro_os }}"
-  static: no
+  include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "persist/{{ ansible_distribution }}_{{ ansible_distribution_release }}.yaml"
     - "persist/{{ ansible_distribution }}.yaml"
