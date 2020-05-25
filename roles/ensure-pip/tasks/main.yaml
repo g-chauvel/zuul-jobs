@@ -27,7 +27,7 @@
   failed_when: false
 
 - name: Install pip from packages
-  include: "{{ zj_distro_os }}"
+  include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution_release }}.yaml"
     - "{{ ansible_distribution }}.yaml"
@@ -40,10 +40,10 @@
     loop_var: zj_distro_os
 
 - name: Include workarounds
-  include: workarounds.yaml
+  import_tasks: workarounds.yaml
 
 - name: Install pip from source
-  include: source.yaml
+  include_tasks: source.yaml
   when:
     - ensure_pip_from_upstream
     - pip_preinstalled.rc != 0
