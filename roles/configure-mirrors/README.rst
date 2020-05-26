@@ -7,6 +7,13 @@ An ansible role to configure services to use mirrors.
 
    The base host for mirror servers.
 
+.. zuul:rolevar:: mirror_use_ssl
+   :default: False
+
+   Use ssl to communicate to mirror endpoints. Note if the platform
+   cannot use ssl (for example Ubuntu Xenial apt needs additional packages)
+   this will still use http instead of https when set for that platform.
+
 .. zuul:rolevar:: pypi_fqdn
    :default: {{ mirror_fqdn }}
 

@@ -1,2 +1,2 @@
-package_mirror: "http://{{ mirror_fqdn }}/{{ ansible_distribution | lower }}"
-epel_mirror: "http://{{ mirror_fqdn }}/epel"
+package_mirror: "{{ http_or_https }}://{{ mirror_fqdn }}/{{ ansible_distribution | lower }}"
+epel_mirror: "{{ http_or_https }}://{{ mirror_fqdn }}/epel"
