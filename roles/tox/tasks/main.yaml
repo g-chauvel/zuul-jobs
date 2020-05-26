@@ -20,49 +20,6 @@
       UPPER_CONSTRAINTS_FILE: "{{ tox_constraints_file }}"
   when: tox_constraints_file is defined
 
-# Tox siblings cannot take 'ALL' and tox_parse_output expects
-# an envlist to be supplied so always set _tox_envlist equal to
-# the list of testenvs we're going to run
-- name: Set _tox_envlist from supplied tox_envlist
-  set_fact:
-    _tox_envlist: "{{ tox_envlist }}"
-  when:
-    - tox_envlist is defined and tox_envlist
-    - tox_envlist != "ALL"
-
-- name: Get tox default envlist
-  command: "{{ tox_executable }} -l"
-  args:
-    chdir: "{{ zuul_work_dir }}"
-  register: _tox_default_envlist
-  when: tox_envlist is not defined or not tox_envlist
-
-- name: Set tox envlist fact
-  set_fact:
-    _tox_envlist: "{{ _tox_default_envlist.stdout_lines | join(',') }}"
-  when:
-    - _tox_default_envlist is defined
-    - _tox_default_envlist.stdout_lines is defined
-
-- name: Get all tox testenvs
-  command: "{{ tox_executable }} -a"
-  args:
-    chdir: "{{ zuul_work_dir }}"
-  register: _tox_all_testenvs
-  when: tox_envlist is defined and tox_envlist == 'ALL'
-
-- name: Set tox envlist fact
-  set_fact:
-    _tox_envlist: "{{ _tox_all_testenvs.stdout_lines | join(',') }}"
-  when:
-    - _tox_all_testenvs is defined
-    - _tox_all_testenvs.stdout_lines is defined
-
-- name: Fail if tox_envlist is empty
-  fail:
-    msg: "No envlist configured in zuul or tox.ini"
-  when: _tox_envlist is not defined
-
 - name: Install tox siblings
   include_tasks: siblings.yaml
   when: tox_install_siblings
@@ -71,7 +28,9 @@
   debug:
     msg: >-
       {{ tox_executable }}
-      -e{{ _tox_envlist }}
+      {% if tox_envlist is defined and tox_envlist %}
+      -e{{ tox_envlist }}
+      {% endif %}
       {{ tox_extra_args }}
 
 - block:
@@ -81,7 +40,9 @@
       environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
       command: >-
         {{ tox_executable }}
-        -e{{ _tox_envlist }}
+        {% if tox_envlist is defined and tox_envlist %}
+        -e{{ tox_envlist }}
+        {% endif %}
         {{ tox_extra_args }}
       register: tox_output
 
@@ -91,7 +52,7 @@
     - name: Look for output
       tox_parse_output:
         tox_output: '{{ tox_output.stdout }}'
-        tox_envlist: '{{ _tox_envlist }}'
+        tox_envlist: '{{ tox_envlist | default("default") }}'
         workdir: '{{ zuul_work_dir }}'
       when: tox_inline_comments
       register: file_comments

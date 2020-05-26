@@ -3,7 +3,9 @@
   command: >-
     {{ tox_executable }}
     --notest
-    -e{{ _tox_envlist }}
+    {% if tox_envlist is defined and tox_envlist %}
+    -e{{ tox_envlist }}
+    {% endif %}
   args:
     chdir: "{{ zuul_work_dir }}"
   environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
@@ -13,17 +15,19 @@
   tempfile:
   register: _tox_show_config_tempfile
 
-# py27, py35..py38 etc are generated on the fly if not
-# explicitly added to tox.ini, so force tox to generate
-# the config for the testenvs we're using.
 - name: Get tox envlist config
-  shell: "{{ tox_executable }} --showconfig -e {{ _tox_envlist }} > {{ _tox_show_config_tempfile.path }}"
+  shell: >-
+    {{ tox_executable }}
+    --showconfig
+    {% if tox_envlist is defined and tox_envlist %}
+    -e{{ tox_envlist }}
+    {% endif %}
+    > {{ _tox_show_config_tempfile.path }}
   args:
     chdir: "{{ zuul_work_dir }}"
 
 - name: Install any sibling python packages
   tox_install_sibling_packages:
-    tox_envlist: "{{ _tox_envlist }}"
     tox_show_config: "{{ _tox_show_config_tempfile.path }}"
     tox_constraints_file: "{{ tox_constraints_file | default(omit) }}"
     project_dir: "{{ zuul_work_dir }}"

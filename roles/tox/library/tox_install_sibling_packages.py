@@ -30,11 +30,6 @@ description:
 requirements:
   - "python >= 3.5"
 options:
-  tox_envlist:
-    description:
-      - The tox test environments to act on.
-    required: true
-    type: str
   tox_show_config:
     description:
       - Path to a file containing the output from C(tox --showconfig).
@@ -59,6 +54,7 @@ except ImportError:
 
 import pkg_resources as prAPI
 import os
+import ast
 import subprocess
 import tempfile
 import traceback
@@ -256,10 +252,28 @@ def install_siblings(envdir, projects, package_name, constraints):
     return changed
 
 
+def get_envlist(tox_config):
+    envlist = []
+    if 'tox' in tox_config.sections():
+        envlist_default = ast.literal_eval(
+            tox_config.get('tox', 'envlist_default'))
+        tox_args = ast.literal_eval(tox_config.get('tox', 'args'))
+        if 'ALL' in tox_args or not envlist_default:
+            for section in tox_config.sections():
+                if section.startswith('testenv'):
+                    envlist.append(section.split(':')[1])
+        else:
+            for testenv in envlist_default:
+                envlist.append(testenv)
+    else:
+        for section in tox_config.sections():
+            envlist.append(section.split(':')[1])
+    return envlist
+
+
 def main():
     module = AnsibleModule(
         argument_spec=dict(
-            tox_envlist=dict(required=True, type='str'),
             tox_show_config=dict(required=True, type='path'),
             tox_constraints_file=dict(type='str'),
             project_dir=dict(required=True, type='str'),
@@ -269,14 +283,12 @@ def main():
     constraints = module.params.get('tox_constraints_file')
     project_dir = module.params['project_dir']
     projects = module.params['projects']
-    tox_envlist = module.params.get('tox_envlist', '')
     tox_show_config = module.params.get('tox_show_config')
 
     tox_config = configparser.RawConfigParser()
     tox_config.read(tox_show_config)
 
-    envlist = {testenv.strip() for testenv
-               in tox_envlist.split(',')}
+    envlist = get_envlist(tox_config)
 
     if not envlist:
         module.exit_json(
@@ -306,7 +318,7 @@ def main():
 
     changed = False
     for testenv in envlist:
-        testenv_config = tox_config['testenv:{}'.format(testenv)]
+        testenv_config = tox_config["testenv:{}".format(testenv)]
         envdir = testenv_config['envdir']
         envlogdir = testenv_config['envlogdir']
         try:

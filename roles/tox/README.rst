@@ -13,9 +13,6 @@ Runs tox for a project
    ``ALL`` runs all test environments while an empty string runs
    all test environments configured with ``envlist`` in tox.
 
-   Internally this will always be expanded into a comma separated
-   list of test environments to run.
-
 .. zuul:rolevar:: tox_executable
    :default: tox
 
