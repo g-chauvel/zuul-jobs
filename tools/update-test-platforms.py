@@ -48,6 +48,11 @@ NON_VOTING = [
     'opensuse-tumbleweed',
 ]
 
+# Insert a job to make that single job non-voting
+NON_VOTING_JOBS = [
+    'zuul-jobs-test-multinode-roles-gentoo-17-0-systemd',
+]
+
 
 def get_nodeset(platform, multinode):
     d = CommentedMap()
@@ -94,6 +99,8 @@ def handle_file(fn):
                     voting = False if platform in NON_VOTING else True
                     ojob = CommentedMap()
                     ojob['name'] = job['name'] + '-' + platform
+                    if ojob['name'] in NON_VOTING_JOBS:
+                        voting = False
                     if not voting:
                         ojob['name'] += '-nv'
                         ojob['voting'] = False
