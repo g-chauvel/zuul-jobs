@@ -1,11 +1,11 @@
 ---
-- include: find.yaml
+- include_tasks: find.yaml
   when: bindep_file is not defined
 
-- include: find-bindep.yaml
+- include_tasks: find-bindep.yaml
   when: bindep_file is defined
 
-- include: install.yaml
+- include_tasks: install.yaml
   when:
     - bindep_file is defined
     - bindep_command is not defined
@@ -15,5 +15,5 @@
     bindep_run: "{{ bindep_command }} -b -f {{ bindep_file }} {{ bindep_profile }}"
   when: bindep_file is defined
 
-- include: packages.yaml
+- include_tasks: packages.yaml
   when: bindep_file is defined
