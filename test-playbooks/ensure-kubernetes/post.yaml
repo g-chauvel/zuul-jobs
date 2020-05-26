@@ -1,4 +1,7 @@
 - hosts: all
+  roles:
+    - collect-container-logs
+    - collect-kubernetes-logs
   tasks:
     - name: Get minikube logs
       become: true
