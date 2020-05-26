@@ -9,10 +9,6 @@ Container Roles
 .. zuul:autorole:: ensure-kubernetes
 .. zuul:autorole:: ensure-openshift
 .. zuul:autorole:: ensure-podman
-.. zuul:autorole:: install-docker
-.. zuul:autorole:: install-kubernetes
-.. zuul:autorole:: install-openshift
-.. zuul:autorole:: install-podman
 .. zuul:autorole:: pause-buildset-registry
 .. zuul:autorole:: promote-docker-image
 .. zuul:autorole:: pull-from-intermediate-registry

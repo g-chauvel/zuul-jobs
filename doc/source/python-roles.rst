@@ -18,7 +18,6 @@ Python Roles
 .. zuul:autorole:: fetch-subunit-output
 .. zuul:autorole:: fetch-tox-output
 .. zuul:autorole:: find-constraints
-.. zuul:autorole:: install-if-python
 .. zuul:autorole:: sphinx
 .. zuul:autorole:: tox
 .. zuul:autorole:: upload-pypi
