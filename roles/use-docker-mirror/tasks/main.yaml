@@ -6,6 +6,5 @@
     mirror_fqdn: "{{ zuul_site_mirror_fqdn }}"
 
 - name: Set up docker mirrors
-  include: mirror.yaml
+  include_tasks: mirror.yaml
   when: mirror_fqdn is defined
-  static: no
