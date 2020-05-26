@@ -15,7 +15,7 @@
         name: run-test-intermediate-registry
     - name: Install the intermediate registry cert
       include_role:
-        name: install-registry-cert
+        name: ensure-registry-cert
       vars:
         registry_host: localhost
         registry_port: 5000
@@ -54,7 +54,7 @@
         group: "{{ ansible_user }}"
     - name: Install the intermediate registry cert
       include_role:
-        name: install-registry-cert
+        name: ensure-registry-cert
       vars:
         registry_host: "{{ intermediate_registry.host }}"
         registry_port: "{{ intermediate_registry.port }}"
