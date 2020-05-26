@@ -1,6 +1,5 @@
 - name: Find distribution installation
-  include: "{{ zj_distro_os }}"
-  static: no
+  include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
     - "{{ ansible_distribution }}.yaml"
