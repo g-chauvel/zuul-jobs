@@ -1,9 +1,12 @@
 - name: Check version of bazel
-  shell: bazel --version | grep -Eo '([0-9]+\.)+[0-9]+'
-  ignore_errors: yes
+  shell: |
+    set -o pipefail
+    bazel --version | grep -Eo '([0-9]+\.)+[0-9]+'
+  failed_when: false
   register: installed_bazel_version
 
-- debug: msg="Current installed Bazel version is {{ installed_bazel_version.stdout }}"
+- debug:
+    msg: "Current installed Bazel version is {{ installed_bazel_version.stdout }}"
 
 - name: Download and install Bazel if needed
   include_tasks: install-bazel.yaml
