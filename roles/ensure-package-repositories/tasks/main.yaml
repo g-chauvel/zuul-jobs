@@ -1,5 +1,5 @@
 - name: Install repositories
-  include: "{{ zj_distro_os }}"
+  include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "{{ ansible_distribution }}.yaml"
     - "{{ ansible_os_family }}.yaml"
