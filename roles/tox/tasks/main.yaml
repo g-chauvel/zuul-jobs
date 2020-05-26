@@ -64,7 +64,7 @@
   when: _tox_envlist is not defined
 
 - name: Install tox siblings
-  include: siblings.yaml
+  include_tasks: siblings.yaml
   when: tox_install_siblings
 
 - name: Emit tox command
