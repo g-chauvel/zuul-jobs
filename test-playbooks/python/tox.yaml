@@ -32,9 +32,6 @@
             tox_extra_args: "{{ default_tempfile.path }}"
             tox_install_siblings: false
             tox_envlist: ''
-            tox_environment:
-              ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
-              ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
 
         - name: Make sure magic lines are present
           lineinfile:
@@ -62,9 +59,6 @@
             tox_install_siblings: false
             tox_extra_args: "{{ ALL_tempfile.path }}"
             tox_envlist: 'ALL'
-            tox_environment:
-              ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
-              ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
       always:
         - name: Make sure magic lines are present
           loop:
@@ -76,3 +70,10 @@
           check_mode: true
           register: ALL_status
           failed_when: ALL_status is changed
+
+    - name: Run tox with tox_envlist = %s
+      include_role:
+        name: tox
+      vars:
+        zuul_work_dir: "{{ zuul.project.src_dir }}/test-playbooks/python/"
+        tox_envlist: '%s'
