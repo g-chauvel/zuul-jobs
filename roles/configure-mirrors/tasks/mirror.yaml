@@ -24,8 +24,7 @@
     src: etc/pip.conf.j2
 
 - name: Setup distribution specific packaging mirrors
-  include: "{{ zj_distro_os }}"
-  static: no
+  include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "mirror/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yaml"
     - "mirror/{{ ansible_distribution }}.yaml"
