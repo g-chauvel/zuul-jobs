@@ -14,10 +14,6 @@ Collect subunit outputs
    to collect. The content of zuul_work_dir is always checked,
    so it should not be added here.
 
-.. zuul:rolevar:: tox_envlist
-
-   tox environment that was used to run the tests originally.
-
 .. zuul:rolevar:: zuul_use_fetch_output
    :default: false
 
