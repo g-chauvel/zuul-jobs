@@ -9,6 +9,11 @@
   register: _stack_version
 
 - block:
+    - name: Make sure dnf copr is installed
+      dnf:
+        name: dnf-command(copr)
+      become: true
+
     - name: Install stack copr
       command: dnf copr enable -y petersen/stack2
       become: true
