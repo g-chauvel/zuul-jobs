@@ -40,49 +40,54 @@ Upload artifacts specified from the executor to artifactory.
 
       Set to ``true`` if the instance requires basic auth to be used.
 
-.. zuul:rolevar:: artifacts
+.. zuul:rolevar:: upload_artifactory_manifest
 
-   Variable that contains a manifest of the artifacts that should be
-   uploaded to a specific instance of artifactory. This is expected to
-   be set during the build as a cached fact.
+   Dictionary of types of items to upload.
+   Currently only supports ``artifacts``.
 
-    .. code-block:: yaml
+    .. zuul:rolevar:: artifacts
 
-       artifacts:
-         - name: tarball
-           src: artifact.tar.gz
-           dest: /destination/to/put/artifact/artifact.tar.gz
-           instance: artifact-server1
-           headers:
-             Content-Type: application/gzip
+       Variable that contains a manifest of the artifacts that should be
+       uploaded to a specific instance of artifactory. This is expected to
+       be set during the build as a cached fact.
 
-   The attributes available on an artifact are the following.
+        .. code-block:: yaml
 
-   .. zuul:rolevar:: name
+           artifacts:
+             - name: tarball
+               src: artifact.tar.gz
+               dest: /destination/to/put/artifact/artifact.tar.gz
+               instance: artifact-server1
+               headers:
+                 Content-Type: application/gzip
 
-      Name of the artifact.
-      This will be displayed in the build page.
+       The attributes available on an artifact are the following.
 
-   .. zuul:rolevar:: src
+       .. zuul:rolevar:: name
 
-      Path relative to ``{{ zuul.executor.work_root }}/artifacts/``.
+          Name of the artifact.
+          This will be displayed in the build page.
 
-   .. zuul:rolevar:: dest
+       .. zuul:rolevar:: src
 
-      Destination where the artifact should be put in.
+          Path relative to ``{{ zuul.executor.work_root }}/artifacts/``.
 
-   .. zuul:rolevar:: instance
+       .. zuul:rolevar:: dest
 
-      Artifactory instance to place the artiface in, this is to
-      choose which entry in :attr:`upload_artifactory_instances` to upload
-      the artifact to.
+          Destination where the artifact should be put in.
 
-   .. zuul:rolevar:: headers
+       .. zuul:rolevar:: instance
 
-      Any headers that should be passed to ansibles uri module
-      when uploading.
+          Artifactory instance to place the artiface in, this is to
+          choose which entry in :attr:`upload_artifactory_instances` to upload
+          the artifact to.
 
-   .. zuul:rolevar:: metadata
+       .. zuul:rolevar:: headers
 
-      Any metadata that should be returned to Zuul together with the
-      artifact link.
+          Any headers that should be passed to ansibles uri module
+          when uploading.
+
+       .. zuul:rolevar:: metadata
+
+          Any metadata that should be returned to Zuul together with the
+          artifact link.
