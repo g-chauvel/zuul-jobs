@@ -29,25 +29,28 @@
   command: "{{ tox_executable }} -l"
   args:
     chdir: "{{ zuul_work_dir }}"
-  register: tox_environments
+  register: tox_default_environments
   when: tox_envlist is not defined or
         not tox_envlist
+
+- name: Set envlist fact
+  set_fact:
+    envlist: "{{ tox_default_environments.stdout_lines }}"
+  when: tox_default_environments.stdout_lines is defined
 
 - name: Find all default environments
   command: "{{ tox_executable }} -a"
   args:
     chdir: "{{ zuul_work_dir }}"
-  register: tox_environments
+  register: tox_all_environments
   when:
-    - tox_envlist is defined
-    - tox_envlist == 'ALL'
+    - (tox_envlist is defined and tox_envlist == 'ALL') or
+      (envlist is defined and not envlist)
 
 - name: Set envlist fact
   set_fact:
-    envlist: "{{ tox_environments.stdout_lines }}"
-  when: tox_envlist is not defined or
-        not tox_envlist or
-        tox_envlist == 'ALL'
+    envlist: "{{ tox_all_environments.stdout_lines }}"
+  when: tox_all_environments.stdout_lines is defined
 
 - name: Copy tox logs
   copy:
