@@ -318,9 +318,8 @@ def main():
 
     changed = False
     for testenv in envlist:
-        testenv_config = tox_config["testenv:{}".format(testenv)]
-        envdir = testenv_config['envdir']
-        envlogdir = testenv_config['envlogdir']
+        envdir = tox_config.get("testenv:{}".format(testenv), 'envdir')
+        envlogdir = tox_config.get("testenv:{}".format(testenv), 'envlogdir')
         try:
             # Write a log file into the .tox dir so that it'll get picked up
             # Name it with testenv as a prefix so that fetch-tox-output
