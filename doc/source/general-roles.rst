@@ -18,6 +18,7 @@ General Purpose Roles
 .. zuul:autorole:: ensure-dhall
 .. zuul:autorole:: ensure-dstat-graph
 .. zuul:autorole:: ensure-markdownlint
+.. zuul:autorole:: ensure-shake
 .. zuul:autorole:: fetch-markdownlint
 .. zuul:autorole:: git-prepare-nodecache
 .. zuul:autorole:: log-inventory
@@ -38,6 +39,7 @@ General Purpose Roles
 .. zuul:autorole:: remove-zuul-sshkey
 .. zuul:autorole:: revoke-sudo
 .. zuul:autorole:: run-dstat
+.. zuul:autorole:: shake-build
 .. zuul:autorole:: sign-artifacts
 .. zuul:autorole:: stage-output
 .. zuul:autorole:: start-zuul-console
