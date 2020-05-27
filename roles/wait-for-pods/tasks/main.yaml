@@ -6,11 +6,11 @@
 - name: Wait for all StatefulSets to become ready
   block:
     - name: Retrieve all StatefulSets
-      command: kubectl get statefulset -o name
+      command: kubectl get statefulset {% if wait_for_pods_namespace is defined %}-n {{ wait_for_pods_namespace }}{% endif %} -o name
       register: _statefulsets
 
     - name: Ensure the number of ready replicas matches the replicas
-      shell: kubectl get {{ zj_sts_item }} -ogo-template='{{ '{{' }}eq .status.replicas .status.readyReplicas{{ '}}' }}'
+      shell: kubectl get {{ zj_sts_item }} {% if wait_for_pods_namespace is defined %}-n {{ wait_for_pods_namespace }}{% endif %} -ogo-template='{{ '{{' }}eq .status.replicas .status.readyReplicas{{ '}}' }}'
       register: _is_ready
       until: _is_ready.stdout == 'true'
       retries: 60
@@ -23,11 +23,11 @@
 - name: Wait for all DaemonSets to become ready
   block:
     - name: Retrieve all DaemonSets
-      command: kubectl get daemonset -o name
+      command: kubectl get daemonset {% if wait_for_pods_namespace is defined %}-n {{ wait_for_pods_namespace }}{% endif %} -o name
       register: _daemonsets
 
     - name: Ensure the ready number matches the scheduled number
-      shell: kubectl get {{ zj_ds_item }} -ogo-template='{{ '{{' }}eq .status.currentNumberScheduled .status.numberReady{{ '}}' }}'
+      shell: kubectl get {{ zj_ds_item }} {% if wait_for_pods_namespace is defined %}-n {{ wait_for_pods_namespace }}{% endif %} -ogo-template='{{ '{{' }}eq .status.currentNumberScheduled .status.numberReady{{ '}}' }}'
       register: _is_ready
       until: _is_ready.stdout == 'true'
       retries: 60
@@ -37,4 +37,4 @@
         loop_var: zj_ds_item
 
 - name: Wait for all pods to become ready
-  command: kubectl wait --for=condition=Ready --timeout=120s pod --all
+  command: kubectl wait {% if wait_for_pods_namespace is defined %}-n {{ wait_for_pods_namespace }}{% endif %} --for=condition=Ready --timeout=120s pod --all
