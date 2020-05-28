@@ -1,11 +1,10 @@
 exclude_paths:
-  - playbooks/legacy
+  - test-playbooks/  # TODO(ssbarnea): remove skip in follow-up
 parseable: true
-# [204] Lines should be no longer than 160 chars
-# [301] Commands should not change things if nothing needs doing
+quiet: false
 skip_list:
-  - '204'
-  - '301'
+  - '204'  # Lines should be no longer than 160 chars
+  - '301'  # Commands should not change things if nothing needs doing
 rulesdir:
   - ./.rules/
 use_default_rules: true
