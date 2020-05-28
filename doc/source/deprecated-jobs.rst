@@ -1,5 +1,5 @@
-Deprecrated Jobs
-================
+Deprecated Jobs
+===============
 
 .. zuul:autojob:: build-javascript-tarball
 .. zuul:autojob:: build-javascript-content
