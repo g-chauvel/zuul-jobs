@@ -6,8 +6,11 @@
 # Simulate workload
 - hosts: all
   tasks:
+    # Not using ansible pause module on purpose in order to simulate the load
     - name: Simulate workload
-      shell: "sleep 10"
+      command: sleep 10
+      args:
+        warn: false
 
 - hosts: all
   roles:

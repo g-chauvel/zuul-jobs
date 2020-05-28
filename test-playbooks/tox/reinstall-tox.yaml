@@ -3,10 +3,14 @@
   tasks:
     - name: Remove tox package with pip
       shell: pip uninstall -y tox
+      args:
+        warn: false
       become: true
       failed_when: false
     - name: Remove tox package with pip3
       shell: pip3 uninstall -y tox
+      args:
+        warn: false
       become: true
       failed_when: false
     - name: Verify tox is not installed
