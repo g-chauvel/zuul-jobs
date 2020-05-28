@@ -1,3 +1,8 @@
+- name: Fail if artifactory instance is not defined
+  fail:
+    msg: "Instance {{ zj_artifact.instance }} is not defined."
+  when: zj_artifact.instance not in upload_artifactory_instances
+
 - name: Make sure artifact exists on the executor
   stat:
     path: "{{ _undocumented_test_work_dir_ | default(zuul.executor.work_root) }}\
@@ -25,36 +30,36 @@
     request_header: "{{ request_header | combine(zj_artifact.headers|default({})) }}"
 
 - name: Add api key to header
-  when: "'api_key' in upload_artifactory_instance[zj_artifact.instance]"
+  when: "'api_key' in upload_artifactory_instances[zj_artifact.instance]"
   no_log: true
   set_fact:
     request_header: "{{ request_header |
-                        combine({'X-JFrog-Art-Api': upload_artifactory_instance[zj_artifact.instance].api_key}) }}"
+                        combine({'X-JFrog-Art-Api': upload_artifactory_instances[zj_artifact.instance].api_key}) }}"
 
 - name: Set artifactory password
   no_log: true
   set_fact:
-    _artifactory_password: "{{ upload_artifactory_instance[zj_artifact.instance].password }}"
+    _artifactory_password: "{{ upload_artifactory_instances[zj_artifact.instance].password }}"
   when:
-    - "'api_key' not in upload_artifactory_instance[zj_artifact.instance]"
-    - "'password' in upload_artifactory_instance[zj_artifact.instance]"
+    - "'api_key' not in upload_artifactory_instances[zj_artifact.instance]"
+    - "'password' in upload_artifactory_instances[zj_artifact.instance]"
 
 - name: Set artifactory url fact
   set_fact:
-    _artifactory_url: "{{ upload_artifactory_instance[zj_artifact.instance].transport | default('https') }}://\
-                       {{ upload_artifactory_instance[zj_artifact.instance].fqdn }}\
+    _artifactory_url: "{{ upload_artifactory_instances[zj_artifact.instance].transport | default('https') }}://\
+                       {{ upload_artifactory_instances[zj_artifact.instance].fqdn }}\
                        /artifactory/{{ zj_artifact.dest }}"
 
 - name: Upload artifact
   uri:
-    user: "{{ upload_artifactory_instance[zj_artifact.instance].user }}"
+    user: "{{ upload_artifactory_instances[zj_artifact.instance].user }}"
     password: "{{ _artifactory_password | default(omit) }}"
     url: "{{ _artifactory_url }}"
     src: "{{ _undocumented_test_work_dir_ | default(zuul.executor.work_root) }}/artifacts/{{ zj_artifact.src }}"
     headers: "{{ request_header }}"
     status_code: 201
     method: PUT
-    force_basic_auth: "{{ upload_artifactory_instance[zj_artifact.instance].force_basic_auth |
+    force_basic_auth: "{{ upload_artifactory_instances[zj_artifact.instance].force_basic_auth |
                           default(false) | bool }}"
     remote_src: yes  # To not unecessarily copy artifact to a tempfile
   delegate_to: "{{ _undocumented_test_worker_node_ | default('localhost') }}"
