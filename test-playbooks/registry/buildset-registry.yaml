@@ -9,7 +9,7 @@
     # run use-buildset-registry.
     - name: Run the fake buildset registry
       include_role:
-        role: run-buildset-registry
+        name: run-buildset-registry
       vars:
         buildset_registry_root: "{{ ansible_user_dir }}/fake_buildset_registry"
         buildset_registry_port: 9000

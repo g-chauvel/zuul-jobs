@@ -49,5 +49,5 @@
     - name: Verify tox_executable is set to the virtualenv tox
       assert:
         that:
-          - tox_executable == '{{ ansible_user_dir}}/tox-venv/bin/tox'
+          - tox_executable == '{{ ansible_user_dir }}/tox-venv/bin/tox'
 

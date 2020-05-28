@@ -9,7 +9,7 @@
 
     - name: Install linters-requirements.txt
       pip:
-        requirements: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}/linters-requirements.txt"
+        requirements: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/linters-requirements.txt"
         virtualenv: "{{ ansible_lint_tempdir.path }}"
 
     - name: Make sure ansible-lint is installed
@@ -22,7 +22,7 @@
         -maxdepth 4
         -wholename '*ZUULJOBS*/faulty/*/*'
       args:
-        chdir: "{{ ansible_user_dir}}/{{ zuul.project.src_dir }}"
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
       register: faulty_ansible_items
 
     - name: Get valid playbooks and roles
@@ -32,7 +32,7 @@
         -maxdepth 4
         -wholename '*ZUULJOBS*/valid/roles/*'
       args:
-        chdir: "{{ ansible_user_dir}}/{{ zuul.project.src_dir }}"
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
       register: valid_ansible_items
 
     - name: Make sure faulty roles fail linting
@@ -52,7 +52,7 @@
         -t {{ item | regex_replace('.*/(ZUULJOBS.*?)/.*', '\1') }}
         {{ item }}
       args:
-        chdir: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}"
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
       register: ansible_lint
       failed_when: ansible_lint.rc != 0
       loop: "{{ valid_ansible_items.stdout_lines }}"
