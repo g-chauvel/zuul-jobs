@@ -7,9 +7,9 @@
         state: directory
       register: ansible_lint_tempdir
 
-    - name: Install test-requirements.txt
+    - name: Install linters-requirements.txt
       pip:
-        requirements: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}/test-requirements.txt"
+        requirements: "{{ansible_user_dir}}/{{ zuul.project.src_dir }}/linters-requirements.txt"
         virtualenv: "{{ ansible_lint_tempdir.path }}"
 
     - name: Make sure ansible-lint is installed
@@ -37,7 +37,7 @@
 
     - name: Make sure faulty roles fail linting
       command: >-
-        {{ ansible_lint_tempdir.path }}/bin/ansible-lint
+        {{ ansible_lint_tempdir.path }}/bin/ansible-lint -c /dev/null
         -t {{ item | regex_replace('.*/(ZUULJOBS.*?)/.*', '\1') }}
         {{ item }}
       args:
