@@ -96,36 +96,31 @@ Here are a few guidelines to help make roles OS-independent when possible:
 * Use the **package** module instead of **yum**, **apt** or other
   distribution-specific commands.
 * If more than one specific task is needed for a specific OS, these tasks should
-  be stored in a separate YAML file in a `distros` subdirectory and named after
-  the specific flavor they target. The following boilerplate code can be used to
-  target specific flavors:
+  be stored in a separate YAML file named after the specific flavor they target.
+  The following boilerplate code can be used to target specific flavors:
 
 .. code-block:: YAML
 
   tasks:
     - name: Execute distro-specific tasks
-      include_tasks: "{{ lookup('first_found', params) }}"
-      vars:
-        params:
-          files:
-            - "mytasks-{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.yaml"
-            - "mytasks-{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.yaml"
-            - "mytasks-{{ ansible_distribution }}.yaml"
-            - "mytasks-{{ ansible_os_family }}.yaml"
-            - "mytasks-default.yaml"
-          paths:
-            - distros
+      include_tasks: "{{ item }}"
+      with_first_found:
+        - "{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.{{ ansible_architecture }}.yaml"
+        - "{{ ansible_distribution }}.{{ ansible_distribution_major_version }}.yaml"
+        - "{{ ansible_distribution }}.yaml"
+        - "{{ ansible_os_family }}.yaml"
+        - "default.yaml"
 
-If run on Fedora 29 x86_64, this playbook will attempt to include the first
-playbook found among
+If run on Fedora 32 x86_64, this playbook will attempt to include the first
+tasklist found among:
 
-* `distros/mytasks-Fedora.29.x86_64.yaml`
-* `distros/mytasks-Fedora.29.yaml`
-* `distros/mytasks-Fedora.yaml`
-* `distros/mytasks-RedHat.yaml`
-* `distros/mytasks-default.yaml`
+* `Fedora.32.x86_64.yaml`
+* `Fedora.32.yaml`
+* `Fedora.yaml`
+* `RedHat.yaml`
+* `default.yaml`
 
-The default playbook should return a failure explaining the host's environment is
+The default tasklist should return a failure explaining the host's environment is
 not supported, or a skip if the tasks were optional.
 
 Handling privileges on hosts
