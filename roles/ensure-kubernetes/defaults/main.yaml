@@ -1,4 +1,5 @@
 install_kubernetes_with_cluster: True
 minikube_version: latest
 minikube_dns_resolvers: []
+ensure_kubernetes_minikube_addons: []
 kubernetes_runtime: docker

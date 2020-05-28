@@ -23,3 +23,8 @@ An ansible role to install kubernetes.
 
    Which kubernetes runtime to use; values are ``docker`` or
    ``cri-o``.
+
+.. zuul:rolevar:: ensure_kubernetes_minikube_addons
+   :default: []
+
+   List of addons to configure in k8s. Use this to enable the addons.
