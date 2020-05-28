@@ -7,5 +7,6 @@ General Purpose Jobs
 .. zuul:autojob:: markdownlint
 .. zuul:autojob:: multinode
 .. zuul:autojob:: run-test-command
+.. zuul:autojob:: shake-build
 .. zuul:autojob:: upload-git-mirror
 .. zuul:autojob:: validate-zone-db

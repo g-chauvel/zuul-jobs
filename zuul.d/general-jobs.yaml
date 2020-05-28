@@ -119,3 +119,12 @@
 
     pre-run: playbooks/dhall/prepare.yaml
     run: playbooks/dhall/diff.yaml
+
+- job:
+    name: shake-build
+    description: |
+      Run the shake build system command.
+
+      This job produces a shake.html report.
+    pre-run: playbooks/shake/pre.yaml
+    run: playbooks/shake/run.yaml
