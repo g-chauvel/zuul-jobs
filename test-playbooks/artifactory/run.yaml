@@ -47,7 +47,7 @@
     - name: Set artifactory instances fact
       set_fact:
         cacheable: true
-        upload_artifactory_instance:
+        upload_artifactory_instances:
           localhost_password:
             fqdn: localhost:8081
             transport: http
