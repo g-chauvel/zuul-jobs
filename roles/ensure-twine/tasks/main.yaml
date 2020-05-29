@@ -1,5 +1,8 @@
 - name: Check for twine install
-  command: which twine
+  shell: |
+    command -v {{ twine_executable }} || exit 1
+  args:
+    executable: /bin/bash
   failed_when: false
   register: register_twine
 
