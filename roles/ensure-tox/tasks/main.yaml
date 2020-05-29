@@ -14,7 +14,7 @@
 
 - name: Export preinstalled tox_exectuable
   set_fact:
-    tox_executable: '{{ tox_executable }}'
+    tox_executable: '{{ tox_preinstalled.stdout }}'
     cacheable: true
   when: tox_preinstalled.rc == 0
 
