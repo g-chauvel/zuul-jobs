@@ -65,8 +65,15 @@ EOF
 function save_file {
     local base_url="$1"
     local file="$2"
+    local xtra_args="--compressed"
 
-    curl -s --compressed --create-dirs -o "${file}" "${base_url}/${file}"
+   {#
+    # Do not uncompress .xz, libcurl cannot handle it
+   #}
+    if [[ "${file}" == *.xz ]]; then
+        xtra_args=""
+    fi
+    curl -s ${xtra_args} --create-dirs -o "${file}" "${base_url}${file}"
    {#
     # Using --compressed we will send an Accept-Encoding: gzip header
     # and the data will come to us across the network compressed.
@@ -114,4 +121,4 @@ done
 
 popd >/dev/null
 
-log "Download complete!"
+log "Download to ${DOWNLOAD_DIR} complete!"
