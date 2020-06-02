@@ -38,7 +38,7 @@
 
 - name: Default args
   set_fact:
-    minikube_args: ""
+    extra_args: ""
 
 - name: Configure dns options if set
   block:
@@ -49,12 +49,20 @@
         mode: "0444"
     - name: Set extra kube setttings
       set_fact:
-        minikube_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
+        extra_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
   when: minikube_dns_resolvers|length>0
 
 - name: Start Minikube
   become: yes
-  command: "/tmp/minikube start --v=7 --vm-driver=none --container-runtime={{ kubernetes_runtime }} {{ minikube_args }}"
+  command: >-
+    /tmp/minikube start
+    --v=7
+    --vm-driver=none
+    --container-runtime={{ kubernetes_runtime }}
+    {{ extra_args }}
+    {% for _addon in ensure_kubernetes_minikube_addons %}
+    --addons={{ _addon }}
+    {% endfor %}
   environment:
     MINIKUBE_WANTUPDATENOTIFICATION: false
     MINIKUBE_WANTREPORTERRORPROMPT: false
