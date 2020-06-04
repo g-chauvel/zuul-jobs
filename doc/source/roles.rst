@@ -16,13 +16,13 @@ Roles
    deprecated-roles
    galaxy-roles
    go-roles
+   hashicorp-roles
    haskell-roles
    helm-roles
    java-roles
    js-roles
    kubernetes-roles
    launchpad-roles
-   packer-roles
    puppet-roles
    python-roles
    system-roles

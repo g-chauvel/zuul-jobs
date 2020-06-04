@@ -56,4 +56,3 @@
 
 - name: Output packer version
   command: "{{ packer_executable }} version"
-
