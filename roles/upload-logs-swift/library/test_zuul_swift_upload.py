@@ -24,9 +24,14 @@ import testtools
 import time
 import stat
 import fixtures
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
+import requests
 from bs4 import BeautifulSoup
-from .zuul_swift_upload import FileList, Indexer, FileDetail
+from .zuul_swift_upload import FileList, Indexer, FileDetail, Uploader
 
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__),
@@ -411,3 +416,57 @@ class TestFileDetail(testtools.TestCase):
 
         self.assertEqual(time.gmtime(0), file_detail.last_modified)
         self.assertEqual(0, file_detail.size)
+
+
+class MockUploader(Uploader):
+    """An uploader that uses a mocked cloud object"""
+    def __init__(self, container):
+        self.container = container
+        self.cloud = mock.Mock()
+        self.dry_run = False
+        self.public = True
+        self.delete_after = None
+        self.prefix = ""
+        self.url = 'http://dry-run-url.com/a/path/'
+
+
+class TestUpload(testtools.TestCase):
+
+    def test_upload_result(self):
+        uploader = MockUploader(container="container")
+
+        # Let the upload method fail for the job-output.json, but not for the
+        # inventory.yaml file
+        def side_effect(container, name, **ignored):
+            if name == "job-output.json":
+                raise requests.exceptions.RequestException(
+                    "Failed for a reason"
+                )
+        uploader.cloud.create_object = mock.Mock(
+            side_effect=side_effect
+        )
+
+        # Get some test files to upload
+        files = [
+            FileDetail(
+                os.path.join(FIXTURE_DIR, "logs/job-output.json"),
+                "job-output.json",
+            ),
+            FileDetail(
+                os.path.join(FIXTURE_DIR, "logs/zuul-info/inventory.yaml"),
+                "inventory.yaml",
+            ),
+        ]
+
+        expected_failures = [
+            {
+                "file": "job-output.json",
+                "error": (
+                    "Error posting file after multiple attempts: "
+                    "Failed for a reason"
+                ),
+            },
+        ]
+
+        failures = uploader.upload(files)
+        self.assertEqual(expected_failures, failures)
