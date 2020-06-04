@@ -32,7 +32,14 @@
   include_tasks: recursive.yaml
   loop_control:
     loop_var: zj_artifact
-  when: "'metadata' in zj_artifact and 'type' in zj_artifact.metadata and (zj_artifact.metadata.type == download_artifact_type or ((download_artifact_type | type_debug) == 'list' and zj_artifact.metadata.type in download_artifact_type)) and download_artifact_recurse"
+  when:
+    - "'metadata' in zj_artifact"
+    - "'type' in zj_artifact.metadata"
+    - download_artifact_recurse
+    - >
+      zj_artifact.metadata.type == download_artifact_type or
+       ((download_artifact_type | type_debug) == 'list'
+         and zj_artifact.metadata.type in download_artifact_type)
 
 - name: Download archive by type
   uri:
@@ -41,4 +48,11 @@
   loop: "{{ build.artifacts }}"
   loop_control:
     loop_var: zj_artifact
-  when: "'metadata' in zj_artifact and 'type' in zj_artifact.metadata and (zj_artifact.metadata.type == download_artifact_type or ((download_artifact_type | type_debug) == 'list' and zj_artifact.metadata.type in download_artifact_type)) and not download_artifact_recurse"
+  when:
+    - "'metadata' in zj_artifact"
+    - "'type' in zj_artifact.metadata"
+    - not download_artifact_recurse
+    - >
+      zj_artifact.metadata.type == download_artifact_type or
+       ((download_artifact_type | type_debug) == 'list'
+         and zj_artifact.metadata.type in download_artifact_type)
