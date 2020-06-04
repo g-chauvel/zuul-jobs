@@ -1,0 +1,159 @@
+- job:
+    name: zuul-jobs-test-download-artifact
+    tags: all-platforms
+    description: |
+      Test artifact roles
+    parent: base-minimal
+    run: test-playbooks/download-artifact.yaml
+    files:
+      - ^roles/download-artifact/.*
+
+- job:
+    name: zuul-jobs-test-download-artifact-centos-7
+    description: Test artifact roles on centos-7
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-download-artifact-centos-8
+    description: Test artifact roles on centos-8
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-download-artifact-debian-stretch
+    description: Test artifact roles on debian-stretch
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-download-artifact-fedora-31
+    description: Test artifact roles on fedora-31
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-31
+          label: fedora-31
+
+- job:
+    name: zuul-jobs-test-download-artifact-gentoo-17-0-systemd
+    description: Test artifact roles on gentoo-17-0-systemd
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-download-artifact-opensuse-15
+    description: Test artifact roles on opensuse-15
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-download-artifact-opensuse-tumbleweed-nv
+    voting: false
+    description: Test artifact roles on opensuse-tumbleweed
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-download-artifact-ubuntu-bionic
+    description: Test artifact roles on ubuntu-bionic
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-download-artifact-ubuntu-xenial
+    description: Test artifact roles on ubuntu-xenial
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
+    name: zuul-jobs-test-download-artifact-ubuntu-bionic-plain
+    description: Test artifact roles on ubuntu-bionic-plain
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-plain
+          label: ubuntu-bionic-plain
+
+- job:
+    name: zuul-jobs-test-download-artifact-ubuntu-xenial-plain
+    description: Test artifact roles on ubuntu-xenial-plain
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial-plain
+          label: ubuntu-xenial-plain
+
+- job:
+    name: zuul-jobs-test-download-artifact-centos-8-plain
+    description: Test artifact roles on centos-8-plain
+    parent: zuul-jobs-test-download-artifact
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-plain
+          label: centos-8-plain
+
+- project:
+    check:
+      jobs:
+        - zuul-jobs-test-download-artifact-centos-7
+        - zuul-jobs-test-download-artifact-centos-8
+        - zuul-jobs-test-download-artifact-debian-stretch
+        - zuul-jobs-test-download-artifact-fedora-31
+        - zuul-jobs-test-download-artifact-gentoo-17-0-systemd
+        - zuul-jobs-test-download-artifact-opensuse-15
+        - zuul-jobs-test-download-artifact-opensuse-tumbleweed-nv
+        - zuul-jobs-test-download-artifact-ubuntu-bionic
+        - zuul-jobs-test-download-artifact-ubuntu-xenial
+        - zuul-jobs-test-download-artifact-ubuntu-bionic-plain
+        - zuul-jobs-test-download-artifact-ubuntu-xenial-plain
+        - zuul-jobs-test-download-artifact-centos-8-plain
+    gate:
+      jobs:
+        - zuul-jobs-test-download-artifact-centos-7
+        - zuul-jobs-test-download-artifact-centos-8
+        - zuul-jobs-test-download-artifact-debian-stretch
+        - zuul-jobs-test-download-artifact-fedora-31
+        - zuul-jobs-test-download-artifact-gentoo-17-0-systemd
+        - zuul-jobs-test-download-artifact-opensuse-15
+        - zuul-jobs-test-download-artifact-ubuntu-bionic
+        - zuul-jobs-test-download-artifact-ubuntu-xenial
+        - zuul-jobs-test-download-artifact-ubuntu-bionic-plain
+        - zuul-jobs-test-download-artifact-ubuntu-xenial-plain
+        - zuul-jobs-test-download-artifact-centos-8-plain
