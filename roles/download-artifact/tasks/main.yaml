@@ -1,3 +1,24 @@
+- name: Look for wget
+  shell: |
+      command -v wget || exit 1
+  args:
+    executable: /bin/bash
+  register: _wget_installed
+  failed_when: false
+  when: download_artifact_recurse
+
+- name: Fail if no wget
+  fail:
+    msg: 'wget not found, can not recurse'
+  when:
+    - _wget_installed.rc != 0
+    - download_artifact_recurse
+
+- name: Ensure the download directory
+  file:
+    name: '{{ download_artifact_directory }}'
+    state: directory
+
 - name: Query Zuul API for artifact information
   uri:
     url: "{{ download_artifact_api }}/builds?{{ download_artifact_query }}"
@@ -5,6 +26,14 @@
 - name: Parse build response
   set_fact:
     build: "{{ build.json[0] }}"
+
+- name: Recursive downloads
+  loop: "{{ build.artifacts }}"
+  include_tasks: recursive.yaml
+  loop_control:
+    loop_var: zj_artifact
+  when: "'metadata' in zj_artifact and 'type' in zj_artifact.metadata and (zj_artifact.metadata.type == download_artifact_type or ((download_artifact_type | type_debug) == 'list' and zj_artifact.metadata.type in download_artifact_type)) and download_artifact_recurse"
+
 - name: Download archive by type
   uri:
     url: "{{ zj_artifact.url }}"
@@ -12,4 +41,4 @@
   loop: "{{ build.artifacts }}"
   loop_control:
     loop_var: zj_artifact
-  when: "'metadata' in zj_artifact and 'type' in zj_artifact.metadata and (zj_artifact.metadata.type == download_artifact_type or ((download_artifact_type | type_debug) == 'list' and zj_artifact.metadata.type in download_artifact_type))"
+  when: "'metadata' in zj_artifact and 'type' in zj_artifact.metadata and (zj_artifact.metadata.type == download_artifact_type or ((download_artifact_type | type_debug) == 'list' and zj_artifact.metadata.type in download_artifact_type)) and not download_artifact_recurse"
