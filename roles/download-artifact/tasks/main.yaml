@@ -15,7 +15,6 @@
   when:
     - "'metadata' in zj_artifact"
     - "'type' in zj_artifact.metadata"
-    - not download_artifact_recurse
     - >
       zj_artifact.metadata.type == download_artifact_type or
        ((download_artifact_type | type_debug) == 'list'
