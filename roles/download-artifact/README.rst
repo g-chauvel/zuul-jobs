@@ -32,16 +32,3 @@ many artifacts as match the selection criteria.
    :default: {{ zuul.executor.work_root }}
 
    The directory in which to place the downloaded artifacts.
-
-.. zuul:rolevar:: download_artifact_recurse
-   :default: False
-
-   If the ``type`` describes a directory, this can be used to download
-   it recursively.  Note this requires ``wget`` on the host.  The
-   *last* component of the artifact URL should be a directory, and
-   that will be the directory saved to
-   ``download_artifact_directory``.
-
-   For example, the contents of
-   ``https://foo.com/abc/123/test/the_artifact/`` will be saved to
-   ``{{ download_artifact_directory }}/the_artifact/``.
