@@ -6,7 +6,7 @@
 
 - name: Check if tox is installed
   shell: |
-    command -v {{ tox_executable }} || exit 1
+    command -v {{ tox_executable }} {{ tox_venv_path }}/bin/tox || exit 1
   args:
     executable: /bin/bash
   register: tox_preinstalled
@@ -14,7 +14,7 @@
 
 - name: Export preinstalled tox_exectuable
   set_fact:
-    tox_executable: '{{ tox_preinstalled.stdout }}'
+    tox_executable: '{{ tox_preinstalled.stdout_lines[0] }}'
     cacheable: true
   when: tox_preinstalled.rc == 0
 
