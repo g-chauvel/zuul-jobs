@@ -18,6 +18,7 @@
       command: git commit -a -m "test update"
       args:
         chdir: "{{ zuul.project.src_dir }}"
+        warn: false
 
     - name: Failed dhall-diff
       include_role:

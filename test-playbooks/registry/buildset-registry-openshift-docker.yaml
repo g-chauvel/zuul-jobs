@@ -18,6 +18,8 @@
       command: oc wait --for=condition=Ready pod/dockertest --timeout=60s
     - name: Check the output of the pod
       shell: "oc logs pod/dockertest | grep 'Zuul container test'"
+      args:
+        warn: false
 
     - name: Run a remote test pod
       command: oc run --generator=run-pod/v1 --image=debian:testing upstream-dockertest --command -- /bin/bash -c 'echo Upstream; sleep infinity'
@@ -25,3 +27,5 @@
       command: oc wait --for=condition=Ready pod/upstream-dockertest --timeout=60s
     - name: Check the output of the pod
       shell: "oc logs pod/upstream-dockertest | grep 'Upstream'"
+      args:
+        warn: false
