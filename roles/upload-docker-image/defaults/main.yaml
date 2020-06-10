@@ -1,2 +1,3 @@
 zuul_work_dir: "{{ zuul.project.src_dir }}"
 docker_dockerfile: "Dockerfile"
+upload_docker_image_promote: true
