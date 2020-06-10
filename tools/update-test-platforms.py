@@ -31,6 +31,7 @@ import ruamellib
 PLATFORMS = [
     'centos-7',
     'centos-8',
+    'centos-8-stream',
     'debian-stretch',
     'fedora-32',
     'gentoo-17-0-systemd',

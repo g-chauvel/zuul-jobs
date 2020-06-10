@@ -33,6 +33,16 @@
           label: centos-8
 
 - job:
+    name: zuul-jobs-test-build-python-release-jobs-centos-8-stream
+    description: Test the build-python-release-jobs role on centos-8-stream
+    parent: zuul-jobs-test-build-python-release-jobs
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-build-python-release-jobs-debian-stretch
     description: Test the build-python-release-jobs role on debian-stretch
     parent: zuul-jobs-test-build-python-release-jobs
@@ -143,6 +153,16 @@
           label: centos-8
 
 - job:
+    name: zuul-jobs-test-ensure-python-pyenv-centos-8-stream
+    description: Test the ensure-python role with pyenv on centos-8-stream
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-ensure-python-pyenv-debian-stretch
     description: Test the ensure-python role with pyenv on debian-stretch
     parent: zuul-jobs-test-ensure-python-pyenv
@@ -228,6 +248,7 @@
       jobs:
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8
+        - zuul-jobs-test-build-python-release-jobs-centos-8-stream
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
         - zuul-jobs-test-build-python-release-jobs-fedora-32
         - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
@@ -238,6 +259,7 @@
         - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
+        - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
         - zuul-jobs-test-ensure-python-pyenv-fedora-32
         - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
@@ -250,6 +272,7 @@
       jobs: &id001
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8
+        - zuul-jobs-test-build-python-release-jobs-centos-8-stream
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
         - zuul-jobs-test-build-python-release-jobs-fedora-32
         - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
@@ -259,6 +282,7 @@
         - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
+        - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
         - zuul-jobs-test-ensure-python-pyenv-fedora-32
         - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
