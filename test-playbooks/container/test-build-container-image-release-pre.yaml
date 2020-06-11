@@ -1,0 +1,5 @@
+- hosts: all
+  tasks:
+    - name: Install container system
+      include_role:
+        name: "ensure-{{ container_command }}"
