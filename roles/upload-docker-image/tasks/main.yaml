@@ -8,8 +8,8 @@
   fail:
     msg: "{{ zj_image.repository }} not permitted by {{ docker_credentials.repository }}"
 
-- name: Log in to dockerhub
-  command: "docker login -u {{ docker_credentials.username }} -p {{ docker_credentials.password }}"
+- name: Log in to registry
+  command: "docker login -u {{ docker_credentials.username }} -p {{ docker_credentials.password }} {{ docker_registry }}"
   no_log: true
 
 - name: Determine if we need to use buildx

@@ -51,6 +51,12 @@ using this role.
    when building all images from different folders with similarily
    named dockerfiles.
 
+.. zuul:rolevar:: docker_registry
+   :default: ''
+
+   The container registry the images should be tagged for, by default
+   zuul will push the image to dockerhub.
+
 .. zuul:rolevar:: docker_credentials
    :type: dict
 
