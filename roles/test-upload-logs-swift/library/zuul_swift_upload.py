@@ -682,20 +682,27 @@ class Uploader():
 
         num_threads = min(len(file_list), MAX_UPLOAD_THREADS)
         threads = []
+        # Keep track on upload failures
+        failures = []
+
         queue = queuelib.Queue()
         # add items to queue
         for f in file_list:
             queue.put(f)
 
         for x in range(num_threads):
-            t = threading.Thread(target=self.post_thread, args=(queue,))
+            t = threading.Thread(
+                target=self.post_thread, args=(queue, failures)
+            )
             threads.append(t)
             t.start()
 
         for t in threads:
             t.join()
 
-    def post_thread(self, queue):
+        return failures
+
+    def post_thread(self, queue, failures):
         while True:
             try:
                 file_detail = queue.get_nowait()
@@ -703,13 +710,23 @@ class Uploader():
                               threading.current_thread(),
                               file_detail)
                 retry_function(lambda: self._post_file(file_detail))
-            except requests.exceptions.RequestException:
+            except requests.exceptions.RequestException as e:
+                msg = "Error posting file after multiple attempts"
                 # Do our best to attempt to upload all the files
-                logging.exception("Error posting file after multiple attempts")
+                logging.exception(msg)
+                failures.append({
+                    "file": file_detail.filename,
+                    "error": "{}: {}".format(msg, e),
+                })
                 continue
-            except IOError:
+            except IOError as e:
+                msg = "Error opening file"
                 # Do our best to attempt to upload all the files
-                logging.exception("Error opening file")
+                logging.exception(msg)
+                failures.append({
+                    "file": file_detail.filename,
+                    "error": "{}: {}".format(msg, e),
+                })
                 continue
             except queuelib.Empty:
                 # No more work to do
@@ -801,8 +818,8 @@ def run(cloud, container, files,
         # Upload.
         uploader = Uploader(cloud, container, prefix, delete_after,
                             public, dry_run)
-        uploader.upload(file_list)
-        return uploader.url
+        upload_failures = uploader.upload(file_list)
+        return uploader.url, upload_failures
 
 
 def ansible_main():
@@ -825,15 +842,17 @@ def ansible_main():
     p = module.params
     cloud = get_cloud(p.get('cloud'))
     try:
-        url = run(cloud, p.get('container'), p.get('files'),
-                  indexes=p.get('indexes'),
-                  parent_links=p.get('parent_links'),
-                  topdir_parent_link=p.get('topdir_parent_link'),
-                  partition=p.get('partition'),
-                  footer=p.get('footer'),
-                  delete_after=p.get('delete_after', 15552000),
-                  prefix=p.get('prefix'),
-                  public=p.get('public'))
+        url, upload_failures = run(
+            cloud, p.get('container'), p.get('files'),
+            indexes=p.get('indexes'),
+            parent_links=p.get('parent_links'),
+            topdir_parent_link=p.get('topdir_parent_link'),
+            partition=p.get('partition'),
+            footer=p.get('footer'),
+            delete_after=p.get('delete_after', 15552000),
+            prefix=p.get('prefix'),
+            public=p.get('public')
+        )
     except (keystoneauth1.exceptions.http.HttpError,
             requests.exceptions.RequestException):
         s = "Error uploading to %s.%s" % (cloud.name, cloud.config.region_name)
@@ -844,8 +863,11 @@ def ansible_main():
             msg=s,
             cloud=cloud.name,
             region_name=cloud.config.region_name)
-    module.exit_json(changed=True,
-                     url=url)
+    module.exit_json(
+        changed=True,
+        url=url,
+        upload_failures=upload_failures,
+    )
 
 
 def cli_main():
@@ -903,16 +925,18 @@ def cli_main():
     if append_footer.lower() == 'none':
         append_footer = None
 
-    url = run(get_cloud(args.cloud), args.container, args.files,
-              indexes=not args.no_indexes,
-              parent_links=not args.no_parent_links,
-              topdir_parent_link=args.create_topdir_parent_link,
-              partition=args.partition,
-              footer=append_footer,
-              delete_after=args.delete_after,
-              prefix=args.prefix,
-              public=not args.no_public,
-              dry_run=args.dry_run)
+    url, _ = run(
+        get_cloud(args.cloud), args.container, args.files,
+        indexes=not args.no_indexes,
+        parent_links=not args.no_parent_links,
+        topdir_parent_link=args.create_topdir_parent_link,
+        partition=args.partition,
+        footer=append_footer,
+        delete_after=args.delete_after,
+        prefix=args.prefix,
+        public=not args.no_public,
+        dry_run=args.dry_run
+    )
     print(url)
 
 
