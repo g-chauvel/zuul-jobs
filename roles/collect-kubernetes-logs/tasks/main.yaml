@@ -1,5 +1,5 @@
 - name: List pods
-  command: "kubectl get pod {% if collect_kubernetes_logs_namespace %}-n {{ collect_kubernetes_logs_namespace }}{% endif %} -o=custom-columns=NAME:.metadata.name --no-headers"
+  command: "kubectl get pod {% if collect_kubernetes_logs_namespace is defined %}-n {{ collect_kubernetes_logs_namespace }}{% endif %} -o=custom-columns=NAME:.metadata.name --no-headers"
   register: podlist
   failed_when: false
 
@@ -12,7 +12,7 @@
   loop: "{{ podlist.stdout_lines | default([]) }}"
   loop_control:
     loop_var: zj_pod_name
-  shell: "kubectl describe po {{ zj_pod_name }} {% if collect_kubernetes_logs_namespace %}-n {{ collect_kubernetes_logs_namespace }}{% endif %} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ zj_pod_name }}.txt"
+  shell: "kubectl describe po {{ zj_pod_name }} {% if collect_kubernetes_logs_namespace is defined %}-n {{ collect_kubernetes_logs_namespace }}{% endif %} &> {{ ansible_user_dir }}/zuul-output/logs/pods/{{ zj_pod_name }}.txt"
   args:
     executable: /bin/bash
   failed_when: false
