@@ -38,9 +38,6 @@ PLATFORMS = [
     'opensuse-tumbleweed',
     'ubuntu-bionic',
     'ubuntu-xenial',
-    'ubuntu-bionic-plain',
-    'ubuntu-xenial-plain',
-    'centos-8-plain',
 ]
 
 # insert a platform from above to make it non-voting

@@ -111,36 +111,6 @@
         - name: ubuntu-xenial
           label: ubuntu-xenial
 
-- job:
-    name: zuul-jobs-test-terraform-ubuntu-bionic-plain
-    description: Test terraform job on ubuntu-bionic-plain
-    parent: zuul-jobs-test-terraform
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-terraform-ubuntu-xenial-plain
-    description: Test terraform job on ubuntu-xenial-plain
-    parent: zuul-jobs-test-terraform
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-terraform-centos-8-plain
-    description: Test terraform job on centos-8-plain
-    parent: zuul-jobs-test-terraform
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
-
 - project:
     check: &id001
       jobs:
@@ -152,7 +122,4 @@
         - zuul-jobs-test-terraform-opensuse-15
         - zuul-jobs-test-terraform-ubuntu-bionic
         - zuul-jobs-test-terraform-ubuntu-xenial
-        - zuul-jobs-test-terraform-ubuntu-bionic-plain
-        - zuul-jobs-test-terraform-ubuntu-xenial-plain
-        - zuul-jobs-test-terraform-centos-8-plain
     gate: *id001

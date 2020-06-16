@@ -97,36 +97,6 @@
         - name: ubuntu-xenial
           label: ubuntu-xenial
 
-- job:
-    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain
-    description: Test the ensure-python role with pyenv on ubuntu-bionic-plain
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial-plain
-    description: Test the ensure-python role with pyenv on ubuntu-xenial-plain
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-ensure-python-pyenv-centos-8-plain
-    description: Test the ensure-python role with pyenv on centos-8-plain
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
-
 - project:
     check:
       jobs:
@@ -139,9 +109,6 @@
         - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-python-pyenv-centos-8-plain
     gate:
       jobs:
         - zuul-jobs-test-ensure-python-pyenv-centos-7
@@ -152,6 +119,3 @@
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-python-pyenv-centos-8-plain

@@ -109,36 +109,6 @@
         - name: ubuntu-xenial
           label: ubuntu-xenial
 
-- job:
-    name: zuul-jobs-test-packer-ubuntu-bionic-plain
-    description: Test packer job on ubuntu-bionic-plain
-    parent: zuul-jobs-test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-packer-ubuntu-xenial-plain
-    description: Test packer job on ubuntu-xenial-plain
-    parent: zuul-jobs-test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-packer-centos-8-plain
-    description: Test packer job on centos-8-plain
-    parent: zuul-jobs-test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
-
 - project:
     check:
       jobs:
@@ -151,9 +121,6 @@
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial
-        - zuul-jobs-test-packer-ubuntu-bionic-plain
-        - zuul-jobs-test-packer-ubuntu-xenial-plain
-        - zuul-jobs-test-packer-centos-8-plain
     gate:
       jobs:
         - zuul-jobs-test-packer-centos-7
@@ -164,6 +131,3 @@
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial
-        - zuul-jobs-test-packer-ubuntu-bionic-plain
-        - zuul-jobs-test-packer-ubuntu-xenial-plain
-        - zuul-jobs-test-packer-centos-8-plain

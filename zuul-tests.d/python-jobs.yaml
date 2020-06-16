@@ -99,36 +99,6 @@
           label: ubuntu-xenial
 
 - job:
-    name: zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
-    description: Test the ensure-pip role on ubuntu-bionic-plain
-    parent: zuul-jobs-test-ensure-pip
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-ensure-pip-ubuntu-xenial-plain
-    description: Test the ensure-pip role on ubuntu-xenial-plain
-    parent: zuul-jobs-test-ensure-pip
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-ensure-pip-centos-8-plain
-    description: Test the ensure-pip role on centos-8-plain
-    parent: zuul-jobs-test-ensure-pip
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
-
-- job:
     name: zuul-jobs-test-ensure-sphinx
     description: Test the ensure-sphinx role
     files:
@@ -238,36 +208,6 @@
           label: ubuntu-xenial
 
 - job:
-    name: zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
-    description: Test the ensure-tox role on ubuntu-bionic-plain
-    parent: zuul-jobs-test-ensure-tox
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-ensure-tox-ubuntu-xenial-plain
-    description: Test the ensure-tox role on ubuntu-xenial-plain
-    parent: zuul-jobs-test-ensure-tox
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-ensure-tox-centos-8-plain
-    description: Test the ensure-tox role on centos-8-plain
-    parent: zuul-jobs-test-ensure-tox
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
-
-- job:
     name: zuul-jobs-test-fetch-sphinx-tarball
     description: Test the fetch-sphinx-tarball role
     # parenting on tox-docs as we need builded docs first and also this is
@@ -368,36 +308,6 @@
       nodes:
         - name: ubuntu-xenial
           label: ubuntu-xenial
-
-- job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic-plain
-    description: Test the fetch-sphinx-tarball role on ubuntu-bionic-plain
-    parent: zuul-jobs-test-fetch-sphinx-tarball
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-bionic-plain
-          label: ubuntu-bionic-plain
-
-- job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial-plain
-    description: Test the fetch-sphinx-tarball role on ubuntu-xenial-plain
-    parent: zuul-jobs-test-fetch-sphinx-tarball
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial-plain
-          label: ubuntu-xenial-plain
-
-- job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-centos-8-plain
-    description: Test the fetch-sphinx-tarball role on centos-8-plain
-    parent: zuul-jobs-test-fetch-sphinx-tarball
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8-plain
-          label: centos-8-plain
 
 - job:
     name: zuul-jobs-test-tox
@@ -513,9 +423,6 @@
         - zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
         - zuul-jobs-test-ensure-pip-ubuntu-xenial
-        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-pip-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-pip-centos-8-plain
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8
@@ -526,9 +433,6 @@
         - zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
         - zuul-jobs-test-ensure-tox-ubuntu-xenial
-        - zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-tox-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-tox-centos-8-plain
         - zuul-jobs-test-fetch-sphinx-tarball-centos-7
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8
         - zuul-jobs-test-fetch-sphinx-tarball-debian-stretch
@@ -538,9 +442,6 @@
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-tumbleweed-nv
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic-plain
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial-plain
-        - zuul-jobs-test-fetch-sphinx-tarball-centos-8-plain
         - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
@@ -560,9 +461,6 @@
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
         - zuul-jobs-test-ensure-pip-ubuntu-xenial
-        - zuul-jobs-test-ensure-pip-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-pip-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-pip-centos-8-plain
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8
@@ -572,9 +470,6 @@
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
         - zuul-jobs-test-ensure-tox-ubuntu-xenial
-        - zuul-jobs-test-ensure-tox-ubuntu-bionic-plain
-        - zuul-jobs-test-ensure-tox-ubuntu-xenial-plain
-        - zuul-jobs-test-ensure-tox-centos-8-plain
         - zuul-jobs-test-fetch-sphinx-tarball-centos-7
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8
         - zuul-jobs-test-fetch-sphinx-tarball-debian-stretch
@@ -583,9 +478,6 @@
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic-plain
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial-plain
-        - zuul-jobs-test-fetch-sphinx-tarball-centos-8-plain
         - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize
