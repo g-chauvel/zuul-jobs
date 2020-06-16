@@ -249,6 +249,7 @@
     name: build-python-release
     description: |
       Build a source tarball and a bdist wheel for uploading.
+    pre-run: playbooks/python/pre.yaml
     run: playbooks/python/release.yaml
     post-run: playbooks/python/tarball-post.yaml
 
