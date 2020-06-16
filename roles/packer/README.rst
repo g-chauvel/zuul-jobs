@@ -26,7 +26,7 @@ Run packer command. Assumes the appropriate version of packer has been installed
 
    Environment variables to set in packer command.
 
-.. zuul:rolevar:: zuul_workdir
+.. zuul:rolevar:: packer_workdir
    :default: {{ zuul.project.src_dir }}
 
    Directory to run packer in.

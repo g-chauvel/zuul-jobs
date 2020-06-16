@@ -1,7 +1,7 @@
 - job:
     name: packer
     description: |
-      Base job for packaer operations
+      Base job for packer operations
 
       Responds to these variables:
 

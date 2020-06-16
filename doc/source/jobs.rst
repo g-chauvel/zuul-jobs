@@ -9,8 +9,8 @@ Jobs
    js-jobs
    docker-jobs
    go-jobs
+   hashicorp-jobs
    haskell-jobs
    helm-jobs
-   packer-jobs
    system-jobs
    deprecated-jobs
