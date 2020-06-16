@@ -1,3 +1,13 @@
+- name: Check for wheel
+  command: "{{ release_python }} -m wheel"
+  failed_when: false
+  register: wheel_exists
+
+- name: Install wheel
+  command: "{{ release_python }} -m pip install wheel"
+  become: yes
+  when: wheel_exists.rc != 0
+
 - name: Build a tarball and wheel
   command: "{{ release_python }} setup.py sdist bdist_wheel {{ bdist_wheel_xargs }}"
   args:
