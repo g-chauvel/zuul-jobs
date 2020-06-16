@@ -19,3 +19,6 @@ requestsexceptions
 bs4
 # For upload-logs-google
 google-cloud-storage
+
+# unittest.mock compatibility package for Python < 3.3
+mock;python_version<'3.3'
