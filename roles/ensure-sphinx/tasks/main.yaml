@@ -1,4 +1,10 @@
----
+- name: Install pip
+  include_role:
+    name: ensure-pip
+
+- name: Install virtualenv
+  include_role:
+    name: ensure-virtualenv
 
 # NOTE: gettext command is provided by gettext-base package,
 # so we need to check a command provided by gettext package.
@@ -38,7 +44,6 @@
 - name: Gather python version variables
   include_vars: "{{ sphinx_python.split('.')[0] }}.yaml"
 
-# TODO(dmsimard) Don't assume virtualenv is installed
 - name: Install base doc building packages
   pip:
     name: "{{ doc_building_packages | union(doc_building_extra_packages) }}"
@@ -47,7 +52,6 @@
     virtualenv_python: "{{ sphinx_python }}"
     extra_args: "{{ upper_constraints | default(omit) }}"
 
-# TODO(dmsimard) Don't assume virtualenv is installed
 - name: Install found doc requirements
   pip:
     requirements: "{{ requirements_file.stdout }}"
