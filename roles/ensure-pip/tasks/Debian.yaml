@@ -4,6 +4,7 @@
       - python3-pip
       - python3-setuptools
       - python3-venv
+      - python3-wheel
   become: yes
 
 - name: Install Python 2 pip
@@ -11,5 +12,6 @@
     name:
       - python-setuptools
       - python-pip
+      - python-wheel
   become: yes
   when: ensure_pip_from_packages_with_python2

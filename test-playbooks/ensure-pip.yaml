@@ -26,6 +26,14 @@
         path: '{{ _tmp_venv.path }}'
         state: absent
 
+    - name: Sanity check pip wheel generation
+      shell: |
+        cd {{ ansible_user_dir }}/src/opendev.org/zuul/zuul
+        # This should run anywhere without too much logic ...
+        run_pip=$(command -v pip3 || command -v pip2 || command -v pip)
+        $run_pip wheel --no-deps .
+        ls zuul-*.whl || exit 1
+
     # ensure-virtualenv
     - name: Include ensure-virtualenv
       include_role:

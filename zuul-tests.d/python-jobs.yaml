@@ -1,6 +1,9 @@
 - job:
     name: zuul-jobs-test-ensure-pip
     description: Test the ensure-pip role
+    # dummy project for wheel build test
+    required-projects:
+      - zuul/zuul
     files:
       - roles/ensure-pip/.*
       - roles/ensure-virtualenv/.*
