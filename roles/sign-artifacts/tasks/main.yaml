@@ -38,3 +38,17 @@
   file:
     path: "{{ gnupg_tmpdir.path }}"
     state: absent
+
+- name: Record checksums
+  command: "sha256sum {{ zj_artifact.path }}"
+  with_items: "{{ artifacts.files }}"
+  loop_control:
+    loop_var: zj_artifact
+  when: artifacts.matched > 0
+
+- name: Record signatures
+  command: "cat {{ zj_artifact.path }}.asc"
+  with_items: "{{ artifacts.files }}"
+  loop_control:
+    loop_var: zj_artifact
+  when: artifacts.matched > 0
