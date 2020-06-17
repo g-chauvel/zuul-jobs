@@ -5,8 +5,7 @@ Build sdist and wheel for Python projects.
 .. zuul:rolevar:: release_python
    :default: python
 
-   The python interpreter to use. Set it to "python3" to use python 3,
-   for example.
+   The python interpreter to use. Defaults to "python".
 
 .. zuul:rolevar:: bdist_wheel_xargs
    :default: ''

@@ -1,0 +1,15 @@
+- name: Check for wheel
+  command: "{{ wheel_python }} -m wheel"
+  failed_when: false
+  register: wheel_exists
+
+- name: Include ensure-pip
+  vars:
+    ensure_pip_from_upstream_interpreters: "{{ wheel_python }}"
+  include_role:
+    name: ensure-pip
+  when: wheel_exists.rc != 0
+
+- name: Install wheel
+  command: "{{ wheel_python }} -m pip install --user wheel"
+  when: wheel_exists.rc != 0

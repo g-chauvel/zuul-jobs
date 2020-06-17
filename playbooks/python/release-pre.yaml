@@ -1,0 +1,4 @@
+- hosts: all
+  roles:
+    - role: ensure-wheel
+      wheel_python: "{{ release_python | default(python) }}"
