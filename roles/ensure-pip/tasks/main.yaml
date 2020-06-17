@@ -76,24 +76,3 @@
   set_fact:
     ensure_pip_virtualenv_command: '{{ ensure_pip_virtualenv_command | default(_host_virtualenv) }}'
     cacheable: true
-
-# NOTE(ianw): "python3 -m venv" is broken on Xenial images with
-# pip-and-virtualenv because the pip is too old to handle our mirrors.
-# We can't easily install our backport version because that element
-# has put all the packages on hold.  In this case, export
-# ensure_pip_virtualenv_command as virtualenv until we have got rid of
-# this element.
-- name: Xenial override
-  when: ansible_distribution_release == 'xenial'
-  block:
-
-    - name: Check if we have pip-and-virtualenv
-      command: grep -q 'pip-and-virtualenv' /etc/dib-manifests/dib_environment
-      failed_when: false
-      register: _pip_check
-      become: yes
-
-    - name: Override virtualenv
-      set_fact:
-        ensure_pip_virtualenv_command: '/usr/local/bin/virtualenv -p python3'
-      when: _pip_check.rc == 0
