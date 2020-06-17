@@ -1,6 +1,7 @@
 - hosts: all
   roles:
     - ensure-pip
+    - ensure-virtualenv
   tasks:
     - name: Create tempdir for ansible-lint venv
       tempfile:
@@ -37,7 +38,8 @@
 
     - name: Make sure faulty roles fail linting
       command: >-
-        {{ ansible_lint_tempdir.path }}/bin/ansible-lint -c /dev/null
+        {{ ansible_lint_tempdir.path }}/bin/ansible-lint
+        -c test-playbooks/ansible-lint-rules/ansible-lint.yaml
         -t {{ item | regex_replace('.*/(ZUULJOBS.*?)/.*', '\1') }}
         {{ item }}
       args:
@@ -49,6 +51,7 @@
     - name: Make sure valid roles pass linting
       command: >-
         {{ ansible_lint_tempdir.path }}/bin/ansible-lint
+        -c test-playbooks/ansible-lint-rules/ansible-lint.yaml
         -t {{ item | regex_replace('.*/(ZUULJOBS.*?)/.*', '\1') }}
         {{ item }}
       args:
