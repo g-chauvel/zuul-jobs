@@ -40,11 +40,10 @@
 - hosts: all
   name: Test ensure-tox when tox_executable is set to an already installed tox
   tasks:
-    - name: Install tox inside a virtualenv
-      pip:
-        name: tox
-        virtualenv: "{{ ansible_user_dir }}/tox-venv"
-        virtualenv_command: "{{ ensure_pip_virtualenv_command }}"
+    - name: Create a virtualenv
+      command: '{{ ensure_pip_virtualenv_command }} {{ ansible_user_dir }}/tox-venv'
+    - name: Install tox to local venv
+      command: '{{ ansible_user_dir }}/tox-venv/bin/pip install tox'
     - name: Run ensure-tox pointing to an already installed tox
       include_role:
         name: ensure-tox

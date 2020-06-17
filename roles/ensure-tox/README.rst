@@ -16,6 +16,17 @@ virtual environment for the current user.
    will be automatically set to `True` to enable a Python 2
    installation of `pip`.
 
+.. zuul:rolevar:: ensure_global_symlinks
+   :default: False
+
+   Install a symlink to the tox executable into ``/usr/local/bin/tox``.
+   This can be useful when scripts need to be run that expect to find
+   tox in a more standard location and plumbing through the value
+   of ``tox_executable`` would be onerous.
+
+   Setting this requires root access, so should only be done in
+   circumstances where root access is available.
+
 **Output Variables**
 
 .. zuul:rolevar:: tox_executable
