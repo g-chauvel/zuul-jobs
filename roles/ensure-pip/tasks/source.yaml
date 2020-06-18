@@ -16,6 +16,13 @@
   loop_control:
     loop_var: zj_item
 
+- name: 'Install wheel'
+  command: '{{ zj_item }} -m pip install wheel'
+  become: yes
+  loop: '{{ ensure_pip_from_upstream_interpreters }}'
+  loop_control:
+    loop_var: zj_item
+
 - name: Remove temporary install dir
   file:
     state: absent
