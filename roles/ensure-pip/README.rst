@@ -11,7 +11,7 @@ platforms.  On some platforms it may install the package under the
 Python 2 interpreter and in others Python 3.  You should use a
 qualified name (``pip2`` or ``pip3``) to avoid confusion.
 
-This role will also ``wheel`` components sufficient to run
+This role will also install ``wheel`` components sufficient to run
 ``bdist_wheel`` builds or ``pip wheel`` on a source tree.
 
 **Role Variables**
