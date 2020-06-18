@@ -1,5 +1,4 @@
 ---
 - hosts: all
   roles:
-    - ensure-phoronix-test-suite
     - phoronix-combine-results
