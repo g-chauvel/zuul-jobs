@@ -23,7 +23,9 @@
       {% for label in zj_image.labels | default([]) -%}
         --label "{{ label }}"
       {% endfor %}
-      --label "org.zuul-ci.change={{ zuul.change }}"
+      {% if zuul.change | default(false) -%}
+        --label "org.zuul-ci.change={{ zuul.change }}"
+      {% endif -%}
       --label "org.zuul-ci.change_url={{ zuul.change_url }}"
 
 - name: Build images for all arches
