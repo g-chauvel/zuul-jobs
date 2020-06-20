@@ -1,4 +1,8 @@
 ---
+- name: Install pip
+  include_role:
+    name: ensure-pip
+
 - name: Install Python dependencies
   become: true
   pip:
