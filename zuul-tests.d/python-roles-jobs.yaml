@@ -107,6 +107,7 @@
     name: zuul-jobs-test-ensure-python-pyenv
     description: Test the ensure-python role with pyenv
     files:
+      - roles/ensure-python/.*
       - zuul-tests.d/python-roles-jobs.yaml
     run: test-playbooks/ensure-python-pyenv.yaml
     tags: all-platforms
