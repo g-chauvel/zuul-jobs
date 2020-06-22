@@ -60,13 +60,21 @@
 
 - name: Buildx block
   when: use_buildx
+  vars:
+    temp_registry:
+      host: "127.0.0.1"
+      port: 5100
+      username: zuul
+      password: tempregistry
   block:
+    - name: Set up a temporary registry for holding buildx-built images
+      import_tasks: ../../../util-tasks/run-docker-registry.yaml
+      vars:
+        registry: "{{ temp_registry }}"
+        container_command: docker
 
-    - name: Assert buildset registry is defined for buildx
-      assert:
-        that:
-          - buildset_registry is defined
-        fail_msg: "Building multi-arch images requires a buildset registry"
+    - name: Log in to temporary registry
+      command: "docker login -u {{ temp_registry.username }} -p {{ temp_registry.password }} {{ temp_registry.host }}:{{ temp_registry.port }}"
 
     - name: Set up buildx builders
       include_tasks: setup-buildx.yaml

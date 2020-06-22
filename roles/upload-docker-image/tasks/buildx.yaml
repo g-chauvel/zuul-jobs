@@ -18,14 +18,14 @@
       --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
     {% endif -%}
     {% for tag in zj_image.tags | default(['latest']) -%}
-      {% if zuul.change | default(false) -%}
-        --tag {{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
-      {% endif -%}
+      --tag {{ docker_registry | ternary(docker_registry + '/', '') }}{{ zj_image.repository }}:{{ upload_docker_image_promote | ternary('change_' + zuul.get('change', '') + '_', '') }}{{ tag }}
     {% endfor -%}
     {% for label in zj_image.labels | default([]) -%}
       --label "{{ label }}"
     {% endfor %}
-    --label "org.zuul-ci.change={{ zuul.change }}"
+    {% if zuul.change | default(false) %}
+      --label "org.zuul-ci.change={{ zuul.change }}"
+    {% endif %}
     --label "org.zuul-ci.change_url={{ zuul.change_url }}"
     --platform={{ zj_image.arch | join(',') }}
     --push

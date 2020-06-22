@@ -1,5 +1,20 @@
 - hosts: all
   tasks:
-    - name: Install container system
-      include_role:
-        name: "ensure-{{ container_command }}"
+    - name: Set docker_registry cacheable facts
+      set_fact:
+        cacheable: true
+        docker_registry: "127.0.0.1:5200"
+        docker_credentials:
+          username: zuul
+          password: testpassword
+          repository: testrepo
+
+    - name: Set up a publication registry to stand in for Docker Hub
+      import_tasks: ../../util-tasks/run-docker-registry.yaml
+      vars:
+        registry:
+          host: "127.0.0.1"
+          port: 5200
+          username: zuul
+          password: testpassword
+        container_command: docker
