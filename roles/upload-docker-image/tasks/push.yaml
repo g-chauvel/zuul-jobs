@@ -1,5 +1,5 @@
-- name: Upload tag to dockerhub
-  command: "docker push {{ zj_image.repository }}:{{ upload_docker_image_promote | ternary('change_' + zuul.get('change', '') + '_', '') }}{{ zj_image_tag }}"
+- name: Upload tag to registry
+  command: "docker push {{ docker_registry | ternary(docker_registry + '/', '' ) }}{{ zj_image.repository }}:{{ upload_docker_image_promote | ternary('change_' + zuul.get('change', '') + '_', '') }}{{ zj_image_tag }}"
   loop: "{{ zj_image.tags | default(['latest']) }}"
   loop_control:
     loop_var: zj_image_tag
