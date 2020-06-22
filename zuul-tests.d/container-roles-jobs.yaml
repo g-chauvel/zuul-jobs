@@ -87,6 +87,19 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-build-docker-image-release-multiarch
+    parent: zuul-jobs-test-build-docker-image-release
+    description: |
+      Test building a docker image in a release pipeline.
+
+      This job tests changes to the build-docker-image role using buildx,
+      simulating its use within a tag-based release pipeline.  It is
+      not meant to be used directly but rather run on changes to roles
+      in the zuul-jobs repo.
+    vars:
+      multiarch: true
+
+- job:
     name: zuul-jobs-test-registry-docker
     description: |
       Test the intermediate registry roles.
@@ -378,6 +391,7 @@
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
         - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-build-docker-image-release
+        - zuul-jobs-test-build-docker-image-release-multiarch
         - zuul-jobs-test-registry-docker
         - zuul-jobs-test-registry-docker-multiarch
         - zuul-jobs-test-registry-podman
