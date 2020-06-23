@@ -38,6 +38,16 @@
         chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
       tags:
         - skip_ansible_lint
+      ignore_errors: zuul.newrev is defined
+
+    - name: Check if the mirror contains the desired reference
+      command: git fetch {{ git_mirror_credentials.user }}@{{ git_mirror_credentials.host }}:{{ git_mirror_repository }} {{ zuul.newrev }}
+      args:
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
+      tags:
+        - skip_ansible_lint
+      when: zuul.newrev is defined
+
   always:
     # Registered variables below are only used for integration testing
     - name: Remove SSH private key from disk
