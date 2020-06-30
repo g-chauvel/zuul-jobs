@@ -30,10 +30,14 @@
         delete_after: "{{ zuul_log_delete_after | default(omit) }}"
       register: upload_results
 
-- name: Return log URL to Zuul
-  delegate_to: localhost
-  zuul_return:
-    data:
-      zuul:
-        log_url: "{{ upload_results.url }}/"
+- block:
+    - name: Return log URL to Zuul
+      delegate_to: localhost
+      zuul_return:
+        data:
+          zuul:
+            log_url: "{{ upload_results.url }}/"
+    - name: Print upload failures
+      debug:
+        var: upload_results.upload_failures
   when: upload_results is defined
