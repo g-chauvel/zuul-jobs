@@ -3,6 +3,7 @@ exclude_paths:
 parseable: true
 quiet: false
 skip_list:
+  - '106'  # Role name does not match ``^[a-z][a-z0-9_]+$`` pattern
   - '204'  # Lines should be no longer than 160 chars
   - '301'  # Commands should not change things if nothing needs doing
 rulesdir:
