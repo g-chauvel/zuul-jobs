@@ -28,6 +28,12 @@ Run terraform command. Assumes the appropriate version of terraform has been ins
    Set to true if the workspace should automatically be created if
    doesn't already exist.
 
+.. zuul:rolevar:: terraform_purge_workspace
+   :default: false
+
+   Set to true if the workspace should be deleted
+   after running 'terraform destroy'.
+
 .. zuul:rolevar:: terraform_comment
    :default: true
 

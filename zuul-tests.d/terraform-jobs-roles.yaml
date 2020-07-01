@@ -1,0 +1,246 @@
+- job:
+    name: zuul-jobs-test-terraform
+    parent: terraform-plan
+    description: Test terraform job
+    tags: all-platforms
+    files:
+      - roles/ensure-terraform/.*
+      - roles/terraform/.*
+      - test-playbooks/terraform/.*
+      - zuul.d/terraform-jobs.yaml
+      - playbooks/terraform/.*
+    vars:
+      zuul_work_dir: '{{ zuul.project.src_dir }}/test-playbooks/terraform'
+      terraform_workspace: testing
+      terraform_create_workspace: true
+      terraform_overrides:
+        - dir: '{{ zuul.project.src_dir }}/test-playbooks/terraform'
+          content: |
+            module "test_module" {
+              source = "./other-module"
+            }
+
+- job:
+    name: zuul-jobs-test-terraform-centos-7
+    description: Test terraform job on centos-7
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-terraform-centos-8
+    description: Test terraform job on centos-8
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-terraform-debian-stretch
+    description: Test terraform job on debian-stretch
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-terraform-fedora-31
+    description: Test terraform job on fedora-31
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-31
+          label: fedora-31
+
+- job:
+    name: zuul-jobs-test-terraform-gentoo-17-0-systemd
+    description: Test terraform job on gentoo-17-0-systemd
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-terraform-opensuse-15
+    description: Test terraform job on opensuse-15
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-terraform-opensuse-tumbleweed-nv
+    voting: false
+    description: Test terraform job on opensuse-tumbleweed
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-terraform-ubuntu-bionic
+    description: Test terraform job on ubuntu-bionic
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-terraform-ubuntu-xenial
+    description: Test terraform job on ubuntu-xenial
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- job:
+    name: zuul-jobs-test-terraform-role
+    parent: terraform-base
+    run: test-playbooks/terraform/test-terraform-role.yaml
+    description: Test terraform roles
+    tags: all-platforms
+    files:
+      - roles/ensure-terraform/.*
+      - roles/terraform/.*
+      - test-playbooks/terraform/.*
+      - zuul.d/terraform-jobs.yaml
+      - playbooks/terraform/.*
+    vars:
+      zuul_work_dir: '{{ zuul.project.src_dir }}/test-playbooks/terraform'
+      terraform_workspace: testing
+      terraform_overrides:
+        - dir: '{{ zuul.project.src_dir }}/test-playbooks/terraform'
+          content: |
+            module "test_module" {
+              source = "./other-module"
+            }
+
+- job:
+    name: zuul-jobs-test-terraform-role-centos-7
+    description: Test terraform roles on centos-7
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-terraform-role-centos-8
+    description: Test terraform roles on centos-8
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-terraform-role-debian-stretch
+    description: Test terraform roles on debian-stretch
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-stretch
+          label: debian-stretch
+
+- job:
+    name: zuul-jobs-test-terraform-role-fedora-31
+    description: Test terraform roles on fedora-31
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-31
+          label: fedora-31
+
+- job:
+    name: zuul-jobs-test-terraform-role-gentoo-17-0-systemd
+    description: Test terraform roles on gentoo-17-0-systemd
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: gentoo-17-0-systemd
+          label: gentoo-17-0-systemd
+
+- job:
+    name: zuul-jobs-test-terraform-role-opensuse-15
+    description: Test terraform roles on opensuse-15
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-terraform-role-opensuse-tumbleweed-nv
+    voting: false
+    description: Test terraform roles on opensuse-tumbleweed
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-terraform-role-ubuntu-bionic
+    description: Test terraform roles on ubuntu-bionic
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-terraform-role-ubuntu-xenial
+    description: Test terraform roles on ubuntu-xenial
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-xenial
+          label: ubuntu-xenial
+
+- project:
+    check: &id001
+      jobs:
+        - zuul-jobs-test-terraform-centos-7
+        - zuul-jobs-test-terraform-centos-8
+        - zuul-jobs-test-terraform-debian-stretch
+        - zuul-jobs-test-terraform-fedora-31
+        - zuul-jobs-test-terraform-gentoo-17-0-systemd
+        - zuul-jobs-test-terraform-opensuse-15
+        - zuul-jobs-test-terraform-ubuntu-bionic
+        - zuul-jobs-test-terraform-ubuntu-xenial
+        - zuul-jobs-test-terraform-role-centos-7
+        - zuul-jobs-test-terraform-role-centos-8
+        - zuul-jobs-test-terraform-role-debian-stretch
+        - zuul-jobs-test-terraform-role-fedora-31
+        - zuul-jobs-test-terraform-role-gentoo-17-0-systemd
+        - zuul-jobs-test-terraform-role-opensuse-15
+        - zuul-jobs-test-terraform-role-ubuntu-bionic
+        - zuul-jobs-test-terraform-role-ubuntu-xenial
+    gate: *id001
