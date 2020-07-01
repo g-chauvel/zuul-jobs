@@ -1,18 +1,19 @@
 - hosts: all
   vars:
-    docker_registry: localhost:5000
     upload_docker_image_promote: false
-    docker_credentials:
-      username: zuul
-      password: testpassword
-      repository: testrepo
-    docker_images:
+    _arch_docker_images:
+      - context: test-playbooks/container/docker
+        repository: "testrepo"
+        # This is what the Zuul repo uses to tag its releases:
+        tags: "{{ zuul.tag is defined | ternary([zuul.get('tag', '').split('.')[0], '.'.join(zuul.get('tag', '').split('.')[:2]), zuul.get('tag', '')], ['latest']) }}"
+        arch: ['linux/amd64', 'linux/arm64']
+    _normal_docker_images:
       - context: test-playbooks/container/docker
         repository: "testrepo"
         # This is what the Zuul repo uses to tag its releases:
         tags: "{{ zuul.tag is defined | ternary([zuul.get('tag', '').split('.')[0], '.'.join(zuul.get('tag', '').split('.')[:2]), zuul.get('tag', '')], ['latest']) }}"
     container_images: "{{ docker_images }}"
-  pre_tasks:
+  tasks:
     - name: Save zuul variables
       set_fact:
         old_zuul: "{{ zuul }}"
@@ -25,76 +26,16 @@
           project: "{{ old_zuul.project }}"
           ref: refs/tags/3.19.0
           tag: 3.19.0
+
     - name: "Build a container image"
       include_role:
         name: "build-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
         zuul: "{{ new_zuul }}"
-
-    - name: Create temporary registry working directory
-      tempfile:
-        state: directory
-      register: registry_tempdir
-
-    - name: Create auth directory
-      file:
-        path: "{{ registry_tempdir.path }}/auth"
-        state: directory
-    - name: Install passlib for htpasswd
-      become: true
-      package:
-        name:
-          - python3-passlib
-          - python3-bcrypt
-        state: present
-    - name: Write htpasswd file
-      htpasswd:
-        create: true
-        crypt_scheme: bcrypt
-        path: "{{ registry_tempdir.path }}/auth/htpasswd"
-        name: "{{ docker_credentials.username }}"
-        password: "{{ docker_credentials.password }}"
-
-    - name: Create certs directory
-      file:
-        state: directory
-        path: "{{ registry_tempdir.path }}/certs"
-    - name: Create self signed certificates
-      command: >
-        openssl req
-        -newkey rsa:4096 -nodes -sha256 -keyout certs/localhost.key
-        -x509 -days 365 -out certs/localhost.crt
-        -subj '/CN=localhost'
-      args:
-        chdir: "{{ registry_tempdir.path }}"
-    - name: Create docker certs dir
-      file:
-        state: directory
-        path: /etc/docker/certs.d/localhost:5000/
-      become: true
-    - name: Configure docker to trust certificate
-      copy:
-        src: "{{ registry_tempdir.path }}/certs/localhost.crt"
-        dest: /etc/docker/certs.d/localhost:5000/ca.crt
-        remote_src: true
-      become: true
-
-    - name: Start registry with basic auth
-      command: >-
-        {{ container_command }} run -d \
-        -p 5000:5000 \
-        -v {{ registry_tempdir.path }}/auth:/auth \
-        -e "REGISTRY_AUTH=htpasswd" \
-        -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
-        -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
-        -v {{ registry_tempdir.path }}/certs:/certs \
-        -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/localhost.crt \
-        -e REGISTRY_HTTP_TLS_KEY=/certs/localhost.key \
-        registry:2
-      args:
-        chdir: "{{ registry_tempdir.path }}"
+        docker_images: "{{ multiarch | ternary(_arch_docker_images, _normal_docker_images) }}"
 
     - include_role:
         name: "upload-{{ (container_command == 'docker') | ternary('docker', 'container') }}-image"
       vars:
         zuul: "{{ new_zuul }}"
+        docker_images: "{{ multiarch | ternary(_arch_docker_images, _normal_docker_images) }}"
