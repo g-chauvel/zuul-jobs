@@ -12,6 +12,15 @@
       - python3-wheel
   become: yes
 
+# Debian packages venv separately, so make sure we are installing it for
+# all requested versions
+- name: Install venv for all versions
+  package:
+    name: "{{ ensure_pip_from_upstream_interpreters | product(['-venv']) | map('join') | list  }}"
+  become: yes
+  # Be flexible in case the platform doesn't have the requested package
+  ignore_errors: yes
+
 - name: Install Python 2 pip
   package:
     name:
