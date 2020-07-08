@@ -73,7 +73,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test passing all variables'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, None, None, None)
+        run(dest, INPUT, GROUPS_INPUT, None, None, None, None)
 
         self.assertOutput(dest, {
             'all': {
@@ -106,7 +106,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test incuding vars'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, ['ansible_host'], None, None)
+        run(dest, INPUT, GROUPS_INPUT, ['ansible_host'], None, None, None)
 
         self.assertOutput(dest, {
             'all': {
@@ -133,7 +133,7 @@ class TestWriteInventory(testtools.TestCase):
         '''Test passing all variables'''
         dest = self.useFixture(fixtures.TempDir()).path
         dest = os.path.join(dest, 'out.yaml')
-        run(dest, INPUT, GROUPS_INPUT, None, ['ansible_user'], None)
+        run(dest, INPUT, GROUPS_INPUT, None, ['ansible_user'], None, None)
 
         self.assertOutput(dest, {
             'all': {
@@ -167,7 +167,8 @@ class TestWriteInventory(testtools.TestCase):
         run(dest, INPUT, GROUPS_INPUT, None, None,
             {'public_v4': 'nodepool.public_ipv4',
              'public_v6': 'nodepool.public_ipv6',
-        })
+            },
+            None)
 
         self.assertOutput(dest, {
             'all': {
@@ -193,6 +194,59 @@ class TestWriteInventory(testtools.TestCase):
                         "ansible_host": "149.202.170.85",
                         "ansible_port": 22,
                         "public_v6": "2001:41d0:302:1000::17:a32b",
+                    }
+                }
+            }
+        })
+
+    def test_per_host(self):
+        '''Test passing additional variables per host'''
+        dest = self.useFixture(fixtures.TempDir()).path
+        dest = os.path.join(dest, 'out.yaml')
+        run(dest, INPUT, GROUPS_INPUT, None, None,
+            {
+                'public_v4': 'nodepool.public_ipv4',
+                'public_v6': 'nodepool.public_ipv6',
+            },
+            {
+                'bionic': {
+                    'a': 'extra',
+                    'b': 'variable',
+                },
+                'xenial': {
+                    'c': 'extra',
+                    'd': 'variable',
+                },
+            })
+
+        self.assertOutput(dest, {
+            'all': {
+                'children': {
+                    'puppet': {
+                        'hosts': {
+                            'bionic': None,
+                            'xenial': None,
+                        },
+                    },
+                },
+                'hosts': {
+                    'bionic': {
+                        "ansible_connection": "ssh",
+                        "ansible_user": "zuul",
+                        "ansible_host": "104.130.217.77",
+                        "ansible_port": 22,
+                        "public_v4": "104.130.217.77",
+                        "a": "extra",
+                        "b": "variable"
+                    },
+                    'xenial': {
+                        "ansible_connection": "ssh",
+                        "ansible_user": "zuul",
+                        "ansible_host": "149.202.170.85",
+                        "ansible_port": 22,
+                        "public_v6": "2001:41d0:302:1000::17:a32b",
+                        "c": "extra",
+                        "d": "variable"
                     }
                 }
             }

@@ -39,3 +39,21 @@ with the inventory for the job.
 
    This will map hostvars[hostname]['nodepool']['public_ipv4'] to
    hostvars[hostname]['public_v4'].
+
+.. zuul:rolevar:: write_inventory_per_host_hostvars
+   :type: dict
+
+   An additional dictionary added on a per-host basis.  The keys of
+   this dictionary should be hostnames, if the host name matches, the
+   value (also a dictionary) is merged into the hostvars for that
+   host.  For example below, ``hosta.com`` will have ``foo`` with
+   value ``bar``, while ``hostb.com`` will have ``foo`` with value
+   ``baz``.
+
+   .. code-block:: yaml
+
+      write_inventory_per_host_hostvars:
+         hosta.com:
+           foo: bar
+         hostb.com:
+           foo: baz
