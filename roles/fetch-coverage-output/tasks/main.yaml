@@ -11,11 +11,22 @@
     msg: "Coverage report was not found even though tests succeeded"
 
 - when: coverage_report_stat.stat.exists
-  name: Collect coverage details output
-  synchronize:
-    dest: "{{ zuul_executor_dest }}"
-    mode: pull
-    src: "{{ coverage_output_src }}"
-    verify_host: true
-    owner: no
-    group: no
+  block:
+    - name: Collect coverage details output
+      synchronize:
+        dest: "{{ zuul_executor_dest }}"
+        mode: pull
+        src: "{{ coverage_output_src }}"
+        verify_host: true
+        owner: no
+        group: no
+
+    - name: Return artifact to Zuul
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: "Coverage data"
+                url: "cover/"
+                metadata:
+                  type: coverage_data
