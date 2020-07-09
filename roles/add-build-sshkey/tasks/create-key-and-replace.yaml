@@ -24,7 +24,7 @@
   when: ansible_os_family != "Windows"
 
 - name: Verify we can still SSH to all nodes (windows)
-  command: ssh -o ConnectTimeout=10 {{ ansible_user }}@{{ ansible_host }} echo success
+  command: ssh -o BatchMode=yes -o ConnectTimeout=10 {{ ansible_user }}@{{ ansible_host }} echo success
   delegate_to: localhost
   when:
     - ansible_os_family == "Windows"
