@@ -9,7 +9,7 @@
   loop_control:
     loop_var: zj_docker_tag
   when:
-    - zj_docker_tag.name.startswith('change_')
+    - zj_docker_tag.name.startswith('change_') or zj_docker_tag.name.startswith(zuul.pipeline))
     # Was updated > 24 hours ago:
     - "{{ ((ansible_date_time.iso8601 | regex_replace('^(....-..-..)T(..:..:..).*Z', '\\1 \\2') | to_datetime) - (zj_docker_tag.last_updated | regex_replace('^(....-..-..)T(..:..:..).*Z', '\\1 \\2') | to_datetime)).seconds > 86400 }}"
   uri:

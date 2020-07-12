@@ -20,6 +20,7 @@
     - name: Set simulated zuul variables
       set_fact:
         new_zuul:
+          pipeline: "{{ old_zuul.pipeline }}"
           change_url: "{{ old_zuul.change_url }}"
           executor: "{{ old_zuul.executor }}"
           newrev: c12f3fe1defe8b61d59061363c9c04fb520dae18

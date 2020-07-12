@@ -2,6 +2,8 @@
   include_tasks: siblings.yaml
 
 - name: Build a docker image
+  vars:
+    tag_prefix: "{{ ('change_' + zuul.change) if (zuul.change is defined) else zuul.pipeline }}_"
   command: >-
     docker build {{ zj_image.path | default('.') }} -f {{ zj_image.dockerfile | default(docker_dockerfile) }}
     {% if zj_image.target | default(false) -%}
@@ -14,9 +16,7 @@
       --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
     {% endif -%}
     {% for tag in zj_image.tags | default(['latest']) -%}
-      {% if zuul.change | default(false) -%}
-        --tag {{ docker_registry | ternary(docker_registry + '/', '') }}{{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
-      {% endif -%}
+      --tag {{ docker_registry | ternary(docker_registry + '/', '') }}{{ zj_image.repository }}:{{ tag_prefix }}{{ tag }}
       --tag {{ docker_registry | ternary(docker_registry + '/', '') }}{{ zj_image.repository }}:{{ tag }}
     {% endfor -%}
     {% for label in zj_image.labels | default([]) -%}
