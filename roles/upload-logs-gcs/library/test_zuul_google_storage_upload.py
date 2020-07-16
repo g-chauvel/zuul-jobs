@@ -26,6 +26,7 @@ import fixtures
 
 from bs4 import BeautifulSoup
 from .zuul_google_storage_upload import FileList, Indexer, FileDetail
+from .zuul_google_storage_upload import Credentials
 
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__),
@@ -404,3 +405,13 @@ class TestFileDetail(testtools.TestCase):
 
         self.assertEqual(time.gmtime(0), file_detail.last_modified)
         self.assertEqual(0, file_detail.size)
+
+
+class TestCredential(testtools.TestCase):
+
+    def test_credential(self):
+        path = os.path.join(FIXTURE_DIR, 'auth.json')
+        headers = {}
+        c = Credentials(path)
+        c.before_request(None, None, None, headers)
+        self.assertEqual("Bearer something", headers['authorization'])
