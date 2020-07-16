@@ -260,6 +260,7 @@ def sizeof_fmt(num, suffix='B'):
 
 class Credentials(gce_cred.Credentials):
     def __init__(self, path):
+        super().__init__()
         self._path = path
         self.refresh(None)
 
