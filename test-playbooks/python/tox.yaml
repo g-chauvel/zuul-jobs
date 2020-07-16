@@ -1,4 +1,6 @@
 - hosts: all
+  roles:
+    - ensure-tox
   tasks:
     - name: Run bindep
       include_role:

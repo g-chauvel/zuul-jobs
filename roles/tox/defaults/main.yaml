@@ -1,6 +1,5 @@
 ---
 tox_environment: {}
-tox_envlist: venv
 tox_executable: tox
 tox_extra_args: -vv
 tox_install_siblings: true
