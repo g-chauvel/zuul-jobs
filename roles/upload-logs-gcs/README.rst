@@ -47,9 +47,7 @@ Google Cloud Application Default Credentials.
 .. zuul:rolevar:: zuul_log_create_indexes
    :default: true
 
-   Whether to create `index.html` files with directory indexes.  If set
-   to false, Swift containers can be marked with a `Web-Listings=true`
-   property to activate Swift's own directory indexing.
+   Whether to create `index.html` files with directory indexes.
 
 .. zuul:rolevar:: zuul_log_path_shard_build
    :default: false
