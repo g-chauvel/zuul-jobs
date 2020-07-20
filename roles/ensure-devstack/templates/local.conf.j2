@@ -3,6 +3,7 @@ disable_service horizon
 disable_service tempest
 disable_service cinder
 disable_service swift
+enable_service tls-proxy
 ADMIN_PASSWORD=secret
 DATABASE_PASSWORD=$ADMIN_PASSWORD
 RABBIT_PASSWORD=$ADMIN_PASSWORD
