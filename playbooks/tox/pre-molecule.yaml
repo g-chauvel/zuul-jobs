@@ -23,4 +23,4 @@
       package:
         name: "{{ tox_molecule_packages }}"
       when:
-        - (tox_molecule_packages | length) > 0
+        - tox_molecule_packages | default(false)
