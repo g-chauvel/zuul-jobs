@@ -30,6 +30,7 @@
     path: '{{ gpg_key_tempdir.path }}'
 
 - name: Add repositories
+  become: true
   yum_repository:
     name: "{{ zj_item['name'] }}"
     file: "{{ zj_item['file'] | default(zj_item['name']) }}"

@@ -30,6 +30,7 @@
     path: '{{ gpg_key_tempdir.path }}'
 
 - name: Add repositories
+  become: true
   zypper_repository:
     name: "{{ zj_item['name'] }}"
     description: "{{ zj_item['description'] | default(omit) }}"
