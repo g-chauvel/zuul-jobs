@@ -5,8 +5,6 @@
     description: |
       A job to validate all new commits have been signed using --signoff.
     run: playbooks/dco-license/run.yaml
-    nodeset:
-      nodes: []
 
 - job:
     name: unittests
