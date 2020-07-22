@@ -43,5 +43,31 @@
         state: absent
       failed_when: false
 
+    # If (s)testr was stopped early (possibly due to a timeout) it will "leak"
+    # a tmp file of the inflight subunit stream. Collect this as it is useful
+    # for debugging in these situations. Because it isn't a complete file
+    # we don't process it further.
+    - name: Find any inflight partial subunit files
+      find:
+        paths:
+          - "{{ zj_item }}/.testrepository"
+          - "{{ zj_item }}/.stestr"
+        patterns:
+          - 'tmp*'
+      register: partial_subunit_files
+      loop: "{{ all_subunit_dirs }}"
+      loop_control:
+        loop_var: zj_item
+
+    - name: Copy any inflight subunit files
+      copy:
+        dest: "{{ zuul_output_dir }}/logs/"
+        src: "{{ zj_item.path }}"
+        remote_src: true
+      with_items: "{{ partial_subunit_files.files }}"
+      loop_control:
+        loop_var: zj_item
+      when: partial_subunit_files.files is defined
+
     - name: Process and fetch subunit results
       include_tasks: process.yaml
