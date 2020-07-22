@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   roles:
     - role: validate-dco-license
       zuul_work_dir: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}"
