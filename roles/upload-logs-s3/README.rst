@@ -59,6 +59,13 @@ installed in the Ansible environment on the Zuul executor.
    More details can be found at
    :zuul:rolevar:`set-zuul-log-path-fact.zuul_log_path_shard_build`.
 
+.. zuul:rolevar:: zuul_log_aws_access_key
+
+   AWS access key to use.
+
+.. zuul:rolevar:: zuul_log_aws_secret_key
+
+   AWS secret key for the AWS access key.
 
 .. zuul:rolevar:: upload_logs_s3_endpoint
 
