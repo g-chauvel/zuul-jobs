@@ -19,18 +19,21 @@ This role will also install ``wheel`` components sufficient to run
 .. zuul:rolevar:: ensure_pip_from_packages
    :default: True
 
-   Ensure the system packages for pip with the running
-   ``ansible_python_interpreter`` are installed.
+   Install the distribution packages for Python 3 pip, setuptools and
+   wheel on the system.
 
 .. zuul:rolevar:: ensure_pip_from_packages_with_python2
    :default: False
 
-   Also ensure Python 2 pip is available.  This is for backwards
-   compatability with platforms that have
-   ``ansible_python_interpreter`` as Python 3 but may run some jobs
-   that still require Python 2 libraries.  Note that this may bring in
-   the Python 2 interpreter environment, which may not be desirable or
-   even available on many platforms.
+   Install the distribution packages for Python 2 pip, setuptools and
+   wheel packages.  This defaults to ``True`` when Ansible is running
+   under Python 2.
+
+   CentOS 7 requies the ``epel`` repository if this flag is enabled
+   because ``python-pip`` packages come from there.
+
+   This may not be valid on distributions that have removed Python 2
+   support.
 
 .. zuul:rolevar:: ensure_pip_from_upstream
    :default: False
