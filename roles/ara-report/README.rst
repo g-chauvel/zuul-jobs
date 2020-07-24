@@ -51,9 +51,7 @@ If ARA is enabled, generates a report or saves a copy of the ARA database.
 .. _mimetypes: https://opendev.org/opendev/puppet-openstackci/src/commit/5fe1f3d2d5e40c2458721e7dcf8631d62ea2525f/templates/logs.vhost.erb#L24
 
 .. zuul:rolevar:: ara_report_path
-   :default: ``ara``
-
-   This path is relative to the root of the log directory.
+   :default: ``{{ zuul.executor.log_root }}/ara``
 
    When report_type is 'html' directory where the HTML report will be generated.
    When report_type is 'database', directory where the database is saved.
