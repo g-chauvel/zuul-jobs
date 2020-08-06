@@ -28,17 +28,28 @@ zuul_work_dir=$1
 cd $HOME
 cd $zuul_work_dir
 
+# A non zero exit code means we didn't find any stestr or testr database
+# content. Additionally if the database content is parseable we emit on
+# stdout the commands which can be used to retrieve that parsed content.
+# This distiction is necessary as we want to take different actions based
+# on whether or not the database content is parseable.
+rc=1
 commands=""
+
 if [[ -d .testrepository ]] ; then
+    rc=0
     commands="testr ${commands}"
 fi
 
-# NOTE(mordred) Check for the failing file in the .stestr directory
-# nstead of just the directory. A stestr run that fails due to python
-# parsing errors will leave a directory but with no test results, which
-# will result in an error in the subunit generation phase.
-if [[ -f .stestr/failing ]] ; then
-    commands="stestr ${commands}"
+if [[ -d .stestr ]] ; then
+    rc=0
+    # NOTE(mordred) Check for the failing file in the .stestr directory
+    # instead of just the directory. A stestr run that fails due to python
+    # parsing errors will leave a directory but with no test results, which
+    # will result in an error in the subunit generation phase.
+    if [[ -f .stestr/failing ]] ; then
+        commands="stestr ${commands}"
+    fi
 fi
 
 # Add all the tox envs to the path so that type will work. Prefer tox
@@ -57,3 +68,4 @@ for command in $commands; do
         break
     fi
 done
+exit $rc
