@@ -24,7 +24,7 @@
       being gathered prior to executing this role.
   when:
     - not (docker_distro_vars_loaded | bool)
-    - (docker_distro_packages | length) < 1
+    - not docker_distro_packages
 
 - name: Sanity check for distro install
   fail:
@@ -34,7 +34,7 @@
       required. Please check your settings.
       docker_distro_packages = {{ docker_distro_packages }}
   when:
-    - (docker_distro_packages | length) < 1
+    - not docker_distro_packages
     - not (use_upstream_docker | bool)
 
 - name: Sanity check for upstream install
@@ -45,7 +45,7 @@
       required. Please check your settings.
       docker_upstream_distro_packages = {{ docker_upstream_distro_packages }}
   when:
-    - (docker_upstream_distro_packages | length) < 1
+    - not docker_upstream_distro_packages
     - use_upstream_docker | bool
 
 - name: Sanity check for upstream install mirrors
@@ -54,7 +54,7 @@
       The variable `docker_mirror_base_url` is null, and upstream installation has been enabled.
       Check your settings.
   when:
-    - (docker_mirror_base_url | length) < 1
+    - not docker_mirror_base_url
     - use_upstream_docker | bool
 
 - include_tasks: "docker-{{ (use_upstream_docker | bool) | ternary('upstream', 'distro') }}.yaml"
