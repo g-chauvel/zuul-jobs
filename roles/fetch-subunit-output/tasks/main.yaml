@@ -31,15 +31,20 @@
       loop_control:
         loop_var: zj_item
 
+    # This loop is a bit convoluted because what we get from the previous
+    # task is a list of dicts containing a list of files. We use
+    # with_subelements to iterate over the list of dicts and their internal
+    # files lists.
     - name: Copy any inflight subunit files
       copy:
         dest: "{{ zuul_output_dir }}/logs/"
-        src: "{{ zj_item.path }}"
+        src: "{{ zj_item.1.path }}"
         remote_src: true
-      with_items: "{{ partial_subunit_files.files }}"
+      with_subelements:
+        - "{{ partial_subunit_files.results }}"
+        - files
       loop_control:
         loop_var: zj_item
-      when: partial_subunit_files.files is defined
 
 - when:
     - testr_command.rc == 0
