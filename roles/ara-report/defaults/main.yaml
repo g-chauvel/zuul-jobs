@@ -19,8 +19,7 @@ ara_report_type: 'html'
 # Note that when using 'database', an ARA web application can load the database
 # dynamically. See the ARA documentation for details:
 # https://ara.readthedocs.io/en/latest/advanced.html#serving-ara-sqlite-databases-over-http
-# This path is relative to the root of the log directory.
-ara_report_path: 'ara'
+ara_report_path: '{{ zuul.executor.log_root }}/ara'
 
 # When report_type is 'html', whether to compress the ARA HTML output or not
 ara_compress_html: true
