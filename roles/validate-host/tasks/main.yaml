@@ -38,4 +38,6 @@
         dest: "{{ zuul_info_dir }}/zuul-info.{{ validate_host_hostname_sanitized }}.txt"
         src: templates/zuul-info.j2
 
-  when: ansible_python_version is version('2.7', '>=')
+  when:
+    - ansible_os_family != "Windows"
+    - ansible_python_version is version('2.7', '>=')
