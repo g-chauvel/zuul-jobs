@@ -66,7 +66,7 @@ _docker_keys:
       -----END PGP PUBLIC KEY BLOCK-----
 
 _docker_repos:
-  - repo: "deb [arch=amd64] {{ docker_mirror_base_url }} {{ ansible_lsb.codename }} {{ docker_update_channel }}"
+  - repo: "deb {{ docker_mirror_base_url }} {{ ansible_lsb.codename }} {{ docker_update_channel }}"
 
 _docker_distro_packages:
   - docker.io
