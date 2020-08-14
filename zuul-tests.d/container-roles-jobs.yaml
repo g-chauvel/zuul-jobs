@@ -63,6 +63,24 @@
           label: ubuntu-xenial
 
 - job:
+    name: zuul-jobs-test-ensure-docker-ubuntu-bionic-arm64
+    description: Tests ensure-docker role on ubuntu-bionic-arm64
+    parent: zuul-jobs-test-ensure-docker
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic-arm64
+          label: ubuntu-bionic-arm64
+
+- job:
+    name: zuul-jobs-test-ensure-docker-ubuntu-focal-arm64
+    description: Tests ensure-docker role on ubuntu-focal-arm64
+    parent: zuul-jobs-test-ensure-docker
+    nodeset:
+      nodes:
+        - name: ubuntu-focal-arm64
+          label: ubuntu-focal-arm64
+
+- job:
     name: zuul-jobs-test-build-docker-image-release
     description: |
       Test building a docker image in a release pipeline.
@@ -390,6 +408,8 @@
         - zuul-jobs-test-ensure-docker-fedora-31
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
         - zuul-jobs-test-ensure-docker-ubuntu-xenial
+        - zuul-jobs-test-ensure-docker-ubuntu-bionic-arm64
+        - zuul-jobs-test-ensure-docker-ubuntu-focal-arm64
         - zuul-jobs-test-build-docker-image-release
         - zuul-jobs-test-build-docker-image-release-multiarch
         - zuul-jobs-test-registry-docker
