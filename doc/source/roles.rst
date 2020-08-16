@@ -25,5 +25,6 @@ Roles
    launchpad-roles
    puppet-roles
    python-roles
+   rust-roles
    system-roles
    translation-roles

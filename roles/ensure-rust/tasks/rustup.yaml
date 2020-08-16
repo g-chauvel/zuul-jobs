@@ -1,0 +1,13 @@
+- name: Install Rust
+  shell: |  # noqa 303
+      set -o pipefail
+      curl -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain {{ ensure_rust_rustup_toolchain }}
+  environment:
+    RUSTUP_HOME: '{{ ensure_rust_rustup_path }}'
+    CARGO_HOME: '{{ ensure_rust_rustup_path }}'
+  args:
+    executable: /bin/bash
+  become: yes
+
+- name: Use as selected Rust toolchain
+  command: rustup default {{ ensure_rust_rustup_toolchain }}

@@ -1,0 +1,21 @@
+- hosts: all
+  tasks:
+
+    - include_role:
+        name: ensure-rust
+
+    - name: Test cargo run
+      shell: |
+        cargo new foo
+
+    - name: Copy hello world
+      copy:
+        src: hello.rs
+        dest: hello.rs
+        mode: 0644
+
+    - name: Compile hello world
+      command: rustc hello.rs
+
+    - name: Run hello world
+      command: ./hello
