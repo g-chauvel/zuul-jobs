@@ -11,7 +11,7 @@
 - name: Synchronize src repos to workspace directory
   command: |-
     {% if ansible_connection == "kubectl" %}
-      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror "ext::kubectl -n {{ zuul.resources[inventory_hostname].namespace }} exec -i {{ zuul.resources[inventory_hostname].pod }} -- %S {{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
+      git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror "ext::kubectl --context {{ zuul.resources[inventory_hostname].context }} -n {{ zuul.resources[inventory_hostname].namespace }} exec -i {{ zuul.resources[inventory_hostname].pod }} -- %S {{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
     {% else %}
       git push {% if mirror_workspace_quiet %}--quiet{% endif %} --mirror git+ssh://{{ ansible_user }}@{{ ansible_host | ipwrap }}:{{ ansible_port }}/{{ ansible_user_dir }}/{{ zj_project.value.src_dir }}
     {% endif %}
