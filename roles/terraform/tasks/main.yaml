@@ -59,6 +59,7 @@
     -input=false
     {{ terraform_extra_args }}
     {% if terraform_command == 'apply' or terraform_command == 'destroy' %}-auto-approve{% endif %}
+    {{ terraform_plan }}
   args:
     chdir: "{{ zuul_work_dir }}"
   environment:

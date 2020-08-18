@@ -17,6 +17,10 @@ Run terraform command. Assumes the appropriate version of terraform has been ins
 
    String of extra command line options to pass to terraform.
 
+.. zuul:rolevar:: terraform_plan
+
+   Optional. Path to the plan file to use when using 'apply' command.
+
 .. zuul:rolevar:: terraform_workspace
 
    Name of the workspace to operate against.
