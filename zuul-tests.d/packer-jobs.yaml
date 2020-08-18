@@ -109,6 +109,16 @@
         - name: ubuntu-xenial
           label: ubuntu-xenial
 
+- job:
+    name: zuul-jobs-test-packer-ubuntu-focal
+    description: Test packer job on ubuntu-focal
+    parent: zuul-jobs-test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
 - project:
     check:
       jobs:
@@ -121,6 +131,7 @@
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial
+        - zuul-jobs-test-packer-ubuntu-focal
     gate:
       jobs:
         - zuul-jobs-test-packer-centos-7
@@ -131,3 +142,4 @@
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial
+        - zuul-jobs-test-packer-ubuntu-focal

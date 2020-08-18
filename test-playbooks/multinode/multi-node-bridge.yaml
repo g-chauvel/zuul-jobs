@@ -49,6 +49,7 @@
               - ovs_running is not changed
               - ovs_bridge is not changed
               - ovs_port.rc == 0
-              - "'Port \"br-infra_' in ovs_port.stdout"
+              # Ubuntu focal era changed the quotes
+              - "('Port \"br-infra_' in ovs_port.stdout) or ('Port br-infra_' in ovs_port.stdout)"
               - ovs_ping_switch.rc == 0
               - ovs_ping_peer.rc == 0

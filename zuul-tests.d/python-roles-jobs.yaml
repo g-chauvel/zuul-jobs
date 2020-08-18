@@ -104,6 +104,16 @@
           label: ubuntu-xenial
 
 - job:
+    name: zuul-jobs-test-build-python-release-jobs-ubuntu-focal
+    description: Test the build-python-release-jobs role on ubuntu-focal
+    parent: zuul-jobs-test-build-python-release-jobs
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
+- job:
     name: zuul-jobs-test-ensure-python-pyenv
     description: Test the ensure-python role with pyenv
     files:
@@ -203,6 +213,16 @@
         - name: ubuntu-xenial
           label: ubuntu-xenial
 
+- job:
+    name: zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
+    description: Test the ensure-python role with pyenv on ubuntu-focal
+    parent: zuul-jobs-test-ensure-python-pyenv
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
 - project:
     check:
       jobs:
@@ -215,6 +235,7 @@
         - zuul-jobs-test-build-python-release-jobs-opensuse-tumbleweed-nv
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
         - zuul-jobs-test-build-python-release-jobs-ubuntu-xenial
+        - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
@@ -224,6 +245,7 @@
         - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
     gate:
       jobs:
         - zuul-jobs-test-build-python-release-jobs-centos-7
@@ -234,6 +256,7 @@
         - zuul-jobs-test-build-python-release-jobs-opensuse-15
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
         - zuul-jobs-test-build-python-release-jobs-ubuntu-xenial
+        - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
@@ -242,3 +265,4 @@
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
+        - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
