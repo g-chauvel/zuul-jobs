@@ -15,34 +15,14 @@
 - name: Update docker daemon configuration
   when: docker_userland_proxy is defined
   block:
-    - name: Check if docker daemon configuration exists
-      stat:
-        path: /etc/docker/daemon.json
-      register: docker_config_stat
-    - name: Load docker daemon configuration
-      when: docker_config_stat.stat.exists
-      slurp:
-        path: /etc/docker/daemon.json
-      register: docker_config
-    - name: Parse docker daemon configuration
-      when: docker_config_stat.stat.exists
-      set_fact:
-        docker_config: "{{ docker_config.content | b64decode | from_json }}"
-    - name: Set default docker daemon configuration
-      when: not docker_config_stat.stat.exists
-      set_fact:
-        docker_config: {}
-    - name: Add registry to docker daemon configuration
+    - name: Add proxy config
+      include_role:
+        name: update-json-file
       vars:
-        new_config:
+        update_json_file_name: /etc/docker/daemon.json
+        update_json_file_combine:
           userland-proxy: "{{ docker_userland_proxy }}"
-      set_fact:
-        docker_config: "{{ docker_config | combine(new_config) }}"
-    - name: Save docker daemon configuration
-      copy:
-        content: "{{ docker_config | to_nice_json }}"
-        dest: /etc/docker/daemon.json
-      become: true
+        update_json_file_become: true
 
 - name: Reset ssh connection to pick up docker group
   meta: reset_connection
