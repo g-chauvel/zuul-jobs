@@ -63,7 +63,7 @@
           zuul:
             artifacts:
               - name: ARA report
-                url: "{{ ara_report_path | regex_replace('\\/$', '') | basename }}"
+                url: "{{ ara_report_artifact_prefix }}{{ ara_report_path | regex_replace('\\/$', '') | basename }}"
   rescue:
     - name: HTML generation rescue
       debug:

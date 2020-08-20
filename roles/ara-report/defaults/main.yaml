@@ -25,3 +25,7 @@ ara_report_path: '{{ zuul.executor.log_root }}/ara'
 ara_compress_html: true
 
 ara_report_executable: ara
+
+# If you copy the ara results into a subdirectory, use this to prefix
+# the location the artifact points to.
+ara_report_artifact_prefix: ''
