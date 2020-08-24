@@ -60,3 +60,10 @@ If ARA is enabled, generates a report or saves a copy of the ARA database.
    :default: ``ara``
 
    Path to ara executable.
+
+.. zuul:rolevar:: ara_report_artifact_prefix
+   :default: None
+
+   Prefix to add to the artifact URL reported to Zuul.  If you copy
+   results into a subdirectory, add this here.  Note this should have
+   a trailing ``/``.
