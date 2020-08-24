@@ -96,7 +96,8 @@ def get_sibling_python_packages(projects, tox_python):
             # package name is.
             package_name = subprocess.check_output(
                 [os.path.abspath(tox_python), 'setup.py', '--name'],
-                cwd=os.path.abspath(root)).decode('utf-8')
+                cwd=os.path.abspath(root),
+                stderr=subprocess.STDOUT).decode('utf-8')
             if package_name:
                 package_name = package_name.strip()
                 packages[package_name] = root
@@ -111,7 +112,8 @@ def get_installed_packages(tox_python):
     # We use the output of pip freeze here as that is pip's stable public
     # interface.
     frozen_pkgs = subprocess.check_output(
-        [tox_python, '-m', 'pip', '-qqq', 'freeze']
+        [tox_python, '-m', 'pip', '-qqq', 'freeze'],
+        stderr=subprocess.STDOUT
     ).decode('utf-8')
     # Matches strings of the form:
     # 1. '<package_name>==<version>'
@@ -330,6 +332,13 @@ def main():
                                                   projects,
                                                   package_name,
                                                   constraints)
+        except subprocess.CalledProcessError as e:
+            tb = traceback.format_exc()
+            log.append(str(e))
+            log.append(tb)
+            log.append("Output:")
+            log.extend(e.output.decode('utf-8').split('\n'))
+            module.fail_json(msg=str(e), log="\n".join(log))
         except Exception as e:
             tb = traceback.format_exc()
             log.append(str(e))
