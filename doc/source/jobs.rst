@@ -12,5 +12,6 @@ Jobs
    hashicorp-jobs
    haskell-jobs
    helm-jobs
+   nim-jobs
    system-jobs
    deprecated-jobs
