@@ -56,6 +56,7 @@
       Uses tox with the ``py27`` environment.
     vars:
       tox_envlist: py27
+      python_version: 2.7
 
 - job:
     name: tox-py34
