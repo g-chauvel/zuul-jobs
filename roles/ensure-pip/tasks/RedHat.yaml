@@ -32,5 +32,4 @@
         state: present
         enablerepo: epel
   become: yes
-  when: ensure_pip_from_packages_with_python2 or
-        ansible_python.version.major == 2
+  when: ensure_pip_from_packages_with_python2
