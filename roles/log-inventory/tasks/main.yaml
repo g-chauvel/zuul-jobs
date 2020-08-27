@@ -4,6 +4,7 @@
   file:
     path: "{{ zuul_info_dir }}"
     state: directory
+    mode: 0755
 
 # We don't use the ansible inventory_file variable because it is not defined
 # for nodeless job running on the executor directly:
@@ -13,3 +14,4 @@
   copy:
     src: "{{ zuul.executor.inventory_file }}"
     dest: "{{ zuul_info_dir }}"
+    mode: 0644

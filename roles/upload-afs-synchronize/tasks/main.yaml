@@ -4,6 +4,7 @@
   file:
     path: "{{ afs_target }}"
     state: directory
+    mode: 0755
 - name: Upload contents to AFS
   synchronize:
     src: "{{ afs_source }}"

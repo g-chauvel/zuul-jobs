@@ -29,3 +29,4 @@
     section: main
     option: deltarpm
     value: 0
+    mode: 0644
