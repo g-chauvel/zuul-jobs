@@ -34,11 +34,13 @@
   file:
     state: directory
     path: /etc/docker
+    mode: 0755
 - name: Write buildset registry TLS certificate
   become: true
   copy:
     content: "{{ buildset_registry.cert }}"
     dest: "{{ ca_dir }}/{{ buildset_registry_alias }}.crt"
+    mode: 0644
   register: _tls_ca
 - name: Update CA certs
   command: "{{ ca_command }}"
@@ -74,6 +76,7 @@
   copy:
     content: "{{ docker_config | to_nice_json }}"
     dest: /etc/docker/daemon.json
+    mode: 0644
   become: true
 
 - name: Restart docker daemon
@@ -89,6 +92,7 @@
   file:
     state: directory
     path: /etc/containers
+    mode: 0755
 - name: Modify registries.conf
   become: yes
   modify_registries_conf:
@@ -102,6 +106,7 @@
   file:
     state: directory
     path: /etc/buildkit/
+    mode: 0755
 - name: Modify buildkitd.toml
   become: yes
   modify_buildkitd_toml:

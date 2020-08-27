@@ -28,6 +28,7 @@
   copy:
     content: "{{ buildset_registry.cert }}"
     dest: "{{ buildkit_cert_tmp.path }}"
+    mode: preserve
   when: buildset_registry is defined and buildset_registry.cert
 
 - name: Copy buildset registry TLS cert into worker container

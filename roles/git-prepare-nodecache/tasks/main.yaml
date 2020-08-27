@@ -2,6 +2,7 @@
   file:
     path: "{{ git_cache_root }}/{{ zj_project.canonical_name | dirname }}"
     state: directory
+    mode: 0775
   with_items: "{{ zuul.projects.values() | list }}"
   loop_control:
     loop_var: zj_project

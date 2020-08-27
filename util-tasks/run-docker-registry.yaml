@@ -19,6 +19,7 @@
   file:
     path: "{{ registry_tempdir.path }}/auth"
     state: directory
+    mode: 0755
 
 - name: Install passlib for htpasswd
   become: true
@@ -33,6 +34,7 @@
     create: true
     crypt_scheme: bcrypt
     path: "{{ registry_tempdir.path }}/auth/htpasswd"
+    mode: 0644
     name: "{{ registry.username }}"
     password: "{{ registry.password }}"
 

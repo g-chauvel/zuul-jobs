@@ -48,6 +48,7 @@
   copy:
     content: "{{ docker_config | to_nice_json }}"
     dest: "/run/user/{{ ansible_user_uid }}/auth.json"
+    mode: 0600
 # The next two tasks are for supporting k8s
 - name: Check if /var/lib/kubelet exists
   stat:
