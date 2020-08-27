@@ -2,19 +2,22 @@
   command: "{{ bindep_run }}"
   register: bindep_output
   failed_when: false
+  changed_when: false
 
 - name: Install distro packages from bindep
   package:
     name: "{{ bindep_output.stdout_lines }}"
     state: present
-  become: yes
+  become: true
   when: bindep_output.stdout_lines
+  changed_when: true
 
 - name: Check that packages are installed
   command: "{{ bindep_run }}"
   register: bindep_final_check
   # Ignore errors then fail later so that we can give a better error message
   failed_when: false
+  changed_when: false
 
 - name: Fail if we cannot install all packages
   fail:
