@@ -680,7 +680,7 @@
         - zuul-jobs-test-upload-git-mirror
         - zuul-jobs-test-shake-build
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-add-authorized-keys
         - zuul-jobs-test-add-gpgkey
         - zuul-jobs-test-add-sshkey
@@ -718,3 +718,5 @@
         - zuul-jobs-test-upload-artifactory
         - zuul-jobs-test-upload-git-mirror
         - zuul-jobs-test-shake-build
+    periodic-weekly:
+      jobs: *id001

@@ -52,3 +52,5 @@
         - zuul-jobs-test-fetch-javascript-tarball-synchronize
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

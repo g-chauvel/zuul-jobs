@@ -133,7 +133,7 @@
         - zuul-jobs-test-packer-ubuntu-xenial
         - zuul-jobs-test-packer-ubuntu-focal
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
         - zuul-jobs-test-packer-debian-stretch
@@ -143,3 +143,5 @@
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial
         - zuul-jobs-test-packer-ubuntu-focal
+    periodic-weekly:
+      jobs: *id001

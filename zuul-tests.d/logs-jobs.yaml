@@ -26,3 +26,5 @@
         - zuul-jobs-test-upload-logs-s3
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

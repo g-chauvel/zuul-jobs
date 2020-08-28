@@ -54,3 +54,5 @@
         - zuul-jobs-test-hlint
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

@@ -247,7 +247,7 @@
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
@@ -266,3 +266,5 @@
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
+    periodic-weekly:
+      jobs: *id001

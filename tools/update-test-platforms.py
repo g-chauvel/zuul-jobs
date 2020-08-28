@@ -132,6 +132,15 @@ def handle_file(fn):
     # (i.e. check is the same as gate); this gives nicer YAML output
     # using dictionary anchors
     project['gate']['jobs'] = joblist_gate if has_non_voting else joblist_check
+    # gate jobs should also be in periodic in order to assure they do not rot
+    periodic_pipeline = 'periodic-weekly'
+    if periodic_pipeline not in project:
+        project[periodic_pipeline] = {}
+    if 'jobs' not in project[periodic_pipeline]:
+        project[periodic_pipeline]['jobs'] = []
+    project[periodic_pipeline]['jobs'] = joblist_gate \
+        if has_non_voting else joblist_check
+
     with open(fn, 'w') as f:
         yaml.dump(outdata, stream=f)
 

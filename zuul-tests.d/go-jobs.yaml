@@ -131,7 +131,7 @@
         - zuul-jobs-test-golang-go-ubuntu-xenial
         - zuul-jobs-test-golang-go-ubuntu-focal
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-debian-stretch
@@ -141,3 +141,5 @@
         - zuul-jobs-test-golang-go-ubuntu-bionic
         - zuul-jobs-test-golang-go-ubuntu-xenial
         - zuul-jobs-test-golang-go-ubuntu-focal
+    periodic-weekly:
+      jobs: *id001

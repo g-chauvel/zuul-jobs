@@ -489,7 +489,7 @@
         - zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
         - zuul-jobs-test-fetch-sphinx-tarball-synchronize
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-ensure-pip-centos-7
         - zuul-jobs-test-ensure-pip-centos-8
         - zuul-jobs-test-ensure-pip-debian-stretch
@@ -527,3 +527,5 @@
         - zuul-jobs-test-fetch-sphinx-output-synchronize
         - zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
         - zuul-jobs-test-fetch-sphinx-tarball-synchronize
+    periodic-weekly:
+      jobs: *id001
