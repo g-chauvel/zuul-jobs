@@ -1,5 +1,5 @@
-Packer Jobs
-===========
+Hashicorp Jobs
+==============
 
 .. zuul:autojob:: packer
 .. zuul:autojob:: terraform-apply
