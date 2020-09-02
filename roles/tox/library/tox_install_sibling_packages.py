@@ -52,7 +52,6 @@ try:
 except ImportError:
     import ConfigParser as configparser
 
-import pkg_resources as prAPI
 import os
 import ast
 import subprocess
@@ -62,6 +61,16 @@ import traceback
 from ansible.module_utils.basic import AnsibleModule
 
 log = list()
+
+
+def to_filename(name):
+    """Convert a project or version name to its filename-escaped form
+    Any '-' characters are currently replaced with '_'.
+
+    Implementation vendored from pkg_resources.to_filename in order to avoid
+    adding an extra runtime dependency.
+    """
+    return name.replace('-', '_')
 
 
 def get_sibling_python_packages(projects, tox_python):
@@ -157,7 +166,7 @@ def _get_package_root(name, sibling_packages):
     try:
         pkg_root = sibling_packages[name]
     except KeyError:
-        pkg_root = sibling_packages[prAPI.to_filename(name)]
+        pkg_root = sibling_packages[to_filename(name)]
 
     return pkg_root
 
@@ -169,7 +178,7 @@ def find_installed_siblings(tox_python, package_name, sibling_python_packages):
             "Found {name} python package installed".format(
                 name=dep_name))
         if (dep_name == package_name or
-            prAPI.to_filename(dep_name) == package_name):
+            to_filename(dep_name) == package_name):
             # We don't need to re-process ourself.
             # We've filtered ourselves from the source dir list,
             # but let's be sure nothing is weird.
@@ -183,8 +192,8 @@ def find_installed_siblings(tox_python, package_name, sibling_python_packages):
                     name=dep_name,
                     root=sibling_python_packages[dep_name]))
             installed_sibling_packages.append(dep_name)
-        elif prAPI.to_filename(dep_name) in sibling_python_packages:
-            real_name = prAPI.to_filename(dep_name)
+        elif to_filename(dep_name) in sibling_python_packages:
+            real_name = to_filename(dep_name)
             log.append(
                 "Package {name} ({pkg_name}) on system in {root}".format(
                     name=dep_name,
