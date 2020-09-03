@@ -35,4 +35,4 @@
 
       The difference is:
 
-      {{ git_diff.stdout }}
+      {{ render_diff.stdout }}
