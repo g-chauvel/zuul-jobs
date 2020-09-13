@@ -11,6 +11,7 @@
     - python_version is defined
     - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - not python_use_pyenv
+    - not python_use_stow
   package:
     name: python{{ python_version }}-dev
     state: present
@@ -21,3 +22,9 @@
     - python_version is defined
     - python_use_pyenv
   include_tasks: pyenv.yaml
+
+- name: Activate python using stow
+  when:
+    - python_version is defined
+    - python_use_stow
+  include_tasks: stow.yaml
