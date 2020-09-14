@@ -40,8 +40,6 @@
 
          Path to operate in.
     run: playbooks/run-test-command/run.yaml
-    vars:
-      test_command: "exit 1"
 
 - job:
     name: upload-git-mirror
