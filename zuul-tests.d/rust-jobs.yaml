@@ -44,14 +44,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-rust-fedora-31
-    description: Test the rust roles on fedora-31
+    name: zuul-jobs-test-rust-fedora-32
+    description: Test the rust roles on fedora-32
     parent: zuul-jobs-test-rust
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-rust-gentoo-17-0-systemd
@@ -120,7 +120,7 @@
         - zuul-jobs-test-rust-centos-7
         - zuul-jobs-test-rust-centos-8
         - zuul-jobs-test-rust-debian-stretch
-        - zuul-jobs-test-rust-fedora-31
+        - zuul-jobs-test-rust-fedora-32
         - zuul-jobs-test-rust-gentoo-17-0-systemd
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-opensuse-tumbleweed-nv
@@ -132,7 +132,7 @@
         - zuul-jobs-test-rust-centos-7
         - zuul-jobs-test-rust-centos-8
         - zuul-jobs-test-rust-debian-stretch
-        - zuul-jobs-test-rust-fedora-31
+        - zuul-jobs-test-rust-fedora-32
         - zuul-jobs-test-rust-gentoo-17-0-systemd
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic

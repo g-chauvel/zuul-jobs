@@ -9,13 +9,13 @@
   register: _stack_version
 
 - block:
-    - name: Make sure dnf copr is installed
-      dnf:
-        name: dnf-command(copr)
-      become: true
-
-    - name: Install stack copr
-      command: dnf copr enable -y petersen/stack2
+    # This package is somehow missing from the requirements of the
+    # published packaged copr repo.  See
+    #  https://github.com/commercialhaskell/stack/issues/5388
+    - name: Preinstall gmp-devel
+      package:
+        name: gmp-devel
+        state: present
       become: true
 
     - name: Install stack

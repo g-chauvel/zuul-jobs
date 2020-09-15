@@ -47,14 +47,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-golang-go-fedora-31
-    description: Test the golang-go job on fedora-31
+    name: zuul-jobs-test-golang-go-fedora-32
+    description: Test the golang-go job on fedora-32
     parent: zuul-jobs-test-golang-go
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-golang-go-gentoo-17-0-systemd
@@ -123,7 +123,7 @@
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-debian-stretch
-        - zuul-jobs-test-golang-go-fedora-31
+        - zuul-jobs-test-golang-go-fedora-32
         - zuul-jobs-test-golang-go-gentoo-17-0-systemd
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
@@ -135,7 +135,7 @@
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-debian-stretch
-        - zuul-jobs-test-golang-go-fedora-31
+        - zuul-jobs-test-golang-go-fedora-32
         - zuul-jobs-test-golang-go-gentoo-17-0-systemd
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic

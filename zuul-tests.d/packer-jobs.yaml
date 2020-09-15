@@ -49,14 +49,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-packer-fedora-31
-    description: Test packer job on fedora-31
+    name: zuul-jobs-test-packer-fedora-32
+    description: Test packer job on fedora-32
     parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-packer-gentoo-17-0-systemd
@@ -125,7 +125,7 @@
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
         - zuul-jobs-test-packer-debian-stretch
-        - zuul-jobs-test-packer-fedora-31
+        - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-gentoo-17-0-systemd
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
@@ -137,7 +137,7 @@
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
         - zuul-jobs-test-packer-debian-stretch
-        - zuul-jobs-test-packer-fedora-31
+        - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-gentoo-17-0-systemd
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic

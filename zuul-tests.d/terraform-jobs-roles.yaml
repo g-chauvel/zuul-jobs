@@ -51,14 +51,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-terraform-fedora-31
-    description: Test terraform job on fedora-31
+    name: zuul-jobs-test-terraform-fedora-32
+    description: Test terraform job on fedora-32
     parent: zuul-jobs-test-terraform
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-terraform-gentoo-17-0-systemd
@@ -174,14 +174,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-terraform-role-fedora-31
-    description: Test terraform roles on fedora-31
+    name: zuul-jobs-test-terraform-role-fedora-32
+    description: Test terraform roles on fedora-32
     parent: zuul-jobs-test-terraform-role
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-terraform-role-gentoo-17-0-systemd
@@ -250,7 +250,7 @@
         - zuul-jobs-test-terraform-centos-7
         - zuul-jobs-test-terraform-centos-8
         - zuul-jobs-test-terraform-debian-stretch
-        - zuul-jobs-test-terraform-fedora-31
+        - zuul-jobs-test-terraform-fedora-32
         - zuul-jobs-test-terraform-gentoo-17-0-systemd
         - zuul-jobs-test-terraform-opensuse-15
         - zuul-jobs-test-terraform-ubuntu-bionic
@@ -259,7 +259,7 @@
         - zuul-jobs-test-terraform-role-centos-7
         - zuul-jobs-test-terraform-role-centos-8
         - zuul-jobs-test-terraform-role-debian-stretch
-        - zuul-jobs-test-terraform-role-fedora-31
+        - zuul-jobs-test-terraform-role-fedora-32
         - zuul-jobs-test-terraform-role-gentoo-17-0-systemd
         - zuul-jobs-test-terraform-role-opensuse-15
         - zuul-jobs-test-terraform-role-ubuntu-bionic

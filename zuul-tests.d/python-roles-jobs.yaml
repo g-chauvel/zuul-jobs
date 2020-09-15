@@ -43,14 +43,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-build-python-release-jobs-fedora-31
-    description: Test the build-python-release-jobs role on fedora-31
+    name: zuul-jobs-test-build-python-release-jobs-fedora-32
+    description: Test the build-python-release-jobs role on fedora-32
     parent: zuul-jobs-test-build-python-release-jobs
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
@@ -153,14 +153,14 @@
           label: debian-stretch
 
 - job:
-    name: zuul-jobs-test-ensure-python-pyenv-fedora-31
-    description: Test the ensure-python role with pyenv on fedora-31
+    name: zuul-jobs-test-ensure-python-pyenv-fedora-32
+    description: Test the ensure-python role with pyenv on fedora-32
     parent: zuul-jobs-test-ensure-python-pyenv
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-31
-          label: fedora-31
+        - name: fedora-32
+          label: fedora-32
 
 - job:
     name: zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
@@ -229,7 +229,7 @@
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
-        - zuul-jobs-test-build-python-release-jobs-fedora-31
+        - zuul-jobs-test-build-python-release-jobs-fedora-32
         - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
         - zuul-jobs-test-build-python-release-jobs-opensuse-15
         - zuul-jobs-test-build-python-release-jobs-opensuse-tumbleweed-nv
@@ -239,7 +239,7 @@
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
-        - zuul-jobs-test-ensure-python-pyenv-fedora-31
+        - zuul-jobs-test-ensure-python-pyenv-fedora-32
         - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
@@ -251,7 +251,7 @@
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
-        - zuul-jobs-test-build-python-release-jobs-fedora-31
+        - zuul-jobs-test-build-python-release-jobs-fedora-32
         - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
         - zuul-jobs-test-build-python-release-jobs-opensuse-15
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
@@ -260,7 +260,7 @@
         - zuul-jobs-test-ensure-python-pyenv-centos-7
         - zuul-jobs-test-ensure-python-pyenv-centos-8
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
-        - zuul-jobs-test-ensure-python-pyenv-fedora-31
+        - zuul-jobs-test-ensure-python-pyenv-fedora-32
         - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
