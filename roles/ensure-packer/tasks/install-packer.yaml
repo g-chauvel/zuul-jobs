@@ -29,23 +29,26 @@
   file:
     path: "{{ packer_install_tempdir.path }}/{{ packer_package }}"
     state: directory
+    mode: 0700
 
 - name: Unarchive packer
   unarchive:
     src: "{{ packer_install_tempdir.path }}/{{ packer_package }}.zip"
     dest: "{{ packer_install_tempdir.path }}/{{ packer_package }}"
     remote_src: yes
+    mode: 0600
 
 - name: Make sure installation directory exists
   file:
     path: "{{ packer_install_dir }}"
     state: directory
+    mode: 0755
 
 - name: Install packer
   copy:
     src: "{{ packer_install_tempdir.path }}/{{ packer_package }}/packer"
     dest: "{{ packer_install_dir }}/packer"
-    mode: '0755'
+    mode: 0755
     owner: "{{ ansible_user }}"
     remote_src: yes
 

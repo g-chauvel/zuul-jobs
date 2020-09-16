@@ -8,8 +8,9 @@ skip_list:
            # TODO(AJaeger): E208 gives false positives currently, we
            # should enable it once all issues in zuul-jobs and
            # ansible-lint are fixed.
-  - '208'  # File permissions not mentioned
   - '301'  # Commands should not change things if nothing needs doing
+warn_list:
+  - '208'  # File permissions not mentioned
 rulesdir:
   - ./.rules/
 use_default_rules: true

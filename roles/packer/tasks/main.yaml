@@ -13,6 +13,7 @@
     content: |
       {{ packer_variables | to_json }}
     dest: "{{ packer_variable_tempfile.path }}"
+    mode: 0600
   when: packer_variables is defined
   no_log: true  # We don't want to log this since credentials could be passed this way
 
