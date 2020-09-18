@@ -1,0 +1,3 @@
+zookeeper_version: "latest"
+_zookeeper_latest_version: "3.6.1"
+_zookeeper_install_version: "{% if zookeeper_version == 'latest' %}{{ _zookeeper_latest_version }}{% else %}{{ zookeeper_version }}{% endif %}"
