@@ -38,7 +38,7 @@ _docker_repos:
   - name: docker-ce-stable
     file: docker-ce
     description: Docker CE Stable - $basearch
-    baseurl: "{{ docker_mirror_base_url }}/7/$basearch/stable"
+    baseurl: "{{ docker_mirror_base_url }}/$releasever/$basearch/stable"
     gpgcheck: yes
 
 _docker_distro_packages:
