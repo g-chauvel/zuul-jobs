@@ -3,7 +3,7 @@
     description: Tests ensure-docker role
     abstract: true
     files:
-      - roles/ensure-docker/.*
+      - .*ensure-docker.*
       - roles/ensure-package-repositories/.*
       - test-requirements.txt
     run: test-playbooks/ensure-docker.yaml

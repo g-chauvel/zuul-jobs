@@ -4,3 +4,27 @@
     - name: Run ensure-docker role
       include_role:
         name: ensure-docker
+
+    - name: Validate docker pull
+      command: |
+        docker pull --quiet curlimages/curl:latest
+
+    - name: Validate docker host network containers have internet access
+      command: |
+        docker run --rm --network=host curlimages/curl:latest --no-progress-meter https://httpbin.org/get
+
+    # Two task approach that ignores known partial failures on specific plaforms:
+    # https://storyboard.openstack.org/#!/story/2008215
+    - name: Validate docker default network containers have internet access
+      command: |
+        docker run --rm curlimages/curl:latest --no-progress-meter https://httpbin.org/get
+      register: result
+      ignore_errors: true
+
+    - name: Fail if bug found on unknown platform
+      when:
+        - result.rc != 0
+        - ansible_distribution_release not in ['bionic', 'focal']
+        - ansible_architecture != 'aarch64'
+      fail:
+        msg: Bug 2008215 regression detected
