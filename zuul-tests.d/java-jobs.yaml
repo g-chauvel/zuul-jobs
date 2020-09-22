@@ -12,3 +12,5 @@
         - zuul-jobs-test-ensure-java
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

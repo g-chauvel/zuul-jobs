@@ -21,3 +21,5 @@
         - zuul-jobs-tox-linters
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

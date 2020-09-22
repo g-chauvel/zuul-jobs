@@ -18,3 +18,5 @@
         - zuul-jobs-test-ensure-devstack
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

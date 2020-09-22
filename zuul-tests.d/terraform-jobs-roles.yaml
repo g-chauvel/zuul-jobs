@@ -246,7 +246,7 @@
 
 - project:
     check: &id001
-      jobs:
+      jobs: &id002
         - zuul-jobs-test-terraform-centos-7
         - zuul-jobs-test-terraform-centos-8
         - zuul-jobs-test-terraform-debian-stretch
@@ -266,3 +266,5 @@
         - zuul-jobs-test-terraform-role-ubuntu-xenial
         - zuul-jobs-test-terraform-role-ubuntu-focal
     gate: *id001
+    periodic-weekly:
+      jobs: *id002

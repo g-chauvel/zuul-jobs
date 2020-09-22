@@ -128,7 +128,7 @@
         - zuul-jobs-test-rust-ubuntu-xenial
         - zuul-jobs-test-rust-ubuntu-focal
     gate:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-rust-centos-7
         - zuul-jobs-test-rust-centos-8
         - zuul-jobs-test-rust-debian-stretch
@@ -138,3 +138,5 @@
         - zuul-jobs-test-rust-ubuntu-bionic
         - zuul-jobs-test-rust-ubuntu-xenial
         - zuul-jobs-test-rust-ubuntu-focal
+    periodic-weekly:
+      jobs: *id001

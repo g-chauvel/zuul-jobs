@@ -16,3 +16,5 @@
         - zuul-jobs-test-ensure-bazel
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001

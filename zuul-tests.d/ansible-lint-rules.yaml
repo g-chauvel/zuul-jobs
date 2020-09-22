@@ -14,3 +14,5 @@
         - zuul-jobs-test-ansible-lint-rules
     gate:
       jobs: *id001
+    periodic-weekly:
+      jobs: *id001
