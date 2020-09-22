@@ -12,8 +12,12 @@ enabled=1
 gpgkey=file:///tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
 {% elif ansible_distribution in ['CentOS', 'RedHat'] and ansible_distribution_major_version|int >= 8 %}
 [RDO-CentOS8-deps]
-name=CentOS OpenStack deps repo
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+name=CentOS OpenStack Train Repository
+{% if zuul_site_mirror_fqdn is defined %}
+baseurl=http://{{ zuul_site_mirror_fqdn }}/centos/8/cloud/$basearch/openstack-train/
+{% else %}
+baseurl=http://mirror.centos.org/centos/8/cloud/$basearch/openstack-train/
+{% endif %}
 gpgcheck=0
 enabled=1
 {% endif %}
