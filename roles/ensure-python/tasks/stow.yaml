@@ -1,0 +1,13 @@
+- name: Get stow environments
+  find:
+    paths: "{{ python_stow_dir }}"
+    recurse: no
+    file_type: directory
+  register: stow_envs
+
+- name: Activate stow
+  command: "stow -d {{ python_stow_dir }} -S {{ zj_stow_env | basename }}"
+  loop: "{{ stow_envs.files | map(attribute='path') | unique }}"
+  loop_control:
+    loop_var: zj_stow_env
+  when: python_version in item
