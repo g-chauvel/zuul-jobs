@@ -7,7 +7,7 @@
 
 - name: Activate stow
   command: "stow -d {{ python_stow_dir }} -S {{ zj_stow_env | basename }}"
-  loop: "{{ stow_envs.files | map(attribute='path') | unique }}"
+  loop: "{{ stow_envs.files | map(attribute='path') | list }}"
   loop_control:
     loop_var: zj_stow_env
   when: python_version in item
