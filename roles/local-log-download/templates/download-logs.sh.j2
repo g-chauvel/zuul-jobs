@@ -63,6 +63,7 @@ EOF
 }
 
 function save_file {
+    local exit_code=0
     local base_url="$1"
     local file="$2"
     local xtra_args="--compressed"
@@ -73,7 +74,10 @@ function save_file {
     if [[ "${file}" == *.xz ]]; then
         xtra_args=""
     fi
-    curl -s ${xtra_args} --create-dirs -o "${file}" "${base_url}${file}"
+    curl -s ${xtra_args} --create-dirs -o "${file}" "${base_url}${file}" || exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
+        log "Failed to download ${base_url}{$file}; skipping"
+    fi
    {#
     # Using --compressed we will send an Accept-Encoding: gzip header
     # and the data will come to us across the network compressed.
