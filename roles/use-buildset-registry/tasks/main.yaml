@@ -38,7 +38,7 @@
   become: true
   copy:
     content: "{{ buildset_registry.cert }}"
-    dest: "{{ ca_dir }}/buildset-registry.crt"
+    dest: "{{ ca_dir }}/{{ buildset_registry_alias }}.crt"
   register: _tls_ca
 - name: Update CA certs
   command: "{{ ca_command }}"
