@@ -122,5 +122,10 @@
       Run the shake build system command.
 
       This job produces a shake.html report.
+
+      .. zuul:jobvar:: shake_target
+
+         The name of the target to build.
+
     pre-run: playbooks/shake/pre.yaml
     run: playbooks/shake/run.yaml
