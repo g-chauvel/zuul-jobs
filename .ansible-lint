@@ -9,6 +9,7 @@ skip_list:
            # should enable it once all issues in zuul-jobs and
            # ansible-lint are fixed.
   - '301'  # Commands should not change things if nothing needs doing
+  - '701'  # No 'galaxy_info' found
 warn_list:
   - '208'  # File permissions not mentioned
 rulesdir:
