@@ -8,6 +8,7 @@
   file:
     path: "{{ zuul_info_dir }}"
     state: directory
+    mode: 0755
 
 - name: Collect information about the host
   setup:
@@ -22,6 +23,7 @@
   template:
     dest: "{{ zuul_info_dir }}/host-info.{{ validate_host_hostname_sanitized }}.yaml"
     src: templates/host-info.j2
+    mode: 0644
 
 - name: zuul_debug_info block
   block:
@@ -37,5 +39,6 @@
       template:
         dest: "{{ zuul_info_dir }}/zuul-info.{{ validate_host_hostname_sanitized }}.txt"
         src: templates/zuul-info.j2
+        mode: 0644
 
   when: ansible_python_version is version('2.7', '>=')

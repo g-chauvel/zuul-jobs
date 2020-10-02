@@ -13,6 +13,7 @@
   file:
     path: "{{ zj_output_dir }}"
     state: directory
+    mode: 0755
   with_items:
     - "{{ log_path }}"
     - "{{ zuul.executor.work_root }}/artifacts"
