@@ -45,6 +45,7 @@ General Purpose Roles
 .. zuul:autorole:: start-zuul-console
 .. zuul:autorole:: test-setup
 .. zuul:autorole:: trigger-readthedocs
+.. zuul:autorole:: update-json-file
 .. zuul:autorole:: upload-artifactory
 .. zuul:autorole:: upload-git-mirror
 .. zuul:autorole:: validate-dco-license
