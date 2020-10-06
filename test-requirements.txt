@@ -13,7 +13,10 @@ ansible>=2.7,<2.8 # https://review.opendev.org/#/c/727157/
 stestr>=1.0.0,<3.0.0;python_version<'3.5' # Apache-2.0
 stestr>=1.0.0;python_version>='3.5' # Apache-2.0
 # For upload-logs-swift:
-openstacksdk>=0.17.1
+# TODO: openstacksdk 0.48.0 dropped python 3.5 support. Remove this constraint
+# when we dropped 3.5 in zuul-jobs as well.
+openstacksdk>=0.17.1,<0.48.0;python_version<'3.6'
+openstacksdk>=0.17.1;python_version>='3.6'
 requests
 requestsexceptions
 bs4
