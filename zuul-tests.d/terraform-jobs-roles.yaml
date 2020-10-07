@@ -41,6 +41,16 @@
           label: centos-8
 
 - job:
+    name: zuul-jobs-test-terraform-centos-8-stream
+    description: Test terraform job on centos-8-stream
+    parent: zuul-jobs-test-terraform
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-terraform-debian-stretch
     description: Test terraform job on debian-stretch
     parent: zuul-jobs-test-terraform
@@ -164,6 +174,16 @@
           label: centos-8
 
 - job:
+    name: zuul-jobs-test-terraform-role-centos-8-stream
+    description: Test terraform roles on centos-8-stream
+    parent: zuul-jobs-test-terraform-role
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-terraform-role-debian-stretch
     description: Test terraform roles on debian-stretch
     parent: zuul-jobs-test-terraform-role
@@ -249,6 +269,7 @@
       jobs: &id002
         - zuul-jobs-test-terraform-centos-7
         - zuul-jobs-test-terraform-centos-8
+        - zuul-jobs-test-terraform-centos-8-stream
         - zuul-jobs-test-terraform-debian-stretch
         - zuul-jobs-test-terraform-fedora-32
         - zuul-jobs-test-terraform-gentoo-17-0-systemd
@@ -258,6 +279,7 @@
         - zuul-jobs-test-terraform-ubuntu-focal
         - zuul-jobs-test-terraform-role-centos-7
         - zuul-jobs-test-terraform-role-centos-8
+        - zuul-jobs-test-terraform-role-centos-8-stream
         - zuul-jobs-test-terraform-role-debian-stretch
         - zuul-jobs-test-terraform-role-fedora-32
         - zuul-jobs-test-terraform-role-gentoo-17-0-systemd

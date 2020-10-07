@@ -39,6 +39,16 @@
           label: centos-8
 
 - job:
+    name: zuul-jobs-test-packer-centos-8-stream
+    description: Test packer job on centos-8-stream
+    parent: zuul-jobs-test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-packer-debian-stretch
     description: Test packer job on debian-stretch
     parent: zuul-jobs-test-packer
@@ -124,6 +134,7 @@
       jobs:
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
+        - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-stretch
         - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-gentoo-17-0-systemd
@@ -136,6 +147,7 @@
       jobs: &id001
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
+        - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-stretch
         - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-gentoo-17-0-systemd
