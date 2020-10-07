@@ -41,4 +41,6 @@
         src: templates/zuul-info.j2
         mode: 0644
 
-  when: ansible_python_version is version('2.7', '>=')
+  when:
+    - ansible_os_family != "Windows"
+    - ansible_python_version is version('2.7', '>=')
