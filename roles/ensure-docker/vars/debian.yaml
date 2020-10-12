@@ -66,7 +66,7 @@ _docker_keys:
       -----END PGP PUBLIC KEY BLOCK-----
 
 _docker_repos:
-  - repo: "deb {{ docker_mirror_base_url }} {{ ansible_lsb.codename }} {{ docker_update_channel }}"
+  - repo: "deb {{ docker_mirror_base_url }} {{ ansible_distribution_release }} {{ docker_update_channel }}"
 
 _docker_distro_packages:
   - docker.io
@@ -87,4 +87,4 @@ _docker_upstream_distro_remove_packages:
 
 docker_distro_vars_loaded: true
 
-_docker_mirror_base_url: "https://{{ docker_download_fqdn }}/linux/{{ ansible_lsb.id | lower }}"
+_docker_mirror_base_url: "https://{{ docker_download_fqdn }}/linux/{{ ansible_distribution | lower }}"
