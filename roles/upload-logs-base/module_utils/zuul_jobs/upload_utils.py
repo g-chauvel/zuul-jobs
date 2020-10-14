@@ -24,10 +24,8 @@ __metaclass__ = type
 Generic utilities used for log upload.
 """
 
-import datetime
 import gzip
 import io
-import json
 import logging
 import mimetypes
 import os
@@ -41,8 +39,6 @@ except ImportError:
     import urllib as urlparse
 import zlib
 import collections
-
-import google.auth.compute_engine.credentials as gce_cred
 
 
 try:
@@ -247,20 +243,6 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Y', suffix)
-
-
-class Credentials(gce_cred.Credentials):
-    def __init__(self, path):
-        super(Credentials, self).__init__()
-        self._path = path
-        self.refresh(None)
-
-    def refresh(self, request):
-        with open(self._path) as f:
-            data = json.loads(f.read())
-        self.token = data['access_token']
-        self.expiry = (datetime.datetime.utcnow() +
-                       datetime.timedelta(seconds=data['expires_in']))
 
 
 class FileDetail():
