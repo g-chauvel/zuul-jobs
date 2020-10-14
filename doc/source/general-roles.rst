@@ -7,6 +7,7 @@ General Purpose Roles
 .. zuul:autorole:: add-sshkey
 .. zuul:autorole:: bindep
 .. zuul:autorole:: buildset-artifacts-location
+.. zuul:autorole:: clean-directory
 .. zuul:autorole:: clear-firewall
 .. zuul:autorole:: configure-mirrors
 .. zuul:autorole:: copy-build-sshkey
