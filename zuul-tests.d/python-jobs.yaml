@@ -455,19 +455,19 @@
     vars:
       zuul_use_fetch_output: false
 
-- job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
-    description: Test the fetch-sphinx-tarball
-    files:
-      - roles/ensure-output-dirs/.*
-      - roles/fetch-sphinx-tarball/.*
-      - roles/fetch-output/.*
-      - roles/merge-output-to-logs/.*
-      - roles/clean-directory/.*
-      - test-playbooks/python/fetch-sphinx-tarball.yaml
-    run: test-playbooks/python/fetch-sphinx-tarball.yaml
-    vars:
-      zuul_use_fetch_output: true
+# Disabled because "Move artifacts and docs to logs dir" task would
+# fail with "Executing local code is prohibited" during testing
+# - job:
+#     name: zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
+#     description: Test the fetch-sphinx-tarball
+#     files:
+#       - roles/ensure-output-dirs/.*
+#       - roles/fetch-sphinx-tarball/.*
+#       - roles/fetch-output/.*
+#     run: test-playbooks/python/fetch-sphinx-tarball.yaml
+#     voting: false
+#     vars:
+#       zuul_use_fetch_output: true
 
 - job:
     name: zuul-jobs-test-fetch-sphinx-tarball-synchronize
@@ -522,7 +522,6 @@
         - zuul-jobs-test-fetch-subunit-output-synchronize
         - zuul-jobs-test-fetch-sphinx-output
         - zuul-jobs-test-fetch-sphinx-output-synchronize
-        - zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
         - zuul-jobs-test-fetch-sphinx-tarball-synchronize
     gate:
       jobs: &id001
@@ -564,7 +563,6 @@
         - zuul-jobs-test-fetch-subunit-output-synchronize
         - zuul-jobs-test-fetch-sphinx-output
         - zuul-jobs-test-fetch-sphinx-output-synchronize
-        - zuul-jobs-test-fetch-sphinx-tarball-with-zuul-output
         - zuul-jobs-test-fetch-sphinx-tarball-synchronize
     periodic-weekly:
       jobs: *id001
