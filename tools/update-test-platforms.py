@@ -20,6 +20,7 @@
 # of the repo.
 
 import os
+import sys
 
 from ruamel.yaml.comments import CommentedMap
 
@@ -127,6 +128,18 @@ def handle_file(fn):
             outdata.append(obj)
     # We control the last project stanza
     outdata.extend(outprojects)
+    if not outprojects:
+        seed = """
+- project:
+    check:
+      jobs: []
+    gate:
+      jobs: []
+"""
+        print(
+            f"FATAL: File {fn} last item is not a project definition. "
+            f"Try adding something like:\n{seed}")
+        sys.exit(1)
     project = outprojects[-1]['project']
     project['check']['jobs'] = joblist_check
     # Use the same dictionary if there are no non-voting jobs
