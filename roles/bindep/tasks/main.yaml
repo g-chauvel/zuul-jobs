@@ -10,10 +10,13 @@
     - bindep_file is defined
     - bindep_command is not defined
 
-- name: Define bindep_run fact
+- name: Convert bindep_file to list
   set_fact:
-    bindep_run: "{{ bindep_command }} -b -f {{ bindep_file }} {{ bindep_profile }}"
-  when: bindep_file is defined
+    bindep_file: "{{ [bindep_file] }}"
+  when: bindep_file is defined and bindep_file is string
 
 - include_tasks: packages.yaml
+  loop: "{{ bindep_file }}"
+  loop_control:
+    loop_var: zj_bindep_file
   when: bindep_file is defined

@@ -19,7 +19,7 @@ then install the missing packages.
 
 .. zuul:rolevar:: bindep_file
 
-   Path to a specific bindep file to read from.
+   Path or list of paths to a specific bindep file(s) to read from.
 
 .. zuul:rolevar:: bindep_command
 
