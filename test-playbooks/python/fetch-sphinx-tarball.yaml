@@ -4,7 +4,10 @@
     - import_role:
         name: ensure-output-dirs
 
-    - name: Create fake sphinx output
+    # This simulates the operation of something like "tox -e docs" in
+    # the project creating some fake html and pdf output.  Note the
+    # directory name is "doc/" just like in projects.
+    - name: Create fake sphinx output on host
       shell: |
         mkdir -p {{ zuul.project.src_dir }}/doc/build/pdf
         mkdir -p {{ zuul.project.src_dir }}/doc/build/html
@@ -14,13 +17,43 @@
         warn: false
 
   tasks:
+    # This tars up the fake sphinx output we created above on the test
+    # host and does one of two things:
+    #
+    # zuul_use_fetch_output == False
+    #
+    #  Copy the generated .tar.gz files back to the log_root of the
+    #  executor; extract the archives to "<log_root>/docs/" and
+    #  "<log_root>/pdf" to make "browsable" output and return
+    #  artifacts pointing to the .tar.gz files.
+    #
+    # zuul_use_fetch_output == True
+    #
+    #  The generated .tar.gz files are copied into
+    #  {{ ansible_user_dir }}/zuul-output/logs/ and extracted into
+    #  zuul-output/logs/<docs|pdf> on the host.  They need to be brought back
+    #  to the executor using fetch-output/merge-output-to-logs
     - import_role:
         name: fetch-sphinx-tarball
 
+    # This copies files from the remote host;
+    #  - zuul-output/logs is copied into the zuul.executor.log_root
+    #  - zuul-output/<artifacts|docs> is copied into zuul.executor.work_root
     - import_role:
         name: fetch-output
       when: zuul_use_fetch_output
 
+    # This moves <docs|artifacts> in zuul.executor.work_root into
+    # zuul.executor.log_root so they are published when operating in a
+    # change context.
+    #
+    # For example, in the release pipeline, jobs might build artifacts
+    # like sdist/wheels, copy them to the executor and upload them and
+    # do not need to publish those actual artifacts in the logs.  Thus
+    # when triggered from a tag/periodic job this job won't copy
+    # anything.  However, when triggered from a change, this *will*
+    # copy the docs/artifacts into the logs so they can be browsed
+    # from the change result.
     - import_role:
         name: merge-output-to-logs
       when: zuul_use_fetch_output
