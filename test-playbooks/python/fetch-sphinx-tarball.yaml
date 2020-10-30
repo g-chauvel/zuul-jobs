@@ -32,7 +32,7 @@
     #  The generated .tar.gz files are copied into
     #  {{ ansible_user_dir }}/zuul-output/logs/ and extracted into
     #  zuul-output/logs/<docs|pdf> on the host.  They need to be brought back
-    #  to the executor using fetch-output/merge-output-to-logs
+    #  to the executor using fetch-output
     - import_role:
         name: fetch-sphinx-tarball
 
@@ -41,21 +41,6 @@
     #  - zuul-output/<artifacts|docs> is copied into zuul.executor.work_root
     - import_role:
         name: fetch-output
-      when: zuul_use_fetch_output
-
-    # This moves <docs|artifacts> in zuul.executor.work_root into
-    # zuul.executor.log_root so they are published when operating in a
-    # change context.
-    #
-    # For example, in the release pipeline, jobs might build artifacts
-    # like sdist/wheels, copy them to the executor and upload them and
-    # do not need to publish those actual artifacts in the logs.  Thus
-    # when triggered from a tag/periodic job this job won't copy
-    # anything.  However, when triggered from a change, this *will*
-    # copy the docs/artifacts into the logs so they can be browsed
-    # from the change result.
-    - import_role:
-        name: merge-output-to-logs
       when: zuul_use_fetch_output
 
   post_tasks:

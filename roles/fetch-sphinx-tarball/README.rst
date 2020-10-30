@@ -27,7 +27,13 @@ archive into the log root for viewing.
 .. zuul:rolevar:: zuul_use_fetch_output
    :default: false
 
-   Whether to synchronize files to the executor work dir, or to copy them
-   on the test instance.
-   When set to false, the role synchronizes the file to the executor.
-   When set to true, the job needs to use the fetch-output role later.
+   Whether to synchronize files to the executor work dir, or to only
+   copy them on the test instance.
+
+   When set to ``False``, the default, the role synchronizes the
+   tarball archives and extracted documentation files to the executor
+   ``log_root``.
+
+   When set to ``True``, the content is copied locally to
+   ``{{  ansible_user_dir }}/zuul-output/logs/``.  The ``fetch-output`` role
+   needs to be run to copy this output to the executor ``log_root``.
