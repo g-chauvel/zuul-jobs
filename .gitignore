@@ -13,3 +13,4 @@ doc/build
 AUTHORS
 ChangeLog
 dist
+.cache
