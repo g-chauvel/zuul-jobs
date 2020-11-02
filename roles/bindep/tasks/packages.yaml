@@ -1,3 +1,7 @@
+- name: Define bindep_run fact
+  set_fact:
+    bindep_run: "{{ bindep_command }} -b -f {{ zj_bindep_file }} {{ bindep_profile }}"
+
 - name: Get list of packages to install from bindep
   command: "{{ bindep_run }}"
   register: bindep_output
@@ -21,5 +25,5 @@
 
 - name: Fail if we cannot install all packages
   fail:
-    msg: "bindep failed to install from {{ bindep_file }} - {{ bindep_final_check.stdout }}"
+    msg: "bindep failed to install from {{ zj_bindep_file }} - {{ bindep_final_check.stdout }}"
   when: bindep_final_check is failed
