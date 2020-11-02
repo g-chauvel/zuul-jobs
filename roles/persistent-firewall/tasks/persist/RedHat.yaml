@@ -3,12 +3,14 @@
   copy:
     content: "{{ iptables_rules.stdout }}"
     dest: "/etc/sysconfig/iptables"
+    mode: 0644
 
 - name: Persist ipv6 rules
   become: yes
   copy:
     content: "{{ ip6tables_rules.stdout }}"
     dest: "/etc/sysconfig/ip6tables"
+    mode: 0644
 
 # This provides the systemd unit file for iptables which might not be installed
 - name: Ensure iptables-services is installed

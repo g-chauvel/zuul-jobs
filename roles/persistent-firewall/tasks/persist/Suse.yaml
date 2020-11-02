@@ -3,12 +3,14 @@
   copy:
     content: "{{ iptables_rules.stdout }}"
     dest: "/etc/sysconfig/iptables"
+    mode: 0644
 
 - name: Persist ipv6 rules
   become: yes
   copy:
     content: "{{ ip6tables_rules.stdout }}"
     dest: "/etc/sysconfig/ip6tables"
+    mode: 0644
 
 - name: Configure rc.local to restore saved rules on restart
   become: yes
