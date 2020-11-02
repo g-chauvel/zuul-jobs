@@ -9,12 +9,14 @@
   copy:
     content: "{{ iptables_rules.stdout }}"
     dest: "/etc/iptables/rules.v4"
+    mode: 0644
 
 - name: Persist ipv6 rules
   become: yes
   copy:
     content: "{{ ip6tables_rules.stdout }}"
     dest: "/etc/iptables/rules.v6"
+    mode: 0644
 
 - name: Ensure netfilter-persistent is started
   become: yes
