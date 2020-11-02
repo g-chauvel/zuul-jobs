@@ -81,6 +81,7 @@
       file:
         path: "{{ ara_report_path }}"
         state: directory
+        mode: 0755
 
     - name: Save the ARA database
       command: cp {{ ara_database_path }} {{ ara_report_path }}

@@ -19,11 +19,13 @@
       copy:
         src: RPM-GPG-KEY-CentOS-SIG-Cloud
         dest: /tmp/RPM-GPG-KEY-CentOS-SIG-Cloud
+        mode: 0644
 
     - name: Set up RDO repository
       template:
         src: zuul-multi-node-bridge-ovs.repo.j2
         dest: /etc/yum.repos.d/zuul-multi-node-bridge-ovs.repo
+        mode: 0644
 
 - name: Set package.use values for OVS on Gentoo
   become: yes
@@ -31,6 +33,7 @@
     path: /etc/portage/package.use/ovs
     line: "{{ zj_item.line }}"
     create: yes
+    mode: 0644
   loop:
     - { line: 'dev-python/twisted conch  # for openvswitch' }
     - { line: 'sys-apps/util-linux caps  # for openvswitch' }

@@ -2,6 +2,7 @@
   file:
     path: ~/.launchpadlib
     state: directory
+    mode: 0700
 
 - name: Write credentials
   template:
