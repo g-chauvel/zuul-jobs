@@ -1,3 +1,10 @@
+- name: Install GnuPG for apt-key
+  become: true
+  when: repositories_keys | length > 0
+  apt:
+    name: gnupg
+    state: present
+
 - name: Add apt keys
   become: true
   apt_key:
