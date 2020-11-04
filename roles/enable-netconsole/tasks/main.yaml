@@ -59,6 +59,7 @@
       file:
         path: '{{ nc_target }}'
         state: directory
+        mode: 0755
 
     - name: Configure gateway
       shell: 'echo {{ default_gw_dev }} > {{ nc_target }}/dev_name'

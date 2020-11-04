@@ -22,6 +22,7 @@
   file:
     path: /etc/ct
     state: directory
+    mode: 0755
 
 - name: Install configuration files
   become: true

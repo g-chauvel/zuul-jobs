@@ -8,6 +8,7 @@
   copy:
     content: "{{ zj_override.content }}"
     dest: "{{ zj_override.dir }}/override.tf"
+    mode: 0644
   loop: "{{ terraform_overrides }}"
   loop_control:
     loop_var: zj_override
