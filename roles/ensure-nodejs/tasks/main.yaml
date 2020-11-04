@@ -13,6 +13,7 @@
   copy:
     src: 00-nodesource.pref
     dest: /etc/apt/preferences.d/00-nodesource.pref
+    mode: 0644
   become: yes
 
 - name: Add all repositories

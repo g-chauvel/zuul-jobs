@@ -8,6 +8,7 @@
   file:
     path: /tmp/zookeeper
     state: directory
+    mode: 0755
   become: true
 
 - name: Get and extract Zookeeper
@@ -29,6 +30,7 @@
     src: /opt/zookeeper/conf/zoo_sample.cfg
     dest: /opt/zookeeper/conf/zoo.cfg
     remote_src: true
+    mode: 0644
   become: true
 
 - name: Ensure Zookeeper not running

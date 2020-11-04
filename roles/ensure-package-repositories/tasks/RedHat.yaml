@@ -8,6 +8,7 @@
   copy:
     content: "{{ zj_item['data'] }}"
     dest: "{{ gpg_key_tempdir.path }}/key-{{ zj_idx }}.gpg"
+    mode: 0644
   loop: "{{ repositories_keys }}"
   loop_control:
     loop_var: zj_item

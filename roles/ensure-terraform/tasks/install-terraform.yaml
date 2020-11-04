@@ -40,6 +40,7 @@
   file:
     path: "{{ terraform_install_tempdir.path }}/{{ terraform_package }}"
     state: directory
+    mode: 0755
 
 - name: Unarchive terraform
   unarchive:
@@ -51,12 +52,13 @@
   file:
     path: "{{ terraform_install_dir }}"
     state: directory
+    mode: 0755
 
 - name: Install terraform
   copy:
     src: "{{ terraform_install_tempdir.path }}/{{ terraform_package }}/terraform"
     dest: "{{ terraform_install_dir }}/terraform"
-    mode: '0755'
+    mode: 0755
     owner: "{{ ansible_user }}"
     remote_src: yes
 

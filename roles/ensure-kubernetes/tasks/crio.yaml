@@ -30,6 +30,7 @@
       [registries.block]
       registries = []
     dest: /etc/containers/registries.conf
+    mode: 0644
   become: true
 - name: Set crio cgroup driver
   ini_file:
@@ -37,4 +38,5 @@
     section: crio.runtime
     option: cgroup_manager
     value: '"cgroupfs"'
+    mode: 0644
   become: true
