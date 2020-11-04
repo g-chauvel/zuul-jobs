@@ -39,6 +39,7 @@
       delegate_to: localhost
       archive:
         path: "{{ zuul.executor.log_root }}/{{ zj_log }}"
+        mode: 0644
       with_items:
         - job-output.txt
         - job-output.json

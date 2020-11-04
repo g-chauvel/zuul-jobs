@@ -55,6 +55,7 @@
     path: "{{ stage_dir }}/{{ zj_output_dirs }}"
     state: directory
     owner: "{{ ansible_user }}"
+    mode: 0755
   with_items:
     - docs
     - artifacts

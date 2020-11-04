@@ -20,6 +20,7 @@
   file:
     state: directory
     path: "{{ buildset_registry_root }}/{{ zj_dir }}"
+    mode: 0755
   loop:
     - tls
     - conf
@@ -33,6 +34,7 @@
   template:
     src: registry.yaml.j2
     dest: "{{ buildset_registry_root }}/conf/registry.yaml"
+    mode: 0600
 - name: Generate a TLS key for the registry
   command: "openssl req -x509 -newkey rsa:2048 -keyout {{ buildset_registry_root }}/tls/cert.key -out {{ buildset_registry_root }}/tls/cert.pem -days 365 -nodes -subj '/C=US/ST=California/L=Oakland/O=Company Name/OU=Org/CN={{ ansible_host }}' -addext 'subjectAltName = DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1'"
 - name: Read TLS certificate
