@@ -35,6 +35,7 @@
   file:
     path: "{{ zuul.executor.work_root }}/artifacts"
     state: directory
+    mode: 0755
   delegate_to: localhost
 
 - name: Collect artifacts

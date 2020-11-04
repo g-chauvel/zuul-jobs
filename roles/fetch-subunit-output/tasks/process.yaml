@@ -34,6 +34,7 @@
     dest: "{{ zuul_output_dir }}/logs/"
     src: "{{ zj_subunit_file.path }}"
     remote_src: true
+    mode: 0644
   with_items: "{{ subunit_files.files }}"
   loop_control:
     loop_var: zj_subunit_file

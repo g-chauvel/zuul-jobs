@@ -7,6 +7,7 @@
   file:
     path: "{{ ansible_user_dir }}/zuul-output/logs/{{ container_command }}"
     state: directory
+    mode: 0755
 
 - name: Save container logs
   loop: "{{ docker_containers.stdout_lines | default([]) }}"

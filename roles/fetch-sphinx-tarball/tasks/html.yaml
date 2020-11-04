@@ -24,6 +24,7 @@
       file:
         path: "{{ zuul.executor.log_root }}/docs"
         state: directory
+        mode: 0755
 
     - name: Extract archive HTML
       delegate_to: localhost
@@ -40,12 +41,14 @@
       copy:
         dest: "{{ zuul_output_dir }}/logs/docs-html.tar.gz"
         src: "{{ html_archive.path }}"
+        mode: 0644
         remote_src: true
 
     - name: Create browseable HTML directory
       file:
         path: "{{ zuul_output_dir }}/logs/docs"
         state: directory
+        mode: 0755
 
     - name: Extract archive HTML
       unarchive:

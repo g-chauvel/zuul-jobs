@@ -37,6 +37,7 @@
       file:
         path: "{{ zuul.executor.log_root }}/pdf"
         state: directory
+        mode: 0755
 
     - name: Fetch PDF files
       synchronize:
@@ -60,12 +61,14 @@
       file:
         path: "{{ zuul_output_dir }}/logs/pdf"
         state: directory
+        mode: 0755
 
     - name: Copy PDF files
       copy:
         dest: "{{ zuul_output_dir }}/logs/pdf/{{ zj_pdf.zj_sphinx_pdf }}"
         src: "{{ zj_pdf.stat.path }}"
         remote_src: true
+        mode: 0644
       with_items: "{{ pdf_file_stat.results }}"
       loop_control:
         loop_var: zj_pdf

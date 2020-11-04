@@ -40,6 +40,7 @@
         dest: "{{ zuul_output_dir }}/logs/"
         src: "{{ zj_item.1.path }}"
         remote_src: true
+        mode: 0644
       with_subelements:
         - "{{ partial_subunit_files.results }}"
         - files
@@ -74,6 +75,7 @@
       copy:
         src: "{{ temp_subunit_file.path }}"
         dest: "{{ zuul_work_dir }}/testrepository.subunit"
+        mode: 0644
         remote_src: yes
 
     - name: Remove the temporary file

@@ -13,11 +13,6 @@
   template:
     src: templates/zuul-cloner-shim.py.j2
     dest: "{{ fetch_zuul_cloner_virtualenv }}/bin/zuul-cloner"
-  become: yes
-
-- name: Change zuul-cloner permissions
-  file:
-    path: "{{ fetch_zuul_cloner_virtualenv }}/bin/zuul-cloner"
     mode: 0755
   become: yes
 

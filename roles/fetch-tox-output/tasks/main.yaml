@@ -12,12 +12,14 @@
   file:
     path: "{{ log_path }}"
     state: directory
+    mode: 0755
   delegate_to: localhost
 
 - name: Ensure zuul-output tox dir
   file:
     path: "{{ zuul_output_dir }}/logs/tox"
     state: directory
+    mode: 0755
   when: zuul_use_fetch_output
 
 - name: Set envlist fact
@@ -60,7 +62,7 @@
     envlist: "{{ tox_all_environments.stdout_lines }}"
   when: tox_all_environments.stdout_lines is defined
 
-- name: Copy tox logs
+- name: Copy tox logs  # noqa 208
   copy:
     dest: "{{ zuul_output_dir }}/logs/tox/"
     src: "{{ zuul_work_dir }}/.tox/{{ zj_testenv }}/log/"
