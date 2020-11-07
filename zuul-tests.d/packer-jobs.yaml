@@ -8,7 +8,6 @@
       - roles/ensure-packer/.*
       - roles/packer/.*
       - test-playbooks/packer/.*
-      - zuul.d/packer-jobs.yaml
       - playbooks/packer/.*
     vars:
       packer_install_dir: '{{ ansible_user_dir }}/packer'
