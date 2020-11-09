@@ -121,8 +121,8 @@
                 SMALLEST_MTU=$MTU
             fi
         done
-        # 50 byte overhead for vxlan
-        echo $(( SMALLEST_MTU - 50 ))
+        # 70 byte overhead for vxlan + IPv6, which will also support IPv4
+        echo $(( SMALLEST_MTU - 70 ))
       args:
         executable: /bin/bash
       environment:
