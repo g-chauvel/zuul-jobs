@@ -10,6 +10,8 @@
         - tox-py35:
             nodeset: ubuntu-xenial
         - tox-py38
+        - tox-py39:
+            nodeset: ubuntu-focal
     gate:
       jobs:
         - zuul-tox-docs
@@ -17,6 +19,8 @@
         - tox-py35:
             nodeset: ubuntu-xenial
         - tox-py38
+        - tox-py39:
+            nodeset: ubuntu-focal
     promote:
       jobs:
         - zuul-promote-docs

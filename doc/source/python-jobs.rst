@@ -8,6 +8,7 @@ Python Jobs
 .. zuul:autojob:: tox-py36
 .. zuul:autojob:: tox-py37
 .. zuul:autojob:: tox-py38
+.. zuul:autojob:: tox-py39
 .. zuul:autojob:: tox-docs
 .. zuul:autojob:: tox-linters
 .. zuul:autojob:: tox-molecule
