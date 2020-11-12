@@ -62,8 +62,8 @@ MAX_UPLOAD_THREADS = 24
 
 
 class Credentials(gce_cred.Credentials):
-    def __init__(self, path):
-        super(Credentials, self).__init__()
+    def __init__(self, path, *args, **kw):
+        super(Credentials, self).__init__(*args, **kw)
         self._path = path
         self.refresh(None)
 
