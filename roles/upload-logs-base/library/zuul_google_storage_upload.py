@@ -78,6 +78,14 @@ class Credentials(gce_cred.Credentials):
         self.expiry = (datetime.datetime.utcnow() +
                        datetime.timedelta(seconds=data['expires_in']))
 
+    def with_scopes(self, scopes):
+        return self.__class__(
+            path=self._path,
+            scopes=scopes,
+            service_account_email=self._service_account_email,
+            quota_project_id=self._quota_project_id,
+        )
+
 
 class Uploader():
     def __init__(self, client, container, prefix=None,
