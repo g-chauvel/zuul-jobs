@@ -59,3 +59,22 @@ Google Cloud Application Default Credentials.
 
    More details can be found at
    :zuul:rolevar:`set-zuul-log-path-fact.zuul_log_path_shard_build`.
+
+.. zuul:rolevar:: zuul_log_credentials_file
+
+   This log upload role normally uses Google Cloud Application Default
+   Credentials, however it can also operate in a mode where it uses a
+   credential file written by gcp-authdaemon:
+   https://opendev.org/zuul/gcp-authdaemon
+
+   To use this mode of operation, supply a path to the credentials
+   file previously written by gcp-authdaemon.
+
+   Also supply :zuul:rolevar:`upload-logs-gcs.zuul_log_project`.
+
+.. zuul:rolevar:: zuul_log_project
+
+   When using
+   :zuul:rolevar:`upload-logs-gcs.zuul_log_credentials_file`, the name
+   of the Google Cloud project of the log container must also be
+   supplied.

@@ -22,6 +22,10 @@ __metaclass__ = type
 
 """
 Utility to upload files to google
+
+Run this from the CLI from the zuul-jobs/roles directory with:
+
+  python -m upload-logs-base.library.zuul_google_storage_upload
 """
 
 import argparse
@@ -190,11 +194,12 @@ class Uploader():
 def run(container, files,
         indexes=True, parent_links=True, topdir_parent_link=False,
         partition=False, footer='index_footer.html',
-        prefix=None, dry_run=False, credentials_file=None):
+        prefix=None, dry_run=False, credentials_file=None,
+        project=None):
 
     if credentials_file:
         cred = Credentials(credentials_file)
-        client = storage.Client(credentials=cred)
+        client = storage.Client(credentials=cred, project=project)
     else:
         client = storage.Client()
 
@@ -242,6 +247,7 @@ def ansible_main():
             footer=dict(type='str'),
             prefix=dict(type='str'),
             credentials_file=dict(type='str'),
+            project=dict(type='str'),
         )
     )
 
@@ -253,7 +259,8 @@ def ansible_main():
               partition=p.get('partition'),
               footer=p.get('footer'),
               prefix=p.get('prefix'),
-              credentials_file=p.get('credentials_file'))
+              credentials_file=p.get('credentials_file'),
+              project=p.get('project'))
     module.exit_json(changed=True,
                      url=url)
 
@@ -285,7 +292,10 @@ def cli_main():
                         help='do not attempt to create containers or upload, '
                              'useful with --verbose for debugging')
     parser.add_argument('--credentials_file',
-                        help='A file with Google cloud credentials')
+                        help='A file with Google Cloud credentials')
+    parser.add_argument('--project',
+                        help='Name of the Google Cloud project (required for '
+                             'credential file)')
     parser.add_argument('container',
                         help='Name of the container to use when uploading')
     parser.add_argument('files', nargs='+',
@@ -310,7 +320,8 @@ def cli_main():
               footer=append_footer,
               prefix=args.prefix,
               dry_run=args.dry_run,
-              credentials_file=args.credentials_file)
+              credentials_file=args.credentials_file,
+              project=args.project)
     print(url)
 
 
