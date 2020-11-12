@@ -7,7 +7,6 @@
       - roles/ensure-terraform/.*
       - roles/terraform/.*
       - test-playbooks/terraform/.*
-      - zuul.d/terraform-jobs.yaml
       - playbooks/terraform/.*
     vars:
       zuul_work_dir: '{{ zuul.project.src_dir }}/test-playbooks/terraform'

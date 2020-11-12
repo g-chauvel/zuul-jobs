@@ -7,7 +7,6 @@
       - playbooks/go
       - roles/ensure-go
       - roles/go
-      - zuul.d/go-jobs.yaml
     vars:
       go_command: version
 
