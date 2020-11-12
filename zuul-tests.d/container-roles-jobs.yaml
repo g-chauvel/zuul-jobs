@@ -72,6 +72,31 @@
           label: ubuntu-focal-arm64
 
 - job:
+    name: zuul-jobs-test-build-container-image-release
+    description: |
+      Test building a container image in a release pipeline.
+
+      This job tests changes to the build-container-image role,
+      simulating its use within a tag-based release pipeline.  It is
+      not meant to be used directly but rather run on changes to roles
+      in the zuul-jobs repo.
+    files:
+      - roles/ensure-podman/.*
+      - roles/ensure-package-repositories/.*
+      - roles/build-container-image/.*
+      - roles/upload-container-image/.*
+      - test-playbooks/container/.*
+    pre-run: test-playbooks/container/test-build-container-image-release-pre.yaml
+    run: test-playbooks/container/test-build-container-image-release.yaml
+    vars:
+      container_command: podman
+      multiarch: false
+    nodeset:
+      nodes:
+        - name: builder
+          label: ubuntu-bionic
+
+- job:
     name: zuul-jobs-test-build-docker-image-release
     description: |
       Test building a docker image in a release pipeline.
@@ -84,6 +109,7 @@
       - roles/ensure-docker/.*
       - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
+      - roles/upload-docker-image/.*
       - test-playbooks/container/.*
     pre-run: test-playbooks/container/test-build-container-image-release-pre.yaml
     run: test-playbooks/container/test-build-container-image-release.yaml
@@ -400,6 +426,7 @@
         - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-ensure-docker-ubuntu-bionic-arm64
         - zuul-jobs-test-ensure-docker-ubuntu-focal-arm64
+        - zuul-jobs-test-build-container-image-release
         - zuul-jobs-test-build-docker-image-release
         - zuul-jobs-test-build-docker-image-release-multiarch
         - zuul-jobs-test-registry-docker

@@ -1,5 +1,6 @@
 - hosts: all
   vars:
+    upload_container_image_promote: false
     upload_docker_image_promote: false
     _arch_docker_images:
       - context: test-playbooks/container/docker
@@ -12,7 +13,12 @@
         repository: "testrepo"
         # This is what the Zuul repo uses to tag its releases:
         tags: "{{ zuul.tag is defined | ternary([zuul.get('tag', '').split('.')[0], '.'.join(zuul.get('tag', '').split('.')[:2]), zuul.get('tag', '')], ['latest']) }}"
-    container_images: "{{ docker_images }}"
+    container_images:
+      - context: test-playbooks/container/docker
+        registry: 127.0.0.1:5200
+        repository: 127.0.0.1:5200/testrepo
+        # This is what the Zuul repo uses to tag its releases:
+        tags: "{{ zuul.tag is defined | ternary([zuul.get('tag', '').split('.')[0], '.'.join(zuul.get('tag', '').split('.')[:2]), zuul.get('tag', '')], ['latest']) }}"
   tasks:
     - name: Save zuul variables
       set_fact:
@@ -40,3 +46,6 @@
       vars:
         zuul: "{{ new_zuul }}"
         docker_images: "{{ multiarch | ternary(_arch_docker_images, _normal_docker_images) }}"
+
+    - name: "Show local container images for debugging"
+      command: "{{ container_command }} image ls"

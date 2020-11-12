@@ -30,6 +30,8 @@
     containerfile: "{{ zj_image.container_filename|default(container_filename)|default('') }}"
 
 - name: Build a container image
+  vars:
+    tag_prefix: "{{ ('change_' + zuul.change) if (zuul.change is defined) else zuul.pipeline }}_"
   command: >-
     {{ container_command }} build {{ zj_image.path | default('.') }} {% if containerfile %}-f {{ containerfile }}{% endif %}
     {% if zj_image.target | default(false) -%}
@@ -42,8 +44,8 @@
       --build-arg "ZUUL_SIBLINGS={{ zj_image.siblings | join(' ') }}"
     {% endif -%}
     {% for tag in zj_image.tags | default(['latest']) -%}
-    --tag {{ zj_image.repository }}:change_{{ zuul.change }}_{{ tag }}
-    --tag {{ zj_image.repository }}:{{ tag }}
+      --tag {{ zj_image.repository }}:{{ tag_prefix }}{{ tag }}
+      --tag {{ zj_image.repository }}:{{ tag }}
     {% endfor -%}
   args:
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
