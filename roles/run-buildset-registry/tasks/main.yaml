@@ -6,6 +6,7 @@
       - socat
     state: present
   when: ansible_python_version is version('3', '<')
+
 - name: Install packages
   become: yes
   package:
@@ -14,6 +15,7 @@
       - socat
     state: present
   when: ansible_python_version is version('3', '>=')
+
 - name: Ensure registry volume directories exists
   file:
     state: directory
@@ -24,24 +26,30 @@
     - conf
   loop_control:
     loop_var: zj_dir
+
 - name: Generate registry secrets
   set_fact:
     registry_password: "{{ lookup('password', '/dev/null') }}"
     registry_secret: "{{ lookup('password', '/dev/null') }}"
+
 - name: Write registry config
   template:
     src: registry.yaml.j2
     dest: "{{ buildset_registry_root }}/conf/registry.yaml"
     mode: 0600
+
 - name: Generate a TLS key for the registry
   command: "openssl req -x509 -newkey rsa:2048 -keyout {{ buildset_registry_root }}/tls/cert.key -out {{ buildset_registry_root }}/tls/cert.pem -days 365 -nodes -subj '/C=US/ST=California/L=Oakland/O=Company Name/OU=Org/CN={{ ansible_host }}' -addext 'subjectAltName = DNS:zuul-jobs.buildset-registry,DNS:{{ ansible_host }},IP:{{ ansible_host }},IP:127.0.0.1'"
+
 - name: Read TLS certificate
   slurp:
     src: "{{ buildset_registry_root }}/tls/cert.pem"
   register: certificate
+
 - name: Decode TLS certificate
   set_fact:
     certificate: "{{ certificate.content | b64decode }}"
+
 - name: Start the buildset registry
   command: >-
     {{ container_command }} run -d
@@ -66,6 +74,7 @@
       username: zuul
       password: "{{ registry_password }}"
       cert: "{{ certificate }}"
+
 - name: Return registry information to Zuul
   zuul_return:
     data:
