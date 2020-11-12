@@ -23,6 +23,7 @@ Roles
    js-roles
    kubernetes-roles
    launchpad-roles
+   nim-roles
    puppet-roles
    python-roles
    rust-roles

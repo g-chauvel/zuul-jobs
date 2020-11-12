@@ -1,0 +1,6 @@
+- name: Run nimble
+  command: "nimble {{ nimble_command }} --accept"
+  args:
+    chdir: "{{ zuul_work_dir }}"
+  environment:
+    PATH: "{{ nim_path }}:{{ ansible_env.PATH }}"

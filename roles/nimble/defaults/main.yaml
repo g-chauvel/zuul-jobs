@@ -1,0 +1,2 @@
+nimble_command: build
+zuul_work_dir: "{{ zuul.project.src_dir }}"
