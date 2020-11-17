@@ -42,12 +42,16 @@ def run_command(command):
 def main():
     module = AnsibleModule(
         argument_spec=dict(
+            ipv4_route_required=dict(required=False, type='bool'),
+            ipv6_route_required=dict(required=False, type='bool'),
             image_manifest=dict(required=False, type='str'),
             image_manifest_files=dict(required=False, type='list'),
             traceroute_host=dict(required=False, type='str'),
         )
     )
 
+    ipv4_route_required = module.params['ipv4_route_required']
+    ipv6_route_required = module.params['ipv6_route_required']
     image_manifest = module.params['image_manifest']
     traceroute_host = module.params['traceroute_host']
     image_manifest_files = module.params['image_manifest_files']
@@ -64,29 +68,40 @@ def main():
                 'content': open(image_manifest, 'r').read(),
             })
     if traceroute_host:
-        passed = False
+        v6_passed = False
         try:
             ret['traceroute_v6'] = run_command(
                 'traceroute6 -n {host}'.format(host=traceroute_host))
-            passed = True
+            v6_passed = True
         except (subprocess.CalledProcessError, OSError) as e:
             ret['traceroute_v6_exception'] = traceback.format_exc()
             ret['traceroute_v6_output'] = e.output
             ret['traceroute_v6_return'] = e.returncode
             pass
+        v4_passed = False
         try:
             ret['traceroute_v4'] = run_command(
                 'traceroute -n {host}'.format(host=traceroute_host))
-            passed = True
+            v4_passed = True
         except (subprocess.CalledProcessError, OSError) as e:
             ret['traceroute_v4_exception'] = traceback.format_exc()
             ret['traceroute_v4_output'] = e.output
             ret['traceroute_v4_return'] = e.returncode
             pass
+        if v6_passed or v4_passed:
+            # By default, only require one IP family to have a working route,
+            # either version will suffice
+            passed = True
+        if ipv6_route_required and not v6_passed:
+            # Override the result if IPv6 is explicitly required
+            passed = False
+        if ipv4_route_required and not v4_passed:
+            # Override the result if IPv4 is explicitly required
+            passed = False
         if not passed:
             module.fail_json(
-                msg="No viable v4 or v6 route found to {traceroute_host}."
-                    " The build node is assumed to be invalid.".format(
+                msg="The required v4 or v6 route to {traceroute_host} was not"
+                    " found. The build node is assumed to be invalid.".format(
                         traceroute_host=traceroute_host), **ret)
 
     for key, command in command_map.items():
