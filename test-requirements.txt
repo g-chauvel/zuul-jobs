@@ -17,6 +17,12 @@ stestr>=1.0.0;python_version>='3.5' # Apache-2.0
 # when we dropped 3.5 in zuul-jobs as well.
 openstacksdk>=0.17.1,<0.48.0;python_version<'3.6'
 openstacksdk>=0.17.1;python_version>='3.6'
+# TODO: keystoneauth1 4.1.0 dropped python 2.7 and 3.5 support. Remove this
+# constraint when we drop them in zuul-jobs as well.
+keystoneauth1>=3.18.0,<4.1.0;python_version<'3.6'
+# TODO: cachetools 4.0.0 dropped python 2.7 support. Remove this constraint
+# when we drop it in zuul-jobs as well.
+cachetools>=2.0.0,<4.0;python_version<'3.5'
 requests
 requestsexceptions
 bs4
