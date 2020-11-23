@@ -12,6 +12,6 @@
 
 - name: Install launchpadlib
   package:
-    name: python-launchpadlib
+    name: python3-launchpadlib
     state: present
   become: yes
