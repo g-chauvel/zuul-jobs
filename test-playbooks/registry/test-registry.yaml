@@ -92,14 +92,11 @@
       include_vars: vars/intermediate-registry-auth.yaml
     - name: Include previous build vars
       include_vars: vars/previous-build.yaml
-    - name: Prepare a replacement zuul variable
-      set_fact:
-        test_zuul: "{{ previous_build_zuul }}"
     - name: Run pull-from-intermediate-registry role
       include_role:
         name: pull-from-intermediate-registry
       vars:
-        zuul: "{{ test_zuul }}"
+        zuul_artifacts: "{{ previous_build_zuul.artifacts }}"
 
 # This simulates a build actually using the previous build.
 

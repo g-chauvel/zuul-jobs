@@ -32,11 +32,13 @@
         }
   set_fact:
     docker_config: "{{ docker_config | combine(new_config, recursive=True) }}"
+  no_log: true
 - name: Save docker user configuration
   copy:
     content: "{{ docker_config | to_nice_json }}"
     dest: "~/.docker/config.json"
     mode: 0600
+  no_log: true
 # The next two tasks are for supporting the "containers" tools (ie,
 # not docker); this directory doesn't exist on Xenial.
 - name: Check if /run/user exists
@@ -49,6 +51,7 @@
     content: "{{ docker_config | to_nice_json }}"
     dest: "/run/user/{{ ansible_user_uid }}/auth.json"
     mode: 0600
+  no_log: true
 # The next two tasks are for supporting k8s
 - name: Check if /var/lib/kubelet exists
   stat:

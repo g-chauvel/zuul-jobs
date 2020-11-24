@@ -4,7 +4,8 @@
   tasks:
     - name: Load real buildset registry connection info
       set_fact:
-        real_buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
+        real_buildset_registry: "{{ (lookup('file', zuul.executor.result_data_file) | from_json)['secret_data']['buildset_registry'] }}"
+      no_log: true
     # This should now use the speculative image, because we've already
     # run use-buildset-registry.
     - name: Run the fake buildset registry
@@ -16,7 +17,8 @@
     # Leave that zuul return so that dependent jobs use the fake one
     - name: Load fake buildset registry connection info
       set_fact:
-        fake_buildset_registry: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json)['buildset_registry'] }}"
+        fake_buildset_registry: "{{ (lookup('file', zuul.executor.result_data_file) | from_json)['secret_data']['buildset_registry'] }}"
+      no_log: true
     - name: Build a test image
       command: "docker build . -t zuul/testimage:latest"
       args:

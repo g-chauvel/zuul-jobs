@@ -31,6 +31,7 @@
   set_fact:
     registry_password: "{{ lookup('password', '/dev/null') }}"
     registry_secret: "{{ lookup('password', '/dev/null') }}"
+  no_log: true
 
 - name: Write registry config
   template:
@@ -74,8 +75,13 @@
       username: zuul
       password: "{{ registry_password }}"
       cert: "{{ certificate }}"
+  no_log: true
 
 - name: Return registry information to Zuul
   zuul_return:
-    data:
+    secret_data:
       buildset_registry: "{{ buildset_registry }}"
+  # This isn't strictly necessary with the current implemenation of
+  # zuul_return but we set no_log: true in case the verbosity
+  # changes.
+  no_log: true
