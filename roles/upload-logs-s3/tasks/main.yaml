@@ -22,6 +22,7 @@
         endpoint: "{{ upload_logs_s3_endpoint | default(omit) }}"
         partition: "{{ zuul_log_partition }}"
         bucket: "{{ zuul_log_bucket }}"
+        public: "{{ zuul_log_bucket_public }}"
         prefix: "{{ zuul_log_path }}"
         indexes: "{{ zuul_log_create_indexes }}"
         aws_access_key: "{{ zuul_log_aws_access_key }}"

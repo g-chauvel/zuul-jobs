@@ -58,9 +58,10 @@ MAX_UPLOAD_THREADS = 24
 
 
 class Uploader():
-    def __init__(self, bucket, endpoint=None, prefix=None,
+    def __init__(self, bucket, public, endpoint=None, prefix=None,
                  dry_run=False, aws_access_key=None, aws_secret_key=None):
         self.dry_run = dry_run
+        self.public = public
         if dry_run:
             self.url = 'http://dry-run-url.com/a/path/'
             return
@@ -167,17 +168,22 @@ class Uploader():
                     # compressed as with .tar.gz tarballs.
                     content_encoding = file_detail.encoding
                 data = open(file_detail.full_path, 'rb')
+
+            extra_args = dict(
+                ContentType=file_detail.mimetype,
+                ContentEncoding=content_encoding
+            )
+            if self.public:
+                extra_args['ACL'] = 'public-read'
+
             self.bucket.upload_fileobj(
                 data,
                 relative_path,
-                ExtraArgs=dict(
-                    ContentType=file_detail.mimetype,
-                    ContentEncoding=content_encoding
-                )
+                ExtraArgs=extra_args
             )
 
 
-def run(bucket, files, endpoint=None,
+def run(bucket, public, files, endpoint=None,
         indexes=True, parent_links=True, topdir_parent_link=False,
         partition=False, footer='index_footer.html',
         prefix=None, aws_access_key=None, aws_secret_key=None):
@@ -210,6 +216,7 @@ def run(bucket, files, endpoint=None,
 
         # Upload.
         uploader = Uploader(bucket,
+                            public,
                             endpoint,
                             prefix,
                             aws_access_key=aws_access_key,
@@ -223,6 +230,7 @@ def ansible_main():
     module = AnsibleModule(
         argument_spec=dict(
             bucket=dict(required=True, type='str'),
+            public=dict(required=True, type='bool'),
             files=dict(required=True, type='list'),
             partition=dict(type='bool', default=False),
             indexes=dict(type='bool', default=True),
@@ -237,7 +245,9 @@ def ansible_main():
     )
 
     p = module.params
-    url, failures = run(p.get('bucket'), p.get('files'),
+    url, failures = run(p.get('bucket'),
+                        p.get('public'),
+                        p.get('files'),
                         p.get('endpoint'),
                         indexes=p.get('indexes'),
                         parent_links=p.get('parent_links'),
@@ -264,6 +274,8 @@ def cli_main():
                         help='show debug information')
     parser.add_argument('--endpoint',
                         help='http endpoint of s3 service')
+    parser.add_argument('--no-public', action='store_true',
+                        help='do not make logs public')
     parser.add_argument('--prefix',
                         help='Prepend this path to the object names when '
                              'uploading')
@@ -280,6 +292,7 @@ def cli_main():
 
     url = run(args.bucket, args.files,
               prefix=args.prefix,
+              public=not args.no_public,
               endpoint=args.endpoint)
     print(url)
 
