@@ -11,6 +11,7 @@
     description: Test the upload-logs-s3 role
     files:
       - roles/upload-logs-s3/.*
+      - roles/upload-logs-base/.*
       - test-playbooks/upload-logs-s3.yaml
     run: test-playbooks/upload-logs-s3.yaml
 
