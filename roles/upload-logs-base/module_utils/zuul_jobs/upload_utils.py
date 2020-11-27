@@ -125,6 +125,9 @@ ICON_IMAGES = {
 #   removed type annotations to support python2.
 #   removed use of *, somearg for positional anonymous args.
 #   Default compression level to 9.
+#
+#   changed read method argument name from length to size and
+#   added read method default value size=-1 for parent class compatibility
 
 class GZIPCompressedStream(io.RawIOBase):
     def __init__(self, stream, compression_level=9):
@@ -144,8 +147,8 @@ class GZIPCompressedStream(io.RawIOBase):
         self._compressed_stream.seek(0)
         self.count = 0
 
-    def read(self, length):
-        r = super().read(length)
+    def read(self, size=-1):
+        r = super().read(size)
         self.count += len(r)
         return r
 
