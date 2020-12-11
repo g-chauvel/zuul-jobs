@@ -3,6 +3,11 @@
     name: chromium-browser
   become: true
 
+- name: Install firefox
+  apt:
+    name: firefox
+  become: true
+
 - name: Install xvfb
   apt:
     name: xvfb
