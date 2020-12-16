@@ -14,7 +14,7 @@
   become: true
   unarchive:
     remote_src: true
-    src: "https://github.com/helm/chart-testing/releases/download/v{{ chart_testing_version }}/chart-testing_{{ chart_testing_version }}_linux_amd64.tar.gz"
+    src: "{{ ensure_chart_testing_repo_name_helm_chart }}/v{{ chart_testing_version }}/chart-testing_{{ chart_testing_version }}_linux_amd64.tar.gz"
     dest: /usr/local/bin
 
 - name: Setup /etc/ct
@@ -27,7 +27,7 @@
 - name: Install configuration files
   become: true
   get_url:
-    url: "https://raw.githubusercontent.com/helm/chart-testing/v{{ chart_testing_version }}/etc/{{ zj_item }}"
+    url: "{{ ensure_chart_testing_repo_name_config }}/v{{ chart_testing_version }}/etc/{{ zj_item }}"
     dest: "/etc/ct/{{ zj_item }}"
   loop:
   - chart_schema.yaml
