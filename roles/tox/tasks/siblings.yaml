@@ -30,6 +30,7 @@
   tox_install_sibling_packages:
     tox_show_config: "{{ _tox_show_config_tempfile.path }}"
     tox_constraints_file: "{{ tox_constraints_file | default(omit) }}"
+    tox_package_name: "{{ tox_package_name | default(omit) }}"
     project_dir: "{{ zuul_work_dir }}"
     projects: "{{ zuul.projects.values() | selectattr('required') | list }}"
 

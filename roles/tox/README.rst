@@ -35,6 +35,11 @@ Runs tox for a project
    Flag controlling whether to attempt to install python packages from any
    other source code repos zuul has checked out. Defaults to True.
 
+.. zuul:rolevar:: tox_package_name
+
+   Allows a user to setup the package name to be used by tox, over reading
+   a setup.cfg file in the project.
+
 .. zuul:rolevar:: zuul_work_dir
    :default: {{ zuul.project.src_dir }}
 
