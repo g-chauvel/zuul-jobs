@@ -287,11 +287,13 @@ def main():
         argument_spec=dict(
             tox_show_config=dict(required=True, type='path'),
             tox_constraints_file=dict(type='str'),
+            tox_package_name=dict(type='str'),
             project_dir=dict(required=True, type='str'),
             projects=dict(required=True, type='list'),
         )
     )
     constraints = module.params.get('tox_constraints_file')
+    tox_package_name = module.params.get('tox_package_name')
     project_dir = module.params['project_dir']
     projects = module.params['projects']
     tox_show_config = module.params.get('tox_show_config')
@@ -308,19 +310,23 @@ def main():
 
     log.append('Using envlist: {}'.format(envlist))
 
-    if not os.path.exists(os.path.join(project_dir, 'setup.cfg')):
+    if (not tox_package_name
+        and not os.path.exists(os.path.join(project_dir, 'setup.cfg'))
+    ):
         module.exit_json(changed=False, msg="No setup.cfg, no action needed")
     if constraints and not os.path.exists(constraints):
         module.fail_json(msg="Constraints file {constraints} was not found")
 
     # Who are we?
-    try:
-        c = configparser.ConfigParser()
-        c.read(os.path.join(project_dir, 'setup.cfg'))
-        package_name = c.get('metadata', 'name')
-    except Exception:
-        module.exit_json(
-            changed=False, msg="No name in setup.cfg, skipping siblings")
+    package_name = tox_package_name
+    if not package_name:
+        try:
+            c = configparser.ConfigParser()
+            c.read(os.path.join(project_dir, 'setup.cfg'))
+            package_name = c.get('metadata', 'name')
+        except Exception:
+            module.exit_json(
+                changed=False, msg="No name in setup.cfg, skipping siblings")
 
     log.append(
         "Processing siblings for {name} from {project_dir}".format(
