@@ -51,6 +51,7 @@
                        /artifactory/{{ zj_artifact.dest }}"
 
 - name: Upload artifact
+  no_log: true
   uri:
     user: "{{ upload_artifactory_instances[zj_artifact.instance].user }}"
     password: "{{ _artifactory_password | default(omit) }}"
