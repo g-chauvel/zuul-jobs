@@ -76,7 +76,7 @@ function save_file {
     fi
     curl -s ${xtra_args} --create-dirs -o "${file}" "${base_url}${file}" || exit_code=$?
     if [[ $exit_code -ne 0 ]]; then
-        log "Failed to download ${base_url}{$file}; skipping"
+        log "Failed to download ${base_url}${file}; skipping"
     fi
    {#
     # Using --compressed we will send an Accept-Encoding: gzip header
