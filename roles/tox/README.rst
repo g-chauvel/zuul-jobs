@@ -1,5 +1,24 @@
 Runs tox for a project
 
+This role overrides Python packages installed into tox environments with
+corresponding Zuul sibling projects and runs tox tests as follows:
+
+#. Create tox environments.
+#. Get Python sibling package names for sibling projects created by
+   Zuul (using ``required-projects`` job variable). Package names are
+   searched in following sources:
+
+   * ``setup.cfg`` of *pbr* projects,
+   * ``setup.py``,
+   * ``tox_package_name`` role variable.
+
+#. Remove sibling packages from tox environments.
+#. Create temporary constraints file, lines for sibling packages are
+   removed.
+#. Install sibling packages from Zuul projects into tox environments
+   with temporary constraints file.
+#. Run tox tests.
+
 **Role Variables**
 
 .. zuul:rolevar:: tox_environment
