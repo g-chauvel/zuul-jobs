@@ -14,9 +14,9 @@
          Use the specified tox environments (``ALL`` selects all).
 
       .. zuul:jobvar:: tox_environment
+         :type: dict
 
-         List of user defined environmental variables to pass to bash
-         shell.
+         Environment variables to pass in to the tox run.
 
       .. zuul:jobvar:: tox_extra_args
 
@@ -202,9 +202,9 @@
          Use the specified tox environments (``ALL`` selects all).
 
       .. zuul:jobvar:: tox_environment
+         :type: dict
 
-         List of user defined environmental variables to pass to bash
-         shell.
+         Environment variables to pass in to the tox run.
 
       .. zuul:jobvar:: tox_extra_args
 
