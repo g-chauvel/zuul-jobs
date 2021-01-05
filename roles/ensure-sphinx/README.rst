@@ -1,7 +1,8 @@
 Ensure sphinx is installed
 
 Installs sphinx. Also installs any dependencies needed in the first of
-doc/requirements.txt and test-requirements.txt to be found.
+doc/requirements.txt, releasenotes/requirements.txt and
+test-requirements.txt to be found.
 
 All pip installs are done with a provided constraints file, if given.
 

@@ -26,14 +26,14 @@
     name: find-constraints
 
 # We're not using with_first_found because the files are remote, not local.
-# We want to use doc/requirements.txt if it exists or fallback to
-# test-requirements.txt.
+# We want to use doc/requirements.txt or releasenotes/requirements.txt
+# if it exists else we want to fallback to test-requirements.txt.
 - name: Get requirements files
   shell:
     executable: /bin/bash
     chdir: "{{ zuul_work_dir }}"
     cmd: |
-      for f in doc/requirements.txt test-requirements.txt ; do
+      for f in doc/requirements.txt releasenotes/requirements.txt test-requirements.txt ; do
           if [ -f $f ] ; then
               echo $f
               break
