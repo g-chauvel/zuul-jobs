@@ -19,7 +19,6 @@
         tox_envlist: docs,linters
         tox_environment:
           ANSIBLE_ROLES_PATH: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/roles"
-          ANSIBLE_LIBRARY: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/tests/fake-ansible"
 
     - name: Create tempfile to verify testenvs ran
       tempfile:

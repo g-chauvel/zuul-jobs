@@ -1,5 +1,5 @@
 - name: Check if unzip is installed
-  command: unzip -v  # noqa 303
+  command: unzip -v  # noqa command-instead-of-module
   failed_when: false
   register: _unzip_probe
 
@@ -18,9 +18,9 @@
 
 - name: Set terraform checksum
   set_fact:
-    terraform_checksum: "{{\
-        terraform_version_checksums.content |\
-        regex_search( '[a-z0-9]+  ' + terraform_package) |\
+    terraform_checksum: "{{ \
+        terraform_version_checksums.content | \
+        regex_search( '[a-z0-9]+  ' + terraform_package) | \
         regex_replace( '(?P<checksum>[a-z0-9]+)  ' + terraform_package, '\\g<checksum>')
       }}"
 

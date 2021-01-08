@@ -42,7 +42,7 @@
     dest: "{{ ca_dir }}/{{ buildset_registry_alias }}.crt"
     mode: 0644
   register: _tls_ca
-- name: Update CA certs
+- name: Update CA certs  # noqa: no-handler
   command: "{{ ca_command }}"
   become: true
   when: _tls_ca is changed

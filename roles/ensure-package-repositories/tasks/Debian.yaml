@@ -25,7 +25,7 @@
     loop_var: zj_item
   register: _add_apt_repos
 
-- name: Update APT cache
+- name: Update APT cache  # noqa no-handler
   become: true
   apt:
     update_cache: yes

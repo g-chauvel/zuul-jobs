@@ -7,9 +7,9 @@
 
 - name: Set packer checksum
   set_fact:
-    packer_checksum: "{{\
-        packer_version_checksums.content |\
-        regex_search( '[a-z0-9]+  ' + packer_package) |\
+    packer_checksum: "{{ \
+        packer_version_checksums.content | \
+        regex_search( '[a-z0-9]+  ' + packer_package) | \
         regex_replace( '(?P<checksum>[a-z0-9]+)  ' + packer_package, '\\g<checksum>')
       }}"
 

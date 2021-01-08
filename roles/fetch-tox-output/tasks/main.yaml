@@ -62,7 +62,7 @@
     envlist: "{{ tox_all_environments.stdout_lines }}"
   when: tox_all_environments.stdout_lines is defined
 
-- name: Copy tox logs  # noqa 208
+- name: Copy tox logs  # noqa risky-file-permissions
   copy:
     dest: "{{ zuul_output_dir }}/logs/tox/"
     src: "{{ zuul_work_dir }}/.tox/{{ zj_testenv }}/log/"

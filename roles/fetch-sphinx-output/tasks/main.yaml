@@ -8,7 +8,7 @@
     group: no
   when: not zuul_use_fetch_output
 
-- name: Copy sphinx build html  # noqa 208
+- name: Copy sphinx build html  # noqa risky-file-permissions
   copy:
     dest: "{{ zuul_output_dir }}/logs/"
     src: "{{ sphinx_output_src }}"

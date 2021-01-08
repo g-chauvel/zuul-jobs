@@ -3,11 +3,16 @@ exclude_paths:
 parseable: true
 quiet: false
 skip_list:
-  - '106'  # Role name does not match ``^[a-z][a-z0-9_]+$`` pattern
-  - '204'  # Lines should be no longer than 160 chars
-  - '301'  # Commands should not change things if nothing needs doing
-  - '701'  # No 'galaxy_info' found
-rulesdir:
-  - ./.rules/
+  - meta-no-info  # No 'galaxy_info' found
+  - no-changed-when  # Commands should not change things if nothing needs doing
+  - no-tabs  # Most files should not contain tabs
+  - role-name  # Role name does not match ``^[a-z][a-z0-9_]+$`` pattern
 use_default_rules: true
 verbosity: 1
+mock_modules:
+  - zuul_console
+  - zuul_return
+loop_var_prefix: zj_
+# Enable rules that are disabled by default:
+enable_list:
+  - no-same-owner

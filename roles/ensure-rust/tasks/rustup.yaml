@@ -1,5 +1,5 @@
 - name: Install Rust
-  shell: |  # noqa 303
+  shell: |  # noqa command-instead-of-module
       set -o pipefail
       curl -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain {{ ensure_rust_rustup_toolchain }}
   environment:

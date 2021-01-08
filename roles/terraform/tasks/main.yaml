@@ -89,7 +89,7 @@
 - name: Get path to main.tf relative to the repo root
   when: terraform_command == "plan"
   register: main_file_location
-  command: "git ls-files --full-name main.tf"  # noqa 303
+  command: "git ls-files --full-name main.tf"  # noqa command-instead-of-module
   args:
     chdir: "{{ zuul_work_dir }}"
 

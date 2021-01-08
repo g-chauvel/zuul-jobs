@@ -1,5 +1,0 @@
-parseable: true
-quiet: false
-rulesdir:
-  - ../../.rules/
-verbosity: 1

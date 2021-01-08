@@ -19,7 +19,7 @@
   register: bazelisk_downloaded
 
 # This will apply to further plays and playbooks
-- name: Set bazelisk_executable fact
+- name: Set bazelisk_executable fact  # noqa no-handler
   set_fact:
     bazelisk_executable: "{{ bazelisk_target }}"
     cacheable: true
