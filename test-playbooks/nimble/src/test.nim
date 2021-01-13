@@ -1,1 +1,3 @@
-echo "Hello world!"
+import sibling
+
+helloWorld()

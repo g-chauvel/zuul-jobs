@@ -10,6 +10,8 @@
       - test-playbooks/nimble
     vars:
       zuul_work_dir: '{{ zuul.project.src_dir }}/test-playbooks/nimble'
+      nimble_siblings:
+        - '{{ zuul.project.src_dir }}/test-playbooks/nimble/sibling'
 
 - job:
     name: zuul-jobs-test-nimble-centos-7
