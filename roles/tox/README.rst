@@ -3,6 +3,7 @@ Runs tox for a project
 **Role Variables**
 
 .. zuul:rolevar:: tox_environment
+   :type: dict
 
    Environment variables to pass in to the tox run.
 
