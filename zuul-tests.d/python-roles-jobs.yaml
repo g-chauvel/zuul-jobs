@@ -63,16 +63,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
-    description: Test the build-python-release-jobs role on gentoo-17-0-systemd
-    parent: zuul-jobs-test-build-python-release-jobs
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-build-python-release-jobs-opensuse-15
     description: Test the build-python-release-jobs role on opensuse-15
     parent: zuul-jobs-test-build-python-release-jobs
@@ -183,16 +173,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
-    description: Test the ensure-python role with pyenv on gentoo-17-0-systemd
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-ensure-python-pyenv-opensuse-15
     description: Test the ensure-python role with pyenv on opensuse-15
     parent: zuul-jobs-test-ensure-python-pyenv
@@ -251,7 +231,6 @@
         - zuul-jobs-test-build-python-release-jobs-centos-8-stream
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
         - zuul-jobs-test-build-python-release-jobs-fedora-32
-        - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
         - zuul-jobs-test-build-python-release-jobs-opensuse-15
         - zuul-jobs-test-build-python-release-jobs-opensuse-tumbleweed-nv
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
@@ -262,7 +241,6 @@
         - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
         - zuul-jobs-test-ensure-python-pyenv-fedora-32
-        - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
@@ -275,7 +253,6 @@
         - zuul-jobs-test-build-python-release-jobs-centos-8-stream
         - zuul-jobs-test-build-python-release-jobs-debian-stretch
         - zuul-jobs-test-build-python-release-jobs-fedora-32
-        - zuul-jobs-test-build-python-release-jobs-gentoo-17-0-systemd
         - zuul-jobs-test-build-python-release-jobs-opensuse-15
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
         - zuul-jobs-test-build-python-release-jobs-ubuntu-xenial
@@ -285,7 +262,6 @@
         - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
         - zuul-jobs-test-ensure-python-pyenv-debian-stretch
         - zuul-jobs-test-ensure-python-pyenv-fedora-32
-        - zuul-jobs-test-ensure-python-pyenv-gentoo-17-0-systemd
         - zuul-jobs-test-ensure-python-pyenv-opensuse-15
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-xenial

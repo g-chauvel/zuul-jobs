@@ -35,7 +35,7 @@ PLATFORMS = [
     'centos-8-stream',
     'debian-stretch',
     'fedora-32',
-    'gentoo-17-0-systemd',
+    # 'gentoo-17-0-systemd',
     'opensuse-15',
     'opensuse-tumbleweed',
     'ubuntu-bionic',

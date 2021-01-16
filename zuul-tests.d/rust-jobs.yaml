@@ -64,16 +64,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-rust-gentoo-17-0-systemd
-    description: Test the rust roles on gentoo-17-0-systemd
-    parent: zuul-jobs-test-rust
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-rust-opensuse-15
     description: Test the rust roles on opensuse-15
     parent: zuul-jobs-test-rust
@@ -132,7 +122,6 @@
         - zuul-jobs-test-rust-centos-8-stream
         - zuul-jobs-test-rust-debian-stretch
         - zuul-jobs-test-rust-fedora-32
-        - zuul-jobs-test-rust-gentoo-17-0-systemd
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-opensuse-tumbleweed-nv
         - zuul-jobs-test-rust-ubuntu-bionic
@@ -145,7 +134,6 @@
         - zuul-jobs-test-rust-centos-8-stream
         - zuul-jobs-test-rust-debian-stretch
         - zuul-jobs-test-rust-fedora-32
-        - zuul-jobs-test-rust-gentoo-17-0-systemd
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic
         - zuul-jobs-test-rust-ubuntu-xenial
