@@ -25,6 +25,7 @@
     > {{ _tox_show_config_tempfile.path }}
   args:
     chdir: "{{ zuul_work_dir }}"
+  environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
 
 - name: Install any sibling python packages
   tox_install_sibling_packages:
