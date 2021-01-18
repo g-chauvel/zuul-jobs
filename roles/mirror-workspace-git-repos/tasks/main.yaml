@@ -38,6 +38,8 @@
 # Do this as a multi-line shell so that we can do the loop once
 - name: Update remote repository state correctly
   shell: |
+    set -eu
+
     # Reset is needed because we pushed to a non-bare repo
     git reset --hard
     # Clean is needed because we pushed to a non-bare repo
