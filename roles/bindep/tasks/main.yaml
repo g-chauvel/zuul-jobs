@@ -10,13 +10,8 @@
     - bindep_file is defined
     - bindep_command is not defined
 
-- name: Convert bindep_file to list
-  set_fact:
-    bindep_file: "{{ [bindep_file] }}"
-  when: bindep_file is defined and bindep_file is string
-
 - include_tasks: packages.yaml
-  loop: "{{ bindep_file }}"
+  loop: "{{ bindep_file is string | ternary([bindep_file], bindep_file) }}"
   loop_control:
     loop_var: zj_bindep_file
   when: bindep_file is defined
