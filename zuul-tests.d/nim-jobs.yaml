@@ -64,16 +64,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-nimble-gentoo-17-0-systemd
-    description: Test the nimble job on gentoo-17-0-systemd
-    parent: zuul-jobs-test-nimble
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-nimble-opensuse-15
     description: Test the nimble job on opensuse-15
     parent: zuul-jobs-test-nimble
@@ -132,7 +122,6 @@
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-debian-stretch
         - zuul-jobs-test-nimble-fedora-32
-        - zuul-jobs-test-nimble-gentoo-17-0-systemd
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-opensuse-tumbleweed-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
@@ -145,7 +134,6 @@
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-debian-stretch
         - zuul-jobs-test-nimble-fedora-32
-        - zuul-jobs-test-nimble-gentoo-17-0-systemd
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-xenial

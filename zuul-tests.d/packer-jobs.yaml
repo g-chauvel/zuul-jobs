@@ -68,16 +68,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-packer-gentoo-17-0-systemd
-    description: Test packer job on gentoo-17-0-systemd
-    parent: zuul-jobs-test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-packer-opensuse-15
     description: Test packer job on opensuse-15
     parent: zuul-jobs-test-packer
@@ -136,7 +126,6 @@
         - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-stretch
         - zuul-jobs-test-packer-fedora-32
-        - zuul-jobs-test-packer-gentoo-17-0-systemd
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
         - zuul-jobs-test-packer-ubuntu-bionic
@@ -149,7 +138,6 @@
         - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-stretch
         - zuul-jobs-test-packer-fedora-32
-        - zuul-jobs-test-packer-gentoo-17-0-systemd
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-xenial

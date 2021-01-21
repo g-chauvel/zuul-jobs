@@ -66,16 +66,6 @@
           label: fedora-32
 
 - job:
-    name: zuul-jobs-test-golang-go-gentoo-17-0-systemd
-    description: Test the golang-go job on gentoo-17-0-systemd
-    parent: zuul-jobs-test-golang-go
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: gentoo-17-0-systemd
-          label: gentoo-17-0-systemd
-
-- job:
     name: zuul-jobs-test-golang-go-opensuse-15
     description: Test the golang-go job on opensuse-15
     parent: zuul-jobs-test-golang-go
@@ -134,7 +124,6 @@
         - zuul-jobs-test-golang-go-centos-8-stream
         - zuul-jobs-test-golang-go-debian-stretch
         - zuul-jobs-test-golang-go-fedora-32
-        - zuul-jobs-test-golang-go-gentoo-17-0-systemd
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
         - zuul-jobs-test-golang-go-ubuntu-bionic
@@ -147,7 +136,6 @@
         - zuul-jobs-test-golang-go-centos-8-stream
         - zuul-jobs-test-golang-go-debian-stretch
         - zuul-jobs-test-golang-go-fedora-32
-        - zuul-jobs-test-golang-go-gentoo-17-0-systemd
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic
         - zuul-jobs-test-golang-go-ubuntu-xenial
