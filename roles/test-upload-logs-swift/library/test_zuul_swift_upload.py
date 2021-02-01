@@ -32,7 +32,7 @@ except ImportError:
 import requests
 from bs4 import BeautifulSoup
 from .zuul_swift_upload import FileList, Indexer, FileDetail, Uploader
-
+from .filefixture import FileFixture
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__),
                            'test-fixtures')
@@ -50,8 +50,11 @@ class SymlinkFixture(fixtures.Fixture):
     ]
 
     def _setUp(self):
+        self.file_fixture = FileFixture()
+        self.file_fixture.setUp()
+        self.addCleanup(self.file_fixture.cleanUp)
         for (src, target) in self.links:
-            path = os.path.join(FIXTURE_DIR, 'links', src)
+            path = os.path.join(self.file_fixture.root, 'links', src)
             os.symlink(target, path)
             self.addCleanup(os.unlink, path)
 
@@ -88,66 +91,69 @@ class TestFileList(testtools.TestCase):
         '''Test a single directory with a trailing slash'''
 
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs/'))
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('controller', 'application/directory', None),
-                ('zuul-info', 'application/directory', None),
-                ('job-output.json', 'application/json', None),
-                (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
-                 'text/plain', None),
-                ('controller/subdir', 'application/directory', None),
-                ('controller/compressed.gz', 'text/plain', 'gzip'),
-                ('controller/cpu-load.svg', 'image/svg+xml', None),
-                ('controller/journal.xz', 'text/plain', 'xz'),
-                ('controller/service_log.txt', 'text/plain', None),
-                ('controller/syslog', 'text/plain', None),
-                ('controller/subdir/foo::3.txt', 'text/plain', None),
-                ('controller/subdir/subdir.txt', 'text/plain', None),
-                ('zuul-info/inventory.yaml', 'text/plain', None),
-                ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
-            ])
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root, 'logs/'))
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('controller', 'application/directory', None),
+                    ('zuul-info', 'application/directory', None),
+                    ('job-output.json', 'application/json', None),
+                    (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
+                     'text/plain', None),
+                    ('controller/subdir', 'application/directory', None),
+                    ('controller/compressed.gz', 'text/plain', 'gzip'),
+                    ('controller/cpu-load.svg', 'image/svg+xml', None),
+                    ('controller/journal.xz', 'text/plain', 'xz'),
+                    ('controller/service_log.txt', 'text/plain', None),
+                    ('controller/syslog', 'text/plain', None),
+                    ('controller/subdir/foo::3.txt', 'text/plain', None),
+                    ('controller/subdir/subdir.txt', 'text/plain', None),
+                    ('zuul-info/inventory.yaml', 'text/plain', None),
+                    ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
+                ])
 
     def test_single_dir(self):
         '''Test a single directory without a trailing slash'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs'))
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('logs', 'application/directory', None),
-                ('logs/controller', 'application/directory', None),
-                ('logs/zuul-info', 'application/directory', None),
-                ('logs/job-output.json', 'application/json', None),
-                (u'logs/\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
-                 'text/plain', None),
-                ('logs/controller/subdir', 'application/directory', None),
-                ('logs/controller/compressed.gz', 'text/plain', 'gzip'),
-                ('logs/controller/cpu-load.svg', 'image/svg+xml', None),
-                ('logs/controller/journal.xz', 'text/plain', 'xz'),
-                ('logs/controller/service_log.txt', 'text/plain', None),
-                ('logs/controller/syslog', 'text/plain', None),
-                ('logs/controller/subdir/foo::3.txt', 'text/plain', None),
-                ('logs/controller/subdir/subdir.txt', 'text/plain', None),
-                ('logs/zuul-info/inventory.yaml', 'text/plain', None),
-                ('logs/zuul-info/zuul-info.controller.txt',
-                 'text/plain', None),
-            ])
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root, 'logs'))
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('logs', 'application/directory', None),
+                    ('logs/controller', 'application/directory', None),
+                    ('logs/zuul-info', 'application/directory', None),
+                    ('logs/job-output.json', 'application/json', None),
+                    (u'logs/\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
+                     'text/plain', None),
+                    ('logs/controller/subdir', 'application/directory', None),
+                    ('logs/controller/compressed.gz', 'text/plain', 'gzip'),
+                    ('logs/controller/cpu-load.svg', 'image/svg+xml', None),
+                    ('logs/controller/journal.xz', 'text/plain', 'xz'),
+                    ('logs/controller/service_log.txt', 'text/plain', None),
+                    ('logs/controller/syslog', 'text/plain', None),
+                    ('logs/controller/subdir/foo::3.txt', 'text/plain', None),
+                    ('logs/controller/subdir/subdir.txt', 'text/plain', None),
+                    ('logs/zuul-info/inventory.yaml', 'text/plain', None),
+                    ('logs/zuul-info/zuul-info.controller.txt',
+                     'text/plain', None),
+                ])
 
     def test_single_file(self):
         '''Test a single file'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR,
-                                'logs/zuul-info/inventory.yaml'))
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('inventory.yaml', 'text/plain', None),
-            ])
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root,
+                                    'logs/zuul-info/inventory.yaml'))
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('inventory.yaml', 'text/plain', None),
+                ])
 
     def test_symlinks(self):
         '''Test symlinks'''
         with FileList() as fl:
-            self.useFixture(SymlinkFixture())
-            fl.add(os.path.join(FIXTURE_DIR, 'links/'))
+            symlink_fixture = self.useFixture(SymlinkFixture())
+            fl.add(os.path.join(symlink_fixture.file_fixture.root, 'links/'))
             self.assert_files(fl, [
                 ('', 'application/directory', None),
                 ('controller', 'application/directory', None),
@@ -165,7 +171,8 @@ class TestFileList(testtools.TestCase):
     def test_index_files(self):
         '''Test index generation'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs'))
+            symlink_fixture = self.useFixture(SymlinkFixture())
+            fl.add(os.path.join(symlink_fixture.file_fixture.root, 'logs'))
             ix = Indexer(fl)
             ix.make_indexes()
 
@@ -223,32 +230,33 @@ class TestFileList(testtools.TestCase):
     def test_index_files_trailing_slash(self):
         '''Test index generation with a trailing slash'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs/'))
-            ix = Indexer(fl)
-            ix.make_indexes()
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root, 'logs/'))
+                ix = Indexer(fl)
+                ix.make_indexes()
 
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('controller', 'application/directory', None),
-                ('zuul-info', 'application/directory', None),
-                ('job-output.json', 'application/json', None),
-                (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
-                 'text/plain', None),
-                ('index.html', 'text/html', None),
-                ('controller/subdir', 'application/directory', None),
-                ('controller/compressed.gz', 'text/plain', 'gzip'),
-                ('controller/cpu-load.svg', 'image/svg+xml', None),
-                ('controller/journal.xz', 'text/plain', 'xz'),
-                ('controller/service_log.txt', 'text/plain', None),
-                ('controller/syslog', 'text/plain', None),
-                ('controller/index.html', 'text/html', None),
-                ('controller/subdir/foo::3.txt', 'text/plain', None),
-                ('controller/subdir/subdir.txt', 'text/plain', None),
-                ('controller/subdir/index.html', 'text/html', None),
-                ('zuul-info/inventory.yaml', 'text/plain', None),
-                ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
-                ('zuul-info/index.html', 'text/html', None),
-            ])
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('controller', 'application/directory', None),
+                    ('zuul-info', 'application/directory', None),
+                    ('job-output.json', 'application/json', None),
+                    (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
+                     'text/plain', None),
+                    ('index.html', 'text/html', None),
+                    ('controller/subdir', 'application/directory', None),
+                    ('controller/compressed.gz', 'text/plain', 'gzip'),
+                    ('controller/cpu-load.svg', 'image/svg+xml', None),
+                    ('controller/journal.xz', 'text/plain', 'xz'),
+                    ('controller/service_log.txt', 'text/plain', None),
+                    ('controller/syslog', 'text/plain', None),
+                    ('controller/index.html', 'text/html', None),
+                    ('controller/subdir/foo::3.txt', 'text/plain', None),
+                    ('controller/subdir/subdir.txt', 'text/plain', None),
+                    ('controller/subdir/index.html', 'text/html', None),
+                    ('zuul-info/inventory.yaml', 'text/plain', None),
+                    ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
+                    ('zuul-info/index.html', 'text/html', None),
+                ])
 
             top_index = self.find_file(fl, 'index.html')
             page = open(top_index.full_path).read()
@@ -280,134 +288,145 @@ class TestFileList(testtools.TestCase):
     def test_topdir_parent_link(self):
         '''Test index generation creates topdir parent link'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs/'))
-            ix = Indexer(fl)
-            ix.make_indexes(
-                create_parent_links=True,
-                create_topdir_parent_link=True)
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root, 'logs/'))
+                ix = Indexer(fl)
+                ix.make_indexes(
+                    create_parent_links=True,
+                    create_topdir_parent_link=True)
 
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('controller', 'application/directory', None),
-                ('zuul-info', 'application/directory', None),
-                ('job-output.json', 'application/json', None),
-                (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
-                 'text/plain', None),
-                ('index.html', 'text/html', None),
-                ('controller/subdir', 'application/directory', None),
-                ('controller/compressed.gz', 'text/plain', 'gzip'),
-                ('controller/cpu-load.svg', 'image/svg+xml', None),
-                ('controller/journal.xz', 'text/plain', 'xz'),
-                ('controller/service_log.txt', 'text/plain', None),
-                ('controller/syslog', 'text/plain', None),
-                ('controller/index.html', 'text/html', None),
-                ('controller/subdir/foo::3.txt', 'text/plain', None),
-                ('controller/subdir/subdir.txt', 'text/plain', None),
-                ('controller/subdir/index.html', 'text/html', None),
-                ('zuul-info/inventory.yaml', 'text/plain', None),
-                ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
-                ('zuul-info/index.html', 'text/html', None),
-            ])
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('controller', 'application/directory', None),
+                    ('zuul-info', 'application/directory', None),
+                    ('job-output.json', 'application/json', None),
+                    (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
+                     'text/plain', None),
+                    ('index.html', 'text/html', None),
+                    ('controller/subdir', 'application/directory', None),
+                    ('controller/compressed.gz', 'text/plain', 'gzip'),
+                    ('controller/cpu-load.svg', 'image/svg+xml', None),
+                    ('controller/journal.xz', 'text/plain', 'xz'),
+                    ('controller/service_log.txt', 'text/plain', None),
+                    ('controller/syslog', 'text/plain', None),
+                    ('controller/index.html', 'text/html', None),
+                    ('controller/subdir/foo::3.txt', 'text/plain', None),
+                    ('controller/subdir/subdir.txt', 'text/plain', None),
+                    ('controller/subdir/index.html', 'text/html', None),
+                    ('zuul-info/inventory.yaml', 'text/plain', None),
+                    ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
+                    ('zuul-info/index.html', 'text/html', None),
+                ])
 
-            top_index = self.find_file(fl, 'index.html')
-            page = open(top_index.full_path).read()
-            page = BeautifulSoup(page, 'html.parser')
-            rows = page.find_all('tr')[1:]
+                top_index = self.find_file(fl, 'index.html')
+                page = open(top_index.full_path).read()
+                page = BeautifulSoup(page, 'html.parser')
+                rows = page.find_all('tr')[1:]
 
-            self.assertEqual(len(rows), 5)
+                self.assertEqual(len(rows), 5)
 
-            self.assertEqual(rows[0].find('a').get('href'), '../')
-            self.assertEqual(rows[0].find('a').text, '../')
+                self.assertEqual(rows[0].find('a').get('href'), '../')
+                self.assertEqual(rows[0].find('a').text, '../')
 
-            self.assertEqual(rows[1].find('a').get('href'), 'controller/')
-            self.assertEqual(rows[1].find('a').text, 'controller/')
+                self.assertEqual(rows[1].find('a').get('href'), 'controller/')
+                self.assertEqual(rows[1].find('a').text, 'controller/')
 
-            self.assertEqual(rows[2].find('a').get('href'), 'zuul-info/')
-            self.assertEqual(rows[2].find('a').text, 'zuul-info/')
+                self.assertEqual(rows[2].find('a').get('href'), 'zuul-info/')
+                self.assertEqual(rows[2].find('a').text, 'zuul-info/')
 
-            subdir_index = self.find_file(fl, 'controller/subdir/index.html')
-            page = open(subdir_index.full_path).read()
-            page = BeautifulSoup(page, 'html.parser')
-            rows = page.find_all('tr')[1:]
-            self.assertEqual(rows[0].find('a').get('href'), '../')
-            self.assertEqual(rows[0].find('a').text, '../')
+                subdir_index = self.find_file(
+                    fl, 'controller/subdir/index.html'
+                )
+                page = open(subdir_index.full_path).read()
+                page = BeautifulSoup(page, 'html.parser')
+                rows = page.find_all('tr')[1:]
+                self.assertEqual(rows[0].find('a').get('href'), '../')
+                self.assertEqual(rows[0].find('a').text, '../')
 
-            # Test proper escaping of files with funny names
-            self.assertEqual(rows[1].find('a').get('href'), 'foo%3A%3A3.txt')
-            self.assertEqual(rows[1].find('a').text, 'foo::3.txt')
-            # Test files without escaping
-            self.assertEqual(rows[2].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[2].find('a').text, 'subdir.txt')
+                # Test proper escaping of files with funny names
+                self.assertEqual(
+                    rows[1].find('a').get('href'), 'foo%3A%3A3.txt'
+                )
+                self.assertEqual(rows[1].find('a').text, 'foo::3.txt')
+                # Test files without escaping
+                self.assertEqual(rows[2].find('a').get('href'), 'subdir.txt')
+                self.assertEqual(rows[2].find('a').text, 'subdir.txt')
 
     def test_no_parent_links(self):
         '''Test index generation creates topdir parent link'''
         with FileList() as fl:
-            fl.add(os.path.join(FIXTURE_DIR, 'logs/'))
-            ix = Indexer(fl)
-            ix.make_indexes(
-                create_parent_links=False,
-                create_topdir_parent_link=False)
+            with FileFixture() as file_fixture:
+                fl.add(os.path.join(file_fixture.root, 'logs/'))
+                ix = Indexer(fl)
+                ix.make_indexes(
+                    create_parent_links=False,
+                    create_topdir_parent_link=False)
 
-            self.assert_files(fl, [
-                ('', 'application/directory', None),
-                ('controller', 'application/directory', None),
-                ('zuul-info', 'application/directory', None),
-                ('job-output.json', 'application/json', None),
-                (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
-                 'text/plain', None),
-                ('index.html', 'text/html', None),
-                ('controller/subdir', 'application/directory', None),
-                ('controller/compressed.gz', 'text/plain', 'gzip'),
-                ('controller/cpu-load.svg', 'image/svg+xml', None),
-                ('controller/journal.xz', 'text/plain', 'xz'),
-                ('controller/service_log.txt', 'text/plain', None),
-                ('controller/syslog', 'text/plain', None),
-                ('controller/index.html', 'text/html', None),
-                ('controller/subdir/foo::3.txt', 'text/plain', None),
-                ('controller/subdir/subdir.txt', 'text/plain', None),
-                ('controller/subdir/index.html', 'text/html', None),
-                ('zuul-info/inventory.yaml', 'text/plain', None),
-                ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
-                ('zuul-info/index.html', 'text/html', None),
-            ])
+                self.assert_files(fl, [
+                    ('', 'application/directory', None),
+                    ('controller', 'application/directory', None),
+                    ('zuul-info', 'application/directory', None),
+                    ('job-output.json', 'application/json', None),
+                    (u'\u13c3\u0e9a\u0e9a\u03be-unicode.txt',
+                     'text/plain', None),
+                    ('index.html', 'text/html', None),
+                    ('controller/subdir', 'application/directory', None),
+                    ('controller/compressed.gz', 'text/plain', 'gzip'),
+                    ('controller/cpu-load.svg', 'image/svg+xml', None),
+                    ('controller/journal.xz', 'text/plain', 'xz'),
+                    ('controller/service_log.txt', 'text/plain', None),
+                    ('controller/syslog', 'text/plain', None),
+                    ('controller/index.html', 'text/html', None),
+                    ('controller/subdir/foo::3.txt', 'text/plain', None),
+                    ('controller/subdir/subdir.txt', 'text/plain', None),
+                    ('controller/subdir/index.html', 'text/html', None),
+                    ('zuul-info/inventory.yaml', 'text/plain', None),
+                    ('zuul-info/zuul-info.controller.txt', 'text/plain', None),
+                    ('zuul-info/index.html', 'text/html', None),
+                ])
 
-            top_index = self.find_file(fl, 'index.html')
-            page = open(top_index.full_path).read()
-            page = BeautifulSoup(page, 'html.parser')
-            rows = page.find_all('tr')[1:]
+                top_index = self.find_file(fl, 'index.html')
+                page = open(top_index.full_path).read()
+                page = BeautifulSoup(page, 'html.parser')
+                rows = page.find_all('tr')[1:]
 
-            self.assertEqual(len(rows), 4)
+                self.assertEqual(len(rows), 4)
 
-            self.assertEqual(rows[0].find('a').get('href'), 'controller/')
-            self.assertEqual(rows[0].find('a').text, 'controller/')
+                self.assertEqual(rows[0].find('a').get('href'), 'controller/')
+                self.assertEqual(rows[0].find('a').text, 'controller/')
 
-            self.assertEqual(rows[1].find('a').get('href'), 'zuul-info/')
-            self.assertEqual(rows[1].find('a').text, 'zuul-info/')
+                self.assertEqual(rows[1].find('a').get('href'), 'zuul-info/')
+                self.assertEqual(rows[1].find('a').text, 'zuul-info/')
 
-            subdir_index = self.find_file(fl, 'controller/subdir/index.html')
-            page = open(subdir_index.full_path).read()
-            page = BeautifulSoup(page, 'html.parser')
-            rows = page.find_all('tr')[1:]
+                subdir_index = self.find_file(
+                    fl, 'controller/subdir/index.html'
+                )
+                page = open(subdir_index.full_path).read()
+                page = BeautifulSoup(page, 'html.parser')
+                rows = page.find_all('tr')[1:]
 
-            # Test proper escaping of files with funny names
-            self.assertEqual(rows[0].find('a').get('href'), 'foo%3A%3A3.txt')
-            self.assertEqual(rows[0].find('a').text, 'foo::3.txt')
-            # Test files without escaping
-            self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
-            self.assertEqual(rows[1].find('a').text, 'subdir.txt')
+                # Test proper escaping of files with funny names
+                self.assertEqual(
+                    rows[0].find('a').get('href'), 'foo%3A%3A3.txt'
+                )
+                self.assertEqual(rows[0].find('a').text, 'foo::3.txt')
+                # Test files without escaping
+                self.assertEqual(rows[1].find('a').get('href'), 'subdir.txt')
+                self.assertEqual(rows[1].find('a').text, 'subdir.txt')
 
 
 class TestFileDetail(testtools.TestCase):
 
     def test_get_file_detail(self):
         '''Test files info'''
-        path = os.path.join(FIXTURE_DIR, 'logs/job-output.json')
-        file_detail = FileDetail(path, '')
-        path_stat = os.stat(path)
-        self.assertEqual(
-            time.gmtime(path_stat[stat.ST_MTIME]),
-            file_detail.last_modified)
-        self.assertEqual(16, file_detail.size)
+        with FileFixture() as file_fixture:
+            path = os.path.join(file_fixture.root, 'logs/job-output.json')
+            file_detail = FileDetail(path, '')
+            path_stat = os.stat(path)
+            self.assertEqual(
+                time.gmtime(path_stat[stat.ST_MTIME]),
+                file_detail.last_modified)
+            self.assertEqual(16, file_detail.size)
 
     def test_get_file_detail_missing_file(self):
         '''Test files that go missing during a walk'''
@@ -447,26 +466,29 @@ class TestUpload(testtools.TestCase):
         )
 
         # Get some test files to upload
-        files = [
-            FileDetail(
-                os.path.join(FIXTURE_DIR, "logs/job-output.json"),
-                "job-output.json",
-            ),
-            FileDetail(
-                os.path.join(FIXTURE_DIR, "logs/zuul-info/inventory.yaml"),
-                "inventory.yaml",
-            ),
-        ]
-
-        expected_failures = [
-            {
-                "file": "job-output.json",
-                "error": (
-                    "Error posting file after multiple attempts: "
-                    "Failed for a reason"
+        with FileFixture() as file_fixture:
+            files = [
+                FileDetail(
+                    os.path.join(file_fixture.root, "logs/job-output.json"),
+                    "job-output.json",
                 ),
-            },
-        ]
+                FileDetail(
+                    os.path.join(
+                        file_fixture.root, "logs/zuul-info/inventory.yaml"
+                    ),
+                    "inventory.yaml",
+                ),
+            ]
 
-        failures = uploader.upload(files)
-        self.assertEqual(expected_failures, failures)
+            expected_failures = [
+                {
+                    "file": "job-output.json",
+                    "error": (
+                        "Error posting file after multiple attempts: "
+                        "Failed for a reason"
+                    ),
+                },
+            ]
+
+            failures = uploader.upload(files)
+            self.assertEqual(expected_failures, failures)
