@@ -27,6 +27,8 @@ command_map = {
     'network_routing_v4': 'ip route show',
     'network_routing_v6': 'ip -6 route show',
     'network_neighbors': 'ip neighbor show',
+    'df_i': 'df -i',
+    'df_m': 'df -m',
 }
 
 
