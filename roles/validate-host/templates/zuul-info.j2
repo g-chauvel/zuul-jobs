@@ -51,4 +51,17 @@ Route to Known Host v6
 ======================
 Known Host: {{ zuul_site_traceroute_host }}
 {{ zdi.traceroute_v6 }}
+
+{% endif %}
+{% if 'df_i' in zdi %}
+Initial FS Inode Counts
+=======================
+{{ zdi.df_i }}
+
+{% endif %}
+{% if 'df_m' in zdi %}
+Initial FS Utilization
+======================
+{{ zdi.df_m }}
+
 {% endif %}
