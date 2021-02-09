@@ -93,7 +93,8 @@ class Uploader():
 
         self.dry_run = dry_run
         if dry_run:
-            self.url = 'http://dry-run-url.com/a/path/'
+            self.endpoint = 'http://dry-run-url.com'
+            self.path = '/a/path/'
             return
 
         self.client = client
@@ -107,9 +108,8 @@ class Uploader():
         self.bucket.cors = cors
         self.bucket.website = {"mainPageSuffix": "index.html"}
         self.bucket.update()
-
-        self.url = os.path.join('https://storage.googleapis.com/',
-                                container, self.prefix)
+        self.endpoint = 'https://storage.googleapis.com'
+        self.path = os.path.join(container, self.prefix)
 
     def upload(self, file_list):
         """Spin up thread pool to upload to storage"""
@@ -240,7 +240,7 @@ def run(container, files,
         # Upload.
         uploader = Uploader(client, container, prefix, dry_run)
         uploader.upload(file_list)
-        return uploader.url
+        return uploader.endpoint, uploader.path
 
 
 def ansible_main():
@@ -260,17 +260,18 @@ def ansible_main():
     )
 
     p = module.params
-    url = run(p.get('container'), p.get('files'),
-              indexes=p.get('indexes'),
-              parent_links=p.get('parent_links'),
-              topdir_parent_link=p.get('topdir_parent_link'),
-              partition=p.get('partition'),
-              footer=p.get('footer'),
-              prefix=p.get('prefix'),
-              credentials_file=p.get('credentials_file'),
-              project=p.get('project'))
+    endpoint, path = run(p.get('container'), p.get('files'),
+                         indexes=p.get('indexes'),
+                         parent_links=p.get('parent_links'),
+                         topdir_parent_link=p.get('topdir_parent_link'),
+                         partition=p.get('partition'),
+                         footer=p.get('footer'),
+                         prefix=p.get('prefix'),
+                         credentials_file=p.get('credentials_file'),
+                         project=p.get('project'))
     module.exit_json(changed=True,
-                     url=url)
+                     endpoint=endpoint,
+                     path=path)
 
 
 def cli_main():
@@ -320,17 +321,17 @@ def cli_main():
     if append_footer.lower() == 'none':
         append_footer = None
 
-    url = run(args.container, args.files,
-              indexes=not args.no_indexes,
-              parent_links=not args.no_parent_links,
-              topdir_parent_link=args.create_topdir_parent_link,
-              partition=args.partition,
-              footer=append_footer,
-              prefix=args.prefix,
-              dry_run=args.dry_run,
-              credentials_file=args.credentials_file,
-              project=args.project)
-    print(url)
+    _, path = run(args.container, args.files,
+                  indexes=not args.no_indexes,
+                  parent_links=not args.no_parent_links,
+                  topdir_parent_link=args.create_topdir_parent_link,
+                  partition=args.partition,
+                  footer=append_footer,
+                  prefix=args.prefix,
+                  dry_run=args.dry_run,
+                  credentials_file=args.credentials_file,
+                  project=args.project)
+    print(path)
 
 
 if __name__ == '__main__':

@@ -34,5 +34,5 @@
   zuul_return:
     data:
       zuul:
-        log_url: "{{ upload_results.url }}/"
+        log_url: "{{ zuul_log_storage_proxy_url | default(upload_results.endpoint, true) | regex_replace('\\/$', '') }}/{{ upload_results.path }}"
   when: upload_results is defined

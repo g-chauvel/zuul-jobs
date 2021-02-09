@@ -63,7 +63,8 @@ class Uploader():
         self.dry_run = dry_run
         self.public = public
         if dry_run:
-            self.url = 'http://dry-run-url.com/a/path/'
+            self.endpoint = 'http://dry-run-url.com'
+            self.path = '/a/path'
             return
 
         self.prefix = prefix or ''
@@ -73,8 +74,7 @@ class Uploader():
         else:
             self.endpoint = 'https://s3.amazonaws.com/'
 
-        self.url = os.path.join(self.endpoint,
-                                bucket, self.prefix)
+        self.path = os.path.join(bucket, self.prefix)
 
         self.s3 = boto3.resource('s3',
                                  endpoint_url=self.endpoint,
@@ -223,7 +223,7 @@ def run(bucket, public, files, endpoint=None,
                             aws_secret_key=aws_secret_key)
         upload_failures = uploader.upload(file_list)
 
-        return uploader.url, upload_failures
+        return uploader.endpoint, uploader.path, upload_failures
 
 
 def ansible_main():
@@ -245,24 +245,28 @@ def ansible_main():
     )
 
     p = module.params
-    url, failures = run(p.get('bucket'),
-                        p.get('public'),
-                        p.get('files'),
-                        p.get('endpoint'),
-                        indexes=p.get('indexes'),
-                        parent_links=p.get('parent_links'),
-                        topdir_parent_link=p.get('topdir_parent_link'),
-                        partition=p.get('partition'),
-                        footer=p.get('footer'),
-                        prefix=p.get('prefix'),
-                        aws_access_key=p.get('aws_access_key'),
-                        aws_secret_key=p.get('aws_secret_key'))
+    endpoint, path, failures = run(
+        p.get('bucket'),
+        p.get('public'),
+        p.get('files'),
+        p.get('endpoint'),
+        indexes=p.get('indexes'),
+        parent_links=p.get('parent_links'),
+        topdir_parent_link=p.get('topdir_parent_link'),
+        partition=p.get('partition'),
+        footer=p.get('footer'),
+        prefix=p.get('prefix'),
+        aws_access_key=p.get('aws_access_key'),
+        aws_secret_key=p.get('aws_secret_key'),
+    )
     if failures:
         module.fail_json(changed=True,
-                         url=url,
+                         endpoint=endpoint,
+                         path=path,
                          failures=failures)
     module.exit_json(changed=True,
-                     url=url,
+                     endpoint=endpoint,
+                     path=path,
                      failures=failures)
 
 
@@ -290,11 +294,10 @@ def cli_main():
         logging.basicConfig(level=logging.DEBUG)
         logging.captureWarnings(True)
 
-    url = run(args.bucket, args.files,
-              prefix=args.prefix,
-              public=not args.no_public,
-              endpoint=args.endpoint)
-    print(url)
+    _, path, _ = run(args.bucket, not args.no_public, args.files,
+                     prefix=args.prefix,
+                     endpoint=args.endpoint)
+    print(path)
 
 
 if __name__ == '__main__':

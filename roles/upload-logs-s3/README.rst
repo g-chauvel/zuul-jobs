@@ -76,3 +76,10 @@ installed in the Ansible environment on the Zuul executor.
 
    The endpoint to use when uploading logs to an s3 compatible service.
    By default this will be automatically constructed by boto but should be set when working with non-aws hosted s3 service.
+
+.. zuul:rolevar:: zuul_log_storage_proxy_url
+
+   The url of the proxy for the cloud object store.
+   If you are using zuul-storage-proxy to proxy requests for logs, set this
+   to the the URL of the log proxy server.  When set, this role will replace
+   the cloud storage endpoint with this value in the log URL returned to Zuul.
