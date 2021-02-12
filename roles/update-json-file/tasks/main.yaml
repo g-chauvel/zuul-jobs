@@ -28,6 +28,25 @@
     var: _config
   when: update_json_file_debug
 
+- name: Assure we have a target directory
+  when: update_json_file_name | dirname
+  block:
+    - name: Check if target directory exists
+      stat:
+        path: "{{ update_json_file_name | dirname }}"
+      register: _result
+
+    - name: Create target directory
+      file:
+        path: "{{ update_json_file_name | dirname }}"
+        state: directory
+        mode: '{{ update_json_dir_mode | default(omit) }}'
+        owner: '{{ update_json_file_owner | default(omit) }}'
+        group: '{{ update_json_file_group | default(omit) }}'
+        recurse: yes
+      become: '{{ update_json_file_become }}'
+      when: not _result.stat.exists
+
 - name: Save new file
   copy:
     content: "{{ _config | to_nice_json }}"

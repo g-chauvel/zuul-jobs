@@ -4,7 +4,7 @@
     - include_role:
         name: update-json-file
       vars:
-        update_json_file_name: test.json
+        update_json_file_name: some/test.json
         update_json_file_default:
           foo: bar
         update_json_file_combine:
@@ -14,7 +14,7 @@
     - include_role:
         name: update-json-file
       vars:
-        update_json_file_name: test.json
+        update_json_file_name: some/test.json
         update_json_file_combine:
           new: content
           a:
@@ -25,7 +25,7 @@
 
     - name: Load resulting merged file
       slurp:
-        path: 'test.json'
+        path: 'some/test.json'
       register: _file
 
     - name: Parse merged file

@@ -46,3 +46,7 @@ idempotent and will write the file each time.
 .. zuul:rolevar:: update_json_file_group
 
    The group for the combined file.
+
+.. zuul:rolevar:: update_json_dir_mode
+
+   The mode for the directory if that does not already exists.
