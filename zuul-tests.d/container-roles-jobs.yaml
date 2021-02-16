@@ -248,6 +248,7 @@
       - roles/push-to-intermediate-registry/.*
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
+      - roles/ensure-openshift/.*
       - roles/ensure-package-repositories/.*
       - roles/build-docker-image/.*
       - roles/run-buildset-registry/.*
