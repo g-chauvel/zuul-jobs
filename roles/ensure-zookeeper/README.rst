@@ -8,3 +8,8 @@ Install and start zookeeper using the upsteam release.
    :default: latest
 
    The zookeeper version.
+
+.. zuul:rolevar:: zookeeper_use_tls
+   :default: false
+
+   Setup zookeeper tls certificates.
