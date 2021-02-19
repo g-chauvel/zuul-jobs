@@ -28,6 +28,15 @@
     state: link
   become: true
 
+- name: Create a tmpfs for ZooKeeper
+  mount:
+    state: mounted
+    path: /tmp/zookeeper/version-2
+    fstype: tmpfs
+    opts: "nodev,nosuid,size=500M"
+    src: "none"
+  become: true
+
 - name: Setup Zookeeper config file
   copy:
     src: /opt/zookeeper/conf/zoo_sample.cfg
