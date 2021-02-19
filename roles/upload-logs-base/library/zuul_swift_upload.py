@@ -77,8 +77,7 @@ class Uploader():
 
         self.dry_run = dry_run
         if dry_run:
-            self.endpoint = 'http://dry-run-url.com'
-            self.path = '/a/path'
+            self.url = 'http://dry-run-url.com/a/path/'
             return
 
         self.cloud = cloud
@@ -141,8 +140,8 @@ class Uploader():
         else:
             endpoint = self.cloud.object_store.get_endpoint()
             container = os.path.join(endpoint, self.container)
-        self.endpoint = endpoint
-        self.path = os.path.join(self.container, self.prefix)
+
+        self.url = os.path.join(container, self.prefix)
 
     def upload(self, file_list):
         """Spin up thread pool to upload to swift"""
@@ -289,7 +288,7 @@ def run(cloud, container, files,
         uploader = Uploader(cloud, container, prefix, delete_after,
                             public, dry_run)
         upload_failures = uploader.upload(file_list)
-        return uploader.endpoint, uploader.path, upload_failures
+        return uploader.url, upload_failures
 
 
 def ansible_main():
@@ -312,7 +311,7 @@ def ansible_main():
     p = module.params
     cloud = get_cloud(p.get('cloud'))
     try:
-        endpoint, path, upload_failures = run(
+        url, upload_failures = run(
             cloud, p.get('container'), p.get('files'),
             indexes=p.get('indexes'),
             parent_links=p.get('parent_links'),
@@ -335,8 +334,7 @@ def ansible_main():
             region_name=cloud.config.region_name)
     module.exit_json(
         changed=True,
-        endpoint=endpoint,
-        path=path,
+        url=url,
         upload_failures=upload_failures,
     )
 
@@ -396,7 +394,7 @@ def cli_main():
     if append_footer.lower() == 'none':
         append_footer = None
 
-    _, path, _ = run(
+    url, _ = run(
         get_cloud(args.cloud), args.container, args.files,
         indexes=not args.no_indexes,
         parent_links=not args.no_parent_links,
@@ -408,7 +406,7 @@ def cli_main():
         public=not args.no_public,
         dry_run=args.dry_run
     )
-    print(path)
+    print(url)
 
 
 if __name__ == '__main__':

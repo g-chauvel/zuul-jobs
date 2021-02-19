@@ -78,10 +78,3 @@ Google Cloud Application Default Credentials.
    :zuul:rolevar:`upload-logs-gcs.zuul_log_credentials_file`, the name
    of the Google Cloud project of the log container must also be
    supplied.
-
-.. zuul:rolevar:: zuul_log_storage_proxy_url
-
-   The url of the proxy for the cloud object store.
-   If you are using zuul-storage-proxy to proxy requests for logs, set this
-   to the the URL of the log proxy server.  When set, this role will replace
-   the cloud storage endpoint with this value in the log URL returned to Zuul.
