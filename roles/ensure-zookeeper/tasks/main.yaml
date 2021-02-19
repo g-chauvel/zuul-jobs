@@ -1,8 +1,11 @@
-- name: Install JDK
-  package:
-    name: java-latest-openjdk
-    state: present
-  become: true
+- name: Install distro-specific packages
+  include_tasks: "{{ zj_distro_os }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family }}.yaml"
+    - "default.yaml"
+  loop_control:
+    loop_var: zj_distro_os
 
 - name: Create /tmp/zookeeper
   file:
@@ -32,6 +35,10 @@
     remote_src: true
     mode: 0644
   become: true
+
+- name: Setup ZooKeeper TLS
+  include_tasks: ./setup_tls.yaml
+  when: zookeeper_use_tls
 
 - name: Ensure Zookeeper not running
   command: pkill -f zookeeper
