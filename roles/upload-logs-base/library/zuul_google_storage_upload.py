@@ -66,8 +66,8 @@ MAX_UPLOAD_THREADS = 24
 
 
 class Credentials(gce_cred.Credentials):
-    def __init__(self, path, *args, **kw):
-        super(Credentials, self).__init__(*args, **kw)
+    def _set_path(self, path):
+        """Call this after initialization"""
         self._path = path
         self.refresh(None)
 
@@ -78,13 +78,10 @@ class Credentials(gce_cred.Credentials):
         self.expiry = (datetime.datetime.utcnow() +
                        datetime.timedelta(seconds=data['expires_in']))
 
-    def with_scopes(self, scopes):
-        return self.__class__(
-            path=self._path,
-            scopes=scopes,
-            service_account_email=self._service_account_email,
-            quota_project_id=self._quota_project_id,
-        )
+    def with_scopes(self, *args, **kw):
+        ret = super(Credentials, self).with_scopes(*args, **kw)
+        ret._set_path(self._path)
+        return ret
 
 
 class Uploader():
@@ -206,7 +203,8 @@ def run(container, files,
         project=None):
 
     if credentials_file:
-        cred = Credentials(credentials_file)
+        cred = Credentials()
+        cred._set_path(credentials_file)
         client = storage.Client(credentials=cred, project=project)
     else:
         client = storage.Client()
@@ -299,7 +297,7 @@ def cli_main():
     parser.add_argument('--dry-run', action='store_true',
                         help='do not attempt to create containers or upload, '
                              'useful with --verbose for debugging')
-    parser.add_argument('--credentials_file',
+    parser.add_argument('--credentials-file',
                         help='A file with Google Cloud credentials')
     parser.add_argument('--project',
                         help='Name of the Google Cloud project (required for '

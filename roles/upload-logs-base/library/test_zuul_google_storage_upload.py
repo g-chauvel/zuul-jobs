@@ -33,6 +33,7 @@ class TestCredential(testtools.TestCase):
     def test_credential(self):
         path = os.path.join(FIXTURE_DIR, 'gcs', 'auth.json')
         headers = {}
-        c = Credentials(path)
+        c = Credentials()
+        c._set_path(path)
         c.before_request(None, None, None, headers)
         self.assertEqual("Bearer something", headers['authorization'])
