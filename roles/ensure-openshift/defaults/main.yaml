@@ -1,4 +1,3 @@
-origin_repo: centos-release-openshift-origin311
 origin_version: v3.11.0
 origin_repos:
   v3.11: 311
