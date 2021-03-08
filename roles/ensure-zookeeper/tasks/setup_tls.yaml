@@ -8,6 +8,7 @@
     path: "{{ zookeeper_ca_dir }}"
     state: directory
     owner: "{{ ansible_user }}"
+    mode: 0755
   become: true
 
 - name: Copy zk-ca script

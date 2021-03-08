@@ -22,6 +22,7 @@
       gpgcheck=1
       gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS
     dest: /etc/yum.repos.d/origin-pass.repo
+    mode: 0644
 
 # https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-PaaS
 - name: "Install RPM-GPG-KEY-CentOS-SIG-PaaS"
@@ -49,6 +50,7 @@
       =CVSF
       -----END PGP PUBLIC KEY BLOCK-----
     dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-PaaS
+    mode: 0644
 
 - name: Install requirements
   yum:
