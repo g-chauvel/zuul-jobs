@@ -11,7 +11,8 @@
   include_tasks: remote-windows.yaml
   when: ansible_os_family == "Windows"
 
-- import_role:
+- name: Remove zuul master ssh key
+  import_role:
     name: remove-zuul-sshkey
 
 - name: Add back temp key

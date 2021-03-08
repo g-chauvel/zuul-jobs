@@ -3,7 +3,8 @@
     msg: yarn_command is required for this role
   when: yarn_command is not defined
 
-- include_role:
+- name: Run yarn
+  include_role:
     name: js-package-manager
   vars:
     js_build_command: '{{ yarn_command }}'

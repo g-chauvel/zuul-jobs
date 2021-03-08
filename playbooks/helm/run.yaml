@@ -1,6 +1,7 @@
 - hosts: all
   tasks:
-    - include_role:
+    - name: Install helm charts
+      include_role:
         name: helm-template
       vars:
         helm_release_name: "{{ zj_item.key }}"

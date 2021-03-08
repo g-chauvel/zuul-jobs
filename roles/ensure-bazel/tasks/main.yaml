@@ -5,7 +5,8 @@
   failed_when: false
   register: installed_bazel_version
 
-- debug:
+- name: Display Bazel version
+  debug:
     msg: "Current installed Bazel version is {{ installed_bazel_version.stdout }}"
 
 - name: Download and install Bazel if needed

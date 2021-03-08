@@ -3,7 +3,8 @@
     msg: npm_command is required for this role
   when: npm_command is not defined
 
-- include_role:
+- name: Run npm
+  include_role:
     name: js-package-manager
   vars:
     js_build_command: '{{ npm_command }}'
