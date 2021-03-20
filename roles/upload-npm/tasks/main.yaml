@@ -8,9 +8,9 @@
 
 - name: Install NVM
   git:
-    repo: 'https://github.com/creationix/nvm'
+    repo: 'https://github.com/nvm-sh/nvm'
     dest: '~/.nvm'
-    version: v0.33.5
+    version: v0.37.2
 
 - name: Upload tarball to npm
   args:
