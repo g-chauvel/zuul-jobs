@@ -13,3 +13,8 @@ Install and start zookeeper using the upsteam release.
    :default: false
 
    Setup zookeeper tls certificates.
+
+.. zuul:rolevar:: zookeeper_use_tmpfs
+   :default: true
+
+   Setup a tmpfs for data directory.

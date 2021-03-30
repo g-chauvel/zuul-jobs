@@ -35,6 +35,7 @@
     fstype: tmpfs
     opts: "nodev,nosuid,size=500M"
     src: "none"
+  when: zookeeper_use_tmpfs
   become: true
 
 - name: Setup Zookeeper config file
