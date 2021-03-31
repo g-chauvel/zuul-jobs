@@ -30,11 +30,9 @@ newly generated private key.
 .. zuul:rolevar:: zuul_ssh_key_algorithm
    :default: rsa
 
-   The digital signature algorithm to be used to generate the key. Default value
-   'rsa'.
+   The digital signature algorithm to be used to generate the key.
 
 .. zuul:rolevar:: zuul_ssh_key_size
    :default: 3072
 
-   Specifies the number of bits in the key to create. The default length is
-   3072 bits (RSA).
+   Specifies the number of bits in the key to create.
