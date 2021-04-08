@@ -13,6 +13,7 @@ Log Roles
 .. zuul:autorole:: publish-artifacts-to-fileserver
 .. zuul:autorole:: set-zuul-log-path-fact
 .. zuul:autorole:: upload-logs
+.. zuul:autorole:: upload-logs-azure
 .. zuul:autorole:: upload-logs-gcs
 .. zuul:autorole:: upload-logs-s3
 .. zuul:autorole:: upload-logs-swift

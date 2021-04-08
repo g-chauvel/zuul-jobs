@@ -32,5 +32,8 @@ google-cloud-storage
 # For upload-logs-s3
 boto3
 
+# For upload-logs-azure
+azure-storage-blob
+
 # unittest.mock compatibility package for Python < 3.3
 mock;python_version<'3.3'
