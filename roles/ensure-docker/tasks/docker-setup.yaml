@@ -36,13 +36,28 @@
       mtu: 1400
     update_json_file_become: true
 
+- name: Get the status of the docket.socket unit
+  command: systemctl is-failed docker.socket  # noqa command-instead-of-module
+  failed_when: false
+  become: true
+  register: _docker_socket_status
+
+- name: Get the status of the docket unit
+  command: systemctl is-failed docker  # noqa command-instead-of-module
+  failed_when: false
+  become: true
+  register: _docker_status
+
 - name: Restart docker
   when: >-
       (docker_userland_proxy is defined) or
-      (ansible_default_ipv4.mtu < 1500)
-  service:
-    name: docker
-    state: restarted
+      (ansible_default_ipv4.mtu < 1500) or
+      (_docker_socket_status.stdout != 'active') or
+      (_docker_socket_status.stdout != 'active')
+  debug:
+    msg: 'Trigger a Docker restart'
+  changed_when: true
+  notify: Restart docker
 
 - name: Reset ssh connection to pick up docker group
   meta: reset_connection
