@@ -6,6 +6,7 @@
     enabled: yes
     state: stopped
   listen: Restart docker
+  failed_when: false
 
 - name: Assure docker service is running
   become: true
@@ -22,6 +23,7 @@
     enabled: yes
     state: started
   listen: Restart docker
+  failed_when: false
 
 - name: Correct group ownership on docker sock
   become: true
