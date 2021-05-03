@@ -1,3 +1,3 @@
 # {{ ansible_managed }}
-deb {{ security_mirror }} {{ ansible_distribution_release }} main
-deb-src {{ security_mirror }} {{ ansible_distribution_release }} main
+deb {{ security_mirror }} {{ ansible_distribution_release }}{% if ansible_distribution_release not in ['jessie', 'stretch', 'buster'] %}-security{% endif %} main
+deb-src {{ security_mirror }} {{ ansible_distribution_release }}{% if ansible_distribution_release not in ['jessie', 'stretch', 'buster'] %}-security{% endif %} main
