@@ -46,14 +46,24 @@
           label: centos-8-stream
 
 - job:
-    name: zuul-jobs-test-golang-go-debian-stretch
-    description: Test the golang-go job on debian-stretch
+    name: zuul-jobs-test-golang-go-debian-buster
+    description: Test the golang-go job on debian-buster
     parent: zuul-jobs-test-golang-go
     tags: auto-generated
     nodeset:
       nodes:
-        - name: debian-stretch
-          label: debian-stretch
+        - name: debian-buster
+          label: debian-buster
+
+- job:
+    name: zuul-jobs-test-golang-go-debian-bullseye
+    description: Test the golang-go job on debian-bullseye
+    parent: zuul-jobs-test-golang-go
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-bullseye
+          label: debian-bullseye
 
 - job:
     name: zuul-jobs-test-golang-go-fedora-32
@@ -122,7 +132,8 @@
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-centos-8-stream
-        - zuul-jobs-test-golang-go-debian-stretch
+        - zuul-jobs-test-golang-go-debian-buster
+        - zuul-jobs-test-golang-go-debian-bullseye
         - zuul-jobs-test-golang-go-fedora-32
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
@@ -134,7 +145,8 @@
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-centos-8-stream
-        - zuul-jobs-test-golang-go-debian-stretch
+        - zuul-jobs-test-golang-go-debian-buster
+        - zuul-jobs-test-golang-go-debian-bullseye
         - zuul-jobs-test-golang-go-fedora-32
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic

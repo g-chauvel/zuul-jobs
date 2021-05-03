@@ -48,14 +48,24 @@
           label: centos-8-stream
 
 - job:
-    name: zuul-jobs-test-packer-debian-stretch
-    description: Test packer job on debian-stretch
+    name: zuul-jobs-test-packer-debian-buster
+    description: Test packer job on debian-buster
     parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
-        - name: debian-stretch
-          label: debian-stretch
+        - name: debian-buster
+          label: debian-buster
+
+- job:
+    name: zuul-jobs-test-packer-debian-bullseye
+    description: Test packer job on debian-bullseye
+    parent: zuul-jobs-test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-bullseye
+          label: debian-bullseye
 
 - job:
     name: zuul-jobs-test-packer-fedora-32
@@ -124,7 +134,8 @@
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
         - zuul-jobs-test-packer-centos-8-stream
-        - zuul-jobs-test-packer-debian-stretch
+        - zuul-jobs-test-packer-debian-buster
+        - zuul-jobs-test-packer-debian-bullseye
         - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
@@ -136,7 +147,8 @@
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8
         - zuul-jobs-test-packer-centos-8-stream
-        - zuul-jobs-test-packer-debian-stretch
+        - zuul-jobs-test-packer-debian-buster
+        - zuul-jobs-test-packer-debian-bullseye
         - zuul-jobs-test-packer-fedora-32
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
