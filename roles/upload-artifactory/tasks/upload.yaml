@@ -44,19 +44,46 @@
     - "'api_key' not in upload_artifactory_instances[zj_artifact.instance]"
     - "'password' in upload_artifactory_instances[zj_artifact.instance]"
 
-- name: Set artifactory url fact
+- name: Set artifactory backend url fact
   set_fact:
-    _artifactory_url: "{{ upload_artifactory_instances[zj_artifact.instance].transport | default('https') }}://\
-                       {{ upload_artifactory_instances[zj_artifact.instance].fqdn }}\
-                       /artifactory/{{ zj_artifact.dest }}"
+    _artifactory_backend_url: "\
+       {{ upload_artifactory_instances[zj_artifact.instance].transport | default('https') }}://\
+       {{ upload_artifactory_instances[zj_artifact.instance].fqdn }}/\
+       artifactory/\
+       {{ zj_artifact.dest }}"
+
+- name: Set artifact properties
+  set_fact:
+    zj_artifact_properties: >-
+      {%- set zj_properties = [] -%}
+      {%- for zj_p in (zj_aps) -%}
+        {%- if zj_p.value is string -%}
+          {%- set _ = zj_properties.append(zj_p.key + '=' + zj_p.value) -%}
+        {%- elif zj_p.value is iterable and zj_p.value is not mapping -%}
+          {%- set _ = zj_properties.append(zj_p.key + '=' + zj_p.value | join(',')) -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {{ zj_properties | join(';') }}
+  vars:
+    zj_aps: "{{ zj_artifact.properties | default({}) | dict2items }}"
+
+- name: Set upload url
+  set_fact:
+    _artifactory_upload_url: "\
+      {%- if zj_artifact_properties|length -%}
+      {{ _artifactory_backend_url }};{{ zj_artifact_properties | default('') }}\
+      {%- else -%}
+      {{ _artifactory_backend_url }}\
+      {%- endif -%}"
 
 - name: Upload artifact
   no_log: true
   uri:
     user: "{{ upload_artifactory_instances[zj_artifact.instance].user }}"
     password: "{{ _artifactory_password | default(omit) }}"
-    url: "{{ _artifactory_url }}"
-    src: "{{ _undocumented_test_work_dir_ | default(zuul.executor.work_root) }}/artifacts/{{ zj_artifact.src }}"
+    url: "{{ _artifactory_upload_url }}"
+    src: "{{ _undocumented_test_work_dir_ | default(zuul.executor.work_root) }}/\
+          artifacts/{{ zj_artifact.src }}"
     headers: "{{ request_header }}"
     status_code: 201
     method: PUT
@@ -71,5 +98,5 @@
       zuul:
         artifacts:
           - name: "{{ zj_artifact.name }}"
-            url: "{{ _artifactory_url }}"
+            url: "{{ _artifactory_backend_url }}"
             metadata: "{{ zj_artifact.metadata | default(omit) }}"

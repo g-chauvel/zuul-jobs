@@ -59,6 +59,11 @@
             transport: http
             user: admin
             api_key: "{{ (artifactory_api_key.content | from_json)['apiKey'] }}"
+          localhost_properties:
+            fqdn: localhost:8081
+            transport: http
+            user: admin
+            api_key: "{{ (artifactory_api_key.content | from_json)['apiKey'] }}"
 
 - hosts: all
   vars:
@@ -74,17 +79,59 @@
         content: |
           First file
         dest: "{{ ansible_user_dir }}/zuul-output/artifacts/test-file.txt"
-    - name: Set upload_artifactory_manifest fact
+    - name: Set upload_artifactory_manifest_basic fact
       set_fact:
         upload_artifactory_manifest:
           artifacts:
-            - name: test-file.txt
+            - name: test-password.txt
               src: test-file.txt
-              dest: generic-repository/path/to/dest/test-file-password.txt
+              dest: generic-repository/path/to/dest/test-password.txt
               instance: localhost_password
-            - name: test-file.txt
+            - name: test-api-key.txt
               src: test-file.txt
-              dest: generic-repository/path/to/dest/test-file-api-key.txt
+              dest: generic-repository/path/to/dest/test-api-key.txt
               instance: localhost_api_key
+            - name: test-properties.txt
+              src: test-file.txt
+              dest: generic-repository/path/to/dest/test-properties.txt
+              instance: localhost_properties
+              properties:
+                version: 1.0.0
+                supports:
+                  - 1.0.1
+                  - 1.0.2
   roles:
-    - upload-artifactory
+    - role: upload-artifactory
+
+  post_tasks:
+    - name: Load artifacts information from zuul_return
+      set_fact:
+        artifacts: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json) ['zuul']['artifacts'] }}"
+    - name: Expected artifacts are backwards
+      set_fact:
+        expected_artifacts:
+          - name: test-properties.txt
+            url: http://localhost:8081/artifactory/generic-repository/path/to/dest/test-properties.txt
+          - name: test-api-key.txt
+            url: http://localhost:8081/artifactory/generic-repository/path/to/dest/test-api-key.txt
+          - name: test-password.txt
+            url: http://localhost:8081/artifactory/generic-repository/path/to/dest/test-password.txt
+    - name: Assert artifact
+      assert:
+        that:
+          - item.0.name == item.1.name
+          - item.0.url == item.1.url
+      loop: "{{ artifacts | zip(expected_artifacts) | list }}"
+
+    - name: Query properties artifact
+      uri:
+        method: POST
+        url: 'http://localhost:8081/artifactory/api/search/aql'
+        headers:
+          X-JFrog-Art-Api: "{{ (artifactory_api_key.content | from_json)['apiKey'] }}"
+          Content-Type: 'text/plain'
+        body: 'items.find({"$and":[{"repo":"generic-repository"},{"path":"path/to/dest"},{"@version":"1.0.0"}]})'
+      register: artifact_query
+    - name: Assert property filtered response
+      assert:
+        that: artifact_query.json.results[0].name == 'test-properties.txt'

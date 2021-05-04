@@ -87,6 +87,20 @@ Upload artifacts specified from the executor to artifactory.
           Any headers that should be passed to ansibles uri module
           when uploading.
 
+       .. zuul:rolevar:: properties
+
+          Properties to set in artifactory.
+
+          Properties can be either strings or lists of strings.
+
+          .. code-block:: yaml
+
+             properties:
+               property1: value1
+               property2:
+                 - value2
+                 - value3
+
        .. zuul:rolevar:: metadata
 
           Any metadata that should be returned to Zuul together with the
