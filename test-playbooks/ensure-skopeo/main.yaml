@@ -1,0 +1,14 @@
+- hosts: all
+  roles:
+    - ensure-skopeo
+
+- hosts: all
+  tasks:
+
+    - name: Exercise skopeo
+      command: /usr/bin/skopeo -v
+      register: output
+
+    - name: Debug output
+      debug:
+        msg: '{{ output.stdout }}'
