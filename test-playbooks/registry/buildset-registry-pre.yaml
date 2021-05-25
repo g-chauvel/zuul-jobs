@@ -1,17 +1,9 @@
 - hosts: all
   roles:
-    - name: ensure-package-repositories
-      repositories_list:
-        - repo: ppa:projectatomic/ppa
+    - ensure-docker
+    - ensure-skopeo
 
   tasks:
-    - name: Install packages
-      become: true
-      package:
-        name:
-          - skopeo
-        state: present
-
     # This happens in the pre-playbook of the
     # opendev-buildset-registry job.  Since we're testing these roles
     # in opendev, and we're running a second buildset registry, we
