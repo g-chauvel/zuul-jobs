@@ -1,0 +1,21 @@
+- hosts: all
+  tasks:
+    - name: Write a test file
+      copy:
+        content: "Test file"
+        dest: "/tmp/test-output.txt"
+    - name: Test stage-output with a file
+      include_role:
+        name: stage-output
+      vars:
+        zuul_copy_output:
+          /tmp/test-output.txt: logs
+    - name: Test stage-output with no input
+      include_role:
+        name: stage-output
+    - name: Remove sudo
+      include_role:
+        name: revoke-sudo
+    - name: Test stage-output without sudo
+      include_role:
+        name: stage-output
