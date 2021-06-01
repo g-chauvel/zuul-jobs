@@ -12,14 +12,19 @@
 ansible>=2.7,<2.8 # https://review.opendev.org/#/c/727157/
 stestr>=1.0.0,<3.0.0;python_version<'3.5' # Apache-2.0
 stestr>=1.0.0;python_version>='3.5' # Apache-2.0
+
 # For upload-logs-swift:
 # TODO: openstacksdk 0.48.0 dropped python 3.5 support. Remove this constraint
 # when we dropped 3.5 in zuul-jobs as well.
-openstacksdk>=0.17.1,<0.48.0;python_version<'3.6'
+openstacksdk>=0.17.1,<0.48.0;python_version<'3.6' and python_version>='3'
+# TODO: openstacksdk 0.46.0 dropped python 2.7 support. Remove this constraint
+# when we dropped 2.7 in zuul-jobs as well.
+openstacksdk>=0.17.1,<0.46.0;python_version<'3'
 openstacksdk>=0.17.1;python_version>='3.6'
 # TODO: keystoneauth1 4.1.0 dropped python 2.7 and 3.5 support. Remove this
 # constraint when we drop them in zuul-jobs as well.
 keystoneauth1>=3.18.0,<4.1.0;python_version<'3.6'
+
 # TODO: cachetools 4.0.0 dropped python 2.7 support. Remove this constraint
 # when we drop it in zuul-jobs as well.
 cachetools>=2.0.0,<4.0;python_version<'3.5'
