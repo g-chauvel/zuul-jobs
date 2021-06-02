@@ -1,11 +1,19 @@
 - name: Register sources
   stat:
     path: "{{ zj_source.key }}"
-  loop: "{{ zuul_copy_output|dict2items }}"
+  loop: "{{ zuul_copy_output | default({}) | dict2items }}"
   loop_control:
     loop_var: zj_source
   register: sources
   no_log: true
+
+# See if we're running with sudo; if so, we'll set 'become' later so
+# we can copy root-owned files; if not, we'll just be able to copy
+# user files.
+- name: Check sudo
+  command: sudo -n true
+  failed_when: false
+  register: sudo_result
 
 - name: Build the extensions list from a dict (or empty)
   set_fact:
@@ -50,7 +58,7 @@
     all_sources: "{{ results.results | selectattr('ansible_facts', 'defined') | map(attribute='ansible_facts') | list }}"
 
 - name: Ensure target folders exist
-  become: true
+  become: "{{ sudo_result.rc == 0 }}"
   file:
     path: "{{ stage_dir }}/{{ zj_output_dirs }}"
     state: directory
@@ -67,7 +75,7 @@
   # remote_src copy does not work recursively, synchronise is restricted by
   # zuul, using command
   command: cp -pRL {{ zj_source.source }} {{ stage_dir }}/{{ zj_source.dest }}
-  become: true
+  become: "{{ sudo_result.rc == 0 }}"
   with_items: "{{ all_sources }}"
   loop_control:
     loop_var: zj_source
@@ -78,7 +86,7 @@
     dest: "{{ stage_dir }}/logs"
     mode: u=rwX,g=rX,o=rX
     recurse: yes
-  become: yes
+  become: "{{ sudo_result.rc == 0 }}"
 
 - name: Discover log files that match extension_list
   find:
