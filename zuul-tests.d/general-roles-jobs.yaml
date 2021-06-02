@@ -243,7 +243,6 @@
       - roles/bindep/.*
       - test-playbooks/simple-role-test.yaml
       - test-requirements.txt
-      - zuul-tests.d/general-roles-jobs.yaml
     run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: bindep
