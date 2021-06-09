@@ -175,14 +175,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-base-roles-fedora-32
-    description: Tests roles in the 'base' job on fedora-32
+    name: zuul-jobs-test-base-roles-fedora-34
+    description: Tests roles in the 'base' job on fedora-34
     parent: zuul-jobs-test-base-roles
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-base-roles-opensuse-15
@@ -299,14 +299,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-bindep-fedora-32
-    description: Test the bindep role on fedora-32
+    name: zuul-jobs-test-bindep-fedora-34
+    description: Test the bindep role on fedora-34
     parent: zuul-jobs-test-bindep
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-bindep-opensuse-15
@@ -512,16 +512,16 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-fedora-32
-    description: Tests multinode setup roles on fedora-32
+    name: zuul-jobs-test-multinode-roles-fedora-34
+    description: Tests multinode setup roles on fedora-34
     parent: zuul-jobs-test-multinode-roles
     tags: auto-generated
     nodeset:
       nodes:
         - name: primary
-          label: fedora-32
+          label: fedora-34
         - name: secondary
-          label: fedora-32
+          label: fedora-34
       groups:
         - name: switch
           nodes:
@@ -664,8 +664,8 @@
       - test-playbooks/shake/setup-project.yaml
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-ensure-zookeeper
@@ -676,8 +676,8 @@
     run: test-playbooks/ensure-zookeeper.yaml
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-update-json-file
@@ -731,7 +731,7 @@
         - zuul-jobs-test-base-roles-centos-8-stream
         - zuul-jobs-test-base-roles-debian-buster
         - zuul-jobs-test-base-roles-debian-bullseye
-        - zuul-jobs-test-base-roles-fedora-32
+        - zuul-jobs-test-base-roles-fedora-34
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-base-roles-ubuntu-bionic
@@ -742,7 +742,7 @@
         - zuul-jobs-test-bindep-centos-8-stream
         - zuul-jobs-test-bindep-debian-buster
         - zuul-jobs-test-bindep-debian-bullseye
-        - zuul-jobs-test-bindep-fedora-32
+        - zuul-jobs-test-bindep-fedora-34
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-opensuse-tumbleweed-nv
         - zuul-jobs-test-bindep-ubuntu-bionic
@@ -757,7 +757,7 @@
         - zuul-jobs-test-multinode-roles-centos-8-stream
         - zuul-jobs-test-multinode-roles-debian-buster
         - zuul-jobs-test-multinode-roles-debian-bullseye
-        - zuul-jobs-test-multinode-roles-fedora-32
+        - zuul-jobs-test-multinode-roles-fedora-34
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
@@ -782,7 +782,7 @@
         - zuul-jobs-test-base-roles-centos-8-stream
         - zuul-jobs-test-base-roles-debian-buster
         - zuul-jobs-test-base-roles-debian-bullseye
-        - zuul-jobs-test-base-roles-fedora-32
+        - zuul-jobs-test-base-roles-fedora-34
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-xenial
@@ -792,7 +792,7 @@
         - zuul-jobs-test-bindep-centos-8-stream
         - zuul-jobs-test-bindep-debian-buster
         - zuul-jobs-test-bindep-debian-bullseye
-        - zuul-jobs-test-bindep-fedora-32
+        - zuul-jobs-test-bindep-fedora-34
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-ubuntu-bionic
         - zuul-jobs-test-bindep-ubuntu-xenial
@@ -806,7 +806,7 @@
         - zuul-jobs-test-multinode-roles-centos-8-stream
         - zuul-jobs-test-multinode-roles-debian-buster
         - zuul-jobs-test-multinode-roles-debian-bullseye
-        - zuul-jobs-test-multinode-roles-fedora-32
+        - zuul-jobs-test-multinode-roles-fedora-34
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
         - zuul-jobs-test-multinode-roles-ubuntu-xenial

@@ -70,14 +70,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-terraform-fedora-32
-    description: Test terraform job on fedora-32
+    name: zuul-jobs-test-terraform-fedora-34
+    description: Test terraform job on fedora-34
     parent: zuul-jobs-test-terraform
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-terraform-opensuse-15
@@ -203,14 +203,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-terraform-role-fedora-32
-    description: Test terraform roles on fedora-32
+    name: zuul-jobs-test-terraform-role-fedora-34
+    description: Test terraform roles on fedora-34
     parent: zuul-jobs-test-terraform-role
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-terraform-role-opensuse-15
@@ -271,7 +271,7 @@
         - zuul-jobs-test-terraform-centos-8-stream
         - zuul-jobs-test-terraform-debian-buster
         - zuul-jobs-test-terraform-debian-bullseye
-        - zuul-jobs-test-terraform-fedora-32
+        - zuul-jobs-test-terraform-fedora-34
         - zuul-jobs-test-terraform-opensuse-15
         - zuul-jobs-test-terraform-ubuntu-bionic
         - zuul-jobs-test-terraform-ubuntu-xenial
@@ -281,7 +281,7 @@
         - zuul-jobs-test-terraform-role-centos-8-stream
         - zuul-jobs-test-terraform-role-debian-buster
         - zuul-jobs-test-terraform-role-debian-bullseye
-        - zuul-jobs-test-terraform-role-fedora-32
+        - zuul-jobs-test-terraform-role-fedora-34
         - zuul-jobs-test-terraform-role-opensuse-15
         - zuul-jobs-test-terraform-role-ubuntu-bionic
         - zuul-jobs-test-terraform-role-ubuntu-xenial

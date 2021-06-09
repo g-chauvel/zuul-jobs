@@ -66,14 +66,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-golang-go-fedora-32
-    description: Test the golang-go job on fedora-32
+    name: zuul-jobs-test-golang-go-fedora-34
+    description: Test the golang-go job on fedora-34
     parent: zuul-jobs-test-golang-go
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-golang-go-opensuse-15
@@ -134,7 +134,7 @@
         - zuul-jobs-test-golang-go-centos-8-stream
         - zuul-jobs-test-golang-go-debian-buster
         - zuul-jobs-test-golang-go-debian-bullseye
-        - zuul-jobs-test-golang-go-fedora-32
+        - zuul-jobs-test-golang-go-fedora-34
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
         - zuul-jobs-test-golang-go-ubuntu-bionic
@@ -147,7 +147,7 @@
         - zuul-jobs-test-golang-go-centos-8-stream
         - zuul-jobs-test-golang-go-debian-buster
         - zuul-jobs-test-golang-go-debian-bullseye
-        - zuul-jobs-test-golang-go-fedora-32
+        - zuul-jobs-test-golang-go-fedora-34
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic
         - zuul-jobs-test-golang-go-ubuntu-xenial

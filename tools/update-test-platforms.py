@@ -35,7 +35,7 @@ PLATFORMS = [
     'centos-8-stream',
     'debian-buster',
     'debian-bullseye',
-    'fedora-32',
+    'fedora-34',
     # 'gentoo-17-0-systemd',
     'opensuse-15',
     'opensuse-tumbleweed',

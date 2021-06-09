@@ -64,14 +64,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-nimble-fedora-32
-    description: Test the nimble job on fedora-32
+    name: zuul-jobs-test-nimble-fedora-34
+    description: Test the nimble job on fedora-34
     parent: zuul-jobs-test-nimble
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-32
-          label: fedora-32
+        - name: fedora-34
+          label: fedora-34
 
 - job:
     name: zuul-jobs-test-nimble-opensuse-15
@@ -132,7 +132,7 @@
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
-        - zuul-jobs-test-nimble-fedora-32
+        - zuul-jobs-test-nimble-fedora-34
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-opensuse-tumbleweed-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
@@ -145,7 +145,7 @@
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
-        - zuul-jobs-test-nimble-fedora-32
+        - zuul-jobs-test-nimble-fedora-34
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-xenial
