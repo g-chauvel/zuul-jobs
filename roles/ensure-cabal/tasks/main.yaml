@@ -9,6 +9,12 @@
   register: _cabal_version
 
 - block:
+    - name: Ensure copr dnf plugin
+      package:
+        name: dnf-plugins-core
+        state: present
+      become: yes
+
     - name: Install cabal copr
       command: dnf copr enable -y petersen/cabal-install
       become: true
