@@ -369,6 +369,19 @@
       role_name: clear-firewall
 
 - job:
+    name: zuul-jobs-test-enable-fips
+    description: Test the enable-fips role
+    files:
+      - roles/enable-fips/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: enable-fips
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
     name: zuul-jobs-test-ensure-bazelisk
     description: Test the ensure-bazelisk role
     files:
@@ -749,6 +762,7 @@
         - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-bindep-ubuntu-focal
         - zuul-jobs-test-clear-firewall
+        - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
         - zuul-jobs-test-dstat-graph
@@ -798,6 +812,7 @@
         - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-bindep-ubuntu-focal
         - zuul-jobs-test-clear-firewall
+        - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
         - zuul-jobs-test-dstat-graph
