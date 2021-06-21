@@ -14,9 +14,16 @@
   include_role:
     name: ensure-docker
 
+# Ubuntu focal doesn't have cri-o-1.15 packages, per distro tasks is
+# required to install crio
 - name: Install crio
   when: kubernetes_runtime == 'cri-o'
-  include_tasks: crio.yaml
+  include_tasks: "{{ zj_distro_os }}"
+  with_first_found:
+    - "crio-{{ ansible_distribution }}-{{ ansible_distribution_version }}.yaml"
+    - "crio-default.yaml"
+  loop_control:
+    loop_var: zj_distro_os
 
 - name: Create .kube directory
   file:
