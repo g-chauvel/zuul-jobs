@@ -212,6 +212,115 @@
           label: ubuntu-bionic
 
 - job:
+    name: zuul-jobs-test-registry-buildset-registry
+    parent: opendev-buildset-registry
+    description: |
+      Run a buildset registry for the test-registry jobs
+
+      This runs two registries: a real buildset registry so that we
+      can receive speculative zuul-registry images, and a fake
+      buildset registry (running the speculative or latest
+      zuul-registry) that is used to test using the buildset registry
+      role.
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/ensure-docker/.*
+      - roles/ensure-kubernetes/.*
+      - roles/ensure-openshift/.*
+      - roles/ensure-package-repositories/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    pre-run: test-playbooks/registry/buildset-registry-pre.yaml
+    run: test-playbooks/registry/buildset-registry.yaml
+    post-run: test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
+
+- job:
+    name: zuul-jobs-test-registry-buildset-registry-k8s-docker
+    dependencies: zuul-jobs-test-registry-buildset-registry
+    description: |
+      Test a buildset registry with kubernetes and docker
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/ensure-docker/.*
+      - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run: test-playbooks/registry/buildset-registry-k8s-docker.yaml
+    post-run:
+      - test-playbooks/registry/buildset-registry-k8s-docker-post.yaml
+      - test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
+
+- job:
+    name: zuul-jobs-test-registry-buildset-registry-k8s-crio
+    dependencies: zuul-jobs-test-registry-buildset-registry
+    description: |
+      Test a buildset registry with kubernetes and CRIO
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/ensure-docker/.*
+      - roles/ensure-kubernetes/.*
+      - roles/ensure-package-repositories/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run: test-playbooks/registry/buildset-registry-k8s-crio.yaml
+    post-run:
+      - test-playbooks/registry/buildset-registry-k8s-crio-post.yaml
+      - test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: podman
+
+- job:
+    name: zuul-jobs-test-registry-buildset-registry-openshift-docker
+    dependencies: zuul-jobs-test-registry-buildset-registry
+    description: |
+      Test a buildset registry with openshift and docker
+
+      It is not meant to be used directly but rather run on changes
+      to roles in the zuul-jobs repo.
+    files:
+      - roles/pull-from-intermediate-registry/.*
+      - roles/push-to-intermediate-registry/.*
+      - roles/ensure-docker/.*
+      - roles/ensure-openshift/.*
+      - roles/ensure-package-repositories/.*
+      - roles/build-docker-image/.*
+      - roles/run-buildset-registry/.*
+      - roles/use-buildset-registry/.*
+      - test-playbooks/registry/.*
+    run: test-playbooks/registry/buildset-registry-openshift-docker.yaml
+    post-run:
+      - test-playbooks/registry/test-registry-post.yaml
+    vars:
+      container_command: docker
+    nodeset:
+      nodes:
+        - name: controller
+          label: centos-7
+
+- job:
     name: zuul-jobs-test-ensure-kubernetes-docker
     description: |
       Test the ensure-kubernetes role with docker
@@ -358,6 +467,10 @@
         - zuul-jobs-test-registry-docker
         - zuul-jobs-test-registry-docker-multiarch
         - zuul-jobs-test-registry-podman
+        - zuul-jobs-test-registry-buildset-registry
+        - zuul-jobs-test-registry-buildset-registry-k8s-docker
+        - zuul-jobs-test-registry-buildset-registry-k8s-crio
+        - zuul-jobs-test-registry-buildset-registry-openshift-docker
         - zuul-jobs-test-ensure-kubernetes-docker
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
@@ -380,6 +493,10 @@
         - zuul-jobs-test-registry-docker
         - zuul-jobs-test-registry-docker-multiarch
         - zuul-jobs-test-registry-podman
+        - zuul-jobs-test-registry-buildset-registry
+        - zuul-jobs-test-registry-buildset-registry-k8s-docker
+        - zuul-jobs-test-registry-buildset-registry-k8s-crio
+        - zuul-jobs-test-registry-buildset-registry-openshift-docker
         - zuul-jobs-test-ensure-kubernetes-docker
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
