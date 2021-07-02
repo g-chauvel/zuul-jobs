@@ -23,6 +23,9 @@
       Authorization: "Bearer {{ token.json.token }}"
 - name: Delete the current change tag
   no_log: true
+  # In case the dockerhub API is out of sync with the registry, let's
+  # continue anyway.
+  failed_when: false
   uri:
     url: "https://hub.docker.com/v2/repositories/{{ zj_image.repository }}/tags/{{ promote_tag_prefix }}_{{ zj_image_tag }}/"
     method: DELETE
