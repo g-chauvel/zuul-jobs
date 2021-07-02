@@ -46,6 +46,12 @@
     mode: 0644
   become: true
 
+- name: Enable ZooKeeper 4lw
+  lineinfile:
+    path: /opt/zookeeper/conf/zoo.cfg
+    line: "4lw.commands.whitelist=*"
+  become: true
+
 - name: Setup ZooKeeper TLS
   include_tasks: ./setup_tls.yaml
   when: zookeeper_use_tls
