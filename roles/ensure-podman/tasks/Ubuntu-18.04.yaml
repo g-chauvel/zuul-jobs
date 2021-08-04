@@ -1,4 +1,5 @@
 - name: Add kubic project repository
+  when: ansible_architecture == "x86_64"
   include_role:
     name: ensure-package-repositories
   vars:
@@ -7,13 +8,20 @@
     repositories_list:
       - repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/ /"
 
+- name: Add project atomic PPA repository
+  when: ansible_architecture != "x86_64"
+  include_role:
+    name: ensure-package-repositories
+  vars:
+    repositories_list:
+      - repo: ppa:projectatomic/ppa
+
 - name: Install podman
   package:
     name:
       - podman
       - uidmap
       - slirp4netns
-      - fuse-overlayfs
     state: present
   become: yes
 
