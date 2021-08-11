@@ -62,7 +62,11 @@ if [[ -d .tox ]] ; then
 fi
 
 for command in $commands; do
-    found=$(type -p $command)
+    # Use -P instead of -p because we always want a path here even if
+    # there is an alias or builtin. We also filter blank lines as we
+    # only want lines with paths and in some cases type seems to produce
+    # blank lines.
+    found=$(type -P $command | grep -v ^$)
     if [[ -n $found ]] ; then
         echo $found
         break
