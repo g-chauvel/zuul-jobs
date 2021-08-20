@@ -366,6 +366,8 @@
       - roles/ensure-package-repositories/.*
       - test-playbooks/ensure-podman/.*
     run: test-playbooks/ensure-podman/main.yaml
+    vars:
+      ensure_podman_validate: true
 
 - job:
     name: zuul-jobs-test-ensure-skopeo
@@ -390,6 +392,15 @@
       nodes:
         - name: centos-8
           label: centos-8
+
+- job:
+    name: zuul-jobs-test-ensure-podman-centos-8-stream
+    description: Tests ensure-podman role on centos-8-stream
+    parent: zuul-jobs-test-ensure-podman
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
 
 - job:
     name: zuul-jobs-test-ensure-podman-fedora-34
@@ -483,6 +494,7 @@
         - zuul-jobs-test-ensure-kubernetes-docker
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
+        - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-fedora-34
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
         - zuul-jobs-test-ensure-podman-ubuntu-focal
@@ -510,6 +522,7 @@
         - zuul-jobs-test-ensure-kubernetes-docker
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
+        - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
         - zuul-jobs-test-ensure-podman-ubuntu-focal
         - zuul-jobs-test-ensure-skopeo-centos-8
