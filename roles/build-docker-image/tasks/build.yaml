@@ -28,6 +28,8 @@
     --label "org.zuul-ci.change_url={{ zuul.change_url }}"
   args:
     chdir: "{{ zuul_work_dir }}/{{ zj_image.context }}"
+  environment:
+    DOCKER_BUILDKIT: '{{ "1" if docker_use_buildkit else "0" }}'
 
 - name: Cleanup sibling source directory
   include_tasks: clean-siblings.yaml

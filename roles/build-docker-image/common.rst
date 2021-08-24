@@ -80,6 +80,14 @@ using this role.
 
         repository: "^myorgname/{{ zuul.project.short_name }}.*"
 
+  .. zuul:rolevar:: docker_use_buildkit
+     :type: bool
+     :default: false
+
+     Use `BuildKit
+     <https://docs.docker.com/develop/develop-images/build_enhancements/>`__
+     when creating images.
+
 .. zuul:rolevar:: docker_images
    :type: list
 
