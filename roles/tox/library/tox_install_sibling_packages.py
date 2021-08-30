@@ -52,6 +52,12 @@ try:
 except ImportError:
     import ConfigParser as configparser
 
+# Workaround for lack of configparser.read_string() on Python 2.7
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 import os
 import ast
 import subprocess
@@ -265,7 +271,13 @@ def install_siblings(envdir, projects, package_name, constraints):
 
 def get_envlist(tox_config):
     envlist = []
-    if 'tox' in tox_config.sections():
+    # This is overly LBYL to deal with differences in older Python 2.7
+    # ConfigParser which would necessitate a fairly large number of exceptions
+    # if we wanted to do a simple try/except with the get() instead
+    if (
+            'tox' in tox_config.sections() and 'env' in
+            tox_config.options('tox') and "'-e" not in
+            tox_config.get('tox', 'args')):
         envlist_default = ast.literal_eval(
             tox_config.get('tox', 'envlist_default'))
         tox_args = ast.literal_eval(tox_config.get('tox', 'args'))
@@ -278,7 +290,8 @@ def get_envlist(tox_config):
                 envlist.append(testenv)
     else:
         for section in tox_config.sections():
-            envlist.append(section.split(':')[1])
+            if section.startswith('testenv:'):
+                envlist.append(section.split(':')[1])
     return envlist
 
 
@@ -298,8 +311,25 @@ def main():
     projects = module.params['projects']
     tox_show_config = module.params.get('tox_show_config')
 
+    # Filter out any leading verbose output lines before the config
+    with open(tox_show_config) as tox_raw_config:
+        tox_clean_config = ''
+        discard = True
+        for line in tox_raw_config:
+            if not discard:
+                # Normal operation, tested first for efficiency
+                tox_clean_config += line
+            elif line.startswith('['):
+                # Once we see a section heading, stop discarding
+                discard = False
+                tox_clean_config += line
+
     tox_config = configparser.RawConfigParser()
-    tox_config.read(tox_show_config)
+    # Workaround for lack of configparser.read_string() on Python 2.7
+    try:
+        tox_config.read_string(tox_clean_config)
+    except AttributeError:
+        tox_config.readfp(StringIO(unicode(tox_clean_config)))  # noqa: F821
 
     envlist = get_envlist(tox_config)
 
