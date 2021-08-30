@@ -37,6 +37,12 @@ corresponding Zuul sibling projects and runs tox tests as follows:
 
    Location of the tox executable.
 
+.. zuul:rolevar:: tox_config_file
+
+   Path to a tox configuration file, or directory containing a
+   ``tox.ini`` file. Will be provided to tox via its ``-c``
+   command-line option if set.
+
 .. zuul:rolevar:: tox_extra_args
    :default: -vv
 
