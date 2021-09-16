@@ -33,6 +33,8 @@ requestsexceptions
 bs4
 # For upload-logs-google
 google-cloud-storage
+# google-cloud-storage needs protobuf which dropped py27/35 support in 3.18.0
+protobuf<3.18;python_version<'3.6'
 
 # For upload-logs-s3
 boto3
