@@ -107,16 +107,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-golang-go-ubuntu-xenial
-    description: Test the golang-go job on ubuntu-xenial
-    parent: zuul-jobs-test-golang-go
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-golang-go-ubuntu-focal
     description: Test the golang-go job on ubuntu-focal
     parent: zuul-jobs-test-golang-go
@@ -138,7 +128,6 @@
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
         - zuul-jobs-test-golang-go-ubuntu-bionic
-        - zuul-jobs-test-golang-go-ubuntu-xenial
         - zuul-jobs-test-golang-go-ubuntu-focal
     gate:
       jobs: &id001
@@ -150,7 +139,6 @@
         - zuul-jobs-test-golang-go-fedora-34
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic
-        - zuul-jobs-test-golang-go-ubuntu-xenial
         - zuul-jobs-test-golang-go-ubuntu-focal
     periodic-weekly:
       jobs: *id001

@@ -105,16 +105,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-nimble-ubuntu-xenial
-    description: Test the nimble job on ubuntu-xenial
-    parent: zuul-jobs-test-nimble
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-nimble-ubuntu-focal
     description: Test the nimble job on ubuntu-focal
     parent: zuul-jobs-test-nimble
@@ -136,7 +126,6 @@
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-opensuse-tumbleweed-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
-        - zuul-jobs-test-nimble-ubuntu-xenial
         - zuul-jobs-test-nimble-ubuntu-focal
     gate:
       jobs: &id001
@@ -148,7 +137,6 @@
         - zuul-jobs-test-nimble-fedora-34
         - zuul-jobs-test-nimble-opensuse-15
         - zuul-jobs-test-nimble-ubuntu-bionic
-        - zuul-jobs-test-nimble-ubuntu-xenial
         - zuul-jobs-test-nimble-ubuntu-focal
     periodic-weekly:
       jobs: *id001

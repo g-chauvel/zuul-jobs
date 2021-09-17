@@ -111,16 +111,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-terraform-ubuntu-xenial
-    description: Test terraform job on ubuntu-xenial
-    parent: zuul-jobs-test-terraform
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-terraform-ubuntu-focal
     description: Test terraform job on ubuntu-focal
     parent: zuul-jobs-test-terraform
@@ -244,16 +234,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-terraform-role-ubuntu-xenial
-    description: Test terraform roles on ubuntu-xenial
-    parent: zuul-jobs-test-terraform-role
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-terraform-role-ubuntu-focal
     description: Test terraform roles on ubuntu-focal
     parent: zuul-jobs-test-terraform-role
@@ -274,7 +254,6 @@
         - zuul-jobs-test-terraform-fedora-34
         - zuul-jobs-test-terraform-opensuse-15
         - zuul-jobs-test-terraform-ubuntu-bionic
-        - zuul-jobs-test-terraform-ubuntu-xenial
         - zuul-jobs-test-terraform-ubuntu-focal
         - zuul-jobs-test-terraform-role-centos-7
         - zuul-jobs-test-terraform-role-centos-8
@@ -284,7 +263,6 @@
         - zuul-jobs-test-terraform-role-fedora-34
         - zuul-jobs-test-terraform-role-opensuse-15
         - zuul-jobs-test-terraform-role-ubuntu-bionic
-        - zuul-jobs-test-terraform-role-ubuntu-xenial
         - zuul-jobs-test-terraform-role-ubuntu-focal
     gate: *id001
     periodic-weekly:

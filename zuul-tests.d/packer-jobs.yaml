@@ -109,16 +109,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-packer-ubuntu-xenial
-    description: Test packer job on ubuntu-xenial
-    parent: zuul-jobs-test-packer
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-packer-ubuntu-focal
     description: Test packer job on ubuntu-focal
     parent: zuul-jobs-test-packer
@@ -140,7 +130,6 @@
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
         - zuul-jobs-test-packer-ubuntu-bionic
-        - zuul-jobs-test-packer-ubuntu-xenial
         - zuul-jobs-test-packer-ubuntu-focal
     gate:
       jobs: &id001
@@ -152,7 +141,6 @@
         - zuul-jobs-test-packer-fedora-34
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
-        - zuul-jobs-test-packer-ubuntu-xenial
         - zuul-jobs-test-packer-ubuntu-focal
     periodic-weekly:
       jobs: *id001
