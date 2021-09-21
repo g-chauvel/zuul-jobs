@@ -65,6 +65,10 @@
       Run unit tests for a Python project under cPython version 3.4.
 
       Uses tox with the ``py34`` environment.
+
+      Changes to the zuul-jobs collection are no longer regression tested with
+      Python 3.4, but this job definition is being retained for backward
+      compatibility.
     vars:
       tox_envlist: py34
       python_version: 3.4
@@ -76,6 +80,10 @@
       Run unit tests for a Python project under cPython version 3.5.
 
       Uses tox with the ``py35`` environment.
+
+      Changes to the zuul-jobs collection are no longer regression tested with
+      Python 3.5, but this job definition is being retained for backward
+      compatibility.
     vars:
       tox_envlist: py35
       python_version: 3.5
