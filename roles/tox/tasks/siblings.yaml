@@ -2,6 +2,9 @@
 - name: Run tox without tests
   command: >-
     {{ tox_executable }}
+    {% if tox_config_file is defined and tox_config_file %}
+    -c{{ tox_config_file }}
+    {% endif %}
     --notest
     {% if tox_envlist is defined and tox_envlist %}
     -e{{ tox_envlist }}
@@ -18,6 +21,9 @@
 - name: Get tox envlist config
   shell: >-
     {{ tox_executable }}
+    {% if tox_config_file is defined and tox_config_file %}
+    -c{{ tox_config_file }}
+    {% endif %}
     --showconfig
     {% if tox_envlist is defined and tox_envlist %}
     -e{{ tox_envlist }}

@@ -28,6 +28,9 @@
   debug:
     msg: >-
       {{ tox_executable }}
+      {% if tox_config_file is defined and tox_config_file %}
+      -c{{ tox_config_file }}
+      {% endif %}
       {% if tox_envlist is defined and tox_envlist %}
       -e{{ tox_envlist }}
       {% endif %}
@@ -40,6 +43,9 @@
       environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
       command: >-
         {{ tox_executable }}
+        {% if tox_config_file is defined and tox_config_file %}
+        -c{{ tox_config_file }}
+        {% endif %}
         {% if tox_envlist is defined and tox_envlist %}
         -e{{ tox_envlist }}
         {% endif %}
