@@ -9,7 +9,6 @@
     {% if tox_envlist is defined and tox_envlist %}
     -e{{ tox_envlist }}
     {% endif %}
-    {{ tox_extra_args }}
   args:
     chdir: "{{ zuul_work_dir }}"
   environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
@@ -29,7 +28,6 @@
     {% if tox_envlist is defined and tox_envlist %}
     -e{{ tox_envlist }}
     {% endif %}
-    {{ tox_extra_args }}
     > {{ _tox_show_config_tempfile.path }}
   args:
     chdir: "{{ zuul_work_dir }}"
