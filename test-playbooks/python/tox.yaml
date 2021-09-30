@@ -80,7 +80,8 @@
       include_role:
         name: tox
       vars:
-        zuul_work_dir: "{{ zuul.project.src_dir }}/test-playbooks/python/"
+        # Make sure the tox_config_file option works
+        tox_config_file: test-playbooks/python
         tox_envlist: '%s'
         # Make sure we test with verbose output even if the default changes
         tox_extra_args: '-vv'
