@@ -105,16 +105,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-rust-ubuntu-xenial
-    description: Test the rust roles on ubuntu-xenial
-    parent: zuul-jobs-test-rust
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-rust-ubuntu-focal
     description: Test the rust roles on ubuntu-focal
     parent: zuul-jobs-test-rust
@@ -136,7 +126,6 @@
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-opensuse-tumbleweed-nv
         - zuul-jobs-test-rust-ubuntu-bionic
-        - zuul-jobs-test-rust-ubuntu-xenial
         - zuul-jobs-test-rust-ubuntu-focal
     gate:
       jobs: &id001
@@ -148,7 +137,6 @@
         - zuul-jobs-test-rust-fedora-34
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic
-        - zuul-jobs-test-rust-ubuntu-xenial
         - zuul-jobs-test-rust-ubuntu-focal
     periodic-weekly:
       jobs: *id001

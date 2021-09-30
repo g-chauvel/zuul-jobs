@@ -216,16 +216,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-base-roles-ubuntu-xenial
-    description: Tests roles in the 'base' job on ubuntu-xenial
-    parent: zuul-jobs-test-base-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-base-roles-ubuntu-focal
     description: Tests roles in the 'base' job on ubuntu-focal
     parent: zuul-jobs-test-base-roles
@@ -338,16 +328,6 @@
       nodes:
         - name: ubuntu-bionic
           label: ubuntu-bionic
-
-- job:
-    name: zuul-jobs-test-bindep-ubuntu-xenial
-    description: Test the bindep role on ubuntu-xenial
-    parent: zuul-jobs-test-bindep
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
 
 - job:
     name: zuul-jobs-test-bindep-ubuntu-focal
@@ -602,25 +582,6 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-ubuntu-xenial
-    description: Tests multinode setup roles on ubuntu-xenial
-    parent: zuul-jobs-test-multinode-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: primary
-          label: ubuntu-xenial
-        - name: secondary
-          label: ubuntu-xenial
-      groups:
-        - name: switch
-          nodes:
-            - primary
-        - name: peers
-          nodes:
-            - secondary
-
-- job:
     name: zuul-jobs-test-multinode-roles-ubuntu-focal
     description: Tests multinode setup roles on ubuntu-focal
     parent: zuul-jobs-test-multinode-roles
@@ -748,7 +709,6 @@
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-base-roles-ubuntu-bionic
-        - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-base-roles-ubuntu-focal
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8
@@ -759,7 +719,6 @@
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-opensuse-tumbleweed-nv
         - zuul-jobs-test-bindep-ubuntu-bionic
-        - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-bindep-ubuntu-focal
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-enable-fips
@@ -775,7 +734,6 @@
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-opensuse-tumbleweed-nv
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
-        - zuul-jobs-test-multinode-roles-ubuntu-xenial
         - zuul-jobs-test-multinode-roles-ubuntu-focal
         - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-artifactory
@@ -799,7 +757,6 @@
         - zuul-jobs-test-base-roles-fedora-34
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
-        - zuul-jobs-test-base-roles-ubuntu-xenial
         - zuul-jobs-test-base-roles-ubuntu-focal
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8
@@ -809,7 +766,6 @@
         - zuul-jobs-test-bindep-fedora-34
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-ubuntu-bionic
-        - zuul-jobs-test-bindep-ubuntu-xenial
         - zuul-jobs-test-bindep-ubuntu-focal
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-enable-fips
@@ -824,7 +780,6 @@
         - zuul-jobs-test-multinode-roles-fedora-34
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
-        - zuul-jobs-test-multinode-roles-ubuntu-xenial
         - zuul-jobs-test-multinode-roles-ubuntu-focal
         - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-artifactory

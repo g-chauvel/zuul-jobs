@@ -102,16 +102,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-pip-ubuntu-xenial
-    description: Test the ensure-pip role on ubuntu-xenial
-    parent: zuul-jobs-test-ensure-pip
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-ensure-pip-ubuntu-focal
     description: Test the ensure-pip role on ubuntu-focal
     parent: zuul-jobs-test-ensure-pip
@@ -231,16 +221,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-tox-ubuntu-xenial
-    description: Test the ensure-tox role on ubuntu-xenial
-    parent: zuul-jobs-test-ensure-tox
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-ensure-tox-ubuntu-focal
     description: Test the ensure-tox role on ubuntu-focal
     parent: zuul-jobs-test-ensure-tox
@@ -352,16 +332,6 @@
       nodes:
         - name: ubuntu-bionic
           label: ubuntu-bionic
-
-- job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial
-    description: Test the fetch-sphinx-tarball role on ubuntu-xenial
-    parent: zuul-jobs-test-fetch-sphinx-tarball
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
 
 - job:
     name: zuul-jobs-test-fetch-sphinx-tarball-ubuntu-focal
@@ -487,7 +457,6 @@
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
-        - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-pip-ubuntu-focal
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
@@ -499,7 +468,6 @@
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-opensuse-tumbleweed-nv
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
-        - zuul-jobs-test-ensure-tox-ubuntu-xenial
         - zuul-jobs-test-ensure-tox-ubuntu-focal
         - zuul-jobs-test-fetch-sphinx-tarball-centos-7
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8
@@ -510,7 +478,6 @@
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-tumbleweed-nv
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-focal
         - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
@@ -531,7 +498,6 @@
         - zuul-jobs-test-ensure-pip-fedora-34
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
-        - zuul-jobs-test-ensure-pip-ubuntu-xenial
         - zuul-jobs-test-ensure-pip-ubuntu-focal
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
@@ -542,7 +508,6 @@
         - zuul-jobs-test-ensure-tox-fedora-34
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
-        - zuul-jobs-test-ensure-tox-ubuntu-xenial
         - zuul-jobs-test-ensure-tox-ubuntu-focal
         - zuul-jobs-test-fetch-sphinx-tarball-centos-7
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8
@@ -552,7 +517,6 @@
         - zuul-jobs-test-fetch-sphinx-tarball-fedora-34
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
-        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-xenial
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-focal
         - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output

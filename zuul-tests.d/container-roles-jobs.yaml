@@ -54,15 +54,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-docker-ubuntu-xenial
-    description: Tests ensure-docker role on ubuntu-xenial
-    parent: zuul-jobs-test-ensure-docker
-    nodeset:
-      nodes:
-        - name: ubuntu-xenial
-          label: ubuntu-xenial
-
-- job:
     name: zuul-jobs-test-build-container-image-release
     description: |
       Test building a container image in a release pipeline.
@@ -490,7 +481,6 @@
         - zuul-jobs-test-ensure-docker-centos-8-stream
         - zuul-jobs-test-ensure-docker-debian-stretch
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
-        - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-build-container-image-release
         - zuul-jobs-test-build-docker-image-release
         - zuul-jobs-test-build-docker-image-release-multiarch
@@ -519,7 +509,6 @@
         - zuul-jobs-test-ensure-docker-centos-8-stream
         - zuul-jobs-test-ensure-docker-debian-stretch
         - zuul-jobs-test-ensure-docker-ubuntu-bionic
-        - zuul-jobs-test-ensure-docker-ubuntu-xenial
         - zuul-jobs-test-build-container-image-release
         - zuul-jobs-test-build-docker-image-release
         - zuul-jobs-test-build-docker-image-release-multiarch
