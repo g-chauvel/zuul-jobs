@@ -8,3 +8,5 @@ Deprecated Jobs
 .. zuul:autojob:: nodejs-npm-run-test
 .. zuul:autojob:: nodejs-npm-run-lint
 .. zuul:autojob:: nodejs-npm-run-docs
+.. zuul:autojob:: tox-py34
+.. zuul:autojob:: tox-py35

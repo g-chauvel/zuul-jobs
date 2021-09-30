@@ -40,10 +40,20 @@ Before deprecating a feature in Zuul which is used by `zuul-jobs`, the
 usage of the feature must be removed from `zuul-jobs` according to the
 deprecation policy described above.
 
+Deprecated Operating Systems
+****************************
+
+Once an operating system version is no longer available with standard
+support from its supplier, the zuul-jobs collection will not make any
+significant effort to test future job or role changes for regressions
+on that platform. Conditional checks in playbooks and roles for these
+versions may be retained when possible, but should not come with any
+expectation of stability since they can no longer be tested reliably.
+
 Python Version Policy
 ---------------------
 
-``zuul-jobs`` targets Python 2.7 onwards and Python 3.5 onwards (note
+``zuul-jobs`` targets Python 2.7 onwards and Python 3.6 onwards (note
 this differs slightly from Ansible upstream, where the policy is 2.6
 onwards unless libraries depend on newer features.  `zuul-jobs` does
 not support Python 2.6).
