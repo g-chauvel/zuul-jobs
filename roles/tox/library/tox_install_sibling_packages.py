@@ -319,7 +319,7 @@ def main():
             if not discard:
                 # Normal operation, tested first for efficiency
                 tox_clean_config += line
-            elif line.startswith('['):
+            elif line.startswith('[') and line.rstrip().endswith(']'):
                 # Once we see a section heading, stop discarding
                 discard = False
                 tox_clean_config += line
