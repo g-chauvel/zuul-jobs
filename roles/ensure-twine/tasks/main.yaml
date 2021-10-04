@@ -1,6 +1,6 @@
 - name: Check for twine install
   shell: |
-    command -v {{ twine_executable }} || exit 1
+    command -v {{ twine_executable }} ~/.local/bin/twine || exit 1
   args:
     executable: /bin/bash
   failed_when: false
@@ -8,7 +8,7 @@
 
 - name: Set pypi_twine_executable
   set_fact:
-    pypi_twine_executable: "{{ register_twine.stdout }}"
+    pypi_twine_executable: "{{ register_twine.stdout_lines[0] }}"
   when: register_twine.rc == 0
 
 - name: Ensure twine is installed
