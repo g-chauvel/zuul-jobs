@@ -6,6 +6,7 @@ General Purpose Jobs
 .. zuul:autojob:: unittests
 .. zuul:autojob:: markdownlint
 .. zuul:autojob:: multinode
+.. zuul:autojob:: multinode-fips
 .. zuul:autojob:: run-test-command
 .. zuul:autojob:: shake-build
 .. zuul:autojob:: upload-git-mirror
