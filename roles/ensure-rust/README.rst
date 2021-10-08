@@ -7,7 +7,8 @@ Install the Rust toolchain
 .. zuul:rolevar:: ensure_rust_rustup
    :default: True
 
-   Install Rust via the ``rustup`` installer.
+   Install Rust via the ``rustup`` installer.  This installs the toolchain
+   globally (for all users).
 
 .. zuul:rolevar:: ensure_rust_rustup_toolchain
    :default: stable
@@ -15,11 +16,11 @@ Install the Rust toolchain
    The Rust toolchain to install with ``rustup``.
 
 .. zuul:rolevar:: ensure_rust_rustup_path
-   :default: /usr
+   :default: /opt/rust
 
-   Where to install Rust/Cargo with ``rustup``.  ``/usr`` provides the
-   tools globally.  This may conflict with distribution Rust packages
-   if installed.
+   Where to install Rust/Cargo with ``rustup``.  Wrappers will
+   be installed in ``/usr/local/bin/`` to make them available for
+   all users.
 
 .. zuul:rolevar:: ensure_rust_packages
    :default: False
