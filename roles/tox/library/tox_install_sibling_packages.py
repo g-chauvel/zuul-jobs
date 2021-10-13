@@ -328,7 +328,7 @@ def main():
     # Workaround for lack of configparser.read_string() on Python 2.7
     try:
         tox_config.read_string(tox_clean_config)
-    except AttributeError:
+    except (AttributeError, TypeError):
         tox_config.readfp(StringIO(unicode(tox_clean_config)))  # noqa: F821
 
     envlist = get_envlist(tox_config)
