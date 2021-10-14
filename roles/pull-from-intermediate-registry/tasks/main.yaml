@@ -9,7 +9,11 @@
 # fact that docker does not correctly parse ipv6 addresses.  The socat
 # process will terminate when the playbook ends.
 - name: Start socat to work around https://github.com/moby/moby/issues/39033
-  shell: "socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2> {{ zuul.executor.work_root }}/socat_port &"
+  shell: |
+    set -o pipefail
+    socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2>&1 | grep --line-buffered 'listening on' >  {{ zuul.executor.work_root }}/socat_port &
+  args:
+    executable: /bin/bash
 
 # Use slurp instead of file lookup to make this testable on a fake
 # executor node.
