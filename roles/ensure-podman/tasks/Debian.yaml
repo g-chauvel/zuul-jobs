@@ -1,0 +1,8 @@
+- name: Install podman
+  package:
+    name:
+      - podman
+      - uidmap
+      - slirp4netns
+    state: present
+  become: yes
