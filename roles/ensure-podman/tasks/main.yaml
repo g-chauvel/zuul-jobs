@@ -9,6 +9,14 @@
   loop_control:
     loop_var: zj_distro_os
 
+- name: Fetch podman version
+  command: podman version
+  register: podman_ver
+
+- name: Print podman version installed
+  debug:
+    msg: "Podman version: {{ podman_ver.stdout }}"
+
 - name: Validate podman engine
   when: ensure_podman_validate
   # on purpose to verify that non-root user can call docker/podman
