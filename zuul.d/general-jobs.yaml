@@ -26,6 +26,16 @@
     pre-run: playbooks/multinode/pre.yaml
 
 - job:
+    name: multinode-fips
+    abstract: true
+    description: |
+      Enable fips and do the setup needed for multi-node jobs such as setting
+      up overlay networks and setting up known-hosts and ssh keys
+    pre-run:
+      - playbooks/enable-fips/pre.yaml
+      - playbooks/multinode/pre.yaml
+
+- job:
     name: run-test-command
     parent: unittests
     description: |
