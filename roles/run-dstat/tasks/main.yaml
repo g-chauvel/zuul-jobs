@@ -1,9 +1,11 @@
 - name: Install dstat
   package:
-    name: dstat
+    name: pcp
     state: present
   become: true
+  failed_when: false
 - name: Run dstat
   shell: "dstat -tcmndrylpg --tcp --output {{ dstat_data_path }} >& /dev/null &"
   args:
     executable: /bin/bash
+  failed_when: false

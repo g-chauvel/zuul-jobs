@@ -18,3 +18,13 @@
   shell: "./generate_page.sh {{ dstat_data_path }} > {{ ansible_user_dir }}/zuul-output/logs/dstat.html"
   args:
     chdir: "{{ dstat_path }}"
+
+- name: Return dstat artifact to Zuul
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          - name: "Dstat graph"
+            url: "dstat.html"
+            metadata:
+              type: dstat_graph
