@@ -385,11 +385,113 @@
     name: zuul-jobs-test-dstat-graph
     description: Test the dstat-graph roles
     run: test-playbooks/dstat-graph.yaml
+    tags: all-platforms
     files:
       - ^roles/ensure-dstat-graph/.*
       - ^roles/run-dstat/.*
       - ^roles/dstat-graph/.*
       - ^test-playbooks/dstat-graph.yaml
+
+- job:
+    name: zuul-jobs-test-dstat-graph-centos-7
+    description: Test the dstat-graph roles on centos-7
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-7
+          label: centos-7
+
+- job:
+    name: zuul-jobs-test-dstat-graph-centos-8
+    description: Test the dstat-graph roles on centos-8
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8
+          label: centos-8
+
+- job:
+    name: zuul-jobs-test-dstat-graph-centos-8-stream
+    description: Test the dstat-graph roles on centos-8-stream
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-8-stream
+          label: centos-8-stream
+
+- job:
+    name: zuul-jobs-test-dstat-graph-debian-buster
+    description: Test the dstat-graph roles on debian-buster
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
+
+- job:
+    name: zuul-jobs-test-dstat-graph-debian-bullseye
+    description: Test the dstat-graph roles on debian-bullseye
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-bullseye
+          label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-dstat-graph-fedora-34
+    description: Test the dstat-graph roles on fedora-34
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: fedora-34
+          label: fedora-34
+
+- job:
+    name: zuul-jobs-test-dstat-graph-opensuse-15
+    description: Test the dstat-graph roles on opensuse-15
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-15
+          label: opensuse-15
+
+- job:
+    name: zuul-jobs-test-dstat-graph-opensuse-tumbleweed-nv
+    voting: false
+    description: Test the dstat-graph roles on opensuse-tumbleweed
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: opensuse-tumbleweed
+          label: opensuse-tumbleweed
+
+- job:
+    name: zuul-jobs-test-dstat-graph-ubuntu-bionic
+    description: Test the dstat-graph roles on ubuntu-bionic
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-dstat-graph-ubuntu-focal
+    description: Test the dstat-graph roles on ubuntu-focal
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
 
 - job:
     name: zuul-jobs-test-multinode-roles
@@ -724,7 +826,16 @@
         - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
-        - zuul-jobs-test-dstat-graph
+        - zuul-jobs-test-dstat-graph-centos-7
+        - zuul-jobs-test-dstat-graph-centos-8
+        - zuul-jobs-test-dstat-graph-centos-8-stream
+        - zuul-jobs-test-dstat-graph-debian-buster
+        - zuul-jobs-test-dstat-graph-debian-bullseye
+        - zuul-jobs-test-dstat-graph-fedora-34
+        - zuul-jobs-test-dstat-graph-opensuse-15
+        - zuul-jobs-test-dstat-graph-opensuse-tumbleweed-nv
+        - zuul-jobs-test-dstat-graph-ubuntu-bionic
+        - zuul-jobs-test-dstat-graph-ubuntu-focal
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-centos-8
         - zuul-jobs-test-multinode-roles-centos-8-stream
@@ -771,7 +882,15 @@
         - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
-        - zuul-jobs-test-dstat-graph
+        - zuul-jobs-test-dstat-graph-centos-7
+        - zuul-jobs-test-dstat-graph-centos-8
+        - zuul-jobs-test-dstat-graph-centos-8-stream
+        - zuul-jobs-test-dstat-graph-debian-buster
+        - zuul-jobs-test-dstat-graph-debian-bullseye
+        - zuul-jobs-test-dstat-graph-fedora-34
+        - zuul-jobs-test-dstat-graph-opensuse-15
+        - zuul-jobs-test-dstat-graph-ubuntu-bionic
+        - zuul-jobs-test-dstat-graph-ubuntu-focal
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-centos-8
         - zuul-jobs-test-multinode-roles-centos-8-stream
