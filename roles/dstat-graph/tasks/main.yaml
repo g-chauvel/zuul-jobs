@@ -4,12 +4,16 @@
   register: dstat_cache
 
 - name: Set dstat_graph path
-  when: dstat_cache.stat.exists
+  when: >
+      dstat_cache.stat.exists and not
+      dstat_graph_cache_ignore
   set_fact:
     dstat_path: "{{ dstat_graph_cache_path }}"
 
 - name: Set dstat_graph path
-  when: not dstat_cache.stat.exists
+  when: >
+      not dstat_cache.stat.exists or
+      dstat_graph_cache_ignore
   set_fact:
     dstat_path: "{{ dstat_graph_download_path }}"
 
