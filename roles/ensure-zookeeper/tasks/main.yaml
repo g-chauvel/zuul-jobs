@@ -33,7 +33,7 @@
     state: mounted
     path: /tmp/zookeeper/version-2
     fstype: tmpfs
-    opts: "nodev,nosuid,size=500M"
+    opts: "nodev,nosuid"
     src: "none"
   when: zookeeper_use_tmpfs
   become: true
