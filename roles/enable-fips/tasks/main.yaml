@@ -1,10 +1,11 @@
 ---
 - name: Make sure this role is run on RHEL/CentOS 8 systems
   fail:
-    msg: This role supports RHEL/CentOS 8 systems only
+    msg: This role supports RHEL/CentOS 8 systems and Fedora only
   when:
-    - (ansible_distribution != 'CentOS' and ansible_distribution != 'Red Hat Enterprise Linux') or
-      ansible_distribution_major_version != '8'
+    - not (ansible_distribution == 'CentOS' and ansible_distribution_major_version|int >= 8)
+    - not (ansible_distribution == 'Red Hat Enterprise Linux' and ansible_distribution_major_version|int >= 8)
+    - not ansible_distribution == 'Fedora'
 
 - name: Install fips-mode-setup
   become: true
