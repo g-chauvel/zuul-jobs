@@ -17,7 +17,6 @@ import os.path
 import re
 import string
 import sys
-import test
 from ansible.module_utils.pytoml import loads as pytoml_loads
 from ansible.module_utils.pytoml import dumps as pytoml_dumps
 from ansible.module_utils.pytoml import TomlError
