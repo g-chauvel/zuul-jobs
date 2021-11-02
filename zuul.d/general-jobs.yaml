@@ -18,6 +18,19 @@
     post-run: playbooks/unittests/post.yaml
 
 - job:
+    name: unittests-fips
+    abstract: true
+    description: |
+      Enable fips and Perform setup common to all unit test jobs.
+
+      This performs basic host and general project setup tasks common
+      to all types of unit test jobs related to fips.
+    pre-run:
+      - playbooks/enable-fips/pre.yaml
+      - playbooks/unittests/pre.yaml
+    post-run: playbooks/unittests/post.yaml
+
+- job:
     name: multinode
     abstract: true
     description: |

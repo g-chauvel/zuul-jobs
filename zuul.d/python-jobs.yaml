@@ -48,6 +48,55 @@
         NOSE_WITH_XUNIT: 1
 
 - job:
+    name: tox-fips
+    parent: unittests-fips
+    description: |
+      Base job containing setup and teardown for fips and tox-based test jobs.
+
+      This performs basic host and general project setup tasks common
+      to all tox unit test jobs related to fips.
+
+      Responds to these variables:
+
+      .. zuul:jobvar:: tox_envlist
+
+         Use the specified tox environments (``ALL`` selects all).
+
+      .. zuul:jobvar:: tox_environment
+         :type: dict
+
+         Environment variables to pass in to the tox run.
+
+      .. zuul:jobvar:: tox_extra_args
+
+         String containing extra arguments to append to the tox command line.
+
+      .. zuul:jobvar:: tox_constraints_file
+
+         Path to a pip constraints file. Will be provided to tox in the
+         TOX_CONSTRAINTS_FILE environment variable if it exists.
+
+      .. zuul:jobvar:: tox_install_siblings
+         :default: true
+
+         Override tox requirements that have corresponding zuul git repos
+         on the node by installing the git versions into the tox virtualenv.
+
+      .. zuul:jobvar:: tox_install_bindep
+         :default: true
+
+         Whether or not to run the binary dependencies detection and
+         installation with bindep.
+    run: playbooks/tox/run.yaml
+    pre-run: playbooks/tox/pre.yaml
+    post-run: playbooks/tox/post.yaml
+    vars:
+      tox_environment:
+        NOSE_WITH_HTML_OUTPUT: 1
+        NOSE_HTML_OUT_FILE: nose_results.html
+        NOSE_WITH_XUNIT: 1
+
+- job:
     name: tox-py27
     parent: tox
     description: |

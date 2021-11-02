@@ -4,6 +4,7 @@ General Purpose Jobs
 .. zuul:autojob:: dco-license
 .. zuul:autojob:: dhall-diff
 .. zuul:autojob:: unittests
+.. zuul:autojob:: unittests-fips
 .. zuul:autojob:: markdownlint
 .. zuul:autojob:: multinode
 .. zuul:autojob:: multinode-fips
