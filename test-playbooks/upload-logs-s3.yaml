@@ -30,9 +30,14 @@
         aws_access_key: "{{ zuul_log_aws_access_key }}"
         aws_secret_key: "{{ zuul_log_aws_secret_key }}"
 
-    - name: Create tempdir to upload to s3
-      tempfile:
+    - name: Create Logdir
+      become: true
+      file:
         state: directory
+        path: "{{ zuul.executor.log_root }}"
+        mode: "0755"
+        group: "zuul"
+        owner: "zuul"
       register: fake_zuul_logdir
 
     - name: Add content to tempfile
@@ -40,19 +45,11 @@
         content: "{{ test_content }}"
         dest: "{{ fake_zuul_logdir.path }}/testfile"
 
-    - name: Save zuul variables
-      set_fact:
-        old_zuul: "{{ zuul }}"
-    - name: Set simulated zuul variables
-      set_fact:
-        new_zuul: "{{ old_zuul | combine({'executor': {'log_root': fake_zuul_logdir.path}}, recursive=True) }}"
-
     - name: Upload file to s3
       include_role:
         name: upload-logs-s3
       vars:
         upload_logs_s3_endpoint: 'http://localhost:9000'
-        zuul: "{{ new_zuul }}"
 
     - name: Download mc
       get_url:
