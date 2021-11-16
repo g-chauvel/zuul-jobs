@@ -233,7 +233,7 @@ def ansible_main():
             public=dict(type='bool', default=True),
             footer=dict(type='str'),
             prefix=dict(type='str'),
-            connection_string=dict(type='str'),
+            connection_string=dict(type='str', no_log=True),
         )
     )
 
