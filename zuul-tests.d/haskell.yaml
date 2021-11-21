@@ -11,8 +11,8 @@
     pre-run: test-playbooks/haskell/setup-project.yaml
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-haskell-stack-test
@@ -26,8 +26,8 @@
     pre-run: test-playbooks/haskell/setup-stack-project.yaml
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-hlint
@@ -43,8 +43,8 @@
       - test-playbooks/haskell/setup-project.yaml
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - project:
     check:

@@ -394,16 +394,16 @@
           label: centos-8-stream
 
 - job:
-    name: zuul-jobs-test-ensure-podman-fedora-34
-    description: Tests ensure-podman role on fedora-34
+    name: zuul-jobs-test-ensure-podman-fedora-35
+    description: Tests ensure-podman role on fedora-35
     parent: zuul-jobs-test-ensure-podman
     # Until non-root podman issues are sorted; see
     #  https://github.com/containers/podman/issues/10717
     voting: false
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-ensure-podman-ubuntu-bionic
@@ -442,13 +442,13 @@
           label: centos-8
 
 - job:
-    name: zuul-jobs-test-ensure-skopeo-fedora-34
-    description: Tests ensure-skopeo role on fedora-34
+    name: zuul-jobs-test-ensure-skopeo-fedora-35
+    description: Tests ensure-skopeo role on fedora-35
     parent: zuul-jobs-test-ensure-skopeo
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-ensure-skopeo-ubuntu-bionic
@@ -494,12 +494,12 @@
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8
         - zuul-jobs-test-ensure-podman-centos-8-stream
-        - zuul-jobs-test-ensure-podman-fedora-34
+        - zuul-jobs-test-ensure-podman-fedora-35
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
         - zuul-jobs-test-ensure-podman-ubuntu-focal
         - zuul-jobs-test-ensure-podman-debian-bullseye
         - zuul-jobs-test-ensure-skopeo-centos-8
-        - zuul-jobs-test-ensure-skopeo-fedora-34
+        - zuul-jobs-test-ensure-skopeo-fedora-35
         - zuul-jobs-test-ensure-skopeo-ubuntu-bionic
         - zuul-jobs-test-ensure-skopeo-ubuntu-focal
     gate:
@@ -526,7 +526,7 @@
         - zuul-jobs-test-ensure-podman-ubuntu-focal
         - zuul-jobs-test-ensure-podman-debian-bullseye
         - zuul-jobs-test-ensure-skopeo-centos-8
-        - zuul-jobs-test-ensure-skopeo-fedora-34
+        - zuul-jobs-test-ensure-skopeo-fedora-35
         - zuul-jobs-test-ensure-skopeo-ubuntu-bionic
         - zuul-jobs-test-ensure-skopeo-ubuntu-focal
     periodic-weekly:

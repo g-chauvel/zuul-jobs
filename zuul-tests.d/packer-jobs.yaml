@@ -68,14 +68,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-packer-fedora-34
-    description: Test packer job on fedora-34
+    name: zuul-jobs-test-packer-fedora-35
+    description: Test packer job on fedora-35
     parent: zuul-jobs-test-packer
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-packer-opensuse-15
@@ -126,7 +126,7 @@
         - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-buster
         - zuul-jobs-test-packer-debian-bullseye
-        - zuul-jobs-test-packer-fedora-34
+        - zuul-jobs-test-packer-fedora-35
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-opensuse-tumbleweed-nv
         - zuul-jobs-test-packer-ubuntu-bionic
@@ -138,7 +138,7 @@
         - zuul-jobs-test-packer-centos-8-stream
         - zuul-jobs-test-packer-debian-buster
         - zuul-jobs-test-packer-debian-bullseye
-        - zuul-jobs-test-packer-fedora-34
+        - zuul-jobs-test-packer-fedora-35
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-focal

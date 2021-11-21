@@ -65,14 +65,14 @@
           label: debian-bullseye
 
 - job:
-    name: zuul-jobs-test-rust-fedora-34
-    description: Test the rust roles on fedora-34
+    name: zuul-jobs-test-rust-fedora-35
+    description: Test the rust roles on fedora-35
     parent: zuul-jobs-test-rust
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-34
-          label: fedora-34
+        - name: fedora-35
+          label: fedora-35
 
 - job:
     name: zuul-jobs-test-rust-opensuse-15
@@ -123,7 +123,7 @@
         - zuul-jobs-test-rust-centos-8-stream
         - zuul-jobs-test-rust-debian-buster
         - zuul-jobs-test-rust-debian-bullseye
-        - zuul-jobs-test-rust-fedora-34
+        - zuul-jobs-test-rust-fedora-35
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-opensuse-tumbleweed-nv
         - zuul-jobs-test-rust-ubuntu-bionic
@@ -135,7 +135,7 @@
         - zuul-jobs-test-rust-centos-8-stream
         - zuul-jobs-test-rust-debian-buster
         - zuul-jobs-test-rust-debian-bullseye
-        - zuul-jobs-test-rust-fedora-34
+        - zuul-jobs-test-rust-fedora-35
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic
         - zuul-jobs-test-rust-ubuntu-focal
