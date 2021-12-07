@@ -8,13 +8,6 @@
       not dstat_cache.stat.exists or
       dstat_graph_cache_ignore
   git:
-    # NOTE(ianw) 2021-10-22 : this project hasn't had an update in 4
-    # years ...  it relies on https://github.com/novus/nvd3 which has
-    # never been updated for D3 >v3 (which is currently up to 7).
-    # This update is far from perfect but converts the non-graph bits
-    # to current boostrap and fixes some display issues with
-    # pcp-dstat.  Use this while we see if the original upstream have
-    # interest in it any more.
-    repo: https://github.com/ianw/dstat_graph
+    repo: https://opendev.org/opendev/dstat_graph
     dest: "{{ dstat_graph_download_path }}"
-    version: bootstrap5
+    version: master
