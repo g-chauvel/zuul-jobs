@@ -86,17 +86,6 @@
           label: opensuse-15
 
 - job:
-    name: zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
-    voting: false
-    description: Test the golang-go job on opensuse-tumbleweed
-    parent: zuul-jobs-test-golang-go
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
-
-- job:
     name: zuul-jobs-test-golang-go-ubuntu-bionic
     description: Test the golang-go job on ubuntu-bionic
     parent: zuul-jobs-test-golang-go
@@ -118,18 +107,6 @@
 
 - project:
     check:
-      jobs:
-        - zuul-jobs-test-golang-go-centos-7
-        - zuul-jobs-test-golang-go-centos-8
-        - zuul-jobs-test-golang-go-centos-8-stream
-        - zuul-jobs-test-golang-go-debian-buster
-        - zuul-jobs-test-golang-go-debian-bullseye
-        - zuul-jobs-test-golang-go-fedora-35
-        - zuul-jobs-test-golang-go-opensuse-15
-        - zuul-jobs-test-golang-go-opensuse-tumbleweed-nv
-        - zuul-jobs-test-golang-go-ubuntu-bionic
-        - zuul-jobs-test-golang-go-ubuntu-focal
-    gate:
       jobs: &id001
         - zuul-jobs-test-golang-go-centos-7
         - zuul-jobs-test-golang-go-centos-8
@@ -140,5 +117,7 @@
         - zuul-jobs-test-golang-go-opensuse-15
         - zuul-jobs-test-golang-go-ubuntu-bionic
         - zuul-jobs-test-golang-go-ubuntu-focal
+    gate:
+      jobs: *id001
     periodic-weekly:
       jobs: *id001

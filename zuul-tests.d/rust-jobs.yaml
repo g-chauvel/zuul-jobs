@@ -85,17 +85,6 @@
           label: opensuse-15
 
 - job:
-    name: zuul-jobs-test-rust-opensuse-tumbleweed-nv
-    voting: false
-    description: Test the rust roles on opensuse-tumbleweed
-    parent: zuul-jobs-test-rust
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
-
-- job:
     name: zuul-jobs-test-rust-ubuntu-bionic
     description: Test the rust roles on ubuntu-bionic
     parent: zuul-jobs-test-rust
@@ -117,18 +106,6 @@
 
 - project:
     check:
-      jobs:
-        - zuul-jobs-test-rust-centos-7
-        - zuul-jobs-test-rust-centos-8
-        - zuul-jobs-test-rust-centos-8-stream
-        - zuul-jobs-test-rust-debian-buster
-        - zuul-jobs-test-rust-debian-bullseye
-        - zuul-jobs-test-rust-fedora-35
-        - zuul-jobs-test-rust-opensuse-15
-        - zuul-jobs-test-rust-opensuse-tumbleweed-nv
-        - zuul-jobs-test-rust-ubuntu-bionic
-        - zuul-jobs-test-rust-ubuntu-focal
-    gate:
       jobs: &id001
         - zuul-jobs-test-rust-centos-7
         - zuul-jobs-test-rust-centos-8
@@ -139,5 +116,7 @@
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic
         - zuul-jobs-test-rust-ubuntu-focal
+    gate:
+      jobs: *id001
     periodic-weekly:
       jobs: *id001

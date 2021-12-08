@@ -90,17 +90,6 @@
           label: opensuse-15
 
 - job:
-    name: zuul-jobs-test-terraform-opensuse-tumbleweed-nv
-    voting: false
-    description: Test terraform job on opensuse-tumbleweed
-    parent: zuul-jobs-test-terraform
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
-
-- job:
     name: zuul-jobs-test-terraform-ubuntu-bionic
     description: Test terraform job on ubuntu-bionic
     parent: zuul-jobs-test-terraform
@@ -211,17 +200,6 @@
       nodes:
         - name: opensuse-15
           label: opensuse-15
-
-- job:
-    name: zuul-jobs-test-terraform-role-opensuse-tumbleweed-nv
-    voting: false
-    description: Test terraform roles on opensuse-tumbleweed
-    parent: zuul-jobs-test-terraform-role
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
 
 - job:
     name: zuul-jobs-test-terraform-role-ubuntu-bionic

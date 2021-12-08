@@ -195,17 +195,6 @@
           label: opensuse-15
 
 - job:
-    name: zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
-    voting: false
-    description: Tests roles in the 'base' job on opensuse-tumbleweed
-    parent: zuul-jobs-test-base-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
-
-- job:
     name: zuul-jobs-test-base-roles-ubuntu-bionic
     description: Tests roles in the 'base' job on ubuntu-bionic
     parent: zuul-jobs-test-base-roles
@@ -307,17 +296,6 @@
       nodes:
         - name: opensuse-15
           label: opensuse-15
-
-- job:
-    name: zuul-jobs-test-bindep-opensuse-tumbleweed-nv
-    voting: false
-    description: Test the bindep role on opensuse-tumbleweed
-    parent: zuul-jobs-test-bindep
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
 
 - job:
     name: zuul-jobs-test-bindep-ubuntu-bionic
@@ -461,17 +439,6 @@
       nodes:
         - name: opensuse-15
           label: opensuse-15
-
-- job:
-    name: zuul-jobs-test-dstat-graph-opensuse-tumbleweed-nv
-    voting: false
-    description: Test the dstat-graph roles on opensuse-tumbleweed
-    parent: zuul-jobs-test-dstat-graph
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: opensuse-tumbleweed
-          label: opensuse-tumbleweed
 
 - job:
     name: zuul-jobs-test-dstat-graph-ubuntu-bionic
@@ -645,26 +612,6 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-opensuse-tumbleweed-nv
-    voting: false
-    description: Tests multinode setup roles on opensuse-tumbleweed
-    parent: zuul-jobs-test-multinode-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: primary
-          label: opensuse-tumbleweed
-        - name: secondary
-          label: opensuse-tumbleweed
-      groups:
-        - name: switch
-          nodes:
-            - primary
-        - name: peers
-          nodes:
-            - secondary
-
-- job:
     name: zuul-jobs-test-multinode-roles-ubuntu-bionic
     description: Tests multinode setup roles on ubuntu-bionic
     parent: zuul-jobs-test-multinode-roles
@@ -798,64 +745,6 @@
 
 - project:
     check:
-      jobs:
-        - zuul-jobs-test-add-authorized-keys
-        - zuul-jobs-test-add-gpgkey
-        - zuul-jobs-test-add-sshkey
-        - zuul-jobs-test-base-roles-centos-7
-        - zuul-jobs-test-base-roles-centos-8
-        - zuul-jobs-test-base-roles-centos-8-stream
-        - zuul-jobs-test-base-roles-debian-buster
-        - zuul-jobs-test-base-roles-debian-bullseye
-        - zuul-jobs-test-base-roles-fedora-35
-        - zuul-jobs-test-base-roles-opensuse-15
-        - zuul-jobs-test-base-roles-opensuse-tumbleweed-nv
-        - zuul-jobs-test-base-roles-ubuntu-bionic
-        - zuul-jobs-test-base-roles-ubuntu-focal
-        - zuul-jobs-test-bindep-centos-7
-        - zuul-jobs-test-bindep-centos-8
-        - zuul-jobs-test-bindep-centos-8-stream
-        - zuul-jobs-test-bindep-debian-buster
-        - zuul-jobs-test-bindep-debian-bullseye
-        - zuul-jobs-test-bindep-fedora-35
-        - zuul-jobs-test-bindep-opensuse-15
-        - zuul-jobs-test-bindep-opensuse-tumbleweed-nv
-        - zuul-jobs-test-bindep-ubuntu-bionic
-        - zuul-jobs-test-bindep-ubuntu-focal
-        - zuul-jobs-test-clear-firewall
-        - zuul-jobs-test-enable-fips
-        - zuul-jobs-test-ensure-bazelisk
-        - zuul-jobs-test-netconsole
-        - zuul-jobs-test-dstat-graph-centos-7
-        - zuul-jobs-test-dstat-graph-centos-8
-        - zuul-jobs-test-dstat-graph-centos-8-stream
-        - zuul-jobs-test-dstat-graph-debian-buster
-        - zuul-jobs-test-dstat-graph-debian-bullseye
-        - zuul-jobs-test-dstat-graph-fedora-35
-        - zuul-jobs-test-dstat-graph-opensuse-15
-        - zuul-jobs-test-dstat-graph-opensuse-tumbleweed-nv
-        - zuul-jobs-test-dstat-graph-ubuntu-bionic
-        - zuul-jobs-test-dstat-graph-ubuntu-focal
-        - zuul-jobs-test-multinode-roles-centos-7
-        - zuul-jobs-test-multinode-roles-centos-8
-        - zuul-jobs-test-multinode-roles-centos-8-stream
-        - zuul-jobs-test-multinode-roles-debian-buster
-        - zuul-jobs-test-multinode-roles-debian-bullseye
-        - zuul-jobs-test-multinode-roles-fedora-35
-        - zuul-jobs-test-multinode-roles-opensuse-15
-        - zuul-jobs-test-multinode-roles-opensuse-tumbleweed-nv
-        - zuul-jobs-test-multinode-roles-ubuntu-bionic
-        - zuul-jobs-test-multinode-roles-ubuntu-focal
-        - zuul-jobs-test-generate-zuul-manifest
-        - zuul-jobs-test-upload-artifactory
-        - zuul-jobs-test-upload-git-mirror
-        - zuul-jobs-test-shake-build
-        - zuul-jobs-test-ensure-zookeeper
-        - zuul-jobs-test-update-json-file
-        - zuul-jobs-test-stage-output
-        - zuul-jobs-test-fetch-translation-output
-        - zuul-jobs-test-fetch-translation-output-synchronize
-    gate:
       jobs: &id001
         - zuul-jobs-test-add-authorized-keys
         - zuul-jobs-test-add-gpgkey
@@ -909,5 +798,7 @@
         - zuul-jobs-test-stage-output
         - zuul-jobs-test-fetch-translation-output
         - zuul-jobs-test-fetch-translation-output-synchronize
+    gate:
+      jobs: *id001
     periodic-weekly:
       jobs: *id001

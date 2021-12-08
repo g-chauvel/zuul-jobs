@@ -38,14 +38,12 @@ PLATFORMS = [
     'fedora-35',
     # 'gentoo-17-0-systemd',
     'opensuse-15',
-    'opensuse-tumbleweed',
     'ubuntu-bionic',
     'ubuntu-focal',
 ]
 
 # insert a platform from above to make it non-voting
 NON_VOTING = [
-    'opensuse-tumbleweed',
 ]
 
 # Insert a job to make that single job non-voting
