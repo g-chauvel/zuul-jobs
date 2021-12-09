@@ -133,6 +133,17 @@
       python_version: 3.9
 
 - job:
+    name: tox-py310
+    parent: tox
+    description: |
+      Run unit tests for a Python project under cPython version 3.10.
+
+      Uses tox with the ``py310`` environment.
+    vars:
+      tox_envlist: py310
+      python_version: "3.10"
+
+- job:
     name: tox-docs
     # This is not parented to tox since we do not need
     # the roles from its parent unittests.
