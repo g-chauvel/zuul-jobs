@@ -2,6 +2,7 @@ Python Jobs
 ===========
 
 .. zuul:autojob:: tox
+.. zuul:autojob:: tox-fips
 .. zuul:autojob:: tox-py27
 .. zuul:autojob:: tox-py36
 .. zuul:autojob:: tox-py37
