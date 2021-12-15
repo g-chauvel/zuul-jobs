@@ -106,7 +106,7 @@
   post_tasks:
     - name: Load artifacts information from zuul_return
       set_fact:
-        artifacts: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json) ['zuul']['artifacts'] }}"
+        artifacts: "{{ (lookup('file', zuul.executor.work_root + '/results.json') | from_json) ['data']['zuul']['artifacts'] }}"
     - name: Expected artifacts are backwards
       set_fact:
         expected_artifacts:

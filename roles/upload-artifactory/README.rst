@@ -79,7 +79,7 @@ Upload artifacts specified from the executor to artifactory.
        .. zuul:rolevar:: instance
 
           Artifactory instance to place the artiface in, this is to
-          choose which entry in :attr:`upload_artifactory_instances` to upload
+          choose which entry in :zuul:rolevar:`upload-artifactory.upload_artifactory_instances` to upload
           the artifact to.
 
        .. zuul:rolevar:: headers
