@@ -26,16 +26,6 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-golang-go-centos-8
-    description: Test the golang-go job on centos-8
-    parent: zuul-jobs-test-golang-go
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8
-          label: centos-8
-
-- job:
     name: zuul-jobs-test-golang-go-centos-8-stream
     description: Test the golang-go job on centos-8-stream
     parent: zuul-jobs-test-golang-go
@@ -109,7 +99,6 @@
     check:
       jobs: &id001
         - zuul-jobs-test-golang-go-centos-7
-        - zuul-jobs-test-golang-go-centos-8
         - zuul-jobs-test-golang-go-centos-8-stream
         - zuul-jobs-test-golang-go-debian-buster
         - zuul-jobs-test-golang-go-debian-bullseye

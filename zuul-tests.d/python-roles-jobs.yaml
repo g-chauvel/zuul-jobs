@@ -23,16 +23,6 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-build-python-release-jobs-centos-8
-    description: Test the build-python-release-jobs role on centos-8
-    parent: zuul-jobs-test-build-python-release-jobs
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8
-          label: centos-8
-
-- job:
     name: zuul-jobs-test-build-python-release-jobs-centos-8-stream
     description: Test the build-python-release-jobs role on centos-8-stream
     parent: zuul-jobs-test-build-python-release-jobs
@@ -122,16 +112,6 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-ensure-python-pyenv-centos-8
-    description: Test the ensure-python role with pyenv on centos-8
-    parent: zuul-jobs-test-ensure-python-pyenv
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8
-          label: centos-8
-
-- job:
     name: zuul-jobs-test-ensure-python-pyenv-centos-8-stream
     description: Test the ensure-python role with pyenv on centos-8-stream
     parent: zuul-jobs-test-ensure-python-pyenv
@@ -205,7 +185,6 @@
     check:
       jobs: &id001
         - zuul-jobs-test-build-python-release-jobs-centos-7
-        - zuul-jobs-test-build-python-release-jobs-centos-8
         - zuul-jobs-test-build-python-release-jobs-centos-8-stream
         - zuul-jobs-test-build-python-release-jobs-debian-buster
         - zuul-jobs-test-build-python-release-jobs-debian-bullseye
@@ -214,7 +193,6 @@
         - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
         - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
         - zuul-jobs-test-ensure-python-pyenv-centos-7
-        - zuul-jobs-test-ensure-python-pyenv-centos-8
         - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
         - zuul-jobs-test-ensure-python-pyenv-debian-buster
         - zuul-jobs-test-ensure-python-pyenv-debian-bullseye

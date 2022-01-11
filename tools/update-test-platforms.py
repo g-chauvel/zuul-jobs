@@ -31,7 +31,6 @@ import ruamellib
 
 PLATFORMS = [
     'centos-7',
-    'centos-8',
     'centos-8-stream',
     'debian-buster',
     'debian-bullseye',

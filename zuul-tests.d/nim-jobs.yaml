@@ -24,16 +24,6 @@
           label: centos-7
 
 - job:
-    name: zuul-jobs-test-nimble-centos-8
-    description: Test the nimble job on centos-8
-    parent: zuul-jobs-test-nimble
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: centos-8
-          label: centos-8
-
-- job:
     name: zuul-jobs-test-nimble-centos-8-stream
     description: Test the nimble job on centos-8-stream
     parent: zuul-jobs-test-nimble
@@ -107,7 +97,6 @@
     check:
       jobs: &id001
         - zuul-jobs-test-nimble-centos-7
-        - zuul-jobs-test-nimble-centos-8
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
