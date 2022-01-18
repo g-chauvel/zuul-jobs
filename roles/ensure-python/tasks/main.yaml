@@ -6,16 +6,27 @@
       - (python_version|string).split(".")[1]
   when: python_version is defined
 
-- name: Install specified version of python interpreter and development files
+- name: Install python using system packages
   when:
     - python_version is defined
-    - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
     - not python_use_pyenv
     - not python_use_stow
-  package:
-    name: python{{ python_version }}-dev
-    state: present
-  become: yes
+  block:
+    - name: Install specified version of python interpreter and development files (DEB)
+      when:
+        - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      package:
+        name: python{{ python_version }}-dev
+        state: present
+      become: yes
+
+    - name: Install specified version of python interpreter and development files (RPM)
+      when:
+        - ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+      package:
+        name: python{{ python_version | replace('.', '') }}-devel
+        state: present
+      become: yes
 
 - name: Install python using pyenv
   when:

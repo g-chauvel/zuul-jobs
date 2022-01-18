@@ -1,12 +1,9 @@
 Ensure specified python interpreter and development files are installed
 
-.. note:: This role is only available for Debian based platforms
-          currently.
-
 There are three ways to install the python interpreter:
 
 1. Using distribution packages: This is the default (``python_use_pyenv`` and
-   ``python_use_stow`` are both false``).
+   ``python_use_stow`` are both ``false``).
 
 2. Install using ``pyenv``.
 
