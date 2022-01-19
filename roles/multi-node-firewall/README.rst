@@ -1,2 +1,10 @@
-Configures the inventory private and public addresses in a multi-node job in
-iptables in order to allow traffic to and from each node without restrictions.
+Multinode firewall is configured.
+
+This role is intended to install iptables and configure firewall.
+
+**Role Variables**
+
+.. zuul:rolevar:: iptables_package
+   :default: iptables
+
+   Install the distribution package for Iptables.
