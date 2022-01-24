@@ -42,5 +42,8 @@ boto3
 # For upload-logs-azure
 azure-storage-blob
 
+# For upload-logs-ibm
+ibm-cos-sdk
+
 # unittest.mock compatibility package for Python < 3.3
 mock;python_version<'3.3'

@@ -15,5 +15,6 @@ Log Roles
 .. zuul:autorole:: upload-logs
 .. zuul:autorole:: upload-logs-azure
 .. zuul:autorole:: upload-logs-gcs
+.. zuul:autorole:: upload-logs-ibm
 .. zuul:autorole:: upload-logs-s3
 .. zuul:autorole:: upload-logs-swift
