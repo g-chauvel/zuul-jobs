@@ -32,6 +32,7 @@ import ruamellib
 PLATFORMS = [
     'centos-7',
     'centos-8-stream',
+    'centos-9-stream',
     'debian-buster',
     'debian-bullseye',
     'fedora-35',
@@ -48,6 +49,15 @@ NON_VOTING = [
 # Insert a job to make that single job non-voting
 NON_VOTING_JOBS = [
     'zuul-jobs-test-multinode-roles-gentoo-17-0-systemd',
+    # amoralej, we need to get https://review.opendev.org/826603 merged for
+    # other roles to work fine in centos-9-stream
+    'zuul-jobs-test-ensure-pip-centos-9-stream',
+    'zuul-jobs-test-ensure-tox-centos-9-stream',
+    'zuul-jobs-test-build-python-release-jobs-centos-9-stream',
+    'zuul-jobs-test-fetch-sphinx-tarball-centos-9-stream',
+    # nimble jobs for centos-7 and opensuse-15 are broken since long time
+    'zuul-jobs-test-nimble-centos-7',
+    'zuul-jobs-test-nimble-opensuse-15'
 ]
 
 

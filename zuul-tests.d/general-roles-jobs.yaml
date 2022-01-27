@@ -145,6 +145,16 @@
           label: centos-8-stream
 
 - job:
+    name: zuul-jobs-test-base-roles-centos-9-stream
+    description: Tests roles in the 'base' job on centos-9-stream
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: zuul-jobs-test-base-roles-debian-buster
     description: Tests roles in the 'base' job on debian-buster
     parent: zuul-jobs-test-base-roles
@@ -236,6 +246,16 @@
       nodes:
         - name: centos-8-stream
           label: centos-8-stream
+
+- job:
+    name: zuul-jobs-test-bindep-centos-9-stream
+    description: Test the bindep role on centos-9-stream
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
 
 - job:
     name: zuul-jobs-test-bindep-debian-buster
@@ -371,6 +391,16 @@
           label: centos-8-stream
 
 - job:
+    name: zuul-jobs-test-dstat-graph-centos-9-stream
+    description: Test the dstat-graph roles on centos-9-stream
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: zuul-jobs-test-dstat-graph-debian-buster
     description: Test the dstat-graph roles on debian-buster
     parent: zuul-jobs-test-dstat-graph
@@ -478,6 +508,25 @@
           label: centos-8-stream
         - name: secondary
           label: centos-8-stream
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-centos-9-stream
+    description: Tests multinode setup roles on centos-9-stream
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: centos-9-stream
+        - name: secondary
+          label: centos-9-stream
       groups:
         - name: switch
           nodes:
@@ -702,6 +751,7 @@
         - zuul-jobs-test-add-sshkey
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-centos-8-stream
+        - zuul-jobs-test-base-roles-centos-9-stream
         - zuul-jobs-test-base-roles-debian-buster
         - zuul-jobs-test-base-roles-debian-bullseye
         - zuul-jobs-test-base-roles-fedora-35
@@ -710,6 +760,7 @@
         - zuul-jobs-test-base-roles-ubuntu-focal
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8-stream
+        - zuul-jobs-test-bindep-centos-9-stream
         - zuul-jobs-test-bindep-debian-buster
         - zuul-jobs-test-bindep-debian-bullseye
         - zuul-jobs-test-bindep-fedora-35
@@ -722,6 +773,7 @@
         - zuul-jobs-test-netconsole
         - zuul-jobs-test-dstat-graph-centos-7
         - zuul-jobs-test-dstat-graph-centos-8-stream
+        - zuul-jobs-test-dstat-graph-centos-9-stream
         - zuul-jobs-test-dstat-graph-debian-buster
         - zuul-jobs-test-dstat-graph-debian-bullseye
         - zuul-jobs-test-dstat-graph-fedora-35
@@ -730,6 +782,7 @@
         - zuul-jobs-test-dstat-graph-ubuntu-focal
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-centos-8-stream
+        - zuul-jobs-test-multinode-roles-centos-9-stream
         - zuul-jobs-test-multinode-roles-debian-buster
         - zuul-jobs-test-multinode-roles-debian-bullseye
         - zuul-jobs-test-multinode-roles-fedora-35
