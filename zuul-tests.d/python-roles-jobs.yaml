@@ -33,8 +33,7 @@
           label: centos-8-stream
 
 - job:
-    name: zuul-jobs-test-build-python-release-jobs-centos-9-stream-nv
-    voting: false
+    name: zuul-jobs-test-build-python-release-jobs-centos-9-stream
     description: Test the build-python-release-jobs role on centos-9-stream
     parent: zuul-jobs-test-build-python-release-jobs
     tags: auto-generated
@@ -204,10 +203,10 @@
 
 - project:
     check:
-      jobs:
+      jobs: &id001
         - zuul-jobs-test-build-python-release-jobs-centos-7
         - zuul-jobs-test-build-python-release-jobs-centos-8-stream
-        - zuul-jobs-test-build-python-release-jobs-centos-9-stream-nv
+        - zuul-jobs-test-build-python-release-jobs-centos-9-stream
         - zuul-jobs-test-build-python-release-jobs-debian-buster
         - zuul-jobs-test-build-python-release-jobs-debian-bullseye
         - zuul-jobs-test-build-python-release-jobs-fedora-35
@@ -224,23 +223,6 @@
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
         - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
     gate:
-      jobs: &id001
-        - zuul-jobs-test-build-python-release-jobs-centos-7
-        - zuul-jobs-test-build-python-release-jobs-centos-8-stream
-        - zuul-jobs-test-build-python-release-jobs-debian-buster
-        - zuul-jobs-test-build-python-release-jobs-debian-bullseye
-        - zuul-jobs-test-build-python-release-jobs-fedora-35
-        - zuul-jobs-test-build-python-release-jobs-opensuse-15
-        - zuul-jobs-test-build-python-release-jobs-ubuntu-bionic
-        - zuul-jobs-test-build-python-release-jobs-ubuntu-focal
-        - zuul-jobs-test-ensure-python-pyenv-centos-7
-        - zuul-jobs-test-ensure-python-pyenv-centos-8-stream
-        - zuul-jobs-test-ensure-python-pyenv-centos-9-stream
-        - zuul-jobs-test-ensure-python-pyenv-debian-buster
-        - zuul-jobs-test-ensure-python-pyenv-debian-bullseye
-        - zuul-jobs-test-ensure-python-pyenv-fedora-35
-        - zuul-jobs-test-ensure-python-pyenv-opensuse-15
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-bionic
-        - zuul-jobs-test-ensure-python-pyenv-ubuntu-focal
+      jobs: *id001
     periodic-weekly:
       jobs: *id001
