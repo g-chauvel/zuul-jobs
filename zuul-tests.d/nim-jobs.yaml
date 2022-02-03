@@ -14,7 +14,8 @@
         - '{{ zuul.project.src_dir }}/test-playbooks/nimble/sibling'
 
 - job:
-    name: zuul-jobs-test-nimble-centos-7
+    name: zuul-jobs-test-nimble-centos-7-nv
+    voting: false
     description: Test the nimble job on centos-7
     parent: zuul-jobs-test-nimble
     tags: auto-generated
@@ -32,6 +33,16 @@
       nodes:
         - name: centos-8-stream
           label: centos-8-stream
+
+- job:
+    name: zuul-jobs-test-nimble-centos-9-stream
+    description: Test the nimble job on centos-9-stream
+    parent: zuul-jobs-test-nimble
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
 
 - job:
     name: zuul-jobs-test-nimble-debian-buster
@@ -64,7 +75,8 @@
           label: fedora-35
 
 - job:
-    name: zuul-jobs-test-nimble-opensuse-15
+    name: zuul-jobs-test-nimble-opensuse-15-nv
+    voting: false
     description: Test the nimble job on opensuse-15
     parent: zuul-jobs-test-nimble
     tags: auto-generated
@@ -95,16 +107,24 @@
 
 - project:
     check:
-      jobs: &id001
-        - zuul-jobs-test-nimble-centos-7
+      jobs:
+        - zuul-jobs-test-nimble-centos-7-nv
         - zuul-jobs-test-nimble-centos-8-stream
+        - zuul-jobs-test-nimble-centos-9-stream
         - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
         - zuul-jobs-test-nimble-fedora-35
-        - zuul-jobs-test-nimble-opensuse-15
+        - zuul-jobs-test-nimble-opensuse-15-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal
     gate:
-      jobs: *id001
+      jobs: &id001
+        - zuul-jobs-test-nimble-centos-8-stream
+        - zuul-jobs-test-nimble-centos-9-stream
+        - zuul-jobs-test-nimble-debian-buster
+        - zuul-jobs-test-nimble-debian-bullseye
+        - zuul-jobs-test-nimble-fedora-35
+        - zuul-jobs-test-nimble-ubuntu-bionic
+        - zuul-jobs-test-nimble-ubuntu-focal
     periodic-weekly:
       jobs: *id001

@@ -38,6 +38,16 @@
           label: centos-8-stream
 
 - job:
+    name: zuul-jobs-test-packer-centos-9-stream
+    description: Test packer job on centos-9-stream
+    parent: zuul-jobs-test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: zuul-jobs-test-packer-debian-buster
     description: Test packer job on debian-buster
     parent: zuul-jobs-test-packer
@@ -102,6 +112,7 @@
       jobs: &id001
         - zuul-jobs-test-packer-centos-7
         - zuul-jobs-test-packer-centos-8-stream
+        - zuul-jobs-test-packer-centos-9-stream
         - zuul-jobs-test-packer-debian-buster
         - zuul-jobs-test-packer-debian-bullseye
         - zuul-jobs-test-packer-fedora-35

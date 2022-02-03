@@ -35,6 +35,16 @@
           label: centos-8-stream
 
 - job:
+    name: zuul-jobs-test-rust-centos-9-stream
+    description: Test the rust roles on centos-9-stream
+    parent: zuul-jobs-test-rust
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: zuul-jobs-test-rust-debian-buster
     description: Test the rust roles on debian-buster
     parent: zuul-jobs-test-rust
@@ -99,6 +109,7 @@
       jobs: &id001
         - zuul-jobs-test-rust-centos-7
         - zuul-jobs-test-rust-centos-8-stream
+        - zuul-jobs-test-rust-centos-9-stream
         - zuul-jobs-test-rust-debian-buster
         - zuul-jobs-test-rust-debian-bullseye
         - zuul-jobs-test-rust-fedora-35
