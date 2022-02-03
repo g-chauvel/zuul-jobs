@@ -36,25 +36,29 @@
         $run_pip wheel --no-deps .
         ls zuul-*.whl || exit 1
 
-    # ensure-virtualenv
-    - name: Include ensure-virtualenv
-      include_role:
-        name: ensure-virtualenv
+    - name: Test virtualenv
+      # NOTE(ianw) 2022-02-03 : not supported on 9-stream, see inline comments
+      when: not (ansible_facts['distribution'] == 'CentOS' and  ansible_facts['distribution_major_version']|int >= 9)
+      block:
+        # ensure-virtualenv
+        - name: Include ensure-virtualenv
+          include_role:
+            name: ensure-virtualenv
 
-    - name: Sanity check virtualenv command works
-      shell: |
-        tmp_venv=$(mktemp -d -t venv-XXXXXXXXXX)
-        trap "rm -rf $tmp_venv" EXIT
-        virtualenv $tmp_venv
-        $tmp_venv/bin/pip install tox
-      failed_when: false
-      register: _virtualenv_sanity
+        - name: Sanity check virtualenv command works
+          shell: |
+            tmp_venv=$(mktemp -d -t venv-XXXXXXXXXX)
+            trap "rm -rf $tmp_venv" EXIT
+            virtualenv $tmp_venv
+            $tmp_venv/bin/pip install tox
+          failed_when: false
+          register: _virtualenv_sanity
 
-    - name: Assert sanity check
-      fail:
-        msg: 'The virtualenv command does not appear to work!'
-      when:
-        - _virtualenv_sanity.rc != 0
+        - name: Assert sanity check
+          fail:
+            msg: 'The virtualenv command does not appear to work!'
+          when:
+            - _virtualenv_sanity.rc != 0
 
 # NOTE(ianw) : this does not play nicely with pip-and-virtualenv which
 # has already installed from source.  We might be able to test this
