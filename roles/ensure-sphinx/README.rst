@@ -25,9 +25,10 @@ All pip installs are done with a provided constraints file, if given.
    By default this list is empty.
 
 .. zuul:rolevar:: sphinx_python
-   :default: python2
+   :default: python3
 
-   Version of python to use, either ``python2`` or ``python3``.
+   **Deprecated**
+   Version of python to use, only supports ``python3``.
 
 .. zuul:rolevar:: zuul_work_virtualenv
    :default: ~/.venv

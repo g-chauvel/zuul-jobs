@@ -2,10 +2,6 @@
   include_role:
     name: ensure-pip
 
-- name: Install virtualenv
-  include_role:
-    name: ensure-virtualenv
-
 # NOTE: gettext command is provided by gettext-base package,
 # so we need to check a command provided by gettext package.
 - name: Check for gettext installed
@@ -41,15 +37,12 @@
       done
   register: requirements_file
 
-- name: Gather python version variables
-  include_vars: "{{ sphinx_python.split('.')[0] }}.yaml"
-
 - name: Install base doc building packages
   pip:
     name: "{{ doc_building_packages | union(doc_building_extra_packages) }}"
     chdir: "{{ zuul_work_dir }}"
     virtualenv: "{{ zuul_work_virtualenv }}"
-    virtualenv_python: "{{ sphinx_python }}"
+    virtualenv_command: "{{ ensure_pip_virtualenv_command }}"
     extra_args: "{{ upper_constraints | default(omit) }}"
 
 - name: Install found doc requirements
@@ -57,6 +50,6 @@
     requirements: "{{ requirements_file.stdout }}"
     chdir: "{{ zuul_work_dir }}"
     virtualenv: "{{ zuul_work_virtualenv }}"
-    virtualenv_python: "{{ sphinx_python }}"
+    virtualenv_command: "{{ ensure_pip_virtualenv_command }}"
     extra_args: "{{ upper_constraints | default(omit) }}"
   when: requirements_file.stdout_lines
