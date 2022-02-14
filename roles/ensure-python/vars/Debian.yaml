@@ -8,3 +8,4 @@ python_build_depends:
   - libsqlite3-dev
   - make
   - zlib1g-dev
+  - patch

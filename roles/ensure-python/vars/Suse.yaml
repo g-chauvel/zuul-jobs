@@ -9,3 +9,4 @@ python_build_depends:
   - sqlite3-devel
   - tar
   - zlib-devel
+  - patch
