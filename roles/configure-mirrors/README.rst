@@ -30,3 +30,14 @@ An ansible role to configure services to use mirrors.
    Set to True in order to tag APT mirrors as trusted, needed
    when accessing unsigned mirrors with newer releases like
    Ubuntu Bionic.
+
+-- zuul:rolevar:: configure_mirrors_extra_repos
+   :default: True
+
+   Set to False to opt-out of installing extra repositories such
+   as PowerTools and HighAvailability on centos-8-stream and
+   backports for Debian/Ubuntu. The intent is to match the upstream
+   distro state when this variable is set to False. Note that this
+   role is not necessarily consistent with the repos that are
+   enabled by default between distribution versions (centos stream
+   8 vs. 9 for example).

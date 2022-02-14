@@ -3,5 +3,5 @@
 name=CentOS-Stream - PowerTools
 baseurl={{ package_mirror }}/$stream/PowerTools/$basearch/os/
 gpgcheck=1
-enabled=1
+enabled="{{ configure_mirrors_extra_repos | bool | ternary('1', '0') }}"
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

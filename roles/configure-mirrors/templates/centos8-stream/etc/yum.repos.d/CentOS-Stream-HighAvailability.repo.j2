@@ -3,5 +3,5 @@
 name=CentOS-Stream - HighAvailability
 baseurl={{ package_mirror }}/$stream/HighAvailability/$basearch/os/
 gpgcheck=1
-enabled=1
+enabled="{{ configure_mirrors_extra_repos | bool | ternary('1', '0') }}"
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

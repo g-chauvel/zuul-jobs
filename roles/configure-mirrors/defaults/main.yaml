@@ -10,3 +10,4 @@ http_or_https: >-
   {%- endif -%}
 pypi_mirror: "{{ http_or_https }}://{{ pypi_fqdn }}/pypi/simple"
 wheel_mirror: "{{ http_or_https }}://{{ mirror_fqdn }}/wheel/{{ ansible_distribution | lower }}-{{ ansible_distribution_version }}-{{ ansible_architecture | lower }}"
+configure_mirrors_extra_repos: True
