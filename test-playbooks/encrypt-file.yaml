@@ -65,6 +65,27 @@
                 =CRYD
                 -----END PGP PUBLIC KEY BLOCK-----
 
+          # NOTE(ianw): This key expires 2106-01-01 which is the
+          # maximum I seem to be able to convince gpg to do ATM.
+          # Someone else will have to regenerate it then because I am
+          # not likely to be available to do it.
+          - name: 'zuul-jobs-test-4'
+            key_id: '4A8C7A2A7E55816E'
+            gpg_asc: |
+               -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+               mDMEYg9K5BYJKwYBBAHaRw8BAQdAIIezhOWTs9ggMpfePn/6B5sNY5/Bn9CguDcy
+               gKrjoIC0EHp1dWwtam9icy10ZXN0LTSImgQTFgoAQhYhBJZPfDNqTyma/Ekg0kqM
+               eip+VYFuBQJiD0rkAhsDBQmdv6CsBQsJCAcCAyICAQYVCgkICwIEFgIDAQIeBwIX
+               gAAKCRBKjHoqflWBbnOPAP9kJgpMbHh83haH7o+O1jJTbsW9XVX7Aq196ZbEiUhx
+               5QD9FFfKnDQ7q8XX6rOK6joLG9Cq8pX5q6tSouqygKKicQm4OARiD0rkEgorBgEE
+               AZdVAQUBAQdAJ2oXpzmh5vUKhWr7PCT6y4nhIcs9bdnKFiIWfEinGVMDAQgHiHgE
+               GBYKACAWIQSWT3wzak8pmvxJINJKjHoqflWBbgUCYg9K5AIbDAAKCRBKjHoqflWB
+               btm1AQC+lvLW8iLbsKde5cqHlGAKgY7KPi5BKxSCzwdRuX3qGAEAvFKGNoEjmUzF
+               7SUjadUXXizJoeJ9feocDzfBiaH53w8=
+               =XCeq
+               -----END PGP PUBLIC KEY BLOCK-----
+
     - name: Encrypt file
       include_role:
         name: encrypt-file
@@ -73,12 +94,7 @@
         encrypt_file_recipients:
           - zuul-jobs-test-2
           - zuul-jobs-test-3
-
-    - name: Remove temporary file
-      file:
-        path: '{{ _tempfile.path }}'
-        state: absent
-      when: _tempfile.path is defined
+          - zuul-jobs-test-4
 
     - name: Check output file
       stat:
@@ -107,8 +123,31 @@
           - "'zuul-jobs-test-1' not in _gpg_output.stdout"
           - "'zuul-jobs-test-2' in _gpg_output.stdout"
           - "'zuul-jobs-test-3' in _gpg_output.stdout"
+          - "'zuul-jobs-test-4' in _gpg_output.stdout"
 
-    - name: Remove output file
+    - name: Remove encrypted output file
+      file:
+        path: '{{ _tempfile.path }}.gpg'
+        state: absent
+
+    # Do it again to exercise already imported keys path
+    - name: Encrypt file
+      include_role:
+        name: encrypt-file
+      vars:
+        encrypt_file: '{{ _tempfile.path }}'
+        encrypt_file_recipients:
+          - zuul-jobs-test-2
+          - zuul-jobs-test-3
+          - zuul-jobs-test-4
+
+    - name: Remove temporary file
+      file:
+        path: '{{ _tempfile.path }}'
+        state: absent
+      when: _tempfile.path is defined
+
+    - name: Remove encrypted output file
       file:
         path: '{{ _tempfile.path }}.gpg'
         state: absent
