@@ -7,3 +7,4 @@ python_build_depends:
   - readline-devel
   - sqlite-devel
   - zlib-devel
+  - patch
