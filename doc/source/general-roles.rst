@@ -15,6 +15,7 @@ General Purpose Roles
 .. zuul:autorole:: emit-job-header
 .. zuul:autorole:: enable-fips
 .. zuul:autorole:: enable-netconsole
+.. zuul:autorole:: encrypt-file
 .. zuul:autorole:: ensure-bazelisk
 .. zuul:autorole:: ensure-dhall
 .. zuul:autorole:: ensure-dstat-graph

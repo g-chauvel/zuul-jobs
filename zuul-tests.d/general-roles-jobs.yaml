@@ -96,6 +96,14 @@
           -----END RSA PRIVATE KEY-----
 
 - job:
+    name: zuul-jobs-test-encrypt-file
+    description: |
+      Test encrypt-file role
+    files:
+      - roles/encrypt-file/.*
+    run: test-playbooks/encrypt-file.yaml
+
+- job:
     name: zuul-jobs-test-base-roles
     description: |
       Tests roles in the 'base' job
@@ -749,6 +757,7 @@
         - zuul-jobs-test-add-authorized-keys
         - zuul-jobs-test-add-gpgkey
         - zuul-jobs-test-add-sshkey
+        - zuul-jobs-test-encrypt-file
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-centos-8-stream
         - zuul-jobs-test-base-roles-centos-9-stream
