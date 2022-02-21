@@ -7,6 +7,7 @@
   package:
     name: gnupg2
     state: present
+  become: yes
 
 - name: Check for required keys
   fail:
