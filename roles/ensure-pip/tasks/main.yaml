@@ -74,7 +74,7 @@
   set_fact:
     _host_virtualenv: '{{ (_venv_probe.rc == 0) | ternary(_venv_probe.stdout + " -m venv", "virtualenv") }}'
 
-- name: Set ensure_pip_virtualenv_cmd
+- name: Set ensure_pip_virtualenv_command
   set_fact:
     ensure_pip_virtualenv_command: '{{ ensure_pip_virtualenv_command | default(_host_virtualenv) }}'
     cacheable: true
