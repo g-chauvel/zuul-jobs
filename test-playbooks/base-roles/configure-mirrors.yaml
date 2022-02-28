@@ -37,3 +37,19 @@
         name: "{{ emacs_package | default('emacs') }}"
         state: "present"
       become: yes
+
+- name: Ensure no apt warnings
+  hosts: all
+  tasks:
+    - name: Check apt output
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      block:
+        - name: Run apt-get update
+          command: 'apt-get update'
+          register: _apt_get_output
+          become: yes
+
+        - name: Check for warnings in output
+          fail:
+            msg: 'Warnings found in apt output'
+          when: _apt_get_output is regex('^W:.*$')
