@@ -38,6 +38,7 @@
 
     - name: Test virtualenv
       # NOTE(ianw) 2022-02-03 : not supported on 9-stream, see inline comments
+      # NOTE(frickler) 2022-03-01 : pin pluggy so as to work on Debian Buster
       when: not (ansible_facts['distribution'] == 'CentOS' and  ansible_facts['distribution_major_version']|int >= 9)
       block:
         # ensure-virtualenv
@@ -50,7 +51,7 @@
             tmp_venv=$(mktemp -d -t venv-XXXXXXXXXX)
             trap "rm -rf $tmp_venv" EXIT
             virtualenv $tmp_venv
-            $tmp_venv/bin/pip install tox
+            $tmp_venv/bin/pip install tox "pluggy<1"
           failed_when: false
           register: _virtualenv_sanity
 
