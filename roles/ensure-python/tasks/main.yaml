@@ -32,7 +32,7 @@
             rpm_python_pkg_name: python3-devel
           when:
             - ansible_distribution_major_version == '9'
-            - python_version == '3.9'
+            - python_version|string == '3.9'
         - name: Install RPM package
           package:
             name: "{{ rpm_python_pkg_name }}"
