@@ -4,5 +4,6 @@
       - podman
       - uidmap
       - slirp4netns
+      - containernetworking-plugins
     state: present
   become: yes
