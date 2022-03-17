@@ -1,7 +1,18 @@
+- name: Stat input file
+  stat:
+    path: '{{ zj_encrypt_file }}'
+  loop: '{{ [ encrypt_file ] if encrypt_file is string else encrypt_file }}'
+  loop_control:
+    loop_var: zj_encrypt_file
+  register: _stat_result
+
 - name: Validate input file
   fail:
-    msg: 'Must define "encrypt_file"'
-  when: encrypt_file is undefined
+    msg: '{{ zj_stat_result.stat.path }} : file does not exist'
+  when: not zj_stat_result.stat.exists
+  loop: '{{ _stat_result.results }}'
+  loop_control:
+    loop_var: zj_stat_result
 
 - name: Ensure gpg2 installed
   package:

@@ -130,12 +130,25 @@
         path: '{{ _tempfile.path }}.gpg'
         state: absent
 
-    # Do it again to exercise already imported keys path
+    - name: Make a second fake file
+      tempfile:
+        state: file
+      register: _tempfile2
+
+    - name: Add some data to second fake file
+      copy:
+        content: 'Hello, I am encrypted. This is the second file.'
+        dest: '{{ _tempfile2.path }}'
+
+    # Do it again to exercise already imported keys path and check we can
+    # encrypt multiple files.
     - name: Encrypt file
       include_role:
         name: encrypt-file
       vars:
-        encrypt_file: '{{ _tempfile.path }}'
+        encrypt_file:
+          - '{{ _tempfile.path }}'
+          - '{{ _tempfile2.path }}'
         encrypt_file_recipients:
           - zuul-jobs-test-2
           - zuul-jobs-test-3
@@ -150,4 +163,15 @@
     - name: Remove encrypted output file
       file:
         path: '{{ _tempfile.path }}.gpg'
+        state: absent
+
+    - name: Remove second temporary file
+      file:
+        path: '{{ _tempfile2.path }}'
+        state: absent
+      when: _tempfile2.path is defined
+
+    - name: Remove second encrypted output file
+      file:
+        path: '{{ _tempfile2.path }}.gpg'
         state: absent
