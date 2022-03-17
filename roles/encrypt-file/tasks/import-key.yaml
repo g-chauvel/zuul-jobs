@@ -1,3 +1,5 @@
+# On a static node, this saves us having to re-import the key
+# constantly
 - name: Check for existing key
   command: |
     gpg --list-keys {{ zj_encrypt_file.key_id }}
@@ -5,8 +7,18 @@
   # A found key returns 0, a missing key returns 2
   failed_when: _key_exists.rc != 0 and _key_exists.rc != 2
 
+# If the key may expire, we need to always import it because we can't
+# be sure if the key hasn't changed to have a new expiration date.
+# GPG outputs this in a string:
+#  [expires: YYYY-DD-MM] or [expired: YYYY-DD-MM]
+- name: Check for expiry string
+  set_fact:
+    _key_has_expiry: "{{ _key_exists.stdout | regex_search(regexp) }}"
+  vars:
+    regexp: '\[expire[sd]: '
+
 - name: Install key
-  when: _key_exists.rc != 0
+  when: _key_exists.rc != 0 or _key_has_expiry != ''
   block:
     - name: Create temporary keyfile
       tempfile:
