@@ -1,12 +1,7 @@
-- name: Stat input file
-  stat:
-    path: '{{ encrypt_file }}'
-  register: _stat_result
-
 - name: Validate input file
   fail:
-    msg: '{{ encrypt_file }} : file does not exist'
-  when: not _stat_result.stat.exists
+    msg: 'Must define "encrypt_file"'
+  when: encrypt_file is undefined
 
 - name: Ensure gpg2 installed
   package:
