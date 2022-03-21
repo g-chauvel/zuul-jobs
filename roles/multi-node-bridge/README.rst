@@ -74,3 +74,9 @@ inventory in order to work:
    :default: 23
 
    The IP address range CIDR/subnet.
+
+.. zuul:rolevar:: install_ovs
+   :default: true
+
+   Whether or not to install openvswitch. It can be set to false
+   when ovs installation is taken care outside of the role.
