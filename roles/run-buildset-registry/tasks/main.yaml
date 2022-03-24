@@ -5,16 +5,6 @@
       - openssl
       - socat
     state: present
-  when: ansible_python_version is version('3', '<')
-
-- name: Install packages
-  become: yes
-  package:
-    name:
-      - openssl
-      - socat
-    state: present
-  when: ansible_python_version is version('3', '>=')
 
 - name: Ensure registry volume directories exists
   file:
