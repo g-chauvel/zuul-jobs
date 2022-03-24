@@ -25,6 +25,31 @@
   loop_control:
     loop_var: zj_distro_os
 
+- name: Workaround missing 02-crio.conf
+  # See: https://github.com/kubernetes/minikube/issues/13816
+  when: kubernetes_runtime == 'cri-o'
+  block:
+    - name: Add misisng crio.conf.d folder
+      file:
+        path: /etc/crio/crio.conf.d
+        state: directory
+        mode: 0755
+      become: true
+    - name: Fix missing 02-crio.conf
+      copy:
+        content: |
+          [crio.image]
+          # pause_image = ""
+
+          [crio.network]
+          # cni_default_network = ""
+
+          [crio.runtime]
+          # cgroup_manager = ""
+        dest: /etc/crio/crio.conf.d/02-crio.conf
+        mode: 0644
+      become: true
+
 - name: Create .kube directory
   file:
     path: "{{ ansible_user_dir }}/.kube"
