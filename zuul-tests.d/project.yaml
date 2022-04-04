@@ -10,6 +10,11 @@
         - tox-py38
         - tox-py39:
             nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset:
+              nodes:
+                - name: fedora-35
+                  label: fedora-35
     gate:
       jobs:
         - zuul-tox-docs
@@ -17,6 +22,11 @@
         - tox-py38
         - tox-py39:
             nodeset: ubuntu-focal
+        - tox-py310:
+            nodeset:
+              nodes:
+                - name: fedora-35
+                  label: fedora-35
     promote:
       jobs:
         - zuul-promote-docs
