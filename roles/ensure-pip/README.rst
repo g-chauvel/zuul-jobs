@@ -58,7 +58,7 @@ This role will also install ``wheel`` components sufficient to run
 
 **Output Variables**
 
-.. zuul:rolevar:: ensure_pip_virtualenv_cmd
+.. zuul:rolevar:: ensure_pip_virtualenv_command
 
    This variable will be set to a command appropriate for general
    usage with the ``pip`` module ``virtualenv_command`` argument on the
