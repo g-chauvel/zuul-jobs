@@ -3,6 +3,7 @@ General Purpose Roles
 
 .. zuul:autorole:: add-authorized-keys
 .. zuul:autorole:: add-build-sshkey
+.. zuul:autorole:: add-build-winrm-cert
 .. zuul:autorole:: add-gpgkey
 .. zuul:autorole:: add-sshkey
 .. zuul:autorole:: bindep
@@ -36,6 +37,7 @@ General Purpose Roles
 .. zuul:autorole:: prepare-workspace-git
 .. zuul:autorole:: prepare-workspace-openshift
 .. zuul:autorole:: remove-build-sshkey
+.. zuul:autorole:: remove-build-winrm-cert
 .. zuul:autorole:: remove-gpgkey
 .. zuul:autorole:: remove-sshkey
 .. zuul:autorole:: render-diff
