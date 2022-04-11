@@ -169,10 +169,11 @@ class Uploader():
                     content_encoding = file_detail.encoding
                 data = open(file_detail.full_path, 'rb')
 
-            extra_args = dict(
-                ContentType=file_detail.mimetype,
-                ContentEncoding=content_encoding
-            )
+            extra_args = {}
+            if file_detail.mimetype:
+                extra_args['ContentType'] = file_detail.mimetype
+            if content_encoding:
+                extra_args['ContentEncoding'] = content_encoding
             if self.public:
                 extra_args['ACL'] = 'public-read'
 
