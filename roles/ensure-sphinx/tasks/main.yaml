@@ -37,14 +37,17 @@
       done
   register: requirements_file
 
-# Ensure we have the latest pip in the sphinx venv, not the system
+# Ensure we have the latest pip and setuptools in the sphinx venv, not the system
 # one.  Older pips don't do things like parse version constraints or
-# rust build flags correctly, and some jobs like the translate jobs
+# rust build flags correctly, setuptools<39.2.0 do not support reading version
+# from file and some jobs like the translate jobs
 # use this environment to install from master requirements.txt that
 # needs this sort of thing to work.
 - name: Setup virtual environment
   pip:
-    name: pip
+    name:
+      - pip
+      - setuptools
     virtualenv: '{{ zuul_work_virtualenv }}'
     virtualenv_command: '{{ ensure_pip_virtualenv_command }}'
     extra_args: '--upgrade'
