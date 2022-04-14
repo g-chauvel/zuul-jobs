@@ -12,7 +12,7 @@
 # from installing repositories we don't need.
 - when:
     - ansible_os_family == "RedHat"
-    - ansible_distribution != "Fedora"
+    - ansible_distribution not in ["Fedora", "RedHat"]
   become: yes
   block:
     - name: Set up RDO GPG key
