@@ -31,7 +31,15 @@ An ansible role to configure services to use mirrors.
    when accessing unsigned mirrors with newer releases like
    Ubuntu Bionic.
 
--- zuul:rolevar:: configure_mirrors_extra_repos
+.. zuul:rolevar:: enable_deb_src_repos
+   :default: True
+
+   Set this to True in order to enable deb-src entries in sources.list
+   configs for apt. Note this option currently only works on Debian
+   (not Ubuntu) installations and will be set to default to False in
+   the near future.
+
+.. zuul:rolevar:: configure_mirrors_extra_repos
    :default: True
 
    Set to False to opt-out of installing extra repositories such
