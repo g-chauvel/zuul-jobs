@@ -1,6 +1,6 @@
 - name: Allow pushing to non-bare repo
   git_config:
-    name: receive.denyCurrentBranch ignore
+    name: receive.denyCurrentBranch
     value: ignore
     scope: local
     repo: "{{ ansible_user_dir }}/{{ zj_project.value.src_dir }}"
