@@ -1,24 +1,28 @@
 # Note (dmsimard)
 # We explicitely declare a PATH environment variable because '/sbin' is not in
 # PATH when using 'become: yes' on some distributions
-- include: common.yaml
-  environment:
-    PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
+- include_tasks:
+    file: common.yaml
+    apply:
+      environment:
+        PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
   when: >-
     inventory_hostname in groups['switch'] or
     inventory_hostname in groups['peers']
 
-- include: switch.yaml
-  environment:
-    PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
+- include_tasks:
+    file: switch.yaml
+    apply:
+      environment:
+        PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
   when: inventory_hostname in groups['switch']
-  static: no
 
-- include: peer.yaml
-  environment:
-    PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
+- include_tasks:
+    file: peer.yaml
+    apply:
+      environment:
+        PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
   when: inventory_hostname in groups['peers']
-  static: no
 
 - name: Persist iptables rules
   include_role:
