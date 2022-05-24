@@ -397,15 +397,6 @@
           label: ubuntu-bionic
 
 - job:
-    name: zuul-jobs-test-ensure-podman-ubuntu-focal
-    description: Tests ensure-podman role on ubuntu-focal
-    parent: zuul-jobs-test-ensure-podman
-    nodeset:
-      nodes:
-        - name: ubuntu-focal
-          label: ubuntu-focal
-
-- job:
     name: zuul-jobs-test-ensure-podman-debian-bullseye
     description: Tests ensure-podman role on debian-bullseye
     parent: zuul-jobs-test-ensure-podman
@@ -467,7 +458,6 @@
         - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-fedora-35
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
-        - zuul-jobs-test-ensure-podman-ubuntu-focal
         - zuul-jobs-test-ensure-podman-debian-bullseye
         - zuul-jobs-test-ensure-skopeo-fedora-35
         - zuul-jobs-test-ensure-skopeo-ubuntu-bionic
@@ -491,7 +481,6 @@
         - zuul-jobs-test-ensure-kubernetes-crio
         - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
-        - zuul-jobs-test-ensure-podman-ubuntu-focal
         - zuul-jobs-test-ensure-podman-debian-bullseye
         - zuul-jobs-test-ensure-skopeo-fedora-35
         - zuul-jobs-test-ensure-skopeo-ubuntu-bionic
