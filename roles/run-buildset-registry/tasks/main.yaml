@@ -55,7 +55,7 @@
 # https://github.com/containers/libpod/issues/4311
 # in case we're using podman.
 - name: Start socat to work around https://github.com/containers/libpod/issues/4311
-  shell: "socat -d -d TCP6-LISTEN:{{ buildset_registry_port }},fork TCP:127.0.0.1:1{{ buildset_registry_port }} 2> {{ buildset_registry_root }}/socat_port &"
+  shell: "setsid socat -d -d TCP6-LISTEN:{{ buildset_registry_port }},fork TCP:127.0.0.1:1{{ buildset_registry_port }} 2> {{ buildset_registry_root }}/socat_port &"
 
 - name: Set registry information fact
   set_fact:

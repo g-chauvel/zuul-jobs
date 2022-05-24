@@ -11,7 +11,7 @@
 - name: Start socat to work around https://github.com/moby/moby/issues/39033
   shell: |
     set -o pipefail
-    socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2>&1 | grep --line-buffered 'listening on' >  {{ zuul.executor.work_root }}/socat_port &
+    setsid socat -d -d TCP-LISTEN:0,fork TCP:{{ buildset_registry.host | ipwrap }}:{{ buildset_registry.port }} 2>&1 | grep --line-buffered 'listening on' >  {{ zuul.executor.work_root }}/socat_port &
   args:
     executable: /bin/bash
 
