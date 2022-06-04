@@ -342,6 +342,7 @@
     run: test-playbooks/simple-role-test.yaml
     vars:
       role_name: enable-fips
+      nslookup_target: opendev.org
     nodeset:
       nodes:
         - name: centos-8-stream

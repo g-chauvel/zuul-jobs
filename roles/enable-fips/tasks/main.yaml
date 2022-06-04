@@ -50,9 +50,9 @@
   reboot:
     reboot_timeout: 1800
 
-- name: Run start-zuul-console role
+- name: Run post-boot tasks
   include_role:
-    name: start-zuul-console
+    name: post-reboot-tasks
 
 - name: Ensure FIPS mode is enabled
   become: true
