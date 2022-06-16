@@ -3,7 +3,7 @@
     description: Test the ensure-pip role
     # dummy project for wheel build test
     required-projects:
-      - zuul/zuul
+      - zuul/zuul-client
     files:
       - roles/ensure-pip/.*
       - roles/ensure-virtualenv/.*
