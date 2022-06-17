@@ -36,6 +36,7 @@ General Purpose Roles
 .. zuul:autorole:: prepare-workspace
 .. zuul:autorole:: prepare-workspace-git
 .. zuul:autorole:: prepare-workspace-openshift
+.. zuul:autorole:: post-reboot-tasks
 .. zuul:autorole:: remove-build-sshkey
 .. zuul:autorole:: remove-build-winrm-cert
 .. zuul:autorole:: remove-gpgkey
