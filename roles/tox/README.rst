@@ -38,7 +38,7 @@ corresponding Zuul sibling projects and runs tox tests as follows:
    Location of the tox executable.
 
 .. zuul:rolevar:: tox_extra_args
-   :default: -vv
+   :default: -vv --skip-missing-interpreters=false
 
    String of extra command line options to pass to tox.
 
