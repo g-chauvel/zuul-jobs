@@ -22,6 +22,10 @@ __metaclass__ = type
 
 """
 Utility to upload files to s3
+
+Run this from the CLI from the zuul-jobs/roles directory with:
+
+  python -m upload-logs-base.library.zuul_s3_upload
 """
 
 import argparse
