@@ -1,0 +1,30 @@
+- hosts: all
+  tasks:
+
+    - name: Install twine
+      include_role:
+        name: ensure-twine
+
+    - name: Setup role failure var
+      set_fact:
+        _role_failed: false
+
+    - name: Wrap arg failure
+      block:
+        - name: Check for argument failure
+          include_role:
+            name: upload-pypi
+          vars:
+            pypi_info:
+              username: a_user
+              api_token: a_token
+
+      rescue:
+        - name: Mark role as failed
+          set_fact:
+            _role_failed: true
+
+    - name: Check role failed
+      fail:
+        msg: 'upload-pypi did not fail as it should'
+      when: _role_failed is not true
