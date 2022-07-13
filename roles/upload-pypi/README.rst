@@ -8,9 +8,16 @@ Upload python packages to PyPI
    server as well as the authentication information needed. It is
    expected that this argument comes from a `Secret`.
 
+  .. zuul:rolevar:: api_token
+     :default: None
+
+     PyPi API token to use for upload.  If specified, ``username`` and
+     ``password`` should be empty.
+
   .. zuul:rolevar:: username
 
-     Username to use to log in to PyPI.
+     Username to use to log in to PyPI.  `Note` PyPi reccommends using
+     two-factor auth and generating an API token for uploading.
 
   .. zuul:rolevar:: password
 

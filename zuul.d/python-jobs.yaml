@@ -338,8 +338,9 @@
     description: |
       Generate and upload a python source tarball and binary wheel
 
-      Requires a variable ``pypi_info`` be set which is a dict containing
-      at least a ``username`` and ``password`` attribute.
+      Requires a variable ``pypi_info`` be set which is a dict
+      containing authentication values.  See
+      `<https://zuul-ci.org/docs/zuul-jobs/python-roles.html#role-upload-pypi>`__
     post-run: playbooks/python/upload-pypi.yaml
 
 - job:

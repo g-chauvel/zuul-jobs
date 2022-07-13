@@ -1,3 +1,10 @@
+- name: Validate password/token combo
+  fail:
+    msg: 'Specify either username/password or api_token'
+  when: >
+      (pypi_info.api_token is defined) and
+      ((pypi_info.username is defined) or (pypi_info.password is defined))
+
 - name: Create .pypirc configuration file tempfile
   tempfile:
     state: file
