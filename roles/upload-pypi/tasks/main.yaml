@@ -1,3 +1,8 @@
+# NOTE(ianw) 2022-07 : If you modify this, see the comments about
+# testing in test-playbooks/python/upload-pypi.yaml.  Once the change
+# is finalised, you should do one run that uploads the sandbox project
+# to test.pypi.org to validate the full path.
+
 - name: Validate password/token combo
   fail:
     msg: 'Specify either username/password or api_token'
