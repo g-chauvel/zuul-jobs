@@ -29,22 +29,16 @@
         msg: 'upload-pypi did not fail as it should'
       when: _role_failed is not true
 
+    # We tag this with the unix timestamp so that the upload always
+    # has an increasing version number.
     - name: Import sandbox project
       shell: |
         git clone https://opendev.org/opendev/sandbox
         pushd sandbox
+        git tag $(date '+%s')
         python3 setup.py bdist_wheel
       args:
         executable: '/bin/bash'
-
-    # NOTE(ianw) 2022-07 : You can not upload the same release twice,
-    # so this is disabled by default.  Before we commit changes to the
-    # upload-pypi role, we should do one test run with this
-    # uncommented to validate the entire path, then re-comment it for
-    # the final commit.
-    - name: Run full upload
-      set_fact:
-        _run_full_upload: false
 
     # This value is restricted to uploading the sandbox package to
     # test.pypi.org; it is not kept in plain text to avoid things that
@@ -67,4 +61,3 @@
           api_token: '{{ _api_token | b64decode }}'
           repository: testpypi
         pypi_path: '{{ ansible_user_dir }}/sandbox/dist'
-      when: _run_full_upload
