@@ -10,7 +10,8 @@
 # openvswitch for CentOS is available from the RDO repositories.
 # We're setting it up manually to prevent centos-release-openstack or rdo-release
 # from installing repositories we don't need.
-- when:
+- name: Install for Redhat
+  when:
     - ansible_os_family == "RedHat"
     - ansible_distribution not in ["Fedora", "RedHat"]
   become: yes
@@ -99,7 +100,8 @@
     - bridge_configure_address | bool
     - bridge_authorize_internal_traffic | bool
 
-- when: bridge_mtu is not defined
+- name: Find bridge MTU
+  when: bridge_mtu is not defined
   block:
     - name: Determine bridge mtu
       shell: |

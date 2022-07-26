@@ -4,7 +4,8 @@
   when: zuul_log_path is not defined
 
 # Always upload (true), never upload (false) or only on failure ('failure')
-- when: zuul_site_upload_logs | default(true) | bool or
+- name: Upload logs
+  when: zuul_site_upload_logs | default(true) | bool or
         (zuul_site_upload_logs == 'failure' and not zuul_success | bool)
   block:
     # Use chmod instead of file because ansible 2.5 file with recurse and

@@ -6,7 +6,8 @@
   register: testr_command
   failed_when: false
 
-- when:
+- name: Process subunit
+  when:
     - testr_command.rc == 0
   # Here we run steps that should apply whether or not there is a valid
   # subunit stream present.
@@ -47,7 +48,8 @@
       loop_control:
         loop_var: zj_item
 
-- when:
+- name: Process subunit stream
+  when:
     - testr_command.rc == 0
     - testr_command.stdout
   # Here we run steps that only apply when there is a valid subunity stream.

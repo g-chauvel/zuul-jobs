@@ -1,4 +1,5 @@
-- block:
+- name: Upload git mirror
+  block:
     - name: Create SSH private key tempfile
       tempfile:
         state: file

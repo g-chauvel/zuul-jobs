@@ -8,7 +8,8 @@
   failed_when: false
   register: _cabal_version
 
-- block:
+- name: Install cabal
+  block:
     - name: Ensure copr dnf plugin
       package:
         name: dnf-plugins-core

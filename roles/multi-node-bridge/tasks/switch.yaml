@@ -7,7 +7,8 @@
   become: yes
   command: ip link set mtu {{ bridge_mtu }} dev {{ bridge_name }}
 
-- when: bridge_configure_address
+- name: Configure bridge address
+  when: bridge_configure_address
   block:
     - name: Verify if the bridge address is set
       shell: ip addr show dev {{ bridge_name }} | grep -q {{ bridge_address_prefix }}.{{ bridge_address_offset }}/{{ bridge_address_subnet }}

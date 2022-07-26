@@ -1,4 +1,5 @@
-- block:
+- name: Run golangci-lint
+  block:
     - name: Run golangci-lint
       command: "golangci-lint run {{ golangci_lint_options }}"
       args:
