@@ -1,5 +1,8 @@
 - hosts: all
   tasks:
+    - name: Ensure pip works for ensure-twine
+      include_role:
+        name: ensure-pip
 
     - name: Install twine
       include_role:
