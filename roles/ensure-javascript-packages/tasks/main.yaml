@@ -44,7 +44,7 @@
 
 - name: Install npm dependencies
   command: npm install --verbose
-  environment: "{{ npm_environment|combine(tox_constraints_env|default({})) }}"
+  environment: "{{ npm_environment | combine(tox_constraints_env | default({})) }}"
   args:
     chdir: "{{ zuul_work_dir }}"
   when: js_build_tool == 'npm'

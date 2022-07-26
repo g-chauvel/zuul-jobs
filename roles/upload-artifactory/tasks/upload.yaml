@@ -27,7 +27,7 @@
 
 - name: Add artifact headers
   set_fact:
-    request_header: "{{ request_header | combine(zj_artifact.headers|default({})) }}"
+    request_header: "{{ request_header | combine(zj_artifact.headers | default({})) }}"
 
 - name: Add api key to header
   when: "'api_key' in upload_artifactory_instances[zj_artifact.instance]"
@@ -70,7 +70,7 @@
 - name: Set upload url
   set_fact:
     _artifactory_upload_url: "\
-      {%- if zj_artifact_properties|length -%}
+      {%- if zj_artifact_properties | length -%}
       {{ _artifactory_backend_url }};{{ zj_artifact_properties | default('') }}\
       {%- else -%}
       {{ _artifactory_backend_url }}\

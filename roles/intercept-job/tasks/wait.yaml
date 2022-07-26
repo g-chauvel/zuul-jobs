@@ -5,7 +5,7 @@
 
 - name: Add to current user
   authorized_key:
-    key: "{{ intercept_key.content|b64decode }}"
+    key: "{{ intercept_key.content | b64decode }}"
     user: "{{ ansible_user }}"
 
 - name: Inform user of connection details
@@ -23,6 +23,6 @@
 
 - name: Remove key from current user
   authorized_key:
-    key: "{{ intercept_key.content|b64decode }}"
+    key: "{{ intercept_key.content | b64decode }}"
     user: "{{ ansible_user }}"
     state: absent

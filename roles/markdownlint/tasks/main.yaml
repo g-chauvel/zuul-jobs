@@ -8,11 +8,11 @@
   shell: |
     set -o pipefail
     set -e
-    ~/.markdownlint/node_modules/.bin/markdownlint {{ zj_markdown|relpath(zuul_work_dir) }} 2>&1 | tee -a markdownlint.txt
+    ~/.markdownlint/node_modules/.bin/markdownlint {{ zj_markdown | relpath(zuul_work_dir) }} 2>&1 | tee -a markdownlint.txt
   args:
     chdir: "{{ zuul_work_dir }}"
     executable: /bin/bash
-  loop: "{{ markdown_find.files|map(attribute='path')|list }}"
+  loop: "{{ markdown_find.files | map(attribute='path') | list }}"
   loop_control:
     loop_var: zj_markdown
   changed_when: false

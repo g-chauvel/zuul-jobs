@@ -40,7 +40,7 @@
     - name: Run tox
       args:
         chdir: "{{ zuul_work_dir }}"
-      environment: "{{ tox_environment|combine(tox_constraints_env|default({})) }}"
+      environment: "{{ tox_environment | combine(tox_constraints_env | default({})) }}"
       command: >-
         {{ tox_executable }}
         {% if tox_config_file is defined and tox_config_file %}
