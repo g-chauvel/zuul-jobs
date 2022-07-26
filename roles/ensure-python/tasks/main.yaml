@@ -16,7 +16,22 @@
       when:
         - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
       package:
-        name: python{{ python_version }}-dev
+        name:
+          - 'python{{ python_version }}-dev'
+        state: present
+      become: yes
+
+      # Ubuntu splits out the venv package, which is really the only
+      # sane way to use a non-default-but-packaged version of python on
+      # your system (i.e. via virtual environments setup with python<v>
+      # -m venv).  Pull it in by default for python3.
+    - name: Pull in venv package
+      when:
+        - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+        - python_version is version('3', '>')
+      package:
+        name:
+          - 'python{{ python_version }}-venv'
         state: present
       become: yes
 
