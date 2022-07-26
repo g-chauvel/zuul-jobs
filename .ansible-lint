@@ -5,6 +5,9 @@ skip_list:
   - no-changed-when  # Commands should not change things if nothing needs doing
   - no-tabs  # Most files should not contain tabs
   - role-name  # Role name does not match ``^[a-z][a-z0-9_]+$`` pattern
+  - fqcn-builtins  # It would probably be good to enforce this, but it's a lot
+  - risky-file-permissions  # It would probably also good to enforce this if someone wants to look at them
+  - schema  # This is a stricter form of schema per https://github.com/ansible/schemas.  might also be good if someone has motivation?
 use_default_rules: true
 verbosity: 1
 mock_modules:
@@ -14,3 +17,7 @@ loop_var_prefix: zj_
 # Enable rules that are disabled by default:
 enable_list:
   - no-same-owner
+
+# Local variables:
+# mode: yaml
+# End:

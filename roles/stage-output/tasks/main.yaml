@@ -29,6 +29,8 @@
       {{- extensions -}}
 
 - name: Build the extensions regular expression
+  # https://github.com/ansible/ansible-lint/issues/2241
+  # noqa var-spacing
   set_fact:
     extensions_regex: "^(.*)\\.({{ extension_list | join('|') }})$"
 
@@ -122,6 +124,8 @@
     # gzip will however return 1 if any compressed file is encountered, so we
     # must ignore that (there's no specific error code).
     - name: Archive everything from logs
+      # https://github.com/ansible/ansible-lint/issues/2241
+      # noqa var-spacing
       shell: gzip --recursive --best {{ zj_log_file.path }} || true
       args:
         chdir: "{{ stage_dir }}/logs"
