@@ -62,9 +62,6 @@
           host: localhost
           ssh_key: "{{ private_key_contents.stdout }}"
           host_key: "{{ host_key.stdout }}"
-          # TODO: key is renamed to ssh_key to prevent ambiguity with host_key.
-          # Remove key when the rename has landed in the role.
-          key: "{{ private_key_contents.stdout }}"
         git_mirror_repository: "{{ test_repo_path }}"
       include_role:
         name: upload-git-mirror

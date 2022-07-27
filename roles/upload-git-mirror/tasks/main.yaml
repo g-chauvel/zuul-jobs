@@ -10,6 +10,12 @@
         dest: "{{ ssh_private_key_tmp.path }}"
         mode: 0600
 
+    # If the markers in an id_rsa don't end with a newline some
+    # versions of ssh won't read the key.
+    - name: Ensure ssh_key ends with newline
+      shell: |
+          echo >> {{ ssh_private_key_tmp.path }}
+
     - name: Generate SSH configuration
       set_fact:
         ssh_config: |
