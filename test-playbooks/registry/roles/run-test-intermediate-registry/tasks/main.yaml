@@ -2,10 +2,12 @@
   become: true
   file:
     state: directory
-    path: "/var/registry/{{ item }}"
+    path: "/var/registry/{{ zj_reg_dir }}"
   loop:
     - certs
     - auth
+  loop_control:
+    loop_var: zj_reg_dir
 - name: Install python packages
   become: true
   package:
