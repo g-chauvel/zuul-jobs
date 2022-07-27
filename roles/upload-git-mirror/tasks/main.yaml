@@ -10,6 +10,7 @@
         content: "{{ git_mirror_credentials.ssh_key }}"
         dest: "{{ ssh_private_key_tmp.path }}"
         mode: 0600
+      no_log: true
 
     # If the markers in an id_rsa don't end with a newline some
     # versions of ssh won't read the key.
