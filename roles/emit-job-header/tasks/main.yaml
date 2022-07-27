@@ -39,4 +39,4 @@
       loop: "{{ query('inventory_hostnames', 'all,!localhost') }}"
       loop_control:
         loop_var: zj_item
-      ignore_errors: yes
+      ignore_errors: yes  # noqa ignore-errors
