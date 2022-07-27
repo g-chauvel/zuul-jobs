@@ -1,5 +1,9 @@
 Ensure twine is installed.
 
+This role is designed to run without permissions, so assumes a working
+Python 3 ``pip`` environment (i.e. it will not install system
+packages).
+
 **Role Variables**
 
 .. zuul:rolevar:: twine_python
