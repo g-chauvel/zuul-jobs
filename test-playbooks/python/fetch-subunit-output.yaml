@@ -25,7 +25,7 @@
           dest: tox.ini
         - content: |
             import setuptools
-            setuptools.setup()
+            setuptools.setup(py_modules=[])
           dest: setup.py
         - content: ""
           dest: setup.cfg

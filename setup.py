@@ -25,4 +25,7 @@ except ImportError:
 
 setuptools.setup(
     setup_requires=['pbr>=2.0'],
-    pbr=True)
+    pbr=True,
+    # Override this to avoid trying to autodetect modules for
+    # packaging, as some roles have .py files
+    py_modules=[])
