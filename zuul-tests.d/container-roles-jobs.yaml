@@ -310,6 +310,7 @@
       This job tests changes to the ensure-kubernetes roles.  It
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
+    tags: ubuntu-platforms
     files:
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
@@ -319,6 +320,36 @@
     post-run: test-playbooks/ensure-kubernetes/post.yaml
 
 - job:
+    name: zuul-jobs-test-ensure-kubernetes-docker-ubuntu-bionic
+    description: Test the ensure-kubernetes role with docker on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-kubernetes-docker
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-ensure-kubernetes-docker-ubuntu-focal
+    description: Test the ensure-kubernetes role with docker on ubuntu-focal
+    parent: zuul-jobs-test-ensure-kubernetes-docker
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-ensure-kubernetes-docker-ubuntu-jammy
+    description: Test the ensure-kubernetes role with docker on ubuntu-jammy
+    parent: zuul-jobs-test-ensure-kubernetes-docker
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
+- job:
     name: zuul-jobs-test-ensure-kubernetes-crio
     description: |
       Test the ensure-kubernetes role with crio-o
@@ -326,6 +357,7 @@
       This job tests changes to the ensure-kubernetes roles.  It
       is not meant to be used directly but rather run on changes to
       roles in the zuul-jobs repo.
+    tags: ubuntu-platforms
     files:
       - roles/ensure-docker/.*
       - roles/ensure-kubernetes/.*
@@ -333,6 +365,36 @@
       - test-playbooks/ensure-kubernetes/.*
     run: test-playbooks/ensure-kubernetes/crio.yaml
     post-run: test-playbooks/ensure-kubernetes/post.yaml
+
+- job:
+    name: zuul-jobs-test-ensure-kubernetes-crio-ubuntu-bionic
+    description: Test the ensure-kubernetes role with crio-o on ubuntu-bionic
+    parent: zuul-jobs-test-ensure-kubernetes-crio
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-ensure-kubernetes-crio-ubuntu-focal
+    description: Test the ensure-kubernetes role with crio-o on ubuntu-focal
+    parent: zuul-jobs-test-ensure-kubernetes-crio
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-ensure-kubernetes-crio-ubuntu-jammy
+    description: Test the ensure-kubernetes role with crio-o on ubuntu-jammy
+    parent: zuul-jobs-test-ensure-kubernetes-crio
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
 
 - job:
     name: zuul-jobs-test-ensure-podman
@@ -453,8 +515,12 @@
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-registry-buildset-registry-k8s-crio
         - zuul-jobs-test-registry-buildset-registry-openshift-docker
-        - zuul-jobs-test-ensure-kubernetes-docker
-        - zuul-jobs-test-ensure-kubernetes-crio
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-bionic
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-focal
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-jammy
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-bionic
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-focal
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-jammy
         - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-fedora-35
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
@@ -477,8 +543,12 @@
         - zuul-jobs-test-registry-buildset-registry-k8s-docker
         - zuul-jobs-test-registry-buildset-registry-k8s-crio
         - zuul-jobs-test-registry-buildset-registry-openshift-docker
-        - zuul-jobs-test-ensure-kubernetes-docker
-        - zuul-jobs-test-ensure-kubernetes-crio
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-bionic
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-focal
+        - zuul-jobs-test-ensure-kubernetes-docker-ubuntu-jammy
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-bionic
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-focal
+        - zuul-jobs-test-ensure-kubernetes-crio-ubuntu-jammy
         - zuul-jobs-test-ensure-podman-centos-8-stream
         - zuul-jobs-test-ensure-podman-ubuntu-bionic
         - zuul-jobs-test-ensure-podman-debian-bullseye
