@@ -19,4 +19,3 @@
     - role: dstat-graph
       vars:
         dstat_graph_cache_ignore: true
-

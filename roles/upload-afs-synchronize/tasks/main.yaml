@@ -16,4 +16,3 @@
     times: true
     recursive: true
     rsync_opts: '{{ ["--safe-links"] + ["--delete-after"] if not afs_copy_only else [] }}'
-

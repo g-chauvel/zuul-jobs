@@ -70,4 +70,3 @@
 #     - role: ensure-pip
 #       vars:
 #         ensure_pip_from_upstream: True
-

@@ -53,4 +53,3 @@
       assert:
         that:
           - tox_executable == '{{ ansible_user_dir }}/tox-venv/bin/tox'
-

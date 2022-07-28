@@ -24,4 +24,3 @@ comments:
   tests/test_discovery.py:
     - line: 219
       message: "pep8: E128 continuation line under-indented for visual indent"
-

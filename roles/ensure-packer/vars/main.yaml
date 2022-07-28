@@ -4,4 +4,3 @@ packer_arch_translation:
   i386: 386
 
 packer_version_pattern: ^Packer v(?P<version>\d+\.\d+\.\d+).*$
-

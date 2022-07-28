@@ -43,4 +43,3 @@
   when:
     - ansible_os_family == 'Debian'
     - _deb_venv_pkg.rc != 0
-

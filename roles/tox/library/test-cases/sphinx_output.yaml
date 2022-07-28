@@ -21,4 +21,3 @@ comments:
   CONTRIBUTING.rst:
     - line: 96
       message: Unknown directive type "code-blockf".
-
