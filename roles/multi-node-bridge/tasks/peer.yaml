@@ -63,7 +63,8 @@
     type=vxlan options:remote_ip={{ switch_ip }} options:key={{ vni }}
     options:local_ip={{ nodepool_ip }}
 
-- when: bridge_configure_address
+- name: Configure bridge address
+  when: bridge_configure_address
   block:
     - name: Verify if the bridge address is set
       shell: ip addr show dev {{ bridge_name }} | grep -q {{ bridge_address_prefix }}.{{ offset }}/{{ bridge_address_subnet }}

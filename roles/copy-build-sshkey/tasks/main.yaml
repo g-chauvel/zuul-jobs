@@ -1,6 +1,7 @@
 ---
 # Use a block to add become to a set of tasks
-- block:
+- name: Add build ssh key
+  block:
   # Add the authorization first, to take advantage of manage_dir
   - name: Authorize build key
     authorized_key:

@@ -1,4 +1,5 @@
-- block:
+- name: Run hlint
+  block:
     - name: Run hlint
       command: "hlint --report={{ report_location }} ."
       vars:

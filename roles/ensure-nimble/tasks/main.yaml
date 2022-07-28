@@ -11,7 +11,8 @@
   changed_when: false
   register: _nimble_installed
 
-- when: _nimble_installed.rc != 0
+- name: Install nimble
+  when: _nimble_installed.rc != 0
   block:
     # Current version of nimble is not compatible with openssl3, which is included in CentOS9
     - name: Install compat-openssl11 in CentOS 9

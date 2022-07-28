@@ -3,7 +3,8 @@
     path: "{{ translation_output_src }}"
   register: translation_files
 
-- block:
+- name: Collection translation files
+  block:
     - name: Collect translation source files
       synchronize:
         dest: "{{ zuul_executor_dest }}"

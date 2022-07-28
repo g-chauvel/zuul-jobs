@@ -1,4 +1,5 @@
-- block:
+- name: Run shake
+  block:
     - name: Run shake
       command: "shake --report={{ report_location }} {{ shake_target }}"
       vars:

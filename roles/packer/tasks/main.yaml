@@ -17,7 +17,8 @@
   when: packer_variables is defined
   no_log: true  # We don't want to log this since credentials could be passed this way
 
-- block:
+- name: Run packer
+  block:
     - name: Run packer
       command: >-
         {{ packer_executable }}

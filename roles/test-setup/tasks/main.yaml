@@ -1,4 +1,5 @@
-- when: not test_setup_skip
+- name: Run test-setup.sh
+  when: not test_setup_skip
   block:
     - name: "Check if project's tools/test-setup.sh exists"
       stat:

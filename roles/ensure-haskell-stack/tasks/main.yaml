@@ -8,7 +8,8 @@
   failed_when: false
   register: _stack_version
 
-- block:
+- name: Install stack
+  block:
     # This package is somehow missing from the requirements of the
     # published packaged copr repo.  See
     #  https://github.com/commercialhaskell/stack/issues/5388

@@ -3,14 +3,15 @@
     path: "{{ coverage_output_src }}"
   register: coverage_report_stat
 
-- when:
+- name: Fail if coverage job succeeded and report is not present
+  when:
     - zuul_success | default(true) | bool
     - not coverage_report_stat.stat.exists
-  name: Fail if coverage job succeeded and report is not present
   fail:
     msg: "Coverage report was not found even though tests succeeded"
 
-- when: coverage_report_stat.stat.exists
+- name: Collect coverage
+  when: coverage_report_stat.stat.exists
   block:
     - name: Collect coverage details output
       synchronize:

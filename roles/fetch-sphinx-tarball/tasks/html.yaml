@@ -9,7 +9,8 @@
   args:
     warn: false
 
-- block:
+- name: Fetch HTML
+  block:
     - name: Fetch archive HTML
       synchronize:
         dest: "{{ zuul.executor.log_root }}/docs-html.tar.gz"
@@ -36,7 +37,8 @@
           - "--no-same-owner"
   when: not zuul_use_fetch_output
 
-- block:
+- name: Copy HTML
+  block:
     - name: Copy archive HTML
       copy:
         dest: "{{ zuul_output_dir }}/logs/docs-html.tar.gz"

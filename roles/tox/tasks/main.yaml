@@ -36,7 +36,8 @@
       {% endif %}
       {{ tox_extra_args }}
 
-- block:
+- name: Run tox
+  block:
     - name: Run tox
       args:
         chdir: "{{ zuul_work_dir }}"

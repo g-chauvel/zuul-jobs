@@ -107,7 +107,8 @@
   tags:
     - skip_ansible_lint
 
-- block:
+- name: Collect log files
+  block:
     - name: Discover log files for compression
       find:
         paths: "{{ stage_dir }}/logs"

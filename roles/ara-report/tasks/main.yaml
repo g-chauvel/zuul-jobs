@@ -1,4 +1,5 @@
-- block:
+- name: Install ARA
+  block:
     - name: Check that ARA is installed
       command: bash -c "type -p {{ ara_report_executable }}"
       failed_when: false
@@ -36,7 +37,8 @@
           It is likely that no report will be available, please verify the
           execution and the parameters of the role for details.
 
-- when:
+- name: Generate output
+  when:
     - ara_installed.rc == 0
     - ara_db.stat.exists
     - ara_report_type == 'html'
@@ -71,7 +73,8 @@
           Something failed during the generation of the HTML report.
           Please verify the execution of the role for details.
 
-- when:
+- name: Save database
+  when:
     - ara_installed.rc == 0
     - ara_db.stat.exists
     - ara_report_type == 'database'
