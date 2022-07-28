@@ -28,8 +28,8 @@
         msg: |
           # Node Information
           Inventory Hostname: {{ zj_item }}
-          Hostname: {{ hostvars[zj_item]['ansible_hostname']|default('unknown') }}
-          Username: {{ hostvars[zj_item]['ansible_user']|default('unknown') }}
+          Hostname: {{ hostvars[zj_item]['ansible_hostname'] | default('unknown') }}
+          Username: {{ hostvars[zj_item]['ansible_user'] | default('unknown') }}
           Distro: {{ hostvars[zj_item]['ansible_distribution'] | default('unknown') }} {{ hostvars[zj_item]['ansible_distribution_version'] | default('unknown') }}
           Provider: {{ hostvars[zj_item]['nodepool']['provider'] }}
           Label: {{ hostvars[zj_item]['nodepool']['label'] }}

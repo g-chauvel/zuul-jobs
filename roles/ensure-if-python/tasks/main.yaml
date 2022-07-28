@@ -30,7 +30,7 @@
     chdir: "{{ zuul_work_dir }}"
     virtualenv: "{{ zuul_work_virtualenv }}"
     requirements: requirements.txt
-    extra_args: "{{ upper_constraints|default(omit) }}"
+    extra_args: "{{ upper_constraints | default(omit) }}"
   register: requirements_install
   when:
     - install_package

@@ -33,4 +33,4 @@
       - lxml
       - requests
     virtualenv: "{{ ansible_user_dir }}/.venv"
-    extra_args: "{{ upper_constraints|default(omit) }}"
+    extra_args: "{{ upper_constraints | default(omit) }}"

@@ -19,7 +19,7 @@
 
 - name: Install ghc
   dnf:
-    name: "@ghc:{{ ghc_versions[ghc_version]|string }}"
+    name: "@ghc:{{ ghc_versions[ghc_version] | string }}"
     state: present
   become: yes
-  when: "_ghc_version.rc != 0 or (ghc_versions[ghc_version]|string) not in _ghc_version.stdout"
+  when: "_ghc_version.rc != 0 or (ghc_versions[ghc_version] | string) not in _ghc_version.stdout"

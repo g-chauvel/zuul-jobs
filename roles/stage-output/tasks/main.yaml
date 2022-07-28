@@ -42,7 +42,7 @@
 - name: Set source and destination for files and folders
   set_fact:
     source: "{{ zj_result.stat.path }}"
-    dest: "{{ zj_result.zj_source.value.split('_')[0] }}/{{ zj_result.stat.path|basename|regex_replace('^(\\..*)$', '_\\1') }}{% if zj_result.zj_source.value.endswith('_txt') %}.txt{% endif %}"
+    dest: "{{ zj_result.zj_source.value.split('_')[0] }}/{{ zj_result.stat.path | basename | regex_replace('^(\\..*)$', '_\\1') }}{% if zj_result.zj_source.value.endswith('_txt') %}.txt{% endif %}"
     type: "{{ zj_result.zj_source.value.split('_')[0] }}"
   with_items: "{{ sources.results }}"
   loop_control:
