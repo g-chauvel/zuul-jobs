@@ -45,16 +45,6 @@
           label: centos-9-stream
 
 - job:
-    name: zuul-jobs-test-nimble-debian-buster
-    description: Test the nimble job on debian-buster
-    parent: zuul-jobs-test-nimble
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: debian-buster
-          label: debian-buster
-
-- job:
     name: zuul-jobs-test-nimble-debian-bullseye
     description: Test the nimble job on debian-bullseye
     parent: zuul-jobs-test-nimble
@@ -63,6 +53,16 @@
       nodes:
         - name: debian-bullseye
           label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-nimble-debian-buster
+    description: Test the nimble job on debian-buster
+    parent: zuul-jobs-test-nimble
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
 
 - job:
     name: zuul-jobs-test-nimble-fedora-35
@@ -121,8 +121,8 @@
         - zuul-jobs-test-nimble-centos-7-nv
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-centos-9-stream
-        - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
+        - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-fedora-35
         - zuul-jobs-test-nimble-opensuse-15-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
@@ -132,8 +132,8 @@
       jobs: &id001
         - zuul-jobs-test-nimble-centos-8-stream
         - zuul-jobs-test-nimble-centos-9-stream
-        - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-debian-bullseye
+        - zuul-jobs-test-nimble-debian-buster
         - zuul-jobs-test-nimble-fedora-35
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal

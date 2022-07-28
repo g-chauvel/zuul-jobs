@@ -30,13 +30,13 @@ import ruamellib
 # in the multinode jobs, so just use the real labels everywhere.
 
 PLATFORMS = [
+    # 'gentoo-17-0-systemd',
     'centos-7',
     'centos-8-stream',
     'centos-9-stream',
-    'debian-buster',
     'debian-bullseye',
+    'debian-buster',
     'fedora-35',
-    # 'gentoo-17-0-systemd',
     'opensuse-15',
     'ubuntu-bionic',
     'ubuntu-focal',

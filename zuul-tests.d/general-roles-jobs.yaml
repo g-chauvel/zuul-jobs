@@ -163,16 +163,6 @@
           label: centos-9-stream
 
 - job:
-    name: zuul-jobs-test-base-roles-debian-buster
-    description: Tests roles in the 'base' job on debian-buster
-    parent: zuul-jobs-test-base-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: debian-buster
-          label: debian-buster
-
-- job:
     name: zuul-jobs-test-base-roles-debian-bullseye
     description: Tests roles in the 'base' job on debian-bullseye
     parent: zuul-jobs-test-base-roles
@@ -181,6 +171,16 @@
       nodes:
         - name: debian-bullseye
           label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-base-roles-debian-buster
+    description: Tests roles in the 'base' job on debian-buster
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
 
 - job:
     name: zuul-jobs-test-base-roles-fedora-35
@@ -276,16 +276,6 @@
           label: centos-9-stream
 
 - job:
-    name: zuul-jobs-test-bindep-debian-buster
-    description: Test the bindep role on debian-buster
-    parent: zuul-jobs-test-bindep
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: debian-buster
-          label: debian-buster
-
-- job:
     name: zuul-jobs-test-bindep-debian-bullseye
     description: Test the bindep role on debian-bullseye
     parent: zuul-jobs-test-bindep
@@ -294,6 +284,16 @@
       nodes:
         - name: debian-bullseye
           label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-bindep-debian-buster
+    description: Test the bindep role on debian-buster
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
 
 - job:
     name: zuul-jobs-test-bindep-fedora-35
@@ -430,16 +430,6 @@
           label: centos-9-stream
 
 - job:
-    name: zuul-jobs-test-dstat-graph-debian-buster
-    description: Test the dstat-graph roles on debian-buster
-    parent: zuul-jobs-test-dstat-graph
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: debian-buster
-          label: debian-buster
-
-- job:
     name: zuul-jobs-test-dstat-graph-debian-bullseye
     description: Test the dstat-graph roles on debian-bullseye
     parent: zuul-jobs-test-dstat-graph
@@ -448,6 +438,16 @@
       nodes:
         - name: debian-bullseye
           label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-dstat-graph-debian-buster
+    description: Test the dstat-graph roles on debian-buster
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
 
 - job:
     name: zuul-jobs-test-dstat-graph-fedora-35
@@ -575,25 +575,6 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-debian-buster
-    description: Tests multinode setup roles on debian-buster
-    parent: zuul-jobs-test-multinode-roles
-    tags: auto-generated
-    nodeset:
-      nodes:
-        - name: primary
-          label: debian-buster
-        - name: secondary
-          label: debian-buster
-      groups:
-        - name: switch
-          nodes:
-            - primary
-        - name: peers
-          nodes:
-            - secondary
-
-- job:
     name: zuul-jobs-test-multinode-roles-debian-bullseye
     description: Tests multinode setup roles on debian-bullseye
     parent: zuul-jobs-test-multinode-roles
@@ -604,6 +585,25 @@
           label: debian-bullseye
         - name: secondary
           label: debian-bullseye
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
+    name: zuul-jobs-test-multinode-roles-debian-buster
+    description: Tests multinode setup roles on debian-buster
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: debian-buster
+        - name: secondary
+          label: debian-buster
       groups:
         - name: switch
           nodes:
@@ -811,8 +811,8 @@
         - zuul-jobs-test-base-roles-centos-7
         - zuul-jobs-test-base-roles-centos-8-stream
         - zuul-jobs-test-base-roles-centos-9-stream
-        - zuul-jobs-test-base-roles-debian-buster
         - zuul-jobs-test-base-roles-debian-bullseye
+        - zuul-jobs-test-base-roles-debian-buster
         - zuul-jobs-test-base-roles-fedora-35
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
@@ -821,8 +821,8 @@
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8-stream
         - zuul-jobs-test-bindep-centos-9-stream
-        - zuul-jobs-test-bindep-debian-buster
         - zuul-jobs-test-bindep-debian-bullseye
+        - zuul-jobs-test-bindep-debian-buster
         - zuul-jobs-test-bindep-fedora-35
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-ubuntu-bionic
@@ -835,8 +835,8 @@
         - zuul-jobs-test-dstat-graph-centos-7
         - zuul-jobs-test-dstat-graph-centos-8-stream
         - zuul-jobs-test-dstat-graph-centos-9-stream
-        - zuul-jobs-test-dstat-graph-debian-buster
         - zuul-jobs-test-dstat-graph-debian-bullseye
+        - zuul-jobs-test-dstat-graph-debian-buster
         - zuul-jobs-test-dstat-graph-fedora-35
         - zuul-jobs-test-dstat-graph-opensuse-15
         - zuul-jobs-test-dstat-graph-ubuntu-bionic
@@ -845,8 +845,8 @@
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-centos-8-stream
         - zuul-jobs-test-multinode-roles-centos-9-stream
-        - zuul-jobs-test-multinode-roles-debian-buster
         - zuul-jobs-test-multinode-roles-debian-bullseye
+        - zuul-jobs-test-multinode-roles-debian-buster
         - zuul-jobs-test-multinode-roles-fedora-35
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
