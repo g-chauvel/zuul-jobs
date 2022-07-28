@@ -40,6 +40,7 @@ PLATFORMS = [
     'opensuse-15',
     'ubuntu-bionic',
     'ubuntu-focal',
+    'ubuntu-jammy',
 ]
 
 # insert a platform from above to make it non-voting

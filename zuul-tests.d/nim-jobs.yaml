@@ -105,6 +105,16 @@
         - name: ubuntu-focal
           label: ubuntu-focal
 
+- job:
+    name: zuul-jobs-test-nimble-ubuntu-jammy
+    description: Test the nimble job on ubuntu-jammy
+    parent: zuul-jobs-test-nimble
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
 - project:
     check:
       jobs:
@@ -117,6 +127,7 @@
         - zuul-jobs-test-nimble-opensuse-15-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal
+        - zuul-jobs-test-nimble-ubuntu-jammy
     gate:
       jobs: &id001
         - zuul-jobs-test-nimble-centos-8-stream
@@ -126,5 +137,6 @@
         - zuul-jobs-test-nimble-fedora-35
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal
+        - zuul-jobs-test-nimble-ubuntu-jammy
     periodic-weekly:
       jobs: *id001

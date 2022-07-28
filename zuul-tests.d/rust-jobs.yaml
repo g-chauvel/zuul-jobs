@@ -104,6 +104,16 @@
         - name: ubuntu-focal
           label: ubuntu-focal
 
+- job:
+    name: zuul-jobs-test-rust-ubuntu-jammy
+    description: Test the rust roles on ubuntu-jammy
+    parent: zuul-jobs-test-rust
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
 - project:
     check:
       jobs: &id001
@@ -116,6 +126,7 @@
         - zuul-jobs-test-rust-opensuse-15
         - zuul-jobs-test-rust-ubuntu-bionic
         - zuul-jobs-test-rust-ubuntu-focal
+        - zuul-jobs-test-rust-ubuntu-jammy
     gate:
       jobs: *id001
     periodic-weekly:

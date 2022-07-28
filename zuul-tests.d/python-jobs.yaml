@@ -101,6 +101,16 @@
           label: ubuntu-focal
 
 - job:
+    name: zuul-jobs-test-ensure-pip-ubuntu-jammy
+    description: Test the ensure-pip role on ubuntu-jammy
+    parent: zuul-jobs-test-ensure-pip
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
+- job:
     name: zuul-jobs-test-ensure-sphinx
     description: Test the ensure-sphinx role
     files:
@@ -209,6 +219,16 @@
           label: ubuntu-focal
 
 - job:
+    name: zuul-jobs-test-ensure-tox-ubuntu-jammy
+    description: Test the ensure-tox role on ubuntu-jammy
+    parent: zuul-jobs-test-ensure-tox
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
+- job:
     name: zuul-jobs-test-fetch-sphinx-tarball
     description: Test the fetch-sphinx-tarball role
     # parenting on tox-docs as we need builded docs first and also this is
@@ -309,6 +329,16 @@
       nodes:
         - name: ubuntu-focal
           label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-fetch-sphinx-tarball-ubuntu-jammy
+    description: Test the fetch-sphinx-tarball role on ubuntu-jammy
+    parent: zuul-jobs-test-fetch-sphinx-tarball
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
 
 - job:
     name: zuul-jobs-test-tox
@@ -432,6 +462,7 @@
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
         - zuul-jobs-test-ensure-pip-ubuntu-focal
+        - zuul-jobs-test-ensure-pip-ubuntu-jammy
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8-stream
@@ -442,6 +473,7 @@
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
         - zuul-jobs-test-ensure-tox-ubuntu-focal
+        - zuul-jobs-test-ensure-tox-ubuntu-jammy
         - zuul-jobs-test-fetch-sphinx-tarball-centos-7
         - zuul-jobs-test-fetch-sphinx-tarball-centos-8-stream
         - zuul-jobs-test-fetch-sphinx-tarball-centos-9-stream
@@ -451,6 +483,7 @@
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-focal
+        - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-jammy
         - zuul-jobs-test-tox
         - zuul-jobs-test-fetch-tox-output
         - zuul-jobs-test-fetch-tox-output-synchronize

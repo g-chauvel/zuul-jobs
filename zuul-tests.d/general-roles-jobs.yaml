@@ -223,6 +223,16 @@
           label: ubuntu-focal
 
 - job:
+    name: zuul-jobs-test-base-roles-ubuntu-jammy
+    description: Tests roles in the 'base' job on ubuntu-jammy
+    parent: zuul-jobs-test-base-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
+- job:
     name: zuul-jobs-test-bindep
     description: Test the bindep role
     files:
@@ -324,6 +334,16 @@
       nodes:
         - name: ubuntu-focal
           label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-bindep-ubuntu-jammy
+    description: Test the bindep role on ubuntu-jammy
+    parent: zuul-jobs-test-bindep
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
 
 - job:
     name: zuul-jobs-test-clear-firewall
@@ -468,6 +488,16 @@
       nodes:
         - name: ubuntu-focal
           label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-dstat-graph-ubuntu-jammy
+    description: Test the dstat-graph roles on ubuntu-jammy
+    parent: zuul-jobs-test-dstat-graph
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
 
 - job:
     name: zuul-jobs-test-multinode-roles
@@ -659,6 +689,25 @@
             - secondary
 
 - job:
+    name: zuul-jobs-test-multinode-roles-ubuntu-jammy
+    description: Tests multinode setup roles on ubuntu-jammy
+    parent: zuul-jobs-test-multinode-roles
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: primary
+          label: ubuntu-jammy
+        - name: secondary
+          label: ubuntu-jammy
+      groups:
+        - name: switch
+          nodes:
+            - primary
+        - name: peers
+          nodes:
+            - secondary
+
+- job:
     name: zuul-jobs-test-generate-zuul-manifest
     description: Test the generate-zuul-manifest role
     run: test-playbooks/generate-zuul-manifest.yaml
@@ -768,6 +817,7 @@
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-focal
+        - zuul-jobs-test-base-roles-ubuntu-jammy
         - zuul-jobs-test-bindep-centos-7
         - zuul-jobs-test-bindep-centos-8-stream
         - zuul-jobs-test-bindep-centos-9-stream
@@ -777,6 +827,7 @@
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-ubuntu-bionic
         - zuul-jobs-test-bindep-ubuntu-focal
+        - zuul-jobs-test-bindep-ubuntu-jammy
         - zuul-jobs-test-clear-firewall
         - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
@@ -790,6 +841,7 @@
         - zuul-jobs-test-dstat-graph-opensuse-15
         - zuul-jobs-test-dstat-graph-ubuntu-bionic
         - zuul-jobs-test-dstat-graph-ubuntu-focal
+        - zuul-jobs-test-dstat-graph-ubuntu-jammy
         - zuul-jobs-test-multinode-roles-centos-7
         - zuul-jobs-test-multinode-roles-centos-8-stream
         - zuul-jobs-test-multinode-roles-centos-9-stream
@@ -799,6 +851,7 @@
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
         - zuul-jobs-test-multinode-roles-ubuntu-focal
+        - zuul-jobs-test-multinode-roles-ubuntu-jammy
         - zuul-jobs-test-generate-zuul-manifest
         - zuul-jobs-test-upload-artifactory
         - zuul-jobs-test-upload-git-mirror

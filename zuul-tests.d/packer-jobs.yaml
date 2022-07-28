@@ -107,6 +107,16 @@
         - name: ubuntu-focal
           label: ubuntu-focal
 
+- job:
+    name: zuul-jobs-test-packer-ubuntu-jammy
+    description: Test packer job on ubuntu-jammy
+    parent: zuul-jobs-test-packer
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
 - project:
     check:
       jobs: &id001
@@ -119,6 +129,7 @@
         - zuul-jobs-test-packer-opensuse-15
         - zuul-jobs-test-packer-ubuntu-bionic
         - zuul-jobs-test-packer-ubuntu-focal
+        - zuul-jobs-test-packer-ubuntu-jammy
     gate:
       jobs: *id001
     periodic-weekly:
