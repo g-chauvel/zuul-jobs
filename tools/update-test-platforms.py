@@ -29,23 +29,38 @@ import ruamellib
 # There are fedora- and debian-latest nodesets, but they can't be used
 # in the multinode jobs, so just use the real labels everywhere.
 
-PLATFORMS = [
-    # 'gentoo-17-0-systemd',
+CENTOS_PLATFORMS = [
     'centos-7',
     'centos-8-stream',
     'centos-9-stream',
-    'debian-bullseye',
+]
+DEBIAN_PLATFORMS = [
     'debian-buster',
-    'fedora-35',
-    'opensuse-15',
+    'debian-bullseye',
+]
+UBUNTU_PLATFORMS = [
     'ubuntu-bionic',
     'ubuntu-focal',
     'ubuntu-jammy',
 ]
+OTHER_PLATFORMS = [
+    'fedora-35',
+    # 'gentoo-17-0-systemd',
+    'opensuse-15',
+]
+ALL_PLATFORMS = (CENTOS_PLATFORMS + DEBIAN_PLATFORMS +
+                 UBUNTU_PLATFORMS + OTHER_PLATFORMS)
 
 # insert a platform from above to make it non-voting
 NON_VOTING = [
 ]
+
+TAGS = {
+    'centos-platforms': CENTOS_PLATFORMS,
+    'debian-platforms': DEBIAN_PLATFORMS,
+    'ubuntu-platforms': UBUNTU_PLATFORMS,
+    'all-platforms': ALL_PLATFORMS,
+}
 
 # Insert a job to make that single job non-voting
 NON_VOTING_JOBS = [
@@ -89,15 +104,14 @@ def handle_file(fn):
                 continue
             outdata.append(obj)
             tags = job.get('tags', [])
-            all_platforms = False
-            if 'all-platforms-multinode' in tags:
-                multinode = True
-                all_platforms = True
-            elif 'all-platforms' in tags:
-                all_platforms = True
-                multinode = False
-            if all_platforms:
-                for platform in PLATFORMS:
+            platforms = set()
+            multinode = 'multinode' in tags
+            for key, data in TAGS.items():
+                if key in tags:
+                    platforms.update(data)
+            platforms = sorted(platforms)
+            if platforms:
+                for platform in platforms:
                     voting = False if platform in NON_VOTING else True
                     ojob = CommentedMap()
                     ojob['name'] = job['name'] + '-' + platform

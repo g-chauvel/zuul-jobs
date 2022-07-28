@@ -506,7 +506,7 @@
 
       These roles are tested together in this job because they
       interact with each other.
-    tags: all-platforms-multinode
+    tags: all-platforms multinode
     abstract: true
     run: test-playbooks/multinode/multinode.yaml
     files:
