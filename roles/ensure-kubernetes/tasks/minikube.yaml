@@ -17,7 +17,8 @@
 # Ubuntu focal doesn't have cri-o-1.15 packages, per distro tasks is
 # required to install crio
 - name: Install crio
-  when: kubernetes_runtime == 'cri-o'
+  # Note this is required even for the docker runtime, as minikube only
+  # supports cri now.  See below for the docker wrapper
   include_tasks: "{{ zj_distro_os }}"
   with_first_found:
     - "crio-{{ ansible_distribution }}-{{ ansible_distribution_version }}.yaml"
@@ -27,7 +28,6 @@
 
 - name: Workaround missing 02-crio.conf
   # See: https://github.com/kubernetes/minikube/issues/13816
-  when: kubernetes_runtime == 'cri-o'
   block:
     - name: Add misisng crio.conf.d folder
       file:
@@ -84,6 +84,41 @@
         extra_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
   when: minikube_dns_resolvers|length>0
 
+# See https://github.com/kubernetes/minikube/issues/14410
+- name: Setup cri-dockerd
+  when: kubernetes_runtime == 'docker'
+  become: yes
+  block:
+    - name: Check for pre-existing cri-docker service
+      stat:
+        path: '/etc/system/cri-docker.service'
+      register: _cri_docker
+
+    - name: Install cri-docker
+      when: not _cri_docker.stat.exists
+      shell: |
+          set -x
+          VER=$(curl -s https://api.github.com/repos/Mirantis/cri-dockerd/releases/latest|grep tag_name | cut -d '"' -f 4|sed 's/v//g')
+          DL=$(mktemp -d)
+          pushd ${DL}
+          wget https://github.com/Mirantis/cri-dockerd/releases/download/v${VER}/cri-dockerd-${VER}.amd64.tgz
+          tar xvf cri-dockerd-${VER}.amd64.tgz
+          mv cri-dockerd/cri-dockerd /usr/local/bin
+          wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/v${VER}/packaging/systemd/cri-docker.service
+          wget https://raw.githubusercontent.com/Mirantis/cri-dockerd/v${VER}/packaging/systemd/cri-docker.socket
+          sudo mv cri-docker.socket cri-docker.service /etc/systemd/system/
+          sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+          popd
+          rm -rf ${DL}
+          systemctl daemon-reload
+      args:
+        executable: '/bin/bash'
+
+    - name: Ensure cri-dockerd running
+      service:
+        name: cri-docker
+        state: started
+
 - name: Start Minikube
   become: yes
   command: >-
@@ -95,6 +130,7 @@
     {% for _addon in ensure_kubernetes_minikube_addons %}
     --addons={{ _addon }}
     {% endfor %}
+    {{ '--network-plugin=cni' if kubernetes_runtime == 'cri-o' }}
   environment:
     MINIKUBE_WANTUPDATENOTIFICATION: false
     MINIKUBE_WANTREPORTERRORPROMPT: false
