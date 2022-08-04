@@ -26,9 +26,9 @@ enabled=1
 [RDO-CentOS9-stream-deps]
 name=CentOS OpenStack Xena Repository
 {% if zuul_site_mirror_fqdn is defined %}
-baseurl=http://{{ zuul_site_mirror_fqdn }}:8080/buildlogs.centos/9-stream/cloud/x86_64/openstack-xena/
+baseurl=http://{{ zuul_site_mirror_fqdn }}:8080/buildlogs.centos/9-stream/cloud/x86_64/openstack-wallaby/
 {% else %}
-baseurl=https://buildlogs.centos.org/centos/9-stream/cloud/x86_64/openstack-xena/
+baseurl=https://buildlogs.centos.org/centos/9-stream/cloud/x86_64/openstack-wallaby/
 {% endif %}
 gpgcheck=0
 enabled=1
