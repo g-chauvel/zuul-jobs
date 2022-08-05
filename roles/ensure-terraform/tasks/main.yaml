@@ -9,4 +9,3 @@
     - terraform_installed_version.rc != 0 or
       "terraform_version != (terraform_installed_version.msg | \
        regex_replace(terraform_version_pattern, '\\g<version>'))"
-

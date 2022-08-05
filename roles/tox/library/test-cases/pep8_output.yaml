@@ -23,4 +23,3 @@ comments:
   tests/test_discovery.py:
     - line: 219
       message: E128 continuation line under-indented for visual indent
-

@@ -21,4 +21,3 @@
     dest: "{{ go_install_dir }}"
     remote_src: yes
   become: true
-

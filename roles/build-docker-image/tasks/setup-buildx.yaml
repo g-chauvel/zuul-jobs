@@ -80,4 +80,3 @@
   file:
     state: absent
     path: '{{ etc_hosts_tmp.path }}'
-

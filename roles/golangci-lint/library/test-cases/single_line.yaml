@@ -25,4 +25,3 @@ comments:
   controllers/memcached_controller.go:
     - line: 130
       message: "S1039: unnecessary use of fmt.Sprintf (gosimple)"
-

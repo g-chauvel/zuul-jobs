@@ -2,4 +2,3 @@
   roles:
     - role: bindep
       bindep_dir: "{{ zuul_work_dir }}"
-
