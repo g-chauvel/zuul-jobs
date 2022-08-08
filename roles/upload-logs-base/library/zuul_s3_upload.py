@@ -27,6 +27,7 @@ Utility to upload files to s3
 import argparse
 import logging
 import os
+import pprint
 try:
     import queue as queuelib
 except ImportError:
@@ -259,7 +260,9 @@ def ansible_main():
                         aws_access_key=p.get('aws_access_key'),
                         aws_secret_key=p.get('aws_secret_key'))
     if failures:
-        module.fail_json(changed=True,
+        failure_msg = pprint.pformat(failures)
+        module.fail_json(msg=f"Failure(s) during log upload:\n{failure_msg}",
+                         changed=True,
                          url=url,
                          failures=failures)
     module.exit_json(changed=True,
