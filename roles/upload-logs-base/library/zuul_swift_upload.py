@@ -22,6 +22,10 @@ __metaclass__ = type
 
 """
 Utility to upload files to swift
+
+Run this from the CLI from the zuul-jobs/roles directory with:
+
+  python -m upload-logs-base.library.zuul_swift_upload
 """
 
 import argparse
