@@ -25,7 +25,7 @@ try:
 except ImportError:
     import mock
 
-from .zuul_azure_upload import Uploader
+from .zuul_azure_storage_upload import Uploader
 from ..module_utils.zuul_jobs.upload_utils import FileDetail
 
 
