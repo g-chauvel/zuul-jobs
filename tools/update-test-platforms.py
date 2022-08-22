@@ -44,7 +44,7 @@ UBUNTU_PLATFORMS = [
     'ubuntu-jammy',
 ]
 OTHER_PLATFORMS = [
-    'fedora-35',
+    'fedora-36',
     # 'gentoo-17-0-systemd',
     'opensuse-15',
 ]
