@@ -3,4 +3,6 @@
 ansible>=2.9,<2.11  # required by ansible-lint
 flake8
 yamllint>=1.23.0
-ansible-lint>6.0.0,<7.0.0
+# 6.5.0 : https://github.com/ansible/ansible-lint/issues/2330
+# 6.5.1 : https://github.com/ansible/ansible-lint/issues/2320
+ansible-lint>6.0.0,<6.5.0
