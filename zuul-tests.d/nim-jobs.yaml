@@ -65,14 +65,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-nimble-fedora-35
-    description: Test the nimble job on fedora-35
+    name: zuul-jobs-test-nimble-fedora-36
+    description: Test the nimble job on fedora-36
     parent: zuul-jobs-test-nimble
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-nimble-opensuse-15-nv
@@ -123,7 +123,7 @@
         - zuul-jobs-test-nimble-centos-9-stream
         - zuul-jobs-test-nimble-debian-bullseye
         - zuul-jobs-test-nimble-debian-buster
-        - zuul-jobs-test-nimble-fedora-35
+        - zuul-jobs-test-nimble-fedora-36
         - zuul-jobs-test-nimble-opensuse-15-nv
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal
@@ -134,7 +134,7 @@
         - zuul-jobs-test-nimble-centos-9-stream
         - zuul-jobs-test-nimble-debian-bullseye
         - zuul-jobs-test-nimble-debian-buster
-        - zuul-jobs-test-nimble-fedora-35
+        - zuul-jobs-test-nimble-fedora-36
         - zuul-jobs-test-nimble-ubuntu-bionic
         - zuul-jobs-test-nimble-ubuntu-focal
         - zuul-jobs-test-nimble-ubuntu-jammy

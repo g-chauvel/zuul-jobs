@@ -61,14 +61,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-ensure-pip-fedora-35
-    description: Test the ensure-pip role on fedora-35
+    name: zuul-jobs-test-ensure-pip-fedora-36
+    description: Test the ensure-pip role on fedora-36
     parent: zuul-jobs-test-ensure-pip
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-ensure-pip-opensuse-15
@@ -179,14 +179,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-ensure-tox-fedora-35
-    description: Test the ensure-tox role on fedora-35
+    name: zuul-jobs-test-ensure-tox-fedora-36
+    description: Test the ensure-tox role on fedora-36
     parent: zuul-jobs-test-ensure-tox
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-ensure-tox-opensuse-15
@@ -291,14 +291,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-fetch-sphinx-tarball-fedora-35
-    description: Test the fetch-sphinx-tarball role on fedora-35
+    name: zuul-jobs-test-fetch-sphinx-tarball-fedora-36
+    description: Test the fetch-sphinx-tarball role on fedora-36
     parent: zuul-jobs-test-fetch-sphinx-tarball
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
@@ -458,7 +458,7 @@
         - zuul-jobs-test-ensure-pip-centos-9-stream
         - zuul-jobs-test-ensure-pip-debian-bullseye
         - zuul-jobs-test-ensure-pip-debian-buster
-        - zuul-jobs-test-ensure-pip-fedora-35
+        - zuul-jobs-test-ensure-pip-fedora-36
         - zuul-jobs-test-ensure-pip-opensuse-15
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
         - zuul-jobs-test-ensure-pip-ubuntu-focal
@@ -469,7 +469,7 @@
         - zuul-jobs-test-ensure-tox-centos-9-stream
         - zuul-jobs-test-ensure-tox-debian-bullseye
         - zuul-jobs-test-ensure-tox-debian-buster
-        - zuul-jobs-test-ensure-tox-fedora-35
+        - zuul-jobs-test-ensure-tox-fedora-36
         - zuul-jobs-test-ensure-tox-opensuse-15
         - zuul-jobs-test-ensure-tox-ubuntu-bionic
         - zuul-jobs-test-ensure-tox-ubuntu-focal
@@ -479,7 +479,7 @@
         - zuul-jobs-test-fetch-sphinx-tarball-centos-9-stream
         - zuul-jobs-test-fetch-sphinx-tarball-debian-bullseye
         - zuul-jobs-test-fetch-sphinx-tarball-debian-buster
-        - zuul-jobs-test-fetch-sphinx-tarball-fedora-35
+        - zuul-jobs-test-fetch-sphinx-tarball-fedora-36
         - zuul-jobs-test-fetch-sphinx-tarball-opensuse-15
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-bionic
         - zuul-jobs-test-fetch-sphinx-tarball-ubuntu-focal

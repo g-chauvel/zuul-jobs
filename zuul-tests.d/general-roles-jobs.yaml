@@ -183,14 +183,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-base-roles-fedora-35
-    description: Tests roles in the 'base' job on fedora-35
+    name: zuul-jobs-test-base-roles-fedora-36
+    description: Tests roles in the 'base' job on fedora-36
     parent: zuul-jobs-test-base-roles
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-base-roles-opensuse-15
@@ -296,14 +296,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-bindep-fedora-35
-    description: Test the bindep role on fedora-35
+    name: zuul-jobs-test-bindep-fedora-36
+    description: Test the bindep role on fedora-36
     parent: zuul-jobs-test-bindep
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-bindep-opensuse-15
@@ -450,14 +450,14 @@
           label: debian-buster
 
 - job:
-    name: zuul-jobs-test-dstat-graph-fedora-35
-    description: Test the dstat-graph roles on fedora-35
+    name: zuul-jobs-test-dstat-graph-fedora-36
+    description: Test the dstat-graph roles on fedora-36
     parent: zuul-jobs-test-dstat-graph
     tags: auto-generated
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-dstat-graph-opensuse-15
@@ -613,16 +613,16 @@
             - secondary
 
 - job:
-    name: zuul-jobs-test-multinode-roles-fedora-35
-    description: Tests multinode setup roles on fedora-35
+    name: zuul-jobs-test-multinode-roles-fedora-36
+    description: Tests multinode setup roles on fedora-36
     parent: zuul-jobs-test-multinode-roles
     tags: auto-generated
     nodeset:
       nodes:
         - name: primary
-          label: fedora-35
+          label: fedora-36
         - name: secondary
-          label: fedora-35
+          label: fedora-36
       groups:
         - name: switch
           nodes:
@@ -745,8 +745,8 @@
       - test-playbooks/shake/setup-project.yaml
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-ensure-zookeeper
@@ -757,8 +757,8 @@
     run: test-playbooks/ensure-zookeeper.yaml
     nodeset:
       nodes:
-        - name: fedora-35
-          label: fedora-35
+        - name: fedora-36
+          label: fedora-36
 
 - job:
     name: zuul-jobs-test-update-json-file
@@ -813,7 +813,7 @@
         - zuul-jobs-test-base-roles-centos-9-stream
         - zuul-jobs-test-base-roles-debian-bullseye
         - zuul-jobs-test-base-roles-debian-buster
-        - zuul-jobs-test-base-roles-fedora-35
+        - zuul-jobs-test-base-roles-fedora-36
         - zuul-jobs-test-base-roles-opensuse-15
         - zuul-jobs-test-base-roles-ubuntu-bionic
         - zuul-jobs-test-base-roles-ubuntu-focal
@@ -823,7 +823,7 @@
         - zuul-jobs-test-bindep-centos-9-stream
         - zuul-jobs-test-bindep-debian-bullseye
         - zuul-jobs-test-bindep-debian-buster
-        - zuul-jobs-test-bindep-fedora-35
+        - zuul-jobs-test-bindep-fedora-36
         - zuul-jobs-test-bindep-opensuse-15
         - zuul-jobs-test-bindep-ubuntu-bionic
         - zuul-jobs-test-bindep-ubuntu-focal
@@ -837,7 +837,7 @@
         - zuul-jobs-test-dstat-graph-centos-9-stream
         - zuul-jobs-test-dstat-graph-debian-bullseye
         - zuul-jobs-test-dstat-graph-debian-buster
-        - zuul-jobs-test-dstat-graph-fedora-35
+        - zuul-jobs-test-dstat-graph-fedora-36
         - zuul-jobs-test-dstat-graph-opensuse-15
         - zuul-jobs-test-dstat-graph-ubuntu-bionic
         - zuul-jobs-test-dstat-graph-ubuntu-focal
@@ -847,7 +847,7 @@
         - zuul-jobs-test-multinode-roles-centos-9-stream
         - zuul-jobs-test-multinode-roles-debian-bullseye
         - zuul-jobs-test-multinode-roles-debian-buster
-        - zuul-jobs-test-multinode-roles-fedora-35
+        - zuul-jobs-test-multinode-roles-fedora-36
         - zuul-jobs-test-multinode-roles-opensuse-15
         - zuul-jobs-test-multinode-roles-ubuntu-bionic
         - zuul-jobs-test-multinode-roles-ubuntu-focal
