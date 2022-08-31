@@ -15,25 +15,6 @@
   failed_when: false
   register: sudo_result
 
-- name: Build the extensions list from a dict (or empty)
-  set_fact:
-    extension_list: >
-      {% set extensions = ['__do_not_match__'] -%}
-      {% if extensions_to_txt -%}
-        {% for extension, extension_bool in extensions_to_txt.items() -%}
-          {% if extension_bool -%}
-            {% set _ = extensions.append(extension) -%}
-          {% endif -%}
-        {% endfor -%}
-      {% endif -%}
-      {{- extensions -}}
-
-- name: Build the extensions regular expression
-  # https://github.com/ansible/ansible-lint/issues/2241
-  # noqa var-spacing
-  set_fact:
-    extensions_regex: "^(.*)\\.({{ extension_list | join('|') }})$"
-
 # TODO(andreaf) We might want to enforce that zj_source.value is a valid value
 # in docs, artifacts, logs. Null case already handled.
 # NOTE(andreaf) Files or folders that start with a '.' are renamed to starting
@@ -90,24 +71,13 @@
     recurse: yes
   become: "{{ sudo_result.rc == 0 }}"
 
-- name: Discover log files that match extension_list
-  find:
-    paths: "{{ stage_dir }}/logs"
-    patterns: "{{ extensions_regex }}"
-    use_regex: true
-    recurse: true
-    file_type: 'file'
-  register: log_files_to_rename
-
-- name: Rename log files that match extension_list
-  shell: "mv {{ zj_log_file.path }} {{ zj_log_file.path | regex_replace(extensions_regex, '\\1_\\2.txt') }}"
-  with_items: "{{ log_files_to_rename.files }}"
-  loop_control:
-    loop_var: zj_log_file
-  args:
-    chdir: "{{ stage_dir }}/logs"
-  tags:
-    - skip_ansible_lint
+# Do this in a module as looping tasks with ansible is very slow
+# with large lists of files. Up to three seconds per file has been observed.
+- name: Rename log files that match extensions_to_txt
+  stage_output_renames:
+    extensions: "{{ extensions_to_txt }}"
+    rename_dir: "{{ stage_dir }}/logs"
+  when: extensions_to_txt is defined and extensions_to_txt is not none
 
 - name: Collect log files
   block:
