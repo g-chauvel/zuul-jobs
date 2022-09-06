@@ -7,20 +7,20 @@
     - name: Write a second test file
       copy:
         content: "Second test file"
-        dest: "/tmp/test-output.log"
+        dest: "/tmp/test-output.something.log"
     - name: Test stage-output with explicit files
       include_role:
         name: stage-output
       vars:
         zuul_copy_output:
           /tmp/test-output.txt: logs
-          /tmp/test-output.log: logs
+          /tmp/test-output.something.log: logs
         extensions_to_txt:
           log: true
           txt: false
     - name: Check the file was renamed
       stat:
-        path: /home/zuul/logs/test-output_log.txt
+        path: /home/zuul/logs/test-output.something_log.txt
       register: renamed_file_stat
     - name: Fail if file was not renamed
       fail:
