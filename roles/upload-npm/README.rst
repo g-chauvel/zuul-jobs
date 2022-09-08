@@ -17,6 +17,13 @@ Upload javascript packages to npm
 
      Password to use to log in to npm.
 
+  .. zuul:rolevar:: authToken
+
+     An auth token (issued from the npm server) to authenticate with.
+     This is required if you are using two-factor authentication.  If
+     specifying an authToken you should not specify ```username`` and
+     ``password``.
+
   .. zuul:rolevar:: email
 
      Email associated with the npm account.

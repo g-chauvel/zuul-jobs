@@ -1,3 +1,10 @@
+- name: Validate password/token combo
+  fail:
+    msg: 'Specify either username/password or authToken'
+  when: >
+      (npm_credentials.authToken is defined) and
+      ((npm_credentials.username is defined) or (npm_credentials.password is defined))
+
 # This is not optimized, but allows for getting a version of node in the
 # home dir.
 - name: Create .npmrc configuration file
