@@ -4,7 +4,7 @@
     - multi-node-known-hosts
   post_tasks:
     - name: lookup known_hosts file
-      command: cat ~/.ssh/known_hosts
+      command: cat /etc/ssh/ssh_known_hosts
       register: known_hosts
 
     - name: Set up host addresses

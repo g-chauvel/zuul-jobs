@@ -2,14 +2,6 @@
   generate_all_known_hosts:
     hostvars: "{{ hostvars }}"
 
-- name: add known_host record for every public key of every other ip, hostname for ansible_user
-  known_hosts:
-    name: "{{ zj_known_host.name }}"
-    key: "{{ zj_known_host.key }}"
-  with_items: "{{ ansible_facts.all_known_hosts }}"
-  loop_control:
-    loop_var: zj_known_host
-
 - name: add default known_host record for every user
   become: true
   known_hosts:
