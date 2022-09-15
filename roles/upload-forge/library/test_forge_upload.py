@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # Copyright (c) 2019 Binero
 # Author: Tobias Urdin <tobias.urdin@binero.se>
 #

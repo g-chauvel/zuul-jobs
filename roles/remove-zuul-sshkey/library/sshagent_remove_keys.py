@@ -120,7 +120,10 @@ def cli_main():
 
 
 if __name__ == '__main__':
-    if sys.stdin.isatty():
-        cli_main()
-    else:
+    # The zip/ansible/modules check is required for Ansible 5 because
+    # stdin may be a tty, but does not work in ansible 2.8.  The tty
+    # check works on versions 2.8, 2.9, and 6.
+    if ('.zip/ansible/modules' in sys.argv[0] or not sys.stdin.isatty()):
         ansible_main()
+    else:
+        cli_main()
