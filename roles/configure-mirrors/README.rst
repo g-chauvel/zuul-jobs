@@ -48,3 +48,11 @@ An ansible role to configure services to use mirrors.
    role is not necessarily consistent with the repos that are
    enabled by default between distribution versions (centos stream
    8 vs. 9 for example).
+
+.. zuul:rolevar:: configure_mirrors_components_9_stream
+   :default: See `vars/CentOS-9.yaml`
+
+   A list of the components that should be redirected to the
+   `mirror_fqdn` when setting up a CentOS 9-stream host.  For example,
+   your mirror may only mirror some components, or not the
+   debug/source components, etc.
