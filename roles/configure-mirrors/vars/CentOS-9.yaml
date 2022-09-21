@@ -16,7 +16,7 @@ configure_mirrors_components_9_stream:
   'highavailability-debug': false
   'highavailability-source': false
   'nfv': true
-  'nfv-debug': true
+  'nfv-debug': false
   'nfv-source': false
   'rt': true
   'rt-debug': false
