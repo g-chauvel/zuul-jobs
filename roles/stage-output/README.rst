@@ -1,8 +1,10 @@
 Stage job output on the remote node
 
 Takes as input a dictionary of files/folders named 'zuul_copy_output'.
-Copies contents into {{ zuul_output_dir }} on the remote node and is
+Copies contents into {{ stage_dir }} on the remote node and is
 intended to be used before output fetching in a base job's post-playbook.
+If you plan to pair this role with the 'fetch-output' role you should
+ensure {{ stage-dir }] is set to match {{ zuul_output_dir }}.
 
 **Role Variables**
 
