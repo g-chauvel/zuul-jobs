@@ -33,11 +33,19 @@ FIXTURE_DIR = os.path.join(os.path.dirname(__file__),
                            'test-fixtures')
 
 
+class FakeContainerClient:
+    def __init__(self, url):
+        self.url = url
+
+
 class TestUpload(testtools.TestCase):
 
     def test_upload_result(self):
         client = mock.Mock()
-        uploader = Uploader(client=client, container="container")
+        client.create_container.return_value = FakeContainerClient(
+            'http://blob.example.com')
+        uploader = Uploader(client=client, container="container",
+                            prefix="123")
 
         # Get some test files to upload
         files = [
@@ -57,8 +65,9 @@ class TestUpload(testtools.TestCase):
 
         upload_calls = uploader.client.get_blob_client.mock_calls
         self.assertIn(
-            mock.call(container='container', blob='job-output.json'),
+            mock.call(container='container', blob='123/job-output.json'),
             upload_calls)
         self.assertIn(
-            mock.call(container='container', blob='inventory.yaml'),
+            mock.call(container='container', blob='123/inventory.yaml'),
             upload_calls)
+        self.assertEqual(uploader.url, 'http://blob.example.com/123')

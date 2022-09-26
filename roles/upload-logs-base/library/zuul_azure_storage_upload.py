@@ -92,7 +92,7 @@ class Uploader():
 
         client.set_service_properties(cors=cors)
 
-        self.url = cc.url
+        self.url = os.path.join(cc.url, self.prefix)
 
     def upload(self, file_list):
         """Spin up thread pool to upload to storage"""
