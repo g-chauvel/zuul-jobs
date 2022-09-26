@@ -73,17 +73,49 @@ class Uploader():
 
         if endpoint:
             self.endpoint = endpoint
+            self.url = os.path.join(endpoint,
+                                    bucket, self.prefix)
         else:
             self.endpoint = 'https://s3.amazonaws.com/'
-
-        self.url = os.path.join(self.endpoint,
-                                bucket, self.prefix)
+            return_endpoint = 'https://' + bucket + '.s3.amazonaws.com/'
+            self.url = os.path.join(return_endpoint,
+                                    self.prefix)
 
         self.s3 = boto3.resource('s3',
                                  endpoint_url=self.endpoint,
                                  aws_access_key_id=aws_access_key,
                                  aws_secret_access_key=aws_secret_key)
         self.bucket = self.s3.Bucket(bucket)
+
+        cors = {
+            'CORSRules': [{
+                'AllowedMethods': ['GET', 'HEAD'],
+                'AllowedOrigins': ['*'],
+            }]
+        }
+        client = boto3.client('s3',
+                              endpoint_url=self.endpoint,
+                              aws_access_key_id=aws_access_key,
+                              aws_secret_access_key=aws_secret_key)
+        try:
+            current_cors = None
+            try:
+                current_cors = client.get_bucket_cors(Bucket=bucket)
+            except Exception as e:
+                # If the error is that we don't have any CORES rules,
+                # that's okay.
+                if 'NoSuchCORSConfiguration' not in str(e):
+                    raise
+            if current_cors:
+                if current_cors['CORSRules'] != cors['CORSRules']:
+                    current_cors = None
+            if not current_cors:
+                client.put_bucket_cors(Bucket=bucket,
+                                       CORSConfiguration=cors)
+        except Exception as e:
+            # MinIO (which we use in testing) doesn't implement this method
+            if 'MalformedXML' not in str(e):
+                raise
 
     def upload(self, file_list):
         """Spin up thread pool to upload to storage"""
@@ -296,7 +328,7 @@ def cli_main():
         logging.basicConfig(level=logging.DEBUG)
         logging.captureWarnings(True)
 
-    url = run(args.bucket, args.files,
+    url = run(args.bucket, files=args.files,
               prefix=args.prefix,
               public=not args.no_public,
               endpoint=args.endpoint)
