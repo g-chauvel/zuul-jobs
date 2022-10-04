@@ -111,6 +111,14 @@
           label: ubuntu-jammy
 
 - job:
+    name: zuul-jobs-test-ensure-pip-localhost
+    description: Test the ensure-pip role on the executor
+    parent: zuul-jobs-test-ensure-pip
+    run: test-playbooks/ensure-pip-localhost.yaml
+    nodeset:
+      nodes: []
+
+- job:
     name: zuul-jobs-test-ensure-sphinx
     description: Test the ensure-sphinx role
     files:
@@ -463,6 +471,7 @@
         - zuul-jobs-test-ensure-pip-ubuntu-bionic
         - zuul-jobs-test-ensure-pip-ubuntu-focal
         - zuul-jobs-test-ensure-pip-ubuntu-jammy
+        - zuul-jobs-test-ensure-pip-localhost
         - zuul-jobs-test-ensure-sphinx
         - zuul-jobs-test-ensure-tox-centos-7
         - zuul-jobs-test-ensure-tox-centos-8-stream
