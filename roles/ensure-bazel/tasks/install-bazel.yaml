@@ -3,22 +3,29 @@
     state: directory
   register: bazel_installer_tempdir
 
-- name: Get installer checksum
-  uri:
-    url: "{{ bazel_release_url }}/{{ bazel_version }}/bazel-{{ bazel_version }}-installer-linux-x86_64.sh.sha256"
-    return_content: true
-  register: bazel_installer_checksum
+- name: Fetch checksum from Github
+  when: not bazel_installer_checksum
+  block:
+    - name: Get installer checksum
+      uri:
+        url: "{{ bazel_release_url }}/{{ bazel_version }}/bazel-{{ bazel_version }}-installer-linux-x86_64.sh.sha256"
+        return_content: true
+      register: zj_checksum_response
+
+    - name: Set installer checksum
+      set_fact:
+        bazel_installer_checksum: "{{ zj_checksum_response.content.split(' ')[0] }}"
 
 - name: Display checksum
   debug:
-    msg: "Checksum is {{ bazel_installer_checksum.content.split(' ')[0] }}"
+    msg: "Checksum is {{ bazel_installer_checksum }}"
 
 - name: Download bazel installer
   get_url:
     url: "{{ bazel_release_url }}/{{ bazel_version }}/bazel-{{ bazel_version }}-installer-linux-x86_64.sh"
     dest: "{{ bazel_installer_tempdir.path }}/bazel-{{ bazel_version }}-installer-linux-x86_64.sh"
     mode: 0755
-    checksum: "sha256:{{ bazel_installer_checksum.content.split(' ')[0] }}"
+    checksum: "sha256:{{ bazel_installer_checksum }}"
 
 - name: Display distribution
   debug:
