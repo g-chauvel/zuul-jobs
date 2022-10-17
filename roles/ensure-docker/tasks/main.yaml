@@ -57,7 +57,8 @@
     - not docker_mirror_base_url
     - use_upstream_docker | bool
 
-- include_tasks: "docker-{{ (use_upstream_docker | bool) | ternary('upstream', 'distro') }}.yaml"
+- name: Include tasks for docker install
+  include_tasks: "docker-{{ (use_upstream_docker | bool) | ternary('upstream', 'distro') }}.yaml"
 
 - name: Install docker-compose
   become: true
