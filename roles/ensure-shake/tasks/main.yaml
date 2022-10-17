@@ -13,6 +13,7 @@
   register: _shake_version
 
 - name: Install shake
+  when: "_shake_version.rc != 0"
   block:
     - name: Include OS-specific variables
       include_vars: "{{ zj_distro_os }}"
@@ -29,4 +30,3 @@
         name: "{{ shake_packages }}"
         state: present
       become: yes
-  when: "_shake_version.rc != 0"

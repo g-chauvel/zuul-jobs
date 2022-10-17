@@ -1,6 +1,7 @@
 ---
 # Use a block to add become to a set of tasks
 - name: Add build ssh key
+  become: true
   block:
   # Add the authorization first, to take advantage of manage_dir
   - name: Authorize build key
@@ -32,4 +33,3 @@
       mode: 0644
       owner: "{{ copy_sshkey_target_user }}"
       force: no
-  become: true

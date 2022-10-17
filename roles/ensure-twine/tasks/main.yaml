@@ -12,6 +12,7 @@
   when: register_twine.rc == 0
 
 - name: Ensure twine is installed
+  when: register_twine.rc != 0
   block:
     - name: Ensure twine is installed
       command: "{{ twine_python }} -m pip install twine!=1.12.0 requests-toolbelt!=0.9.0 --user"
@@ -19,4 +20,3 @@
     - name: Set pypi_twine_executable
       set_fact:
         pypi_twine_executable: ~/.local/bin/twine
-  when: register_twine.rc != 0

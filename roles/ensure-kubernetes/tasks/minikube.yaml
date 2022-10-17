@@ -73,6 +73,7 @@
     extra_args: ""
 
 - name: Configure dns options if set
+  when: minikube_dns_resolvers|length>0
   block:
     - name: Write resolv.conf
       template:
@@ -82,7 +83,6 @@
     - name: Set extra kube setttings
       set_fact:
         extra_args: "--extra-config=kubelet.resolv-conf={{ ansible_user_dir }}/.minikube/k8s_resolv.conf"
-  when: minikube_dns_resolvers|length>0
 
 # See https://github.com/kubernetes/minikube/issues/14410
 - name: Setup cri-dockerd

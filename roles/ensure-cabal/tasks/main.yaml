@@ -9,6 +9,7 @@
   register: _cabal_version
 
 - name: Install cabal
+  when: _cabal_version.rc != 0
   block:
     - name: Ensure copr dnf plugin
       package:
@@ -25,7 +26,6 @@
         name: cabal-install
         state: present
       become: true
-  when: _cabal_version.rc != 0
 
 - name: Check package
   stat:

@@ -9,6 +9,7 @@
   register: _stack_version
 
 - name: Install stack
+  when: _stack_version.rc != 0
   block:
     # This package is somehow missing from the requirements of the
     # published packaged copr repo.  See
@@ -31,4 +32,3 @@
 
     - name: Setup stack LTS
       command: "stack {% if lts_version %}--resolver {{ lts_version }}{% endif %} setup"
-  when: _stack_version.rc != 0
