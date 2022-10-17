@@ -9,7 +9,7 @@
       manage_dir: yes
       key: "{{ lookup('file', zuul_temp_ssh_key ~ '.pub') }}"
 
-  - name: Get the {{ copy_sshkey_target_user }} user home folder
+  - name: 'Get the user home folder for {{ copy_sshkey_target_user }}'
     user:
       name: "{{ copy_sshkey_target_user }}"
     register: target_user_registered

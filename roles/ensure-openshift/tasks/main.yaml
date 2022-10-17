@@ -11,7 +11,7 @@
   vars:
     opendev_url: https://opendev.org/zuul/zuul-jobs/src/branch/master/
 
-- name: "Install origin{{ origin_repo_name }} pass repository"
+- name: "Install origin pass repository {{ origin_repo_name }}"
   become: true
   copy:
     content: |
