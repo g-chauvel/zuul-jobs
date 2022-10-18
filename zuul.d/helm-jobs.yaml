@@ -12,3 +12,10 @@
     pre-run: playbooks/helm/pre.yaml
     run: playbooks/helm/run.yaml
     post-run: playbooks/helm/post.yaml
+
+- job:
+    name: helm-lint
+    description: |
+      Run helm lint on a Helm chart
+    pre-run: playbooks/helm-lint/pre.yaml
+    run: playbooks/helm-lint/run.yaml
