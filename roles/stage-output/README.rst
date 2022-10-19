@@ -26,7 +26,7 @@ ensure {{ stage-dir }] is set to match {{ zuul_output_dir }}.
    not to copy.
 
    If the type is suffixed with ``_txt``, then the item will have
-   ``.txt`` appended to its name.  For example::
+   ``.txt`` appended to its name.  For example:
 
    .. code-block:: yaml
 
