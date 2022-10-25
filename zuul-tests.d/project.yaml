@@ -13,6 +13,8 @@
             nodeset: ubuntu-focal
         - tox-py310:
             nodeset: ubuntu-jammy
+        - tox-py311:
+            nodeset: ubuntu-jammy
     gate:
       jobs:
         - zuul-tox-docs
@@ -22,6 +24,8 @@
         - tox-py39:
             nodeset: ubuntu-focal
         - tox-py310:
+            nodeset: ubuntu-jammy
+        - tox-py311:
             nodeset: ubuntu-jammy
     promote:
       jobs:
