@@ -7,7 +7,8 @@
       jobs:
         - zuul-tox-docs
         - tox-py27
-        - tox-py38
+        - tox-py38:
+            nodeset: ubuntu-focal
         - tox-py39:
             nodeset: ubuntu-focal
         - tox-py310:
@@ -16,7 +17,8 @@
       jobs:
         - zuul-tox-docs
         - tox-py27
-        - tox-py38
+        - tox-py38:
+            nodeset: ubuntu-focal
         - tox-py39:
             nodeset: ubuntu-focal
         - tox-py310:
