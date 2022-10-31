@@ -389,6 +389,68 @@
       netconsole_remote_port: 6666
 
 - job:
+    name: zuul-jobs-test-validate-zone-db
+    description: Test the validate-zone-db role
+    tags: debuntu-platforms
+    files:
+      - ^roles/validate-zone-db/.*
+    run: test-playbooks/simple-role-test.yaml
+    vars:
+      role_name: validate-zone-db
+      zone_files:
+        - /home/zuul/src/opendev.org/zuul/zuul-jobs/roles/validate-zone-db/files/test_zones
+
+- job:
+    name: zuul-jobs-test-validate-zone-db-debian-bullseye
+    description: Test the validate-zone-db role on debian-bullseye
+    parent: zuul-jobs-test-validate-zone-db
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-bullseye
+          label: debian-bullseye
+
+- job:
+    name: zuul-jobs-test-validate-zone-db-debian-buster
+    description: Test the validate-zone-db role on debian-buster
+    parent: zuul-jobs-test-validate-zone-db
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: debian-buster
+          label: debian-buster
+
+- job:
+    name: zuul-jobs-test-validate-zone-db-ubuntu-bionic
+    description: Test the validate-zone-db role on ubuntu-bionic
+    parent: zuul-jobs-test-validate-zone-db
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-bionic
+          label: ubuntu-bionic
+
+- job:
+    name: zuul-jobs-test-validate-zone-db-ubuntu-focal
+    description: Test the validate-zone-db role on ubuntu-focal
+    parent: zuul-jobs-test-validate-zone-db
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-focal
+          label: ubuntu-focal
+
+- job:
+    name: zuul-jobs-test-validate-zone-db-ubuntu-jammy
+    description: Test the validate-zone-db role on ubuntu-jammy
+    parent: zuul-jobs-test-validate-zone-db
+    tags: auto-generated
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: ubuntu-jammy
+
+- job:
     name: zuul-jobs-test-dstat-graph
     description: Test the dstat-graph roles
     run: test-playbooks/dstat-graph.yaml
@@ -832,6 +894,11 @@
         - zuul-jobs-test-enable-fips
         - zuul-jobs-test-ensure-bazelisk
         - zuul-jobs-test-netconsole
+        - zuul-jobs-test-validate-zone-db-debian-bullseye
+        - zuul-jobs-test-validate-zone-db-debian-buster
+        - zuul-jobs-test-validate-zone-db-ubuntu-bionic
+        - zuul-jobs-test-validate-zone-db-ubuntu-focal
+        - zuul-jobs-test-validate-zone-db-ubuntu-jammy
         - zuul-jobs-test-dstat-graph-centos-7
         - zuul-jobs-test-dstat-graph-centos-8-stream
         - zuul-jobs-test-dstat-graph-centos-9-stream

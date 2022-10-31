@@ -59,6 +59,7 @@ TAGS = {
     'centos-platforms': CENTOS_PLATFORMS,
     'debian-platforms': DEBIAN_PLATFORMS,
     'ubuntu-platforms': UBUNTU_PLATFORMS,
+    'debuntu-platforms': UBUNTU_PLATFORMS + DEBIAN_PLATFORMS,
     'all-platforms': ALL_PLATFORMS,
 }
 
