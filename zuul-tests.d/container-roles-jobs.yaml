@@ -223,14 +223,6 @@
     post-run: test-playbooks/registry/test-registry-post.yaml
     vars:
       container_command: docker
-    # NOTE(ianw) 2022-11-07 : Pinned to get
-    #  https://review.opendev.org/c/zuul/zuul-jobs/+/86358
-    # through the gate, but fixed with
-    #  https://review.opendev.org/c/zuul/zuul-jobs/+/863575
-    nodeset:
-      nodes:
-        - name: ubuntu-focal
-          label: ubuntu-focal
 
 - job:
     name: zuul-jobs-test-registry-buildset-registry-k8s-docker
