@@ -43,13 +43,16 @@ UBUNTU_PLATFORMS = [
     'ubuntu-focal',
     'ubuntu-jammy',
 ]
+FEDORA_PLATFORMS = [
+    'fedora-36'
+]
 OTHER_PLATFORMS = [
-    'fedora-36',
     # 'gentoo-17-0-systemd',
     'opensuse-15',
 ]
 ALL_PLATFORMS = (CENTOS_PLATFORMS + DEBIAN_PLATFORMS +
-                 UBUNTU_PLATFORMS + OTHER_PLATFORMS)
+                 UBUNTU_PLATFORMS + FEDORA_PLATFORMS +
+                 OTHER_PLATFORMS)
 
 # insert a platform from above to make it non-voting
 NON_VOTING = [
@@ -60,6 +63,7 @@ TAGS = {
     'debian-platforms': DEBIAN_PLATFORMS,
     'ubuntu-platforms': UBUNTU_PLATFORMS,
     'debuntu-platforms': UBUNTU_PLATFORMS + DEBIAN_PLATFORMS,
+    'fedora-platforms': FEDORA_PLATFORMS,
     'all-platforms': ALL_PLATFORMS,
 }
 
