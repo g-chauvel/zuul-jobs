@@ -12,32 +12,3 @@
       command: crictl version
       become: yes
       failed_when: false
-
-    # The default account is known to take a while to appear; see
-    #  https://github.com/kubernetes/kubernetes/issues/66689
-    - name: Ensure default account created
-      command: kubectl -n default get serviceaccount default -o name
-      retries: 5
-      delay: 5
-      register: result
-      until: result.rc == 0
-
-    - name: Create a test pod definition
-      copy:
-        dest: test-pod.yaml
-        content: |
-          apiVersion: v1
-          kind: Pod
-          metadata:
-            name: test
-          spec:
-            restartPolicy: Never
-            containers:
-              - name: test
-                image: k8s.gcr.io/pause:3.1
-
-    - name: Start pod
-      command: kubectl apply -f test-pod.yaml
-
-    - name: Check status
-      shell: sleep 5; kubectl get pods
