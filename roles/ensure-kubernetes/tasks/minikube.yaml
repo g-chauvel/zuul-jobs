@@ -114,6 +114,34 @@
       args:
         executable: '/bin/bash'
 
+    # minikube has a hard-coded cri-docker setup step that writes out
+    #  /etc/systemd/system/cri-docker.service.d/10-cni.conf
+    # which overrides the ExecStart with CNI arguments.  This seems to
+    # be written to assume different packages than we have on Ubuntu
+    # Jammy -- containernetworking-plugins is a native package and is
+    # in /usr/lib, whereas the OpenSuse kubic versions are in /opt.
+    # We thus add an 11-* config to override the override with
+    # something that works ... see
+    #  https://github.com/kubernetes/minikube/issues/15320
+    - name: Correct override for native packages
+      when: ansible_distribution_release == 'jammy'
+      block:
+        - name: Make override dir
+          file:
+            state: directory
+            path: /etc/systemd/system/cri-docker.service.d
+            owner: root
+            group: root
+            mode: '0755'
+
+        - name: Override cri-docker
+          template:
+            src: 11-cri-docker-override.conf.j2
+            dest: /etc/systemd/system/cri-docker.service.d/11-cri-docker-override.conf
+            owner: root
+            group: root
+            mode: '0644'
+
     - name: Ensure cri-dockerd running
       service:
         name: cri-docker
