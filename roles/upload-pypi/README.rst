@@ -43,6 +43,11 @@ Upload python packages to PyPI
 
    Path to twine executable.
 
+.. zuul:rolevar:: pypi_twine_skip_existing
+   :default: false
+
+   Skip uploading any file which already exists, rather than failing.
+
 .. zuul:rolevar:: pypi_register_first
   :default: false
 
