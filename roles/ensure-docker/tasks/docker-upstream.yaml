@@ -35,4 +35,5 @@
         state: present
       notify: Restart docker
 
-    - include_tasks: docker-setup.yaml
+    - name: Setup docker
+      include_tasks: docker-setup.yaml

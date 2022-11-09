@@ -11,4 +11,5 @@
         - not (use_upstream_docker | bool)
       notify: Assure docker service is running
 
-    - include_tasks: docker-setup.yaml
+    - name: Setup docker
+      include_tasks: docker-setup.yaml

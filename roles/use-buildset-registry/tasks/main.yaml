@@ -124,11 +124,13 @@
   become_user: "{{ buildset_registry_docker_user }}"
   when: buildset_registry_docker_user is defined
   block:
-    - include_tasks: user-config.yaml
+    - name: Include user config
+      include_tasks: user-config.yaml
 - name: Update docker user config to use buildset registry
   when: buildset_registry_docker_user is not defined
   block:
-    - include_tasks: user-config.yaml
+    - name: Include user config
+      include_tasks: user-config.yaml
 
 - name: Check if cri-o is installed
   stat:

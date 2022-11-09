@@ -1,7 +1,8 @@
 # Note (dmsimard)
 # We explicitely declare a PATH environment variable because '/sbin' is not in
 # PATH when using 'become: yes' on some distributions
-- include_tasks:
+- name: Include common tasks
+  include_tasks:
     file: common.yaml
     apply:
       environment:
@@ -10,14 +11,16 @@
     inventory_hostname in groups['switch'] or
     inventory_hostname in groups['peers']
 
-- include_tasks:
+- name: Include switch tasks
+  include_tasks:
     file: switch.yaml
     apply:
       environment:
         PATH: "{{ ansible_env.PATH }}:/sbin:/usr/sbin"
   when: inventory_hostname in groups['switch']
 
-- include_tasks:
+- name: Include peer tasks
+  include_tasks:
     file: peer.yaml
     apply:
       environment:
