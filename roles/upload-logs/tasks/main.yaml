@@ -36,7 +36,7 @@
       no_log: "{{ not zuul_log_verbose }}"
 
     # After this point there are no more logs
-    - name: gzip console log and json output
+    - name: Compress console log and json output
       delegate_to: localhost
       archive:
         path: "{{ zuul.executor.log_root }}/{{ zj_log }}"

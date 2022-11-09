@@ -10,7 +10,7 @@
   block:
     # Use chmod instead of file because ansible 2.5 file with recurse and
     # follow can't really handle symlinks to .
-    - name: debug var
+    - name: Debug log_root
       debug:
         msg: "log_root {{ zuul.executor.log_root }}"
 

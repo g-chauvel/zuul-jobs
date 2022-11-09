@@ -4,7 +4,7 @@
 # creates, and thus the xenial packaged virtualenv can not create a
 # working environment.  We pre-run ensure-pip there to bring in our
 # backported pip9 and make this work.
-- name: ensure-pip for Xenial
+- name: Use ensure-pip for Xenial
   include_role:
     name: ensure-pip
   when: ansible_distribution_release == 'xenial'

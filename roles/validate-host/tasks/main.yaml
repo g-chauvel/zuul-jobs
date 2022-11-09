@@ -25,7 +25,7 @@
     src: templates/host-info.j2
     mode: 0644
 
-- name: zuul_debug_info block
+- name: Run zuul_debug_info and collect output
   block:
     - name: Collect information about zuul worker
       zuul_debug_info:

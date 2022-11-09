@@ -2,7 +2,7 @@
   generate_all_known_hosts:
     hostvars: "{{ hostvars }}"
 
-- name: add default known_host record for every user
+- name: Add default known_host record for every user
   become: true
   known_hosts:
     name: "{{ zj_known_host.name }}"
