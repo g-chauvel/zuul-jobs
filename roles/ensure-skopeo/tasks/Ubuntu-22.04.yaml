@@ -1,0 +1,7 @@
+- name: Install skopeo
+  package:
+    name:
+      - skopeo
+      - uidmap
+    state: present
+  become: yes
