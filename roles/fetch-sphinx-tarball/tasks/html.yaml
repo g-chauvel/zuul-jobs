@@ -10,6 +10,7 @@
     warn: false
 
 - name: Fetch HTML
+  when: not zuul_use_fetch_output
   block:
     - name: Fetch archive HTML
       synchronize:
@@ -35,9 +36,9 @@
         remote_src: true
         extra_opts:
           - "--no-same-owner"
-  when: not zuul_use_fetch_output
 
 - name: Copy HTML
+  when: zuul_use_fetch_output
   block:
     - name: Copy archive HTML
       copy:
@@ -59,7 +60,6 @@
         remote_src: true
         extra_opts:
           - "--no-same-owner"
-  when: zuul_use_fetch_output
 
 - name: Return artifact to Zuul
   zuul_return:

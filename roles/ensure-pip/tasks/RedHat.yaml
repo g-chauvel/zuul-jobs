@@ -8,6 +8,8 @@
   become: yes
 
 - name: Install pip
+  become: yes
+  when: ensure_pip_from_packages_with_python2
   block:
     - name: Check for EPEL repository
       stat:
@@ -32,5 +34,3 @@
           - python-wheel
         state: present
         enablerepo: epel
-  become: yes
-  when: ensure_pip_from_packages_with_python2

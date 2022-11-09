@@ -4,6 +4,7 @@
   register: translation_files
 
 - name: Collection translation files
+  when: translation_files.stat.exists
   block:
     - name: Collect translation source files
       synchronize:
@@ -22,4 +23,3 @@
         mode: 0755
         remote_src: true
       when: zuul_use_fetch_output
-  when: translation_files.stat.exists

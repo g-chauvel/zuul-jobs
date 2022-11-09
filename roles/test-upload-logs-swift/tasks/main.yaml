@@ -32,6 +32,7 @@
       register: upload_results
 
 - name: Return log URL
+  when: upload_results is defined
   block:
     - name: Return log URL to Zuul
       delegate_to: localhost
@@ -42,4 +43,3 @@
     - name: Print upload failures
       debug:
         var: upload_results.upload_failures
-  when: upload_results is defined
