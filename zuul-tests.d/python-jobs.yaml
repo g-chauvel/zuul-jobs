@@ -4,7 +4,7 @@
     files:
       - roles/ensure-pip/.*
       - roles/ensure-virtualenv/.*
-    run: test-playbooks/ensure-pip.yaml
+    run: test-playbooks/ensure-pip/ensure-pip.yaml
     tags: all-platforms
 
 - job:
@@ -111,7 +111,7 @@
     name: zuul-jobs-test-ensure-pip-localhost
     description: Test the ensure-pip role on the executor
     parent: zuul-jobs-test-ensure-pip
-    run: test-playbooks/ensure-pip-localhost.yaml
+    run: test-playbooks/ensure-pip/ensure-pip-localhost.yaml
     nodeset:
       nodes: []
 
