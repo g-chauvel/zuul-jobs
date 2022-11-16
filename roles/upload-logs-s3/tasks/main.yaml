@@ -23,6 +23,7 @@
 
     - name: Upload logs to S3
       delegate_to: "{{ _undocumented_test_worker_node_ | default('localhost') }}"
+      no_log: true
       zuul_s3_upload:
         endpoint: "{{ upload_logs_s3_endpoint | default(omit) }}"
         partition: "{{ zuul_log_partition }}"
